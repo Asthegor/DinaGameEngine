@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="DinaGameEngine.Common/DinaGameEngine.Common.csproj" />
+  <Project Path="DinaGameEngine.Models/DinaGameEngine.Models.csproj" />
+  <Project Path="DinaGameEngine.Services/DinaGameEngine.Services.csproj" />
+  <Project Path="DinaGameEngine.Updater/DinaGameEngine.Updater.csproj" />
+  <Project Path="DinaGameEngine/DinaGameEngine.csproj" />
+</Solution>

@@ -1,0 +1,105 @@
+﻿<UserControl x:Class="DinaGameEngine.Views.UserControls.RecentProjectItemView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DinaGameEngine.Views.UserControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="60" d:DesignWidth="750"
+             Margin="0,2,0,2">
+    <Grid>
+        <Grid.InputBindings>
+            <MouseBinding MouseAction="LeftDoubleClick"
+                      Command="{Binding DataContext.OpenSelectedProjectCommand,
+                          RelativeSource={RelativeSource AncestorType=Window}}"/>
+        </Grid.InputBindings>
+        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="48"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="130"/>
+        </Grid.ColumnDefinitions>
+
+        <Image Grid.Column="0"
+               Width="40" Height="40"
+               HorizontalAlignment="Center"
+               VerticalAlignment="Center"
+               Source="{Binding IconPath, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+
+        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+            <TextBlock Text="{Binding Title, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                       FontSize="15"/>
+            <TextBlock Text="{Binding Path, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                       FontSize="10" FontStyle="Italic"/>
+        </StackPanel>
+        <StackPanel Grid.Column="2" VerticalAlignment="Center" x:Name="PinStack">
+            <TextBlock Text="{Binding LastOpenedAt, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+            <Grid>
+                <!-- Épingle normale : survol non-épinglé + état épinglé sans survol -->
+                <TextBlock x:Name="NormalPin" Text="📌" FontSize="14" FontFamily="Segoe UI Emoji" Cursor="Hand">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Foreground" Value="Transparent"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsMouseOver, ElementName=PinStack}" Value="True">
+                                    <Setter Property="Foreground" Value="Gray"/>
+                                </DataTrigger>
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding IsMouseOver, ElementName=PinStack}" Value="True"/>
+                                        <Condition Binding="{Binding IsPinned, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="True"/>
+                                    </MultiDataTrigger.Conditions>
+                                    <Setter Property="Foreground" Value="Transparent"/>
+                                </MultiDataTrigger>
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding IsMouseOver, ElementName=PinStack}" Value="False"/>
+                                        <Condition Binding="{Binding IsPinned, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="True"/>
+                                    </MultiDataTrigger.Conditions>
+                                    <Setter Property="Foreground" Value="Red"/>
+                                </MultiDataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                    <TextBlock.InputBindings>
+                        <MouseBinding MouseAction="LeftClick"
+                          Command="{Binding DataContext.TogglePinCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                          CommandParameter="{Binding}"/>
+                    </TextBlock.InputBindings>
+                </TextBlock>
+
+                <!-- Épingle retournée : survol d'un projet épinglé -->
+                <TextBlock x:Name="ReversedPin" Text="📌" FontSize="14" FontFamily="Segoe UI Emoji" Cursor="Hand"
+               RenderTransformOrigin="0.5,0.5">
+                    <TextBlock.RenderTransform>
+                        <ScaleTransform ScaleX="-1"/>
+                    </TextBlock.RenderTransform>
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Foreground" Value="Transparent"/>
+                            <Style.Triggers>
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding IsMouseOver, ElementName=PinStack}" Value="True"/>
+                                        <Condition Binding="{Binding IsPinned, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="True"/>
+                                    </MultiDataTrigger.Conditions>
+                                    <Setter Property="Foreground" Value="Red"/>
+                                    <Setter Property="HorizontalAlignment" Value="Left"/>
+                                </MultiDataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                    <TextBlock.InputBindings>
+                        <MouseBinding MouseAction="LeftClick"
+                          Command="{Binding DataContext.TogglePinCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                          CommandParameter="{Binding}"/>
+                    </TextBlock.InputBindings>
+                </TextBlock>
+            </Grid>
+        </StackPanel>
+        <Border Grid.ColumnSpan="3"
+            VerticalAlignment="Bottom"
+            BorderBrush="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"
+            BorderThickness="0,0,0,1"/>
+    </Grid>
+</UserControl>
