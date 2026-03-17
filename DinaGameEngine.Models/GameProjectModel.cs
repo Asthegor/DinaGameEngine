@@ -1,7 +1,5 @@
 ﻿using DinaGameEngine.Common;
 
-using System;
-
 namespace DinaGameEngine.Models
 {
     public class GameProjectModel : ObservableObject

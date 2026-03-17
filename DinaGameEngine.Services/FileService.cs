@@ -1,4 +1,6 @@
-﻿namespace DinaGameEngine.Services
+﻿using DinaGameEngine.Abstractions;
+
+namespace DinaGameEngine.Services
 {
     public class FileService : IFileService
     {

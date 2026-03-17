@@ -1,13 +1,14 @@
-﻿using DinaGameEngine.Models;
-
-using System.Text.Json;
+﻿using DinaGameEngine.Abstractions;
+using DinaGameEngine.Common;
+using DinaGameEngine.Models;
 
 namespace DinaGameEngine.Services
 {
-    public class ProjectService(IFileService fileService, ILogService logService) : IProjectService
+    public class ProjectService(IFileService fileService, ILogService logService, ITemplateExtractor templateExtractor) : IProjectService
     {
         private readonly IFileService _fileService = fileService;
         private readonly ILogService _logService = logService;
+        private readonly ITemplateExtractor _templateExtractor = templateExtractor;
 
         public GameProjectModel? OpenProject(string projectPath)
         {
@@ -21,7 +22,7 @@ namespace DinaGameEngine.Services
             try
             {
                 var jsonRaw = _fileService.ReadAllText(filename);
-                gameProjectModel = JsonSerializer.Deserialize<GameProjectModel>(jsonRaw);
+                gameProjectModel = JsonHelper.Deserialize<GameProjectModel>(jsonRaw);
                 if (gameProjectModel == null)
                 {
                     _logService.Error($"Le fichier '{filename}' est corrompu.");
@@ -35,14 +36,14 @@ namespace DinaGameEngine.Services
             }
 
             gameProjectModel.LastOpenedAt = DateTime.Now;
-            _fileService.WriteAllText(filename, JsonSerializer.Serialize(gameProjectModel));
+            _fileService.WriteAllText(filename, JsonHelper.Serialize(gameProjectModel));
 
             UpdateRecentProjects(gameProjectModel);
 
             return gameProjectModel;
         }
 
-        public GameProjectModel? CreateProject(NewProjectModel newProjectModel)
+        public GameProjectModel? CreateProject(NewProjectModel newProjectModel, List<TemplateMarkerModel> markers)
         {
             var projectFolder = _fileService.Combine(newProjectModel.ParentFolderPath, newProjectModel.Name);
             if (_fileService.DirectoryExists(projectFolder))
@@ -52,7 +53,20 @@ namespace DinaGameEngine.Services
             }
 
             _fileService.CreateDirectory(projectFolder);
-            // TODO: créer la structure des fichiers du projet (.csproj, .cs, etc.)
+
+            try
+            {
+                var extractResult = _templateExtractor.Extract(TemplateType.GameProject, projectFolder, markers);
+                if (!extractResult)
+                    return null;
+            }
+            catch (Exception e)
+            {
+                _logService.Error(e.Message);
+                Directory.Delete(projectFolder, true);
+                _logService.Info($"Répertoire '{projectFolder}' supprimé");
+                return null;
+            }
 
             var gameProjectModel = new GameProjectModel
             {
@@ -63,13 +77,13 @@ namespace DinaGameEngine.Services
                 RootPath = projectFolder
             };
 
-            var jsonSerialize = JsonSerializer.Serialize(gameProjectModel);
+            var jsonSerialize = JsonHelper.Serialize(gameProjectModel);
             var filename = _fileService.Combine(projectFolder, ProjectStructure.ProjectFileName);
             _fileService.WriteAllText(filename, jsonSerialize);
 
             UpdateRecentProjects(gameProjectModel);
 
-            
+
             return gameProjectModel;
         }
 
@@ -92,7 +106,7 @@ namespace DinaGameEngine.Services
             if (_fileService.FileExists(recentProjectsFileName))
             {
                 var jsonRaw = _fileService.ReadAllText(recentProjectsFileName);
-                var datas = JsonSerializer.Deserialize<List<RecentProjectModel>>(jsonRaw);
+                var datas = JsonHelper.Deserialize<List<RecentProjectModel>>(jsonRaw);
                 if (datas != null)
                 {
                     recentProjectsList.AddRange(datas);
@@ -114,13 +128,13 @@ namespace DinaGameEngine.Services
                 recentProjectsList.RemoveRange(20, recentProjectsList.Count - 20);
 
             // Mise à jour de la liste des projets récents
-            var jsonSerialized = JsonSerializer.Serialize(recentProjectsList);
+            var jsonSerialized = JsonHelper.Serialize(recentProjectsList);
             _fileService.WriteAllText(recentProjectsFileName, jsonSerialized);
 
             _logService.Info($"Mise à jour des projets récents effectuée.");
         }
 
-        private RecentProjectModel CreateRecentProjectModel(string name,  string projectFilePath)
+        private RecentProjectModel CreateRecentProjectModel(string name, string projectFilePath)
         {
             return new RecentProjectModel
             {
@@ -129,5 +143,6 @@ namespace DinaGameEngine.Services
                 ProjectFolderPath = projectFilePath
             };
         }
+
     }
 }

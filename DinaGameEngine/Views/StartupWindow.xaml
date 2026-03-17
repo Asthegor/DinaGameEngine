@@ -13,26 +13,33 @@
         WindowStartupLocation="CenterScreen"
         Width="800"
         Height="450">
-        <ContentControl>
-            <ContentControl.Style>
-                <Style TargetType="ContentControl">
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding CurrentState}" Value="{x:Static common:StartupState.RecentProjects}">
-                            <Setter Property="Content">
-                                <Setter.Value>
-                                    <usercontrols:ListRecentProjectsView/>
-                                </Setter.Value>
-                            </Setter>
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding CurrentState}" Value="{x:Static common:StartupState.NewProject}">
-                            <Setter Property="Content">
-                                <Setter.Value>
-                                    <usercontrols:NewProjectView/>
-                                </Setter.Value>
-                            </Setter>
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </ContentControl.Style>
-        </ContentControl>
+    <ContentControl>
+        <ContentControl.Style>
+            <Style TargetType="ContentControl">
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding CurrentState}" Value="{x:Static common:StartupState.RecentProjects}">
+                        <Setter Property="Content">
+                            <Setter.Value>
+                                <usercontrols:ListRecentProjectsView/>
+                            </Setter.Value>
+                        </Setter>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding CurrentState}" Value="{x:Static common:StartupState.NewProject}">
+                        <Setter Property="Content">
+                            <Setter.Value>
+                                <usercontrols:NewProjectView/>
+                            </Setter.Value>
+                        </Setter>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding CurrentState}"  Value="{x:Static common:StartupState.MarkerValidation}">
+                        <Setter Property="Content">
+                            <Setter.Value>
+                                <usercontrols:MarkersListView/>
+                            </Setter.Value>
+                        </Setter>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </ContentControl.Style>
+    </ContentControl>
 </Window>

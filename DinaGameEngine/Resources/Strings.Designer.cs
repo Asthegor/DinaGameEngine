@@ -97,6 +97,60 @@ namespace DinaGameEngine.Resources {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Créer.
+        /// </summary>
+        public static string Markers_Create {
+            get {
+                return ResourceManager.GetString("Markers_Create", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Le projet sera créé dans :.
+        /// </summary>
+        public static string Markers_FolderPreview {
+            get {
+                return ResourceManager.GetString("Markers_FolderPreview", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Libellé.
+        /// </summary>
+        public static string Markers_LabelHeader {
+            get {
+                return ResourceManager.GetString("Markers_LabelHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Précédent.
+        /// </summary>
+        public static string Markers_Previous {
+            get {
+                return ResourceManager.GetString("Markers_Previous", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Validation des marqueurs.
+        /// </summary>
+        public static string Markers_Title {
+            get {
+                return ResourceManager.GetString("Markers_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Valeur.
+        /// </summary>
+        public static string Markers_ValueHeader {
+            get {
+                return ResourceManager.GetString("Markers_ValueHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Parcourir....
         /// </summary>
         public static string NewProject_Browse {
@@ -115,15 +169,6 @@ namespace DinaGameEngine.Resources {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à Créer.
-        /// </summary>
-        public static string NewProject_Create {
-            get {
-                return ResourceManager.GetString("NewProject_Create", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Recherche une chaîne localisée semblable à Emplacement.
         /// </summary>
         public static string NewProject_Location {
@@ -138,6 +183,15 @@ namespace DinaGameEngine.Resources {
         public static string NewProject_Name {
             get {
                 return ResourceManager.GetString("NewProject_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Suivant.
+        /// </summary>
+        public static string NewProject_Next {
+            get {
+                return ResourceManager.GetString("NewProject_Next", resourceCulture);
             }
         }
         
@@ -189,9 +243,9 @@ namespace DinaGameEngine.Resources {
         /// <summary>
         ///   Recherche une chaîne localisée semblable à Ouvrir....
         /// </summary>
-        public static string Startup_OpenProject {
+        public static string Startup_Open {
             get {
-                return ResourceManager.GetString("Startup_OpenProject", resourceCulture);
+                return ResourceManager.GetString("Startup_Open", resourceCulture);
             }
         }
         

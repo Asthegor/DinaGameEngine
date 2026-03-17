@@ -71,9 +71,9 @@
                     Margin="16,0,8,0"
                     Command="{Binding DataContext.CancelNewProjectCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
             <Button Grid.Column="1"
-                    Content="{ext:Translate Key=NewProject_Create}"
+                    Content="{ext:Translate Key=NewProject_Next}"
                     Margin="8,0,16,0"
-                    Command="{Binding DataContext.ConfirmNewProjectCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+                    Command="{Binding DataContext.GoToMarkerValidationCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
         </Grid>
 
     </Grid>

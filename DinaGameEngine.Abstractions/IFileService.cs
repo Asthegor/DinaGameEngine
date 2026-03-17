@@ -1,4 +1,4 @@
-﻿namespace DinaGameEngine.Services
+﻿namespace DinaGameEngine.Abstractions
 {
     public interface IFileService
     {
@@ -10,9 +10,7 @@
         void CreateDirectory(string path);
         void CopyFile(string source, string destination);
         IEnumerable<string> GetFiles(string path, string searchPattern);
-        // Retourne le dossier AppData\DinaGameEngine
-        string GetAppDataDirectory();
-        //string Combine(string path1, string path2);
+        string GetAppDataDirectory(); // Retourne le dossier AppData\DinaGameEngine
         string Combine(params string[] paths);
         void AppendAllText(string path, string content);
     }

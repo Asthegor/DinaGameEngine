@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <RootNamespace>__RootNamespace__.Fonts</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="FontContent\bin\**" />
+    <Compile Remove="FontContent\obj\**" />
+    <EmbeddedResource Remove="FontContent\bin\**" />
+    <EmbeddedResource Remove="FontContent\obj\**" />
+    <None Remove="FontContent\bin\**" />
+    <None Remove="FontContent\obj\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.4.1">
+      <PrivateAssets>All</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="FontContent\TTF_Files\" />
+  </ItemGroup>
+</Project>

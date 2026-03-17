@@ -1,0 +1,17 @@
+[
+  {
+    "key": "__SolutionName__",
+    "source": "Name",
+    "label": "Nom de la solution"
+  },
+  {
+    "key": "__GameProjectName__",
+    "source": "NameNoSpace",
+    "label": "Nom du projet"
+  },
+  {
+    "key": "__RootNamespace__",
+    "source": "NameNoSpace",
+    "label": "Espace de nom racine"
+  }
+]

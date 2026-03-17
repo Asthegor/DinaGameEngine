@@ -1,0 +1,50 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="GameProject\Core\Datas\ConfigData.cs" />
+    <Compile Remove="GameProject\Core\Keys\FontKeys.cs" />
+    <Compile Remove="GameProject\Core\Keys\PaletteColors.cs" />
+    <Compile Remove="GameProject\Core\Keys\PlayerInputKeys.cs" />
+    <Compile Remove="GameProject\Core\Keys\ProjectSceneKeys.cs" />
+    <Compile Remove="GameProject\Core\Keys\ProjectServiceKeys.cs" />
+    <Compile Remove="GameProject\Core\Keys\ResolutionKeys.cs" />
+    <Compile Remove="GameProject\Scenes\MainMenuScene.cs" />
+    <Compile Remove="GameProject\Scenes\OptionsMenuScene.cs" />
+    <Compile Remove="GameProject\__GameProjectName__\Program.cs" />
+    <Compile Remove="GameProject\__GameProjectName__\__GameProjectName__.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="GameProject\.config\dotnet-tools.json" />
+    <None Remove="GameProject\Assets\AssetsContent\AssetsContent.mgcb" />
+    <None Remove="GameProject\Audio\AudioContent\AudioContent.mgcb" />
+    <None Remove="GameProject\Directory.Build.props" />
+    <None Remove="GameProject\Fonts\FontContent\_1080p\Default.spritefont" />
+    <None Remove="GameProject\Fonts\FontContent\_1440p\Default.spritefont" />
+    <None Remove="GameProject\Fonts\FontContent\_2160p\Default.spritefont" />
+    <None Remove="GameProject\Fonts\FontContent\_720p\Default.spritefont" />
+    <None Remove="GameProject\Fonts\FontContent\_900p\Default.spritefont" />
+    <None Remove="GameProject\Fonts\FontContent\FontContent.mgcb" />
+    <None Remove="GameProject\__GameProjectName__\app.manifest" />
+    <None Remove="GameProject\__GameProjectName__\Icon.bmp" />
+    <None Remove="GameProject\__GameProjectName__\Icon.ico" />
+    <None Remove="GameTemplateMarkers.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="GameProject\**\*" />
+    <EmbeddedResource Include="GameTemplateMarkers.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DinaGameEngine.Abstractions\DinaGameEngine.Abstractions.csproj" />
+    <ProjectReference Include="..\DinaGameEngine.Models\DinaGameEngine.Models.csproj" />
+  </ItemGroup>
+
+</Project>

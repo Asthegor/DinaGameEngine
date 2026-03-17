@@ -1,0 +1,44 @@
+﻿<UserControl x:Class="DinaGameEngine.Views.UserControls.MarkerItemView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DinaGameEngine.Views.UserControls"
+             xmlns:ext="clr-namespace:DinaGameEngine.Extensions"
+             xmlns:conv="clr-namespace:DinaGameEngine.Converters"
+             mc:Ignorable="d"
+             d:DesignHeight="60" d:DesignWidth="600">
+    <UserControl.Resources>
+        <conv:BoolToVisibilityConverter x:Key="BoolToVisibility"/>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="5*"/> <!-- 50% -->
+            <ColumnDefinition Width="1*"/> <!-- 10% -->
+            <ColumnDefinition Width="4*"/> <!-- 40% -->
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Grid.Column="0">
+            <Run FontFamily="Arial" Text="{Binding Label, Mode=OneWay}"/>
+            <Run FontFamily="Arial" Text="("/>
+            <Run FontFamily="Consolas" FontSize="11" Text="{Binding Key, Mode=OneWay}"/>
+            <Run FontFamily="Arial" Text=")"/>
+        </TextBlock>
+        <Button Grid.Column="1"
+                Command="{Binding ResetMarkerCommand}"
+                Visibility="{Binding IsNotDefaultValue, Converter={StaticResource BoolToVisibility}}"/>
+        <TextBox Grid.Column="2"
+                 BorderThickness="4"
+                 Text="{Binding Value}">
+            <TextBox.Style>
+                <Style TargetType="TextBox">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsEmpty}" Value="True">
+                            <Setter Property="BorderBrush" Value="Red"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBox.Style>
+        </TextBox>
+    </Grid>
+</UserControl>

@@ -1,4 +1,4 @@
-﻿namespace DinaGameEngine.Services
+﻿namespace DinaGameEngine.Abstractions
 {
     public interface IUpdaterService
     {

@@ -1,0 +1,14 @@
+<Project>
+	<PropertyGroup>
+		<OutputPath>..\BuildOutput\$(Configuration)\</OutputPath>
+	</PropertyGroup>
+	<PropertyGroup>
+		<PublishDir>..\Publish\$(Configuration)\</PublishDir>
+		<!-- On désactive le trimming par défaut partout -->
+		<PublishTrimmed>false</PublishTrimmed>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(OutputType)' == 'Exe' Or '$(OutputType)' == 'WinExe'">
+		<!-- On active le trimming uniquement pour les projets EXE -->
+		<PublishTrimmed>true</PublishTrimmed>
+	</PropertyGroup>
+</Project>

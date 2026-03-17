@@ -1,7 +1,9 @@
 <Solution>
+  <Project Path="DinaGameEngine.Abstractions/DinaGameEngine.Abstractions.csproj" Id="b71bfb56-92b9-4095-a4ac-50abb52a5df0" />
   <Project Path="DinaGameEngine.Common/DinaGameEngine.Common.csproj" />
   <Project Path="DinaGameEngine.Models/DinaGameEngine.Models.csproj" />
   <Project Path="DinaGameEngine.Services/DinaGameEngine.Services.csproj" />
+  <Project Path="DinaGameEngine.Templates/DinaGameEngine.Templates.csproj" Id="e54de8bc-b39e-47e1-b65e-e66ce2a56f14" />
   <Project Path="DinaGameEngine.Updater/DinaGameEngine.Updater.csproj" />
   <Project Path="DinaGameEngine/DinaGameEngine.csproj" />
 </Solution>

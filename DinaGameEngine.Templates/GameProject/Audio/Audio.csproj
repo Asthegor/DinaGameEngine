@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <RootNamespace>__RootNamespace__.Audio</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="AudioContent\obj\**" />
+    <EmbeddedResource Remove="AudioContent\obj\**" />
+    <None Remove="AudioContent\obj\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.4.1">
+      <PrivateAssets>All</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
+</Project>

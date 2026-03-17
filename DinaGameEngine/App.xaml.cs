@@ -1,6 +1,8 @@
-﻿using DinaGameEngine.Common;
+﻿using DinaGameEngine.Abstractions;
+using DinaGameEngine.Common;
 using DinaGameEngine.Resources;
 using DinaGameEngine.Services;
+using DinaGameEngine.Templates;
 using DinaGameEngine.ViewModels;
 using DinaGameEngine.Views;
 using DinaGameEngine.WPFServices;
@@ -19,12 +21,12 @@ namespace DinaGameEngine
             IFileService fileService = new FileService();
             ILogService logService = new LogService(fileService);
             IDialogService dialogService = new DialogService();
-            IProjectService projectService = new ProjectService(fileService, logService);
-
+            ITemplateExtractor templateExtractor = new TemplateExtractor(logService);
+            IProjectService projectService = new ProjectService(fileService, logService, templateExtractor);
 
             LocalizationManager.Register(typeof(Strings));
 
-            var viewModel = new StartupViewModel(projectService, dialogService, fileService, logService);
+            var viewModel = new StartupViewModel(projectService, dialogService, fileService, logService, templateExtractor);
             var startupWindow = new StartupWindow(viewModel);
 
             startupWindow.Show();

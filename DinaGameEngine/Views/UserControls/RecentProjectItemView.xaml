@@ -10,8 +10,7 @@
     <Grid>
         <Grid.InputBindings>
             <MouseBinding MouseAction="LeftDoubleClick"
-                      Command="{Binding DataContext.OpenSelectedProjectCommand,
-                          RelativeSource={RelativeSource AncestorType=Window}}"/>
+                          Command="{Binding OpenRecentProjectCommand}"/>
         </Grid.InputBindings>
         
         <Grid.ColumnDefinitions>
@@ -62,15 +61,14 @@
                         </Style>
                     </TextBlock.Style>
                     <TextBlock.InputBindings>
-                        <MouseBinding MouseAction="LeftClick"
-                          Command="{Binding DataContext.TogglePinCommand, RelativeSource={RelativeSource AncestorType=Window}}"
-                          CommandParameter="{Binding}"/>
+                        <MouseBinding MouseAction="LeftClick" Command="{Binding PinProjectCommand}"/>
                     </TextBlock.InputBindings>
                 </TextBlock>
 
                 <!-- Épingle retournée : survol d'un projet épinglé -->
-                <TextBlock x:Name="ReversedPin" Text="📌" FontSize="14" FontFamily="Segoe UI Emoji" Cursor="Hand"
-               RenderTransformOrigin="0.5,0.5">
+                <TextBlock x:Name="ReversedPin" Text="📌"
+                           FontSize="14" FontFamily="Segoe UI Emoji"
+                           Cursor="Hand" RenderTransformOrigin="0.5,0.5">
                     <TextBlock.RenderTransform>
                         <ScaleTransform ScaleX="-1"/>
                     </TextBlock.RenderTransform>
@@ -90,16 +88,14 @@
                         </Style>
                     </TextBlock.Style>
                     <TextBlock.InputBindings>
-                        <MouseBinding MouseAction="LeftClick"
-                          Command="{Binding DataContext.TogglePinCommand, RelativeSource={RelativeSource AncestorType=Window}}"
-                          CommandParameter="{Binding}"/>
+                        <MouseBinding MouseAction="LeftClick" Command="{Binding PinProjectCommand}"/>
                     </TextBlock.InputBindings>
                 </TextBlock>
             </Grid>
         </StackPanel>
         <Border Grid.ColumnSpan="3"
-            VerticalAlignment="Bottom"
-            BorderBrush="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"
-            BorderThickness="0,0,0,1"/>
+                VerticalAlignment="Bottom"
+                BorderBrush="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"
+                BorderThickness="0,0,0,1"/>
     </Grid>
 </UserControl>

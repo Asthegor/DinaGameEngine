@@ -13,7 +13,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DinaGameEngine.Common\DinaGameEngine.Common.csproj" />
+    <ProjectReference Include="..\DinaGameEngine.Models\DinaGameEngine.Models.csproj" />
     <ProjectReference Include="..\DinaGameEngine.Services\DinaGameEngine.Services.csproj" />
+    <ProjectReference Include="..\DinaGameEngine.Templates\DinaGameEngine.Templates.csproj" />
   </ItemGroup>
 
   <ItemGroup>

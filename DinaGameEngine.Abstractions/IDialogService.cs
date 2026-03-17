@@ -1,7 +1,7 @@
 ﻿using DinaGameEngine.Common;
 using DinaGameEngine.Models;
 
-namespace DinaGameEngine.Services
+namespace DinaGameEngine.Abstractions
 {
     public interface IDialogService
     {

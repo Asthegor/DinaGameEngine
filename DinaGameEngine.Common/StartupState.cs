@@ -3,6 +3,7 @@
     public enum StartupState
     {
         RecentProjects,
-        NewProject
+        NewProject,
+        MarkerValidation
     }
 }

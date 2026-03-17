@@ -1,0 +1,11 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+  <File Path="Directory.Build.props" />
+  </Folder>
+  <Project DefaultStartup="true" Path="__GameProjectName__/__GameProjectName__.csproj" />
+  <Project Path="Audio/Audio.csproj" />
+  <Project Path="Assets/Assets.csproj" />
+  <Project Path="Core/Core.csproj" />
+  <Project Path="Fonts/Fonts.csproj" />
+  <Project Path="Scenes/Scenes.csproj" />
+</Solution>

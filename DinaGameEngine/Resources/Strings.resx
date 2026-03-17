@@ -129,14 +129,26 @@
   <data name="Error_OpenProject" xml:space="preserve">
     <value>Le fichier '{0}' n'existe pas dans le répertoire sélectionné.</value>
   </data>
+  <data name="Markers_LabelHeader" xml:space="preserve">
+    <value>Libellé</value>
+  </data>
+  <data name="Markers_Previous" xml:space="preserve">
+    <value>Précédent</value>
+  </data>
+  <data name="Markers_Title" xml:space="preserve">
+    <value>Validation des marqueurs</value>
+  </data>
+  <data name="Markers_ValueHeader" xml:space="preserve">
+    <value>Valeur</value>
+  </data>
   <data name="NewProject_Browse" xml:space="preserve">
     <value>Parcourir...</value>
   </data>
   <data name="NewProject_Cancel" xml:space="preserve">
     <value>Annuler</value>
   </data>
-  <data name="NewProject_Create" xml:space="preserve">
-    <value>Créer</value>
+  <data name="NewProject_Next" xml:space="preserve">
+    <value>Suivant</value>
   </data>
   <data name="NewProject_Location" xml:space="preserve">
     <value>Emplacement</value>
@@ -176,5 +188,11 @@
   </data>
   <data name="Startup_Yesterday" xml:space="preserve">
     <value>Hier</value>
+  </data>
+  <data name="Markers_Create" xml:space="preserve">
+    <value>Créer</value>
+  </data>
+  <data name="Markers_FolderPreview" xml:space="preserve">
+    <value>Le projet sera créé dans :</value>
   </data>
 </root>
