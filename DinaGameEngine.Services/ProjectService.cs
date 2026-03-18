@@ -2,6 +2,8 @@
 using DinaGameEngine.Common;
 using DinaGameEngine.Models;
 
+using System.Diagnostics;
+
 namespace DinaGameEngine.Services
 {
     public class ProjectService(IFileService fileService, ILogService logService, ITemplateExtractor templateExtractor) : IProjectService
@@ -88,10 +90,15 @@ namespace DinaGameEngine.Services
         }
 
         // Fonction permettant de récupérer la version de la DLL de DinaCSharp installée.
-        private static string GetDinaVersion()
+        private string GetDinaVersion()
         {
-            // TODO: récupérer la version de la DLL de DInaCSharp
-            return string.Empty;
+            var libsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Libs", "DinaCSharp.dll");
+            if (!File.Exists(libsPath))
+            {
+                _logService.Warning("DinaCSharp.dll introuvable dans Libs\\.");
+                return string.Empty;
+            }
+            return FileVersionInfo.GetVersionInfo(libsPath).FileVersion ?? string.Empty;
         }
 
         private void UpdateRecentProjects(GameProjectModel gameProjectModel)

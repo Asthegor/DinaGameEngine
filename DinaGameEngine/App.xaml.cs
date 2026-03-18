@@ -7,6 +7,7 @@ using DinaGameEngine.ViewModels;
 using DinaGameEngine.Views;
 using DinaGameEngine.WPFServices;
 
+using System.IO;
 using System.Windows;
 
 namespace DinaGameEngine
@@ -26,10 +27,26 @@ namespace DinaGameEngine
 
             LocalizationManager.Register(typeof(Strings));
 
+            CheckLibsPath(templateExtractor);
+
             var viewModel = new StartupViewModel(projectService, dialogService, fileService, logService, templateExtractor);
             var startupWindow = new StartupWindow(viewModel);
 
             startupWindow.Show();
+        }
+
+        private static void CheckLibsPath(ITemplateExtractor templateExtractor)
+        {
+            var libsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Libs");
+            var allFilesPresent = Directory.Exists(libsPath) &&
+                                  templateExtractor.LibFiles
+                                  .All(f => File.Exists(Path.Combine(libsPath, f)));
+
+            if (!allFilesPresent)
+            {
+                Directory.CreateDirectory(libsPath);
+                templateExtractor.ExtractLibs(libsPath);
+            }
         }
     }
 }

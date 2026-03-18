@@ -235,6 +235,29 @@ namespace DinaGameEngine.Templates
             return count;
         }
 
+        private static readonly string[] _libFiles = ["DinaCSharp.dll", "DinaCSharp.xml", "DinaCSharp.deps.json", "DLACrypto.dll"];
+        public IReadOnlyList<string> LibFiles => _libFiles;
+        public bool ExtractLibs(string outputPath)
+        {
+            var assembly = GetType().Assembly;
+            foreach (var filename in _libFiles)
+            {
+                var resourceName = $"{_templateProjectPrefix}{filename}";
+                var stream = assembly.GetManifestResourceStream(resourceName);
+                if (stream == null)
+                {
+                    _logService.Error($"Fichier '{filename}' manquant dans le template");
+                    return false;
+                }
+                var fullname = Path.Combine(outputPath, filename);
+                using var fileStream = File.Create(fullname);
+                stream.CopyTo(fileStream);
+                _logService.Info($" Fichier '{filename}' copié");
+            }
+            return true;
+        }
+
+
         private class TemplateMarkerJsonEntry
         {
             public string Key { get; set; } = string.Empty;
