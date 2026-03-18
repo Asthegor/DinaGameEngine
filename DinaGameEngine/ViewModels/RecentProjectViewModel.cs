@@ -19,10 +19,12 @@ namespace DinaGameEngine.ViewModels
 
             PinProjectCommand = new RelayCommand(ExecutePinProject);
             OpenRecentProjectCommand = new RelayCommand(ExecuteOpenProject);
+            RemoveFromListCommand = new RelayCommand(ExecuteRemoveProjectFromList);
         }
 
         public event EventHandler? PinChanged;
         public event EventHandler<ProjectOpenedEventArgs>? ProjectOpened;
+        public event EventHandler? ProjectRemoved;
 
         public string Name
         {
@@ -85,6 +87,7 @@ namespace DinaGameEngine.ViewModels
 
         public RelayCommand PinProjectCommand { get; }
         public RelayCommand OpenRecentProjectCommand { get; }
+        public RelayCommand RemoveFromListCommand { get; }
 
         private void ExecutePinProject()
         {
@@ -97,6 +100,10 @@ namespace DinaGameEngine.ViewModels
             if (project == null)
                 return;
             ProjectOpened?.Invoke(this, new ProjectOpenedEventArgs(project));
+        }
+        private void ExecuteRemoveProjectFromList()
+        {
+            ProjectRemoved?.Invoke(this, EventArgs.Empty);
         }
     }
 }

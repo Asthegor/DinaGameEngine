@@ -195,4 +195,19 @@
   <data name="Markers_FolderPreview" xml:space="preserve">
     <value>Le projet sera créé dans :</value>
   </data>
+  <data name="ContextMenu_RemoveFromList" xml:space="preserve">
+    <value>Supprimer de la liste</value>
+  </data>
+  <data name="ContextMenu_Unpin" xml:space="preserve">
+    <value>Désépingler</value>
+  </data>
+  <data name="CreatingProject_Title" xml:space="preserve">
+    <value>Création du projet</value>
+  </data>
+  <data name="CreatingProject_Message" xml:space="preserve">
+    <value>Projet '{0}' en cours de création...</value>
+  </data>
+  <data name="CreatingProject_Success" xml:space="preserve">
+    <value>Projet '{0}' créé avec succès.</value>
+  </data>
 </root>

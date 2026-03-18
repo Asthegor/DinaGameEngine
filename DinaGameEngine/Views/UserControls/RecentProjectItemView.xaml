@@ -4,6 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DinaGameEngine.Views.UserControls"
+             xmlns:ext="clr-namespace:DinaGameEngine.Extensions"
+             xmlns:conv="clr-namespace:DinaGameEngine.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="60" d:DesignWidth="750"
              Margin="0,2,0,2">
@@ -19,6 +21,19 @@
             <ColumnDefinition Width="130"/>
         </Grid.ColumnDefinitions>
 
+        <Grid.ContextMenu>
+            <ContextMenu>
+                <ContextMenu.Resources>
+                    <conv:BoolToVisibilityConverter x:Key="BoolToVisibility"/>
+                </ContextMenu.Resources>
+                <MenuItem Header="{ext:Translate Key=ContextMenu_RemoveFromList}"
+                          Command="{Binding RemoveFromListCommand}" />
+                <MenuItem Header="{ext:Translate Key=ContextMenu_Unpin}"
+                          Command="{Binding PinProjectCommand}"
+                          Visibility="{Binding IsPinned, Converter={StaticResource BoolToVisibility}}"/>
+            </ContextMenu>
+        </Grid.ContextMenu>
+        
         <Image Grid.Column="0"
                Width="40" Height="40"
                HorizontalAlignment="Center"

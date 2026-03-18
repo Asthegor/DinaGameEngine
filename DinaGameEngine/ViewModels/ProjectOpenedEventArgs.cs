@@ -1,6 +1,6 @@
 ﻿using DinaGameEngine.Models;
 
-namespace DinaGameEngine.Common
+namespace DinaGameEngine.ViewModels
 {
     public class ProjectOpenedEventArgs(GameProjectModel project) : EventArgs
     {

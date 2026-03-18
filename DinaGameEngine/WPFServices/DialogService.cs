@@ -1,6 +1,5 @@
 ﻿using DinaGameEngine.Abstractions;
 using DinaGameEngine.Common;
-using DinaGameEngine.Models;
 
 using Microsoft.Win32;
 
@@ -36,6 +35,11 @@ namespace DinaGameEngine.WPFServices
             MessageBox.Show(message, title, MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
+        public void ShowInfo(string title, string message)
+        {
+            MessageBox.Show(message, title, MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
         public MessageResult ShowMessageDialog(string title, string message)
         {
             var messageBoxResult = MessageBox.Show(message, title, MessageBoxButton.YesNoCancel);
@@ -45,13 +49,6 @@ namespace DinaGameEngine.WPFServices
                 MessageBoxResult.No => MessageResult.No,
                 _ => MessageResult.Cancel
             };
-        }
-
-        public NewProjectModel? ShowNewProjectDialog()
-        {
-            // TODO
-            
-            return null;
         }
     }
 }

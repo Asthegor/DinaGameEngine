@@ -43,7 +43,7 @@ namespace DinaGameEngine.Services
             return gameProjectModel;
         }
 
-        public GameProjectModel? CreateProject(NewProjectModel newProjectModel, List<TemplateMarkerModel> markers)
+        public async Task<GameProjectModel?> CreateProject(NewProjectModel newProjectModel, List<TemplateMarkerModel> markers)
         {
             var projectFolder = _fileService.Combine(newProjectModel.ParentFolderPath, newProjectModel.Name);
             if (_fileService.DirectoryExists(projectFolder))
@@ -56,8 +56,8 @@ namespace DinaGameEngine.Services
 
             try
             {
-                var extractResult = _templateExtractor.Extract(TemplateType.GameProject, projectFolder, markers);
-                if (!extractResult)
+                var result = await Task.Run(() => _templateExtractor.Extract(TemplateType.GameProject, projectFolder, markers));
+                if (!result)
                     return null;
             }
             catch (Exception e)
@@ -88,7 +88,7 @@ namespace DinaGameEngine.Services
         }
 
         // Fonction permettant de récupérer la version de la DLL de DinaCSharp installée.
-        private string GetDinaVersion()
+        private static string GetDinaVersion()
         {
             // TODO: récupérer la version de la DLL de DInaCSharp
             return string.Empty;
@@ -134,7 +134,7 @@ namespace DinaGameEngine.Services
             _logService.Info($"Mise à jour des projets récents effectuée.");
         }
 
-        private RecentProjectModel CreateRecentProjectModel(string name, string projectFilePath)
+        private static RecentProjectModel CreateRecentProjectModel(string name, string projectFilePath)
         {
             return new RecentProjectModel
             {

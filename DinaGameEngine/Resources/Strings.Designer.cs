@@ -70,6 +70,51 @@ namespace DinaGameEngine.Resources {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Supprimer de la liste.
+        /// </summary>
+        public static string ContextMenu_RemoveFromList {
+            get {
+                return ResourceManager.GetString("ContextMenu_RemoveFromList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Désépingler.
+        /// </summary>
+        public static string ContextMenu_Unpin {
+            get {
+                return ResourceManager.GetString("ContextMenu_Unpin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Projet &apos;{0}&apos; en cours de création....
+        /// </summary>
+        public static string CreatingProject_Message {
+            get {
+                return ResourceManager.GetString("CreatingProject_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Projet &apos;{0}&apos; créé avec succès..
+        /// </summary>
+        public static string CreatingProject_Success {
+            get {
+                return ResourceManager.GetString("CreatingProject_Success", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Création du projet.
+        /// </summary>
+        public static string CreatingProject_Title {
+            get {
+                return ResourceManager.GetString("CreatingProject_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Ouvrir un projet.
         /// </summary>
         public static string Dialog_OpenProject {

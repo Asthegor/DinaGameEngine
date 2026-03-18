@@ -2,8 +2,10 @@
 using DinaGameEngine.Commands;
 using DinaGameEngine.Common;
 using DinaGameEngine.Models;
+using DinaGameEngine.Views;
 
 using System.Collections.ObjectModel;
+using System.Windows;
 
 namespace DinaGameEngine.ViewModels
 {
@@ -133,6 +135,7 @@ namespace DinaGameEngine.ViewModels
             var vm = new RecentProjectViewModel(model, _fileService, _projectService);
             vm.PinChanged += OnPinChanged;
             vm.ProjectOpened += OnProjectOpened;
+            vm.ProjectRemoved += OnProjectRemoved;
             return vm;
         }
         private void OnPinChanged(object? sender, EventArgs e)
@@ -177,11 +180,35 @@ namespace DinaGameEngine.ViewModels
 
             LoadRecentProjects();
         }
-
         private void OnProjectOpened(object? sender, ProjectOpenedEventArgs e)
         {
             _logService.Info($"Ouverture du projet '{e.Project.Name}' réussie");
             NotifyProjectOpened(e.Project);
+        }
+        private void OnProjectRemoved(object? sender, EventArgs e)
+        {
+            if (sender is not RecentProjectViewModel vm)
+                return;
+
+            var listProjectGroups = ProjectGroups.SelectMany(p => p.Projects).ToList();
+            var newListProjectGroups = listProjectGroups.Where(p => !(p.Name == vm.Name && p.ProjectFolderPath == vm.ProjectFolderPath)).ToList();
+            var listModels = newListProjectGroups.Select(p => new RecentProjectModel
+            {
+                Name = p.Name,
+                ProjectFolderPath = p.ProjectFolderPath,
+                LastOpenedAt = p.LastOpenedAt,
+                IsPinned = p.IsPinned,
+                PinOrder = p.PinOrder
+            }).ToList();
+
+            var jsonContent = JsonHelper.Serialize(listModels);
+
+            var recentProjectFile = _fileService.Combine(_fileService.GetAppDataDirectory(), ProjectStructure.RecentProjectsFileName);
+            _fileService.WriteAllText(recentProjectFile, jsonContent);
+
+            _logService.Info(vm.IsPinned ? $"{vm.Name} épinglé (position: {vm.PinOrder})" : $"{vm.Name} désépinglé");
+
+            LoadRecentProjects();
         }
 
         private static string GetSectionName(DateTime lastOpenedAt)
@@ -337,7 +364,7 @@ namespace DinaGameEngine.ViewModels
         public string NewProjectFolderPreview => _fileService.Combine(NewProjectParentFolder, NewProjectName, NewProjectName.Replace(" ", ""));
 
         public RelayCommand ConfirmNewProjectCommand { get; }
-        private void ConfirmNewProject()
+        private async void ConfirmNewProject()
         {
             var newProjectModel = new NewProjectModel
             {
@@ -351,9 +378,23 @@ namespace DinaGameEngine.ViewModels
                 Value = vm.Value
             }).ToList();
 
-            var gameProjectModel = _projectService.CreateProject(newProjectModel, markers);
+            var creatingWindow = new CreatingProjectWindow
+            {
+                Owner = Application.Current.MainWindow,
+                DataContext = new { Message = LocalizationManager.GetTranslation("CreatingProject_Message", NewProjectName) }
+            };
+            creatingWindow.Show();
+
+            var gameProjectModel = await _projectService.CreateProject(newProjectModel, markers);
+
+            creatingWindow.Close();
+
             if (gameProjectModel == null)
                 return;
+
+            _dialogService.ShowInfo(
+                LocalizationManager.GetTranslation("CreatingProject_Title"),
+                LocalizationManager.GetTranslation("CreatingProject_Success", gameProjectModel.Name));
 
             CurrentState = StartupState.RecentProjects;
             NotifyProjectOpened(gameProjectModel);

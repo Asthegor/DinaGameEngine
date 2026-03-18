@@ -1,5 +1,4 @@
 ﻿using DinaGameEngine.Common;
-using DinaGameEngine.Models;
 
 namespace DinaGameEngine.Abstractions
 {
@@ -7,8 +6,9 @@ namespace DinaGameEngine.Abstractions
     {
         public string? OpenFileDialog(string title, string filter);
         public string? OpenFolderDialog(string title);
-        MessageResult ShowMessageDialog (string title, string message);
-        void ShowError(string title, string message);
-        NewProjectModel? ShowNewProjectDialog();
+        public MessageResult ShowMessageDialog (string title, string message);
+        public void ShowError(string title, string message);
+        public void ShowInfo(string title, string message);
+
     }
 }

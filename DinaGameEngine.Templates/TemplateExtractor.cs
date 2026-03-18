@@ -76,9 +76,11 @@ namespace DinaGameEngine.Templates
             }
             return null;
         }
-        private List<TemplateMarkerModel>? GetTemplateSceneMarkers(object obj)
+        private static List<TemplateMarkerModel>? GetTemplateSceneMarkers(object obj)
         {
             // TODO: à implémenter et changer le type du paramètre
+            if (obj is TemplateMarkerModel model)
+                return [model];
             return null;
         }
         public bool Extract(TemplateType type, string rootPath, List<TemplateMarkerModel> markers)
@@ -146,11 +148,13 @@ namespace DinaGameEngine.Templates
             _logService.Info("Extraction du template GameProject terminée");
             return true;
         }
-        private bool ExtractScene(string rootPath, Dictionary<string, string> dict)
+        private static bool ExtractScene(string rootPath, Dictionary<string, string> dict)
         {
+            if (string.IsNullOrEmpty(rootPath) || dict.Count == 0)
+                return false;
             return false;
         }
-        private bool IsSpecialFile(string path, out string specialFileName)
+        private static bool IsSpecialFile(string path, out string specialFileName)
         {
             foreach (var specialFile in _templateProjectSpecialFiles)
             {
@@ -181,14 +185,14 @@ namespace DinaGameEngine.Templates
             return Path.Combine(path.Split('.'));
         }
 
-        private FileInfoModel GetFileInfo(string resourceName, string rootPath, Dictionary<string, string> dict)
+        private static FileInfoModel GetFileInfo(string resourceName, string rootPath, Dictionary<string, string> dict)
         {
             string filename;
             string pathWithPoint;
             // Test des fichiers spéciaux
             if (IsSpecialFile(resourceName, out string specialFileName))
             {
-                pathWithPoint = ExtractFromRight(resourceName, specialFileName, out filename).TrimEnd('.');
+                pathWithPoint = ExtractFromRight(resourceName, specialFileName, out _).TrimEnd('.');
                 filename = specialFileName;
             }
             else
@@ -208,7 +212,7 @@ namespace DinaGameEngine.Templates
                 FileName = filename
             };
         }
-        private string ReplaceMarkers(string input, Dictionary<string, string> markers, out Dictionary<string, int> counts)
+        private static string ReplaceMarkers(string input, Dictionary<string, string> markers, out Dictionary<string, int> counts)
         {
             counts = [];
             foreach (var marker in markers)
@@ -218,7 +222,7 @@ namespace DinaGameEngine.Templates
             }
             return input;
         }
-        private int CountOccurences(string input, string searched)
+        private static int CountOccurences(string input, string searched)
         {
             int searchedLength = searched.Length;
             int index = 0;
