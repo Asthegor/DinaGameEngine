@@ -15,13 +15,6 @@ namespace DinaGameEngine.Views
             InitializeComponent();
 
             DataContext = startupViewModel;
-
-            startupViewModel.ProjectOpened += OnProjectOpened;
-        }
-
-        private void OnProjectOpened(object? sender, GameProjectModel e)
-        {
-            Close();
         }
     }
 }

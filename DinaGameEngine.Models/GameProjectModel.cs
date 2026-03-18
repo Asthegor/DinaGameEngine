@@ -9,6 +9,7 @@ namespace DinaGameEngine.Models
         private DateTime _createdAt;
         private DateTime _lastOpenedAt;
         private string _rootPath = string.Empty;
+        private string _defaultLanguage = string.Empty;
 
         public string Name
         {
@@ -39,6 +40,11 @@ namespace DinaGameEngine.Models
         {
             get => _lastOpenedAt;
             set => SetProperty(ref _lastOpenedAt, value);
+        }
+        public string DefaultLanguage
+        {
+            get => _defaultLanguage;
+            set => SetProperty(ref _defaultLanguage, value);
         }
     }
 }

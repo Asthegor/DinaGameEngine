@@ -29,17 +29,17 @@
                        FontStyle="Italic"/>
         </Grid>
         
-        <Grid Grid.Row="1" Margin="25,0,0,0">
+        <Grid Grid.Row="1" Margin="25,0,25,5">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="5*"/>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="4*"/>
+                <ColumnDefinition Width="4*"/> <!-- 40% -->
+                <ColumnDefinition Width="32"/>
+                <ColumnDefinition Width="6*"/> <!-- 60% -->
             </Grid.ColumnDefinitions>
             <TextBlock Grid.Column="0" Text="{ext:Translate Key=Markers_LabelHeader}"/>
             <TextBlock Grid.Column="2" Text="{ext:Translate Key=Markers_ValueHeader}"/>
         </Grid>
 
-        <ScrollViewer Grid.Row="2" Margin="25">
+        <ScrollViewer Grid.Row="2" Margin="25,0,25,5">
             <ItemsControl ItemsSource="{Binding Markers}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
@@ -57,7 +57,7 @@
             <Button Grid.Column="0"
             Content="{ext:Translate Key=Markers_Previous}"
             Margin="16,0,8,0"
-            Command="{Binding CancelNewProjectCommand}"/>
+            Command="{Binding GoToNewProjectCommand}"/>
             <Button Grid.Column="1"
             Content="{ext:Translate Key=Markers_Create}"
             Margin="8,0,16,0"

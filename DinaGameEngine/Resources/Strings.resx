@@ -210,4 +210,55 @@
   <data name="CreatingProject_Success" xml:space="preserve">
     <value>Projet '{0}' créé avec succès.</value>
   </data>
+  <data name="MainMenu_File_NewProject" xml:space="preserve">
+    <value>Nouveau projet</value>
+  </data>
+  <data name="MainMenu_File_Open" xml:space="preserve">
+    <value>Ouvrir</value>
+  </data>
+  <data name="MainMenu_File_Save" xml:space="preserve">
+    <value>Sauvegarder</value>
+  </data>
+  <data name="MainMenu_File_Close" xml:space="preserve">
+    <value>Fermer</value>
+  </data>
+  <data name="MainMenu_File_Quit" xml:space="preserve">
+    <value>Quitter</value>
+  </data>
+  <data name="MainMenu_File" xml:space="preserve">
+    <value>Fichier</value>
+  </data>
+  <data name="MainMenu_Project" xml:space="preserve">
+    <value>Projet</value>
+  </data>
+  <data name="MainMenu_Project_AddScene" xml:space="preserve">
+    <value>Ajouter une scène...</value>
+  </data>
+  <data name="MainMenu_Project_AddImage" xml:space="preserve">
+    <value>Ajouter une image...</value>
+  </data>
+  <data name="MainMenu_Project_AddSound" xml:space="preserve">
+    <value>Ajouter un son...</value>
+  </data>
+  <data name="MainMenu_Project_AddFont" xml:space="preserve">
+    <value>Ajouter une police...</value>
+  </data>
+  <data name="MainMenu_Tools" xml:space="preserve">
+    <value>Outils</value>
+  </data>
+  <data name="MainMenu_Tools_Transitions" xml:space="preserve">
+    <value>Transitions entre scènes</value>
+  </data>
+  <data name="MainMenu_Window" xml:space="preserve">
+    <value>Fenêtre</value>
+  </data>
+  <data name="MainMenu_Help" xml:space="preserve">
+    <value>Aide</value>
+  </data>
+  <data name="MainMenu_Help_News" xml:space="preserve">
+    <value>Nouvelles</value>
+  </data>
+  <data name="MainMenu_Help_About" xml:space="preserve">
+    <value>À propos...</value>
+  </data>
 </root>

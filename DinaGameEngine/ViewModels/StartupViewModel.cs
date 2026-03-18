@@ -34,6 +34,8 @@ namespace DinaGameEngine.ViewModels
             OpenProjectCommand = new RelayCommand(_ => OpenProject());
             GoToMarkerValidationCommand = new RelayCommand(execute: _ => GoToMarkerValidation(),
                                                            canExecute: _ => !string.IsNullOrEmpty(NewProjectName) && _fileService.DirectoryExists(NewProjectParentFolder));
+            GoToNewProjectCommand = new RelayCommand(() => GoToNewProject());
+
             LoadRecentProjects();
         }
 
@@ -421,5 +423,12 @@ namespace DinaGameEngine.ViewModels
 
             CurrentState = StartupState.MarkerValidation;
         }
+        public RelayCommand GoToNewProjectCommand { get; }
+        private void GoToNewProject()
+        {
+            Markers.Clear();
+            CurrentState = StartupState.NewProject;
+        }
+
     }
 }

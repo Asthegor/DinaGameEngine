@@ -142,6 +142,159 @@ namespace DinaGameEngine.Resources {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Fichier.
+        /// </summary>
+        public static string MainMenu_File {
+            get {
+                return ResourceManager.GetString("MainMenu_File", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Fermer.
+        /// </summary>
+        public static string MainMenu_File_Close {
+            get {
+                return ResourceManager.GetString("MainMenu_File_Close", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Nouveau projet.
+        /// </summary>
+        public static string MainMenu_File_NewProject {
+            get {
+                return ResourceManager.GetString("MainMenu_File_NewProject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Ouvrir.
+        /// </summary>
+        public static string MainMenu_File_Open {
+            get {
+                return ResourceManager.GetString("MainMenu_File_Open", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Quitter.
+        /// </summary>
+        public static string MainMenu_File_Quit {
+            get {
+                return ResourceManager.GetString("MainMenu_File_Quit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Sauvegarder.
+        /// </summary>
+        public static string MainMenu_File_Save {
+            get {
+                return ResourceManager.GetString("MainMenu_File_Save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Aide.
+        /// </summary>
+        public static string MainMenu_Help {
+            get {
+                return ResourceManager.GetString("MainMenu_Help", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à À propos....
+        /// </summary>
+        public static string MainMenu_Help_About {
+            get {
+                return ResourceManager.GetString("MainMenu_Help_About", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Nouvelles.
+        /// </summary>
+        public static string MainMenu_Help_News {
+            get {
+                return ResourceManager.GetString("MainMenu_Help_News", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Projet.
+        /// </summary>
+        public static string MainMenu_Project {
+            get {
+                return ResourceManager.GetString("MainMenu_Project", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Ajouter une police....
+        /// </summary>
+        public static string MainMenu_Project_AddFont {
+            get {
+                return ResourceManager.GetString("MainMenu_Project_AddFont", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Ajouter une image....
+        /// </summary>
+        public static string MainMenu_Project_AddImage {
+            get {
+                return ResourceManager.GetString("MainMenu_Project_AddImage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Ajouter une scène....
+        /// </summary>
+        public static string MainMenu_Project_AddScene {
+            get {
+                return ResourceManager.GetString("MainMenu_Project_AddScene", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Ajouter un son....
+        /// </summary>
+        public static string MainMenu_Project_AddSound {
+            get {
+                return ResourceManager.GetString("MainMenu_Project_AddSound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Outils.
+        /// </summary>
+        public static string MainMenu_Tools {
+            get {
+                return ResourceManager.GetString("MainMenu_Tools", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Transitions entre scènes.
+        /// </summary>
+        public static string MainMenu_Tools_Transitions {
+            get {
+                return ResourceManager.GetString("MainMenu_Tools_Transitions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Fenêtre.
+        /// </summary>
+        public static string MainMenu_Window {
+            get {
+                return ResourceManager.GetString("MainMenu_Window", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Créer.
         /// </summary>
         public static string Markers_Create {

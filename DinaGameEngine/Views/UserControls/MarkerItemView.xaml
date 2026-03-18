@@ -8,14 +8,11 @@
              xmlns:conv="clr-namespace:DinaGameEngine.Converters"
              mc:Ignorable="d"
              d:DesignHeight="60" d:DesignWidth="600">
-    <UserControl.Resources>
-        <conv:BoolToVisibilityConverter x:Key="BoolToVisibility"/>
-    </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="5*"/> <!-- 50% -->
-            <ColumnDefinition Width="1*"/> <!-- 10% -->
             <ColumnDefinition Width="4*"/> <!-- 40% -->
+            <ColumnDefinition Width="32"/>
+            <ColumnDefinition Width="6*"/> <!-- 60% -->
         </Grid.ColumnDefinitions>
 
         <TextBlock Grid.Column="0">
@@ -25,6 +22,7 @@
             <Run FontFamily="Arial" Text=")"/>
         </TextBlock>
         <Button Grid.Column="1"
+                FontFamily="Segoe Fluent Icons" Content="&#xE72C;"
                 Command="{Binding ResetMarkerCommand}"
                 Visibility="{Binding IsNotDefaultValue, Converter={StaticResource BoolToVisibility}}"/>
         <TextBox Grid.Column="2"

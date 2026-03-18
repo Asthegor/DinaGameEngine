@@ -32,6 +32,14 @@ namespace DinaGameEngine
             var viewModel = new StartupViewModel(projectService, dialogService, fileService, logService, templateExtractor);
             var startupWindow = new StartupWindow(viewModel);
 
+            viewModel.ProjectOpened += (sender, gameProjectModel) =>
+            {
+                var mainViewModel = new MainViewModel(projectService, dialogService, fileService, logService, templateExtractor);
+                var mainWindow = new MainWindow(mainViewModel);
+                mainWindow.Show();
+                startupWindow.Close();
+            };
+
             startupWindow.Show();
         }
 

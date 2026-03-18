@@ -247,11 +247,14 @@ namespace __RootNamespace__.Scenes
             var masterValue = new Text(_optionFont, "100", PaletteColors.Options_Label)
             { Content = masterVolume.ToString() };
             _masterSlider = new Slider(Vector2.Zero, UIScaler.Scale(SLIDER_DIMENSIONS), 0, 100, masterVolume);
-            _masterSlider.OnValueChanged += (sender, eventArgs) =>
+            _masterSlider.PropertyChanged += (sender, eventArgs) =>
             {
-                _soundManager.MasterVolume = eventArgs.Value / _masterSlider.MaxValue;
-                masterValue.Content = ((int)eventArgs.Value).ToString();
-                _configDatas.MasterVolume = (int)eventArgs.Value;
+                if (eventArgs.PropertyName == "Value")
+                {
+                    _soundManager.MasterVolume = _masterSlider.Value / _masterSlider.MaxValue;
+                    masterValue.Content = _masterSlider.Value.ToString();
+                    _configDatas.MasterVolume = _masterSlider.Value;
+                }
             };
             maxLabelWidth = Math.Max(maxLabelWidth, masterLabel.Dimensions.X);
 
@@ -260,11 +263,14 @@ namespace __RootNamespace__.Scenes
             var musicValue = new Text(_optionFont, "100", PaletteColors.Options_Label)
             { Content = musicVolume.ToString() };
             _musicSlider = new Slider(Vector2.Zero, UIScaler.Scale(SLIDER_DIMENSIONS), 0, 100, musicVolume);
-            _musicSlider.OnValueChanged += (sender, eventArgs) =>
+            _musicSlider.PropertyChanged += (sender, eventArgs) =>
             {
-                _soundManager.MusicVolume = eventArgs.Value / _musicSlider.MaxValue;
-                musicValue.Content = ((int)eventArgs.Value).ToString();
-                _configDatas.MusicVolume = (int)eventArgs.Value;
+                if (eventArgs.PropertyName == "Value")
+                {
+                    _soundManager.MusicVolume = _musicSlider.Value / _musicSlider.MaxValue;
+                    musicValue.Content = _musicSlider.Value.ToString();
+                    _configDatas.MusicVolume = _musicSlider.Value;
+                }
             };
             maxLabelWidth = Math.Max(maxLabelWidth, musicLabel.Dimensions.X);
 
@@ -273,11 +279,14 @@ namespace __RootNamespace__.Scenes
             var soundsValue = new Text(_optionFont, "100", PaletteColors.Options_Label)
             { Content = soundsVolume.ToString() };
             _soundsSlider = new Slider(Vector2.Zero, UIScaler.Scale(SLIDER_DIMENSIONS), 0, 100, soundsVolume);
-            _soundsSlider.OnValueChanged += (sender, eventArgs) =>
+            _soundsSlider.PropertyChanged += (sender, eventArgs) =>
             {
-                _soundManager.GlobalSoundVolume = eventArgs.Value / _soundsSlider.MaxValue;
-                soundsValue.Content = ((int)eventArgs.Value).ToString();
-                _configDatas.SoundsVolume = (int)eventArgs.Value;
+                if (eventArgs.PropertyName == "Value")
+                {
+                    _soundManager.GlobalSoundVolume = _soundsSlider.Value / _soundsSlider.MaxValue;
+                    soundsValue.Content = _soundsSlider.Value.ToString();
+                    _configDatas.SoundsVolume = _soundsSlider.Value;
+                }
             };
             maxLabelWidth = Math.Max(maxLabelWidth, soundsLabel.Dimensions.X);
 
