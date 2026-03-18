@@ -1,4 +1,7 @@
 <Solution>
+  <Folder Name="/Éléments de solution/">
+    <File Path="Directory.Build.props" />
+  </Folder>
   <Project Path="DinaGameEngine.Abstractions/DinaGameEngine.Abstractions.csproj" Id="b71bfb56-92b9-4095-a4ac-50abb52a5df0" />
   <Project Path="DinaGameEngine.Common/DinaGameEngine.Common.csproj" />
   <Project Path="DinaGameEngine.Models/DinaGameEngine.Models.csproj" />
