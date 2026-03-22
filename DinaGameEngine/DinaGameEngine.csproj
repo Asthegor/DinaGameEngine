@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <None Remove="Views\Button_Cross.png" />
+    <None Remove="Views\Icon.bmp" />
   </ItemGroup>
 
   <ItemGroup>
@@ -19,6 +20,10 @@
     <ProjectReference Include="..\DinaGameEngine.Models\DinaGameEngine.Models.csproj" />
     <ProjectReference Include="..\DinaGameEngine.Services\DinaGameEngine.Services.csproj" />
     <ProjectReference Include="..\DinaGameEngine.Templates\DinaGameEngine.Templates.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Views\Icon.bmp" />
   </ItemGroup>
 
   <ItemGroup>

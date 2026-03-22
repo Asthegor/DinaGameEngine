@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:DinaGameEngine.Views"
         xmlns:usercontrols="clr-namespace:DinaGameEngine.Views.UserControls"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="800" Icon="/Views/Icon.bmp">
     <Window.InputBindings>
         <KeyBinding Key="N" Modifiers="Ctrl" Command="{Binding MainMenuFileNewProjectCommand}"/>
         <KeyBinding Key="O" Modifiers="Ctrl" Command="{Binding MainMenuFileLoadCommand}"/>

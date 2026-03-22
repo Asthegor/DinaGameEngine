@@ -8,6 +8,9 @@
              xmlns:conv="clr-namespace:DinaGameEngine.Converters"
              mc:Ignorable="d"
              d:DesignHeight="60" d:DesignWidth="600">
+    <UserControl.Resources>
+        <conv:LocalizationConverter x:Key="Localization"/>
+    </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="4*"/> <!-- 40% -->
@@ -16,7 +19,7 @@
         </Grid.ColumnDefinitions>
 
         <TextBlock Grid.Column="0">
-            <Run FontFamily="Arial" Text="{Binding Label, Mode=OneWay}"/>
+            <Run FontFamily="Arial" Text="{Binding Label, Converter={StaticResource Localization}, Mode=OneWay}"/>
             <Run FontFamily="Arial" Text="("/>
             <Run FontFamily="Consolas" FontSize="11" Text="{Binding Key, Mode=OneWay}"/>
             <Run FontFamily="Arial" Text=")"/>

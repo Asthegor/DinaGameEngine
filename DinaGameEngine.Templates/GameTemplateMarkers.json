@@ -2,16 +2,16 @@
   {
     "key": "__SolutionName__",
     "source": "Name",
-    "label": "Nom de la solution"
+    "label": "Marker_SolutionName"
   },
   {
     "key": "__GameProjectName__",
     "source": "NameNoSpace",
-    "label": "Nom du projet"
+    "label": "Marker_ProjectName"
   },
   {
     "key": "__RootNamespace__",
     "source": "NameNoSpace",
-    "label": "Espace de nom racine"
+    "label": "Marker_RootNamespace"
   }
 ]

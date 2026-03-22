@@ -270,4 +270,13 @@
   <data name="Language_Title" xml:space="preserve">
     <value>Langue par défaut</value>
   </data>
+  <data name="Marker_SolutionName" xml:space="preserve">
+    <value>Nom de la solution</value>
+  </data>
+  <data name="Marker_ProjectName" xml:space="preserve">
+    <value>Nom du projet</value>
+  </data>
+  <data name="Marker_RootNamespace" xml:space="preserve">
+    <value>Espace de nom racine</value>
+  </data>
 </root>

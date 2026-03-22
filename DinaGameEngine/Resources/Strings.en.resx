@@ -270,4 +270,13 @@
   <data name="Language_Title" xml:space="preserve">
     <value>Default language</value>
   </data>
+  <data name="Marker_SolutionName" xml:space="preserve">
+    <value>Solution name</value>
+  </data>
+  <data name="Marker_ProjectName" xml:space="preserve">
+    <value>Project name</value>
+  </data>
+  <data name="Marker_RootNamespace" xml:space="preserve">
+    <value>Root Namespace</value>
+  </data>
 </root>

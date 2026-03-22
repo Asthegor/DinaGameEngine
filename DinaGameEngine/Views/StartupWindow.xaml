@@ -12,7 +12,7 @@
         ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
         Width="800"
-        Height="450">
+        Height="450" Icon="/Views/Icon.bmp">
     <ContentControl>
         <ContentControl.Style>
             <Style TargetType="ContentControl">
