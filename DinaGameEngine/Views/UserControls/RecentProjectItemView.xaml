@@ -4,113 +4,148 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DinaGameEngine.Views.UserControls"
+             xmlns:views="clr-namespace:DinaGameEngine.Views"
              xmlns:ext="clr-namespace:DinaGameEngine.Extensions"
              xmlns:conv="clr-namespace:DinaGameEngine.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="60" d:DesignWidth="750"
              Margin="0,2,0,2">
-    <Grid>
-        <Grid.InputBindings>
-            <MouseBinding MouseAction="LeftDoubleClick"
-                          Command="{Binding OpenRecentProjectCommand}"/>
-        </Grid.InputBindings>
-        
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="48"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="130"/>
-        </Grid.ColumnDefinitions>
+    <UserControl.Resources>
+        <conv:EqualityToBoolConverter x:Key="EqualityToBoolConverter"/>
+    </UserControl.Resources>
+    <Border CornerRadius="8" Padding="5">
+        <Border.Style>
+            <Style TargetType="Border">
+                <Setter Property="BorderThickness" Value="2"/>
+                <Setter Property="BorderBrush" Value="Transparent"/>
+                <Setter Property="Background" Value="White"/>
 
-        <Grid.ContextMenu>
-            <ContextMenu>
-                <ContextMenu.Resources>
-                    <conv:BoolToVisibilityConverter x:Key="BoolToVisibility"/>
-                </ContextMenu.Resources>
-                <MenuItem Header="{ext:Translate Key=ContextMenu_RemoveFromList}"
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="BorderBrush" Value="#E0E0E0"/>
+                        <Setter Property="Background" Value="#F9F9F9"/>
+                    </Trigger>
+
+                    <DataTrigger Value="True">
+                        <DataTrigger.Binding>
+                            <MultiBinding Converter="{StaticResource EqualityToBoolConverter}">
+                                <Binding Path="." />
+                                <Binding Path="DataContext.SelectedProject" RelativeSource="{RelativeSource AncestorType=Window}"/>
+                            </MultiBinding>
+                        </DataTrigger.Binding>
+                        <Setter Property="BorderBrush" Value="#0078D7"/>
+                        <Setter Property="Background" Value="#F0F7FF"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </Border.Style>
+
+        <Grid Background="Transparent">
+            <Grid.InputBindings>
+                <MouseBinding MouseAction="LeftDoubleClick"
+                          Command="{Binding OpenRecentProjectCommand}"/>
+                <MouseBinding MouseAction="LeftClick" 
+                              Command="{Binding DataContext.SelectProjectCommand, RelativeSource={RelativeSource AncestorType=views:StartupWindow}}"
+                              CommandParameter="{Binding}"/>
+            </Grid.InputBindings>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="48"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="130"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.ContextMenu>
+                <ContextMenu>
+                    <ContextMenu.Resources>
+                        <conv:BoolToVisibilityConverter x:Key="BoolToVisibility"/>
+                    </ContextMenu.Resources>
+                    <MenuItem Header="{ext:Translate Key=ContextMenu_RemoveFromList}"
                           Command="{Binding RemoveFromListCommand}" />
-                <MenuItem Header="{ext:Translate Key=ContextMenu_Unpin}"
+                    <MenuItem Header="{ext:Translate Key=ContextMenu_Unpin}"
                           Command="{Binding PinProjectCommand}"
                           Visibility="{Binding IsPinned, Converter={StaticResource BoolToVisibility}}"/>
-            </ContextMenu>
-        </Grid.ContextMenu>
-        
-        <Image Grid.Column="0"
+                </ContextMenu>
+            </Grid.ContextMenu>
+
+            <Image Grid.Column="0"
                Width="40" Height="40"
                HorizontalAlignment="Center"
                VerticalAlignment="Center"
                Source="{Binding IconPath, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
 
-        <StackPanel Grid.Column="1" VerticalAlignment="Center">
-            <TextBlock Text="{Binding Title, RelativeSource={RelativeSource AncestorType=UserControl}}"
+            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                <TextBlock Text="{Binding Title, RelativeSource={RelativeSource AncestorType=UserControl}}"
                        FontSize="15"/>
-            <TextBlock Text="{Binding Path, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                <TextBlock Text="{Binding Path, RelativeSource={RelativeSource AncestorType=UserControl}}"
                        FontSize="10" FontStyle="Italic"/>
-        </StackPanel>
-        <StackPanel Grid.Column="2" VerticalAlignment="Center" x:Name="PinStack">
-            <TextBlock Text="{Binding LastOpenedAt, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
-            <Grid>
-                <!-- Épingle normale : survol non-épinglé + état épinglé sans survol -->
-                <TextBlock x:Name="NormalPin" Text="📌" FontSize="14" FontFamily="Segoe UI Emoji" Cursor="Hand">
-                    <TextBlock.Style>
-                        <Style TargetType="TextBlock">
-                            <Setter Property="Foreground" Value="Transparent"/>
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding IsMouseOver, ElementName=PinStack}" Value="True">
-                                    <Setter Property="Foreground" Value="Gray"/>
-                                </DataTrigger>
-                                <MultiDataTrigger>
-                                    <MultiDataTrigger.Conditions>
-                                        <Condition Binding="{Binding IsMouseOver, ElementName=PinStack}" Value="True"/>
-                                        <Condition Binding="{Binding IsPinned, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="True"/>
-                                    </MultiDataTrigger.Conditions>
-                                    <Setter Property="Foreground" Value="Transparent"/>
-                                </MultiDataTrigger>
-                                <MultiDataTrigger>
-                                    <MultiDataTrigger.Conditions>
-                                        <Condition Binding="{Binding IsMouseOver, ElementName=PinStack}" Value="False"/>
-                                        <Condition Binding="{Binding IsPinned, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="True"/>
-                                    </MultiDataTrigger.Conditions>
-                                    <Setter Property="Foreground" Value="Red"/>
-                                </MultiDataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </TextBlock.Style>
-                    <TextBlock.InputBindings>
-                        <MouseBinding MouseAction="LeftClick" Command="{Binding PinProjectCommand}"/>
-                    </TextBlock.InputBindings>
-                </TextBlock>
+            </StackPanel>
+            <StackPanel Grid.Column="2" VerticalAlignment="Center" x:Name="PinStack">
+                <TextBlock Text="{Binding LastOpenedAt, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+                <Grid>
+                    <!-- Épingle normale : survol non-épinglé + état épinglé sans survol -->
+                    <TextBlock x:Name="NormalPin" Text="📌" FontSize="14" FontFamily="Segoe UI Emoji" Cursor="Hand">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Foreground" Value="Transparent"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsMouseOver, ElementName=PinStack}" Value="True">
+                                        <Setter Property="Foreground" Value="Gray"/>
+                                    </DataTrigger>
+                                    <MultiDataTrigger>
+                                        <MultiDataTrigger.Conditions>
+                                            <Condition Binding="{Binding IsMouseOver, ElementName=PinStack}" Value="True"/>
+                                            <Condition Binding="{Binding IsPinned, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="True"/>
+                                        </MultiDataTrigger.Conditions>
+                                        <Setter Property="Foreground" Value="Transparent"/>
+                                    </MultiDataTrigger>
+                                    <MultiDataTrigger>
+                                        <MultiDataTrigger.Conditions>
+                                            <Condition Binding="{Binding IsMouseOver, ElementName=PinStack}" Value="False"/>
+                                            <Condition Binding="{Binding IsPinned, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="True"/>
+                                        </MultiDataTrigger.Conditions>
+                                        <Setter Property="Foreground" Value="Red"/>
+                                    </MultiDataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                        <TextBlock.InputBindings>
+                            <MouseBinding MouseAction="LeftClick" Command="{Binding PinProjectCommand}"/>
+                        </TextBlock.InputBindings>
+                    </TextBlock>
 
-                <!-- Épingle retournée : survol d'un projet épinglé -->
-                <TextBlock x:Name="ReversedPin" Text="📌"
+                    <!-- Épingle retournée : survol d'un projet épinglé -->
+                    <TextBlock x:Name="ReversedPin" Text="📌"
                            FontSize="14" FontFamily="Segoe UI Emoji"
                            Cursor="Hand" RenderTransformOrigin="0.5,0.5">
-                    <TextBlock.RenderTransform>
-                        <ScaleTransform ScaleX="-1"/>
-                    </TextBlock.RenderTransform>
-                    <TextBlock.Style>
-                        <Style TargetType="TextBlock">
-                            <Setter Property="Foreground" Value="Transparent"/>
-                            <Style.Triggers>
-                                <MultiDataTrigger>
-                                    <MultiDataTrigger.Conditions>
-                                        <Condition Binding="{Binding IsMouseOver, ElementName=PinStack}" Value="True"/>
-                                        <Condition Binding="{Binding IsPinned, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="True"/>
-                                    </MultiDataTrigger.Conditions>
-                                    <Setter Property="Foreground" Value="Red"/>
-                                    <Setter Property="HorizontalAlignment" Value="Left"/>
-                                </MultiDataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </TextBlock.Style>
-                    <TextBlock.InputBindings>
-                        <MouseBinding MouseAction="LeftClick" Command="{Binding PinProjectCommand}"/>
-                    </TextBlock.InputBindings>
-                </TextBlock>
-            </Grid>
-        </StackPanel>
-        <Border Grid.ColumnSpan="3"
+                        <TextBlock.RenderTransform>
+                            <ScaleTransform ScaleX="-1"/>
+                        </TextBlock.RenderTransform>
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Foreground" Value="Transparent"/>
+                                <Style.Triggers>
+                                    <MultiDataTrigger>
+                                        <MultiDataTrigger.Conditions>
+                                            <Condition Binding="{Binding IsMouseOver, ElementName=PinStack}" Value="True"/>
+                                            <Condition Binding="{Binding IsPinned, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="True"/>
+                                        </MultiDataTrigger.Conditions>
+                                        <Setter Property="Foreground" Value="Red"/>
+                                        <Setter Property="HorizontalAlignment" Value="Left"/>
+                                    </MultiDataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                        <TextBlock.InputBindings>
+                            <MouseBinding MouseAction="LeftClick" Command="{Binding PinProjectCommand}"/>
+                        </TextBlock.InputBindings>
+                    </TextBlock>
+                </Grid>
+            </StackPanel>
+            <Border Grid.ColumnSpan="3"
                 VerticalAlignment="Bottom"
                 BorderBrush="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"
                 BorderThickness="0,0,0,1"/>
-    </Grid>
+        </Grid>
+    </Border>
 </UserControl>
