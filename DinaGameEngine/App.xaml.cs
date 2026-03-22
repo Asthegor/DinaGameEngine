@@ -1,4 +1,5 @@
 ﻿using DinaGameEngine.Abstractions;
+using DinaGameEngine.CodeGeneration;
 using DinaGameEngine.Common;
 using DinaGameEngine.Resources;
 using DinaGameEngine.Services;
@@ -20,10 +21,12 @@ namespace DinaGameEngine
 
             // Injection manuelle des dépendances
             IFileService fileService = new FileService();
+            IGeneratedFileChecker generatedFileChecker = new GeneratedFileChecker(fileService);
             ILogService logService = new LogService(fileService);
-            IDialogService dialogService = new DialogService();
             ITemplateExtractor templateExtractor = new TemplateExtractor(logService);
-            IProjectService projectService = new ProjectService(fileService, logService, templateExtractor);
+            ICodeGenerator codeGenerator = new CodeGenerator(fileService, logService, generatedFileChecker);
+            IProjectService projectService = new ProjectService(fileService, logService, templateExtractor, codeGenerator);
+            IDialogService dialogService = new DialogService();
 
             LocalizationManager.Register(typeof(Strings));
 
@@ -34,7 +37,8 @@ namespace DinaGameEngine
 
             viewModel.ProjectOpened += (sender, gameProjectModel) =>
             {
-                var mainViewModel = new MainViewModel(projectService, dialogService, fileService, logService, templateExtractor);
+                var mainViewModel = new MainViewModel(projectService, dialogService, fileService, logService, templateExtractor, codeGenerator, gameProjectModel);
+
                 var mainWindow = new MainWindow(mainViewModel);
                 mainWindow.Show();
                 startupWindow.Close();

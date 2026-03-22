@@ -18,5 +18,12 @@ namespace DinaGameEngine.Commands
 
         public bool CanExecute(object? parameter) => _canExecute?.Invoke(parameter) ?? true;
         public void Execute(object? parameter) => _execute(parameter);
+
+#pragma warning disable CA1822 // Marquer les membres comme étant static
+        public void RaiseCanExecuteChanged()
+#pragma warning restore CA1822 // Marquer les membres comme étant static
+        {
+            CommandManager.InvalidateRequerySuggested();
+        }
     }
 }

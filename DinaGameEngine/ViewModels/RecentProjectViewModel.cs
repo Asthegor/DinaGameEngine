@@ -48,6 +48,17 @@ namespace DinaGameEngine.ViewModels
                 OnPropertyChanged();
             }
         }
+        public string SolutionFolderPath
+        {
+            get => _model.SolutionFolderPath;
+            set
+            {
+                if (_model.SolutionFolderPath == value)
+                    return;
+                _model.SolutionFolderPath = value;
+                OnPropertyChanged();
+            }
+        }
         public DateTime LastOpenedAt
         {
             get

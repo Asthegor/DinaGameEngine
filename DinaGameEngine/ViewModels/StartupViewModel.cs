@@ -55,6 +55,7 @@ namespace DinaGameEngine.ViewModels
         {
             var appDirectory = _fileService.GetAppDataDirectory();
             var fullpath = _fileService.Combine(appDirectory, ProjectStructure.RecentProjectsFileName);
+            ProjectGroups.Clear();
 
             if (!_fileService.FileExists(fullpath))
             {
@@ -71,7 +72,6 @@ namespace DinaGameEngine.ViewModels
                 return;
             }
 
-            ProjectGroups.Clear();
 
             // Traitement des projets épinglés
             var pinnedProjects = listRecentProjects
@@ -168,6 +168,7 @@ namespace DinaGameEngine.ViewModels
             var listModels = listProjects.Select(p => new RecentProjectModel
             {
                 Name = p.Name,
+                SolutionFolderPath = p.SolutionFolderPath,
                 ProjectFolderPath = p.ProjectFolderPath,
                 LastOpenedAt = p.LastOpenedAt,
                 IsPinned = p.IsPinned,
@@ -184,7 +185,7 @@ namespace DinaGameEngine.ViewModels
         }
         private void OnProjectOpened(object? sender, ProjectOpenedEventArgs e)
         {
-            _logService.Info($"Ouverture du projet '{e.Project.Name}' réussie");
+            _logService.Info($"Ouverture du projet '{e.Project.SolutionName}' réussie");
             NotifyProjectOpened(e.Project);
         }
         private void OnProjectRemoved(object? sender, EventArgs e)
@@ -197,6 +198,7 @@ namespace DinaGameEngine.ViewModels
             var listModels = newListProjectGroups.Select(p => new RecentProjectModel
             {
                 Name = p.Name,
+                SolutionFolderPath = p.SolutionFolderPath,
                 ProjectFolderPath = p.ProjectFolderPath,
                 LastOpenedAt = p.LastOpenedAt,
                 IsPinned = p.IsPinned,
@@ -258,19 +260,19 @@ namespace DinaGameEngine.ViewModels
         private void OpenProject()
         {
             GameProjectModel? gameProjectModel;
-            string? projectFolderPath;
+            string? solutionFolderPath;
             if (SelectedProject != null)
             {
-                projectFolderPath = SelectedProject.ProjectFolderPath;
+                solutionFolderPath = SelectedProject.SolutionFolderPath;
             }
             else
             {
-                projectFolderPath = _dialogService.OpenFolderDialog(LocalizationManager.GetTranslation("Dialog_OpenProject"));
-                if (projectFolderPath == null)
+                solutionFolderPath = _dialogService.OpenFolderDialog(LocalizationManager.GetTranslation("Dialog_OpenProject"));
+                if (solutionFolderPath == null)
                     return; // L'utilisateur a annulé la commande
             }
 
-            gameProjectModel = _projectService.OpenProject(projectFolderPath);
+            gameProjectModel = _projectService.OpenProject(solutionFolderPath);
             if (gameProjectModel == null)
             {
                 _dialogService.ShowError(LocalizationManager.GetTranslation("Dialog_OpenProject"),
@@ -278,7 +280,7 @@ namespace DinaGameEngine.ViewModels
                 return; // Le dossier sélectionné ne contient pas de dichier 
             }
 
-            _logService.Info($"Ouverture du projet '{gameProjectModel.Name}' réussie");
+            _logService.Info($"Ouverture du projet '{gameProjectModel.SolutionName}' réussie");
             NotifyProjectOpened(gameProjectModel);
         }
 
@@ -368,10 +370,12 @@ namespace DinaGameEngine.ViewModels
         public RelayCommand ConfirmNewProjectCommand { get; }
         private async void ConfirmNewProject()
         {
+            var rootNamespaceMarker = Markers.First(m => m.Key == "__RootNamespace__");
             var newProjectModel = new NewProjectModel
             {
                 Name = NewProjectName,
-                ParentFolderPath = NewProjectParentFolder
+                ParentFolderPath = NewProjectParentFolder,
+                RootNamespace = rootNamespaceMarker.Value
             };
 
             var markers = Markers.Select(vm => new TemplateMarkerModel
@@ -396,7 +400,7 @@ namespace DinaGameEngine.ViewModels
 
             _dialogService.ShowInfo(
                 LocalizationManager.GetTranslation("CreatingProject_Title"),
-                LocalizationManager.GetTranslation("CreatingProject_Success", gameProjectModel.Name));
+                LocalizationManager.GetTranslation("CreatingProject_Success", gameProjectModel.SolutionName));
 
             CurrentState = StartupState.RecentProjects;
             NotifyProjectOpened(gameProjectModel);

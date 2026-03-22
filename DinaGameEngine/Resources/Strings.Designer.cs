@@ -142,6 +142,33 @@ namespace DinaGameEngine.Resources {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Choisissez la langue par défaut du projet.
+        /// </summary>
+        public static string Language_Label {
+            get {
+                return ResourceManager.GetString("Language_Label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Langue par défaut.
+        /// </summary>
+        public static string Language_Title {
+            get {
+                return ResourceManager.GetString("Language_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Valider.
+        /// </summary>
+        public static string Language_Validate {
+            get {
+                return ResourceManager.GetString("Language_Validate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Fichier.
         /// </summary>
         public static string MainMenu_File {

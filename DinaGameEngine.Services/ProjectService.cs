@@ -6,11 +6,12 @@ using System.Diagnostics;
 
 namespace DinaGameEngine.Services
 {
-    public class ProjectService(IFileService fileService, ILogService logService, ITemplateExtractor templateExtractor) : IProjectService
+    public class ProjectService(IFileService fileService, ILogService logService, ITemplateExtractor templateExtractor, ICodeGenerator codeGenerator) : IProjectService
     {
         private readonly IFileService _fileService = fileService;
         private readonly ILogService _logService = logService;
         private readonly ITemplateExtractor _templateExtractor = templateExtractor;
+        private readonly ICodeGenerator _codeGenerator = codeGenerator;
 
         public GameProjectModel? OpenProject(string projectPath)
         {
@@ -38,7 +39,8 @@ namespace DinaGameEngine.Services
             }
 
             gameProjectModel.LastOpenedAt = DateTime.Now;
-            _fileService.WriteAllText(filename, JsonHelper.Serialize(gameProjectModel));
+
+            UpdateJsonProjectFile(gameProjectModel);
 
             UpdateRecentProjects(gameProjectModel);
 
@@ -61,6 +63,7 @@ namespace DinaGameEngine.Services
                 var result = await Task.Run(() => _templateExtractor.Extract(TemplateType.GameProject, projectFolder, markers));
                 if (!result)
                     return null;
+
             }
             catch (Exception e)
             {
@@ -70,21 +73,35 @@ namespace DinaGameEngine.Services
                 return null;
             }
 
+            //var gameProjectModel = new GameProjectModel
+            //{
+            //    CreatedAt = DateTime.Now,
+            //    DinaVersion = GetDinaVersion(),
+            //    LastOpenedAt = DateTime.Now,
+            //    SolutionName = newProjectModel.Name,
+            //    ProjectName = newProjectModel.NameNoSpace,
+            //    RootPath = projectFolder,
+            //    RootNamespace = newProjectModel.RootNamespace
+            //};
+
+            var rootNamespaceMarker = markers.First(m => m.Key == "__RootNamespace__");
+            var solutionNameMarker = markers.First(m => m.Key == "__SolutionName__");
+            var gameProjectNameMarker = markers.First(m => m.Key == "__GameProjectName__");
             var gameProjectModel = new GameProjectModel
             {
                 CreatedAt = DateTime.Now,
                 DinaVersion = GetDinaVersion(),
                 LastOpenedAt = DateTime.Now,
-                Name = newProjectModel.Name,
-                RootPath = projectFolder
+                SolutionName = solutionNameMarker.Value,
+                ProjectName = gameProjectNameMarker.Value,
+                RootPath = projectFolder,
+                RootNamespace = rootNamespaceMarker.Value
             };
+            gameProjectModel.Scenes.Add(new SceneModel { Class = "GameScene", Key = "GameScene" });
 
-            var jsonSerialize = JsonHelper.Serialize(gameProjectModel);
-            var filename = _fileService.Combine(projectFolder, ProjectStructure.ProjectFileName);
-            _fileService.WriteAllText(filename, jsonSerialize);
+            UpdateJsonProjectFile(gameProjectModel);
 
             UpdateRecentProjects(gameProjectModel);
-
 
             return gameProjectModel;
         }
@@ -118,7 +135,7 @@ namespace DinaGameEngine.Services
                 {
                     recentProjectsList.AddRange(datas);
                     // Recherche et suppression du projet dans la liste
-                    var oldRecentProjectModel = recentProjectsList.Find(p => p.Name == gameProjectModel.Name && p.ProjectFolderPath == gameProjectModel.RootPath);
+                    var oldRecentProjectModel = recentProjectsList.Find(p => p.Name == gameProjectModel.SolutionName && p.SolutionFolderPath == gameProjectModel.RootPath);
                     if (oldRecentProjectModel != null)
                         recentProjectsList.Remove(oldRecentProjectModel);
                 }
@@ -127,7 +144,7 @@ namespace DinaGameEngine.Services
                     _logService.Warning($"Le fichier '{recentProjectsFileName}' est corrompu ou vide.");
                 }
             }
-            var recentProjectModel = CreateRecentProjectModel(gameProjectModel.Name, gameProjectModel.RootPath);
+            var recentProjectModel = CreateRecentProjectModel(gameProjectModel);
             recentProjectsList.Insert(0, recentProjectModel);
 
             // Limitation de la liste à 20 entrées
@@ -141,15 +158,23 @@ namespace DinaGameEngine.Services
             _logService.Info($"Mise à jour des projets récents effectuée.");
         }
 
-        private static RecentProjectModel CreateRecentProjectModel(string name, string projectFilePath)
+        private RecentProjectModel CreateRecentProjectModel(GameProjectModel gameProjectModel)
         {
             return new RecentProjectModel
             {
                 LastOpenedAt = DateTime.Now,
-                Name = name,
-                ProjectFolderPath = projectFilePath
+                Name = gameProjectModel.SolutionName,
+                SolutionFolderPath = gameProjectModel.RootPath,
+                ProjectFolderPath = _fileService.Combine(gameProjectModel.RootPath, gameProjectModel.ProjectName),
+                IconPath = _fileService.Combine(gameProjectModel.RootPath, gameProjectModel.ProjectName, ProjectStructure.IconFileName)
             };
         }
 
+        public void UpdateJsonProjectFile(GameProjectModel gameProjectModel)
+        {
+            var jsonSerialize = JsonHelper.Serialize(gameProjectModel);
+            var projectFileName = _fileService.Combine(gameProjectModel.RootPath, ProjectStructure.ProjectFileName);
+            _fileService.WriteAllText(projectFileName, jsonSerialize);
+        }
     }
 }

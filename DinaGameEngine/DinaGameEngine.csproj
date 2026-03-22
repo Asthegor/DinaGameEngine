@@ -14,6 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DinaGameEngine.CodeGeneration\DinaGameEngine.CodeGeneration.csproj" />
     <ProjectReference Include="..\DinaGameEngine.Common\DinaGameEngine.Common.csproj" />
     <ProjectReference Include="..\DinaGameEngine.Models\DinaGameEngine.Models.csproj" />
     <ProjectReference Include="..\DinaGameEngine.Services\DinaGameEngine.Services.csproj" />

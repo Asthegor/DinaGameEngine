@@ -4,9 +4,27 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DinaGameEngine.Views"
+        xmlns:ext="clr-namespace:DinaGameEngine.Extensions"
         mc:Ignorable="d"
-        Title="LanguageSelectionWindow" Height="450" Width="800">
+        Title="{ext:Translate Key=Language_Title}"
+        Height="200" Width="400">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0"
+                   Text="{ext:Translate Key=Language_Label}"/>
+        <ComboBox Grid.Row="1"
+                  ItemsSource="{Binding Languages}"
+                  SelectedItem="{Binding SelectedLanguage}"
+                  DisplayMemberPath="Name"/>
+
+        <Button Grid.Row="2"
+                Content="{ext:Translate Key=Language_Validate}"
+                Command="{Binding LanguageValidationCommand}"/>
+
     </Grid>
 </Window>

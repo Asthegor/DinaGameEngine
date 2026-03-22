@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <EmbeddedResource Remove="GameProject\Core\Resources\Strings.resx" />
     <Compile Remove="GameProject\Core\Datas\ConfigData.cs" />
     <Compile Remove="GameProject\Core\Keys\FontKeys.cs" />
     <Compile Remove="GameProject\Core\Keys\PaletteColors.cs" />
@@ -15,7 +14,6 @@
     <Compile Remove="GameProject\Core\Keys\ProjectSceneKeys.cs" />
     <Compile Remove="GameProject\Core\Keys\ProjectServiceKeys.cs" />
     <Compile Remove="GameProject\Core\Keys\ResolutionKeys.cs" />
-    <Compile Remove="GameProject\Core\Resources\Strings.Designer.cs" />
     <Compile Remove="GameProject\Scenes\MainMenuScene.cs" />
     <Compile Remove="GameProject\Scenes\OptionsMenuScene.cs" />
     <Compile Remove="GameProject\__GameProjectName__\Program.cs" />
@@ -26,7 +24,6 @@
     <None Remove="GameProject\.config\dotnet-tools.json" />
     <None Remove="GameProject\Assets\AssetsContent\AssetsContent.mgcb" />
     <None Remove="GameProject\Audio\AudioContent\AudioContent.mgcb" />
-    <None Remove="GameProject\Core\Resources\Strings.resx" />
     <None Remove="GameProject\Directory.Build.props" />
     <None Remove="GameProject\Fonts\FontContent\_1080p\Default.spritefont" />
     <None Remove="GameProject\Fonts\FontContent\_1440p\Default.spritefont" />
@@ -42,6 +39,10 @@
 
   <ItemGroup>
     <EmbeddedResource Include="GameProject\**\*" />
+    <Compile Remove="GameProject\Core\Resources\**" />
+    <EmbeddedResource Remove="GameProject\Core\Resources\**" />
+    <None Remove="GameProject\Core\Resources\**" />
+    <EmbeddedResource Remove="GameProject\__GameProjectName__\__GameProjectName__.cs" />
     <EmbeddedResource Include="GameTemplateMarkers.json" />
   </ItemGroup>
 

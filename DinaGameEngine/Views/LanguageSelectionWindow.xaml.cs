@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using DinaGameEngine.ViewModels;
+
+using System.Windows;
 
 namespace DinaGameEngine.Views
 {
@@ -7,9 +9,10 @@ namespace DinaGameEngine.Views
     /// </summary>
     public partial class LanguageSelectionWindow : Window
     {
-        public LanguageSelectionWindow()
+        public LanguageSelectionWindow(LanguageSelectionViewModel viewModel)
         {
             InitializeComponent();
+            DataContext = viewModel;
         }
     }
 }

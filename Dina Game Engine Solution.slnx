@@ -3,6 +3,7 @@
     <File Path="Directory.Build.props" />
   </Folder>
   <Project Path="DinaGameEngine.Abstractions/DinaGameEngine.Abstractions.csproj" Id="b71bfb56-92b9-4095-a4ac-50abb52a5df0" />
+  <Project Path="DinaGameEngine.CodeGeneration/DinaGameEngine.CodeGeneration.csproj" Id="2fc1a98a-d392-4ce5-854d-b538dba1e995" />
   <Project Path="DinaGameEngine.Common/DinaGameEngine.Common.csproj" />
   <Project Path="DinaGameEngine.Models/DinaGameEngine.Models.csproj" />
   <Project Path="DinaGameEngine.Services/DinaGameEngine.Services.csproj" />

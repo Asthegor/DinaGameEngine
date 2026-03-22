@@ -4,7 +4,9 @@ namespace DinaGameEngine.Abstractions
 {
     public interface IProjectService
     {
-        GameProjectModel? OpenProject(string projectPath);
-        Task<GameProjectModel?> CreateProject(NewProjectModel newProjectModel, List<TemplateMarkerModel> markers);
+        public GameProjectModel? OpenProject(string projectPath);
+        public Task<GameProjectModel?> CreateProject(NewProjectModel newProjectModel, List<TemplateMarkerModel> markers);
+
+        public void UpdateJsonProjectFile(GameProjectModel gameModelProject);
     }
 }
