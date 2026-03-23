@@ -6,6 +6,7 @@ using DinaGameEngine.Views;
 
 using System.Collections.ObjectModel;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace DinaGameEngine.ViewModels
 {
@@ -37,6 +38,9 @@ namespace DinaGameEngine.ViewModels
             GoToNewProjectCommand = new RelayCommand(_ => GoToNewProject());
 
             SelectProjectCommand = new RelayCommand(obj => SelectProject(obj));
+
+            FooterButtons = new ButtonBarViewModel();
+            UpdateFooterButtons();
 
             LoadRecentProjects();
         }
@@ -329,6 +333,7 @@ namespace DinaGameEngine.ViewModels
             {
                 SetProperty(ref _currentState, value);
                 OnPropertyChanged(nameof(WindowTitle));
+                UpdateFooterButtons();
             }
         }
 
@@ -441,6 +446,26 @@ namespace DinaGameEngine.ViewModels
         {
             if (obj is RecentProjectViewModel recentProjectViewModel)
                 SelectedProject = recentProjectViewModel;
+        }
+        public ButtonBarViewModel FooterButtons { get; }
+        private void UpdateFooterButtons()
+        {
+            FooterButtons.Buttons.Clear();
+            switch (CurrentState)
+            {
+                case StartupState.RecentProjects:
+                    FooterButtons.Buttons.Add(new ButtonDescriptor { Icon = "+", Label = LocalizationManager.GetTranslation("Startup_NewProject"), Command = GoToNewProjectCommand, Role = ButtonRole.Neutral });
+                    FooterButtons.Buttons.Add(new ButtonDescriptor { Icon = "📂", Label = LocalizationManager.GetTranslation("Startup_Open"), Command = OpenProjectCommand, Role = ButtonRole.Secondary });
+                    break;
+                case StartupState.NewProject:
+                    FooterButtons.Buttons.Add(new ButtonDescriptor { Label = LocalizationManager.GetTranslation("NewProject_Cancel"), Command = CancelNewProjectCommand, Role = ButtonRole.Secondary });
+                    FooterButtons.Buttons.Add(new ButtonDescriptor { Label = LocalizationManager.GetTranslation("NewProject_Next"), Command = GoToMarkerValidationCommand, Role = ButtonRole.Primary });
+                    break;
+                case StartupState.MarkerValidation:
+                    FooterButtons.Buttons.Add(new ButtonDescriptor { Label = LocalizationManager.GetTranslation("Markers_Previous"), Command = GoToNewProjectCommand, Role = ButtonRole.Secondary });
+                    FooterButtons.Buttons.Add(new ButtonDescriptor { Label = LocalizationManager.GetTranslation("Markers_Create"), Command = ConfirmNewProjectCommand, Role = ButtonRole.Primary });
+                    break;
+            }
         }
     }
 }

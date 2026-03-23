@@ -49,14 +49,13 @@ namespace DinaGameEngine.ViewModels
             if (string.IsNullOrEmpty(_gameProjectModel.DefaultLanguage) || !LanguageDefinitions.Languages.Any(l => l.Code == _gameProjectModel.DefaultLanguage))
             {
                 var vm = new LanguageSelectionViewModel(_logService, _projectService, _fileService, _gameProjectModel);
-                var window = new LanguageSelectionWindow(vm);
+                var window = new LanguageSelectionWindow
+                {  DataContext=vm };
                 vm.LanguageSelected += (s, e) => window.Close();
                 window.ShowDialog();
             }
             _codeGenerator.GenerateAllFiles(gameProjectModel);
             _codeGenerator.AddAllComponents(gameProjectModel);
-
-
 
             LoadScenes();
         }
@@ -119,7 +118,7 @@ namespace DinaGameEngine.ViewModels
         public RelayCommand MainMenuHelpShowNewsCommand { get; }
         public RelayCommand MainMenuHelpShowAboutCommand { get; }
 
-
+        public string WindowTitle => $"Dina Game Engine - {_gameProjectModel.SolutionName}";
 
         private static void LoadScenes()
         {

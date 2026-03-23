@@ -1,18 +1,15 @@
-﻿using DinaGameEngine.ViewModels;
-
-using System.Windows;
+﻿using DinaGameEngine.Themes;
 
 namespace DinaGameEngine.Views
 {
     /// <summary>
     /// Logique d'interaction pour MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : DinaWindow
     {
-        public MainWindow(MainViewModel viewModel)
+        public MainWindow()
         {
             InitializeComponent();
-            DataContext = viewModel;
         }
     }
 }

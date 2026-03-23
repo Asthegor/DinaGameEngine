@@ -115,11 +115,47 @@ namespace DinaGameEngine.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Annuler.
+        /// </summary>
+        public static string Dialog_Cancel {
+            get {
+                return ResourceManager.GetString("Dialog_Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Non.
+        /// </summary>
+        public static string Dialog_No {
+            get {
+                return ResourceManager.GetString("Dialog_No", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to OK.
+        /// </summary>
+        public static string Dialog_OK {
+            get {
+                return ResourceManager.GetString("Dialog_OK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ouvrir un projet.
         /// </summary>
         public static string Dialog_OpenProject {
             get {
                 return ResourceManager.GetString("Dialog_OpenProject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Oui.
+        /// </summary>
+        public static string Dialog_Yes {
+            get {
+                return ResourceManager.GetString("Dialog_Yes", resourceCulture);
             }
         }
         

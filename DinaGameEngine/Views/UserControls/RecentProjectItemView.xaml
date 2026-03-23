@@ -16,7 +16,7 @@
     <Border CornerRadius="10" Padding="5">
         <Border.Style>
             <Style TargetType="Border">
-                <Setter Property="BorderThickness" Value="2"/>
+                <Setter Property="BorderThickness" Value="1"/>
                 <Setter Property="BorderBrush" Value="Transparent"/>
                 <Setter Property="Background" Value="White"/>
 
@@ -33,8 +33,8 @@
                                 <Binding Path="DataContext.SelectedProject" RelativeSource="{RelativeSource AncestorType=Window}"/>
                             </MultiBinding>
                         </DataTrigger.Binding>
-                        <Setter Property="BorderBrush" Value="#0078D7"/>
-                        <Setter Property="Background" Value="#F0F7FF"/>
+                        <Setter Property="BorderBrush" Value="#FFBF28FF"/>
+                        <Setter Property="Background" Value="#3FF0D0FF"/>
                         <Setter Property="Border.Effect">
                             <Setter.Value>
                                 <DropShadowEffect BlurRadius="10" ShadowDepth="2" Opacity="0.2" Color="Black"/>
@@ -105,7 +105,7 @@
 
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding IsPinned, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="True">
-                                        <Setter Property="Foreground" Value="#0078D7"/>
+                                        <Setter Property="Foreground" Value="DarkViolet"/>
                                         <Setter Property="Opacity" Value="1"/>
                                     </DataTrigger>
 

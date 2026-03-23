@@ -1,5 +1,6 @@
 ﻿using DinaGameEngine.Abstractions;
 using DinaGameEngine.Common;
+using DinaGameEngine.Views;
 
 using Microsoft.Win32;
 
@@ -32,21 +33,21 @@ namespace DinaGameEngine.WPFServices
 
         public void ShowError(string title, string message)
         {
-            MessageBox.Show(message, title, MessageBoxButton.OK, MessageBoxImage.Error);
+            DialogWindow.Show(message, title, DialogIcon.Error, DialogButtons.OK);
         }
 
         public void ShowInfo(string title, string message)
         {
-            MessageBox.Show(message, title, MessageBoxButton.OK, MessageBoxImage.Information);
+            DialogWindow.Show(message, title, DialogIcon.Info, DialogButtons.OK);
         }
 
         public MessageResult ShowMessageDialog(string title, string message)
         {
-            var messageBoxResult = MessageBox.Show(message, title, MessageBoxButton.YesNoCancel);
-            return messageBoxResult switch
+            var dialogResult = DialogWindow.Show(message, title, DialogIcon.None, DialogButtons.YesNo);
+            return dialogResult switch
             {
-                MessageBoxResult.Yes => MessageResult.Yes,
-                MessageBoxResult.No => MessageResult.No,
+                DialogResult.Yes => MessageResult.Yes,
+                DialogResult.No => MessageResult.No,
                 _ => MessageResult.Cancel
             };
         }

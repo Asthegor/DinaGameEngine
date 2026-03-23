@@ -1,18 +1,16 @@
-﻿using DinaGameEngine.ViewModels;
-
-using System.Windows;
+﻿using DinaGameEngine.Themes;
+using DinaGameEngine.ViewModels;
 
 namespace DinaGameEngine.Views
 {
     /// <summary>
     /// Logique d'interaction pour LanguageSelectionWindow.xaml
     /// </summary>
-    public partial class LanguageSelectionWindow : Window
+    public partial class LanguageSelectionWindow : DinaWindow
     {
-        public LanguageSelectionWindow(LanguageSelectionViewModel viewModel)
+        public LanguageSelectionWindow()
         {
             InitializeComponent();
-            DataContext = viewModel;
         }
     }
 }

@@ -14,11 +14,11 @@ using System.Windows.Shapes;
 namespace DinaGameEngine.Views.UserControls
 {
     /// <summary>
-    /// Logique d'interaction pour ButtonsBarView.xaml
+    /// Interaction logic for ButtonBarView.xaml
     /// </summary>
-    public partial class ButtonsBarView : UserControl
+    public partial class ButtonBarView : UserControl
     {
-        public ButtonsBarView()
+        public ButtonBarView()
         {
             InitializeComponent();
         }

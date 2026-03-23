@@ -19,7 +19,7 @@
                                 <DataTemplate>
                                     <local:RecentProjectItemView IconPath="{Binding IconPath}"
                                                                  Title="{Binding Name}"
-                                                                 Path="{Binding ProjectFolderPath}"
+                                                                 Path="{Binding SolutionFolderPath}"
                                                                  LastOpenedAt="{Binding LastOpenedAt, StringFormat='{}{0:yyyy/MM/dd HH:mm}'}"
                                                                  IsPinned="{Binding IsPinned}"/>
                                 </DataTemplate>

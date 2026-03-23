@@ -282,4 +282,16 @@
   <data name="Startup_LastAccess" xml:space="preserve">
     <value>Dernier accès :</value>
   </data>
+  <data name="Dialog_OK" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="Dialog_Cancel" xml:space="preserve">
+    <value>Annuler</value>
+  </data>
+  <data name="Dialog_Yes" xml:space="preserve">
+    <value>Oui</value>
+  </data>
+  <data name="Dialog_No" xml:space="preserve">
+    <value>Non</value>
+  </data>
 </root>

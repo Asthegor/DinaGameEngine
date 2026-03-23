@@ -2,10 +2,9 @@
 using DinaGameEngine.Commands;
 using DinaGameEngine.Common;
 using DinaGameEngine.Models;
-using DinaGameEngine.Services;
 
-using System.ComponentModel;
 using System.Globalization;
+using System.Windows;
 
 namespace DinaGameEngine.ViewModels
 {
@@ -27,8 +26,16 @@ namespace DinaGameEngine.ViewModels
             Languages = LanguageDefinitions.Languages;
             SelectedLanguage = Languages.FirstOrDefault(l => l.Code == CultureInfo.CurrentUICulture.TwoLetterISOLanguageName, Languages[0]);
 
-            LanguageValidationCommand = new RelayCommand(execute: _ => ValidateLanguage(), 
+            LanguageValidationCommand = new RelayCommand(execute: _ => ValidateLanguage(),
                                                          canExecute: _ => SelectedLanguage != null);
+
+            FooterButtons = new ButtonBarViewModel
+            {
+                HorizontalAlignment = HorizontalAlignment.Center,
+                ButtonHeight = double.NaN,
+                ButtonPadding = new Thickness(16, 8, 16, 8),
+            };
+            UpdateFooterButtons();
         }
 
         public IReadOnlyList<LanguageDefinition> Languages { get; }
@@ -65,6 +72,13 @@ namespace DinaGameEngine.ViewModels
 
             _projectService.UpdateJsonProjectFile(_gameProjectModel);
             LanguageSelected?.Invoke(this, selectedLanguageCode);
+        }
+
+        public ButtonBarViewModel FooterButtons { get; }
+        private void UpdateFooterButtons()
+        {
+            FooterButtons.Buttons.Clear();
+            FooterButtons.Buttons.Add(new ButtonDescriptor { Label = LocalizationManager.GetTranslation("Language_Validate"), Command = LanguageValidationCommand, Role = ButtonRole.Primary });
         }
     }
 }
