@@ -9,7 +9,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![.NET](https://img.shields.io/badge/.NET-10.0-512BD4)](https://dotnet.microsoft.com/)
 [![MonoGame](https://img.shields.io/badge/MonoGame-3.8.4-E73C00)](https://www.monogame.net/)
-[![Version](https://img.shields.io/badge/version-0.2.1-blue)](https://github.com/Asthegor/DinaGameEngine/releases)
+[![Version](https://img.shields.io/github/v/tag/Asthegor/DinaGameEngine?label=version)](https://github.com/Asthegor/DinaGameEngine/releases)
 
 </div>
 
