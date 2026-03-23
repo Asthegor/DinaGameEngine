@@ -7,51 +7,27 @@
              xmlns:ext="clr-namespace:DinaGameEngine.Extensions"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-
-        <ScrollViewer Grid.Row="0">
-            <ItemsControl ItemsSource="{Binding ProjectGroups}">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <Expander Header="{Binding SectionName}"
-                                  IsExpanded="{Binding IsExpanded}"
-                                  Margin="4,4,4,0">
-                            <ItemsControl ItemsSource="{Binding Projects}">
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <local:RecentProjectItemView IconPath="{Binding IconPath}"
-                                                                     Title="{Binding Name}"
-                                                                     Path="{Binding ProjectFolderPath}"
-                                                                     LastOpenedAt="{Binding LastOpenedAt, StringFormat='{}{0:yyyy/MM/dd HH:mm}'}"
-                                                                     IsPinned="{Binding IsPinned}"/>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
-                        </Expander>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-        </ScrollViewer>
-
-        <!-- Footer -->
-        <Grid Grid.Row="1" Margin="0,8,0,12">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-
-            <Button Grid.Column="0" 
-                    Content="{ext:Translate Key=Startup_NewProject}"
-                    Margin="16,0,8,0"
-                    Command="{Binding NewProjectCommand}"/>
-            <Button Grid.Column="1"
-                    Content="{ext:Translate Key=Startup_Open}"
-                    Margin="8,0,16,0"
-                    Command="{Binding OpenProjectCommand}"/>
-        </Grid>
-    </Grid>
+    <ScrollViewer Grid.Row="0" Background="Transparent">
+        <ItemsControl ItemsSource="{Binding ProjectGroups}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Expander Header="{Binding SectionName}"
+                              IsExpanded="{Binding IsExpanded}"
+                              Margin="4,4,4,0">
+                        <ItemsControl ItemsSource="{Binding Projects}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <local:RecentProjectItemView IconPath="{Binding IconPath}"
+                                                                 Title="{Binding Name}"
+                                                                 Path="{Binding ProjectFolderPath}"
+                                                                 LastOpenedAt="{Binding LastOpenedAt, StringFormat='{}{0:yyyy/MM/dd HH:mm}'}"
+                                                                 IsPinned="{Binding IsPinned}"/>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </Expander>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </ScrollViewer>
 </UserControl>

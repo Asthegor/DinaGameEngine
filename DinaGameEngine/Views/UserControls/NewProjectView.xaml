@@ -3,78 +3,117 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:DinaGameEngine.Views.UserControls"
              xmlns:ext="clr-namespace:DinaGameEngine.Extensions"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
+    <UserControl.Resources>
+
+        <Style x:Key="ModernTextBoxStyle" TargetType="TextBox">
+            <Setter Property="SnapsToDevicePixels" Value="True"/>
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="Padding" Value="8,6"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border x:Name="border"
+                            Background="White"
+                            BorderBrush="#E0E0E0"
+                            BorderThickness="1"
+                            CornerRadius="4">
+                            <ScrollViewer x:Name="PART_ContentHost" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="DarkViolet"/>
+                            </Trigger>
+
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="IsFocused" Value="True"/>
+                                    <Condition Property="IsReadOnly" Value="False"/>
+                                </MultiTrigger.Conditions>
+                                <Setter TargetName="border" Property="BorderBrush" Value="OrangeRed"/>
+                                <Setter TargetName="border" Property="BorderThickness" Value="2"/>
+                            </MultiTrigger>
+
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="IsFocused" Value="True"/>
+                                    <Condition Property="IsReadOnly" Value="True"/>
+                                </MultiTrigger.Conditions>
+                                <Setter TargetName="border" Property="BorderBrush" Value="DarkViolet"/>
+                                <Setter TargetName="border" Property="BorderThickness" Value="2"/>
+                            </MultiTrigger>
+
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="border" Property="Background" Value="#F9F9F9"/>
+                                <Setter Property="Foreground" Value="DimGray"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="FieldLabelStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="DimGray"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Margin" Value="0,0,0,4"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+        </Style>
+
+    </UserControl.Resources>
+
+    <Grid Margin="25">
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="0">
+        <TextBlock Grid.Row="0" Text="{ext:Translate Key=NewProject_Title}" FontSize="22" FontWeight="Light" Foreground="#333" 
+                   Margin="0,0,0,25"/>
+
+        <StackPanel Grid.Row="1" Margin="0,0,0,20">
+            <TextBlock Text="{ext:Translate Key=NewProject_Name}" Style="{StaticResource FieldLabelStyle}"/>
+            <TextBox Text="{Binding DataContext.NewProjectName, RelativeSource={RelativeSource AncestorType=UserControl}}" 
+                     Style="{StaticResource ModernTextBoxStyle}"/>
+        </StackPanel>
+
+        <Grid Grid.Row="2" Margin="0,0,0,25">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" Text="{ext:Translate Key=NewProject_Location}" Style="{StaticResource FieldLabelStyle}"/>
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBox Grid.Column="0" IsReadOnly="True" 
+                         Text="{Binding DataContext.NewProjectParentFolder, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                         Style="{StaticResource ModernTextBoxStyle}"/>
 
-            <Grid Grid.Row="0" Margin="16">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0" Text="{ext:Translate Key=NewProject_Name}"/>
-                <TextBox Grid.Row="1" Text="{Binding DataContext.NewProjectName, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
-            </Grid>
-
-            <Grid Grid.Row="1" Margin="16">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0" Text="{ext:Translate Key=NewProject_Location}"/>
-                <Grid Grid.Row="1">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-
-                    <TextBox Grid.Column="0"
-                         IsReadOnly="True"
-                         Text="{Binding DataContext.NewProjectParentFolder, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
-                    <Button Grid.Column="1"
-                        Content="{ext:Translate Key=NewProject_Browse}"
-                        Command="{Binding DataContext.BrowseFolderCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
-                </Grid>
-            </Grid>
-            <Grid Grid.Row="2" Margin="16">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0" Text="{ext:Translate Key=NewProject_Preview}"/>
-                <TextBlock Grid.Row="1" Text="{Binding DataContext.NewProjectFolderPreview, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+                <Button Grid.Column="1" Margin="10,0,0,0"
+                        Content="..." 
+                        Command="{Binding DataContext.BrowseFolderCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                        Style="{DynamicResource GhostFooterButton}" 
+                        Width="40"
+                        BorderBrush="DarkViolet" 
+                        Foreground="DarkViolet"
+                        Tag="#F3E5F5"/>
             </Grid>
         </Grid>
 
-        <!-- Footer -->
-        <Grid Grid.Row="1" Margin="0,8,0,12">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-
-            <Button Grid.Column="0" 
-                    Content="{ext:Translate Key=NewProject_Cancel}"
-                    Margin="16,0,8,0"
-                    Command="{Binding DataContext.CancelNewProjectCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
-            <Button Grid.Column="1"
-                    Content="{ext:Translate Key=NewProject_Next}"
-                    Margin="8,0,16,0"
-                    Command="{Binding DataContext.GoToMarkerValidationCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
-        </Grid>
-
+        <Border Grid.Row="3" Background="#F9F9F9" BorderBrush="#EAEAEA" BorderThickness="1" CornerRadius="6" Padding="15" VerticalAlignment="Top">
+            <StackPanel>
+                <TextBlock Text="{ext:Translate Key=NewProject_Preview}" Style="{StaticResource FieldLabelStyle}"/>
+                <TextBlock Text="{Binding DataContext.NewProjectFolderPreview, RelativeSource={RelativeSource AncestorType=UserControl}}" 
+                           Foreground="DarkViolet" FontSize="13" FontWeight="Medium" TextWrapping="Wrap" Margin="0,5,0,0" FontFamily="Consolas"/>
+            </StackPanel>
+        </Border>
     </Grid>
 </UserControl>

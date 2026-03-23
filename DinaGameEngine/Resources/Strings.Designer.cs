@@ -466,6 +466,15 @@ namespace DinaGameEngine.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Dernier accès :.
+        /// </summary>
+        public static string Startup_LastAccess {
+            get {
+                return ResourceManager.GetString("Startup_LastAccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to La semaine dernière.
         /// </summary>
         public static string Startup_LastWeek {

@@ -279,4 +279,7 @@
   <data name="Marker_RootNamespace" xml:space="preserve">
     <value>Root Namespace</value>
   </data>
+  <data name="Startup_LastAccess" xml:space="preserve">
+    <value>Last access:</value>
+  </data>
 </root>

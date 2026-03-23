@@ -13,7 +13,7 @@
     <UserControl.Resources>
         <conv:EqualityToBoolConverter x:Key="EqualityToBoolConverter"/>
     </UserControl.Resources>
-    <Border CornerRadius="8" Padding="5">
+    <Border CornerRadius="10" Padding="5">
         <Border.Style>
             <Style TargetType="Border">
                 <Setter Property="BorderThickness" Value="2"/>
@@ -35,6 +35,11 @@
                         </DataTrigger.Binding>
                         <Setter Property="BorderBrush" Value="#0078D7"/>
                         <Setter Property="Background" Value="#F0F7FF"/>
+                        <Setter Property="Border.Effect">
+                            <Setter.Value>
+                                <DropShadowEffect BlurRadius="10" ShadowDepth="2" Opacity="0.2" Color="Black"/>
+                            </Setter.Value>
+                        </Setter>
                     </DataTrigger>
                 </Style.Triggers>
             </Style>
@@ -52,7 +57,7 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="48"/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="130"/>
+                <ColumnDefinition Width="160"/>
             </Grid.ColumnDefinitions>
 
             <Grid.ContextMenu>
@@ -80,72 +85,59 @@
                 <TextBlock Text="{Binding Path, RelativeSource={RelativeSource AncestorType=UserControl}}"
                        FontSize="10" FontStyle="Italic"/>
             </StackPanel>
-            <StackPanel Grid.Column="2" VerticalAlignment="Center" x:Name="PinStack">
-                <TextBlock Text="{Binding LastOpenedAt, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
-                <Grid>
-                    <!-- Épingle normale : survol non-épinglé + état épinglé sans survol -->
-                    <TextBlock x:Name="NormalPin" Text="📌" FontSize="14" FontFamily="Segoe UI Emoji" Cursor="Hand">
+            <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0">
+
+                <StackPanel Orientation="Vertical" Margin="0,0,10,0">
+                    <ContentControl Content="{ext:Translate Key=Startup_LastAccess}" 
+                                    Foreground="Gray" 
+                                    FontSize="11" 
+                                    Margin="0,0,5,0"/>
+                    <TextBlock Text="{Binding LastOpenedAt, RelativeSource={RelativeSource AncestorType=UserControl}}" 
+                               Foreground="Gray" 
+                               FontSize="11"/>
+                </StackPanel>
+                <Grid x:Name="PinGrid" Cursor="Hand" Background="Transparent">
+                    <TextBlock x:Name="PinIcon" Text="📌" FontSize="18" VerticalAlignment="Center">
                         <TextBlock.Style>
                             <Style TargetType="TextBlock">
-                                <Setter Property="Foreground" Value="Transparent"/>
+                                <Setter Property="Foreground" Value="#CCCCCC"/>
+                                <Setter Property="Opacity" Value="0.5"/>
+
                                 <Style.Triggers>
-                                    <DataTrigger Binding="{Binding IsMouseOver, ElementName=PinStack}" Value="True">
-                                        <Setter Property="Foreground" Value="Gray"/>
+                                    <DataTrigger Binding="{Binding IsPinned, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="True">
+                                        <Setter Property="Foreground" Value="#0078D7"/>
+                                        <Setter Property="Opacity" Value="1"/>
                                     </DataTrigger>
+
                                     <MultiDataTrigger>
                                         <MultiDataTrigger.Conditions>
-                                            <Condition Binding="{Binding IsMouseOver, ElementName=PinStack}" Value="True"/>
-                                            <Condition Binding="{Binding IsPinned, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="True"/>
+                                            <Condition Binding="{Binding IsMouseOver, ElementName=PinGrid}" Value="True"/>
+                                            <Condition Binding="{Binding IsPinned, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="False"/>
                                         </MultiDataTrigger.Conditions>
-                                        <Setter Property="Foreground" Value="Transparent"/>
+                                        <Setter Property="Foreground" Value="Orange"/>
+                                        <Setter Property="Opacity" Value="1"/>
                                     </MultiDataTrigger>
+
                                     <MultiDataTrigger>
                                         <MultiDataTrigger.Conditions>
-                                            <Condition Binding="{Binding IsMouseOver, ElementName=PinStack}" Value="False"/>
+                                            <Condition Binding="{Binding IsMouseOver, ElementName=PinGrid}" Value="True"/>
                                             <Condition Binding="{Binding IsPinned, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="True"/>
                                         </MultiDataTrigger.Conditions>
                                         <Setter Property="Foreground" Value="Red"/>
+                                        <Setter Property="Opacity" Value="1"/>
                                     </MultiDataTrigger>
                                 </Style.Triggers>
                             </Style>
                         </TextBlock.Style>
-                        <TextBlock.InputBindings>
-                            <MouseBinding MouseAction="LeftClick" Command="{Binding PinProjectCommand}"/>
-                        </TextBlock.InputBindings>
                     </TextBlock>
 
-                    <!-- Épingle retournée : survol d'un projet épinglé -->
-                    <TextBlock x:Name="ReversedPin" Text="📌"
-                           FontSize="14" FontFamily="Segoe UI Emoji"
-                           Cursor="Hand" RenderTransformOrigin="0.5,0.5">
-                        <TextBlock.RenderTransform>
-                            <ScaleTransform ScaleX="-1"/>
-                        </TextBlock.RenderTransform>
-                        <TextBlock.Style>
-                            <Style TargetType="TextBlock">
-                                <Setter Property="Foreground" Value="Transparent"/>
-                                <Style.Triggers>
-                                    <MultiDataTrigger>
-                                        <MultiDataTrigger.Conditions>
-                                            <Condition Binding="{Binding IsMouseOver, ElementName=PinStack}" Value="True"/>
-                                            <Condition Binding="{Binding IsPinned, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="True"/>
-                                        </MultiDataTrigger.Conditions>
-                                        <Setter Property="Foreground" Value="Red"/>
-                                        <Setter Property="HorizontalAlignment" Value="Left"/>
-                                    </MultiDataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </TextBlock.Style>
-                        <TextBlock.InputBindings>
+                    <Border Background="Transparent" Width="30" Height="30">
+                        <Border.InputBindings>
                             <MouseBinding MouseAction="LeftClick" Command="{Binding PinProjectCommand}"/>
-                        </TextBlock.InputBindings>
-                    </TextBlock>
+                        </Border.InputBindings>
+                    </Border>
                 </Grid>
             </StackPanel>
-            <Border Grid.ColumnSpan="3"
-                VerticalAlignment="Bottom"
-                BorderBrush="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"
-                BorderThickness="0,0,0,1"/>
         </Grid>
     </Border>
 </UserControl>

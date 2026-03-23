@@ -10,36 +10,71 @@
              d:DesignHeight="60" d:DesignWidth="600">
     <UserControl.Resources>
         <conv:LocalizationConverter x:Key="Localization"/>
+
+        <Style x:Key="MarkerTextBoxStyle" TargetType="TextBox">
+            <Setter Property="SnapsToDevicePixels" Value="True"/>
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="Padding" Value="8,6"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border x:Name="border" Background="White" BorderBrush="#E0E0E0" BorderThickness="1" CornerRadius="4">
+                            <ScrollViewer x:Name="PART_ContentHost" Focusable="false"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="DarkViolet"/>
+                            </Trigger>
+                            <Trigger Property="IsFocused" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="OrangeRed"/>
+                                <Setter TargetName="border" Property="BorderThickness" Value="2"/>
+                            </Trigger>
+                            <DataTrigger Binding="{Binding IsEmpty}" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="Red"/>
+                                <Setter TargetName="border" Property="BorderThickness" Value="2"/>
+                            </DataTrigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </UserControl.Resources>
-    <Grid>
+
+    <Grid Margin="0,4">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="4*"/> <!-- 40% -->
-            <ColumnDefinition Width="32"/>
-            <ColumnDefinition Width="6*"/> <!-- 60% -->
+            <ColumnDefinition Width="4*"/>
+            <ColumnDefinition Width="40"/>
+            <ColumnDefinition Width="6*"/>
         </Grid.ColumnDefinitions>
 
-        <TextBlock Grid.Column="0">
-            <Run FontFamily="Arial" Text="{Binding Label, Converter={StaticResource Localization}, Mode=OneWay}"/>
-            <Run FontFamily="Arial" Text="("/>
-            <Run FontFamily="Consolas" FontSize="11" Text="{Binding Key, Mode=OneWay}"/>
-            <Run FontFamily="Arial" Text=")"/>
+        <TextBlock Grid.Column="0" VerticalAlignment="Center">
+            <Run Text="{Binding Label, Converter={StaticResource Localization}, Mode=OneWay}" 
+                 Foreground="DimGray" 
+                 FontWeight="SemiBold"/>
+            
+            <Run Text=" (" Foreground="Gray" FontSize="11"/>
+            
+            <Run Text="{Binding Key, Mode=OneWay}" 
+                 FontFamily="Consolas" 
+                 FontSize="11" 
+                 Foreground="Gray"/>
+            
+            <Run Text=")" Foreground="Gray" FontSize="11"/>
         </TextBlock>
+
         <Button Grid.Column="1"
-                FontFamily="Segoe Fluent Icons" Content="&#xE72C;"
+                Style="{DynamicResource GhostFooterButton}"
                 Command="{Binding ResetMarkerCommand}"
-                Visibility="{Binding IsNotDefaultValue, Converter={StaticResource BoolToVisibility}}"/>
+                Visibility="{Binding IsNotDefaultValue, Converter={StaticResource BoolToVisibility}}"
+                Width="30" Height="30" FontSize="12"
+                FontFamily="Segoe Fluent Icons" 
+                Content="&#xE72C;" 
+                Tag="#F3E5F5" BorderBrush="DarkViolet" Foreground="DarkViolet"/>
+
         <TextBox Grid.Column="2"
-                 BorderThickness="4"
-                 Text="{Binding Value}">
-            <TextBox.Style>
-                <Style TargetType="TextBox">
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding IsEmpty}" Value="True">
-                            <Setter Property="BorderBrush" Value="Red"/>
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </TextBox.Style>
-        </TextBox>
+                 Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}"
+                 Style="{StaticResource MarkerTextBoxStyle}"/>
     </Grid>
+    
 </UserControl>

@@ -7,61 +7,39 @@
              xmlns:ext="clr-namespace:DinaGameEngine.Extensions"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
+    <Grid Margin="20">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="0" Margin="25">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-            <TextBlock Grid.Row="0"
-                       Text="{ext:Translate Key=Markers_FolderPreview}"
-                       Margin="0,8,16,0"/>
-            <TextBlock Grid.Row="1" 
-                       Text="{Binding NewProjectFolderPreview}"
-                       Margin="0,4,16,8"
-                       FontStyle="Italic"/>
-        </Grid>
-        
-        <Grid Grid.Row="1" Margin="25,0,25,5">
+        <Border Grid.Row="0" Background="#F9F9F9" BorderBrush="#EAEAEA" BorderThickness="1" CornerRadius="6" Padding="15" Margin="0,0,0,20">
+            <StackPanel>
+                <TextBlock Text="{ext:Translate Key=Markers_FolderPreview}" Foreground="DimGray" FontSize="11" FontWeight="Bold"/> 
+                <TextBlock Text="{Binding NewProjectFolderPreview}"
+                           Foreground="DarkViolet" FontSize="13" FontWeight="Medium" FontFamily="Consolas" Margin="0,5,0,0"/>
+            </StackPanel>
+        </Border>
+
+        <Grid Grid.Row="1" Margin="5,0,5,10">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="4*"/> <!-- 40% -->
-                <ColumnDefinition Width="32"/>
-                <ColumnDefinition Width="6*"/> <!-- 60% -->
+                <ColumnDefinition Width="4*"/>
+                <ColumnDefinition Width="40"/>
+                <ColumnDefinition Width="6*"/>
             </Grid.ColumnDefinitions>
-            <TextBlock Grid.Column="0" Text="{ext:Translate Key=Markers_LabelHeader}"/>
-            <TextBlock Grid.Column="2" Text="{ext:Translate Key=Markers_ValueHeader}"/>
+            <TextBlock Grid.Column="0" Text="{ext:Translate Key=Markers_LabelHeader}" Foreground="DimGray" FontSize="11" FontWeight="Bold"/>
+            <TextBlock Grid.Column="2" Text="{ext:Translate Key=Markers_ValueHeader}" Foreground="DimGray" FontSize="11" FontWeight="Bold"/>
         </Grid>
 
-        <ScrollViewer Grid.Row="2" Margin="25,0,25,5">
+        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
             <ItemsControl ItemsSource="{Binding Markers}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <local:MarkerItemView/>
+                        <local:MarkerItemView Margin="0,2"/>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
         </ScrollViewer>
-        
-        <Grid Grid.Row="3" Margin="0,8,0,12">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <Button Grid.Column="0"
-            Content="{ext:Translate Key=Markers_Previous}"
-            Margin="16,0,8,0"
-            Command="{Binding GoToNewProjectCommand}"/>
-            <Button Grid.Column="1"
-            Content="{ext:Translate Key=Markers_Create}"
-            Margin="8,0,16,0"
-            Command="{Binding ConfirmNewProjectCommand}"/>
-        </Grid>
     </Grid>
 </UserControl>
