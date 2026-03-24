@@ -1,0 +1,46 @@
+﻿using DinaGameEngine.Commands;
+using DinaGameEngine.Common;
+using DinaGameEngine.Models;
+
+namespace DinaGameEngine.ViewModels
+{
+    public class SceneCardViewModel
+    {
+        private readonly SceneModel _sceneModel;
+        public SceneCardViewModel(SceneModel sceneModel)
+        {
+            _sceneModel = sceneModel;
+
+            OpenCommand = new RelayCommand(_ => OpenScene());
+            DeleteCommand = new RelayCommand(_ => DeleteScene());
+
+            Buttons = new ButtonBarViewModel();
+            CreateButtons();
+        }
+
+        public string Name => _sceneModel.Name;
+        public string Key => _sceneModel.Key;
+        public int ComponentsCount => _sceneModel.Components.Count;
+        public RelayCommand OpenCommand { get; }
+        public RelayCommand DeleteCommand { get; }
+        public event EventHandler? SceneOpened;
+        public event EventHandler? SceneDeleted;
+
+        private void OpenScene()
+        {
+            SceneOpened?.Invoke(_sceneModel, EventArgs.Empty);
+        }
+        private void DeleteScene()
+        {
+            SceneDeleted?.Invoke(_sceneModel, EventArgs.Empty);
+        }
+
+        public ButtonBarViewModel Buttons { get; }
+        private void CreateButtons()
+        {
+            Buttons.Buttons.Clear();
+            Buttons.Buttons.Add(new ButtonDescriptor { Icon = "📂", Command = OpenCommand, Role = ButtonRole.Primary });
+            Buttons.Buttons.Add(new ButtonDescriptor { Icon = "🗑", Command = DeleteCommand, Role = ButtonRole.Secondary });
+        }
+    }
+}

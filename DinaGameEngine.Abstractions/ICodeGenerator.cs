@@ -8,5 +8,6 @@ namespace DinaGameEngine.Abstractions
         void GenerateAllDesigners(GameProjectModel gameProjectModel);
         void GenerateNewScene(GameProjectModel gameProjectModel, SceneModel sceneName);
         void AddAllComponents(GameProjectModel gameProjectModel);
+        void RemoveScene(GameProjectModel gameProjectModel, SceneModel scene);
     }
 }

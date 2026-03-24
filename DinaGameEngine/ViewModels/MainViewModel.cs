@@ -1,4 +1,5 @@
 ﻿using DinaGameEngine.Abstractions;
+using DinaGameEngine.CodeGeneration;
 using DinaGameEngine.Commands;
 using DinaGameEngine.Common;
 using DinaGameEngine.Models;
@@ -18,6 +19,8 @@ namespace DinaGameEngine.ViewModels
         private readonly ICodeGenerator _codeGenerator;
 
         private readonly GameProjectModel _gameProjectModel;
+
+        private Dictionary<Type, object?> _viewModels = [];
 
         public MainViewModel(IProjectService projectService, IDialogService dialogService, IFileService fileService,
                              ILogService logService, ITemplateExtractor templateExtractor, ICodeGenerator codeGenerator,
@@ -59,13 +62,23 @@ namespace DinaGameEngine.ViewModels
             LoadScenes();
         }
 
+        private object? _currentViewModel;
+        public object? CurrentViewModel
+        {
+            get => _currentViewModel;
+            set
+            {
+                SetProperty(ref _currentViewModel, value);
+                if (_currentViewModel != null)
+                    _viewModels[_currentViewModel.GetType()] = _currentViewModel;
+            }
+        }
         private void NewProject()
         {
             throw new NotImplementedException();
         }
         private void LoadProject()
         {
-            throw new NotImplementedException();
         }
         private void SaveProject()
         {
@@ -91,7 +104,11 @@ namespace DinaGameEngine.ViewModels
                 _gameProjectModel.Scenes.Add(sceneModel);
                 _codeGenerator.GenerateNewScene(_gameProjectModel, sceneModel);
                 _projectService.UpdateJsonProjectFile(_gameProjectModel);
+
+                if (_viewModels.TryGetValue(typeof(ProjectHomeViewModel), out var vm) && vm is ProjectHomeViewModel projectHomeViewModel)
+                    projectHomeViewModel.AddScene(sceneModel);
             }
+
         }
         private void AddNewImage()
         {
@@ -133,8 +150,43 @@ namespace DinaGameEngine.ViewModels
 
         public string WindowTitle => $"Dina Game Engine - {_gameProjectModel.SolutionName}";
 
-        private static void LoadScenes()
+        private void LoadScenes()
         {
+            var projectHomeViewModel = new ProjectHomeViewModel(_gameProjectModel);
+            projectHomeViewModel.SceneOpenRequested += OnSceneOpenRequested;
+            projectHomeViewModel.SceneDeleteRequested += OnSceneDeleteRequested;
+            CurrentViewModel = projectHomeViewModel;
+        }
+
+        private void OnSceneOpenRequested(object? sender, EventArgs e)
+        {
+            // TODO : ouvrir la scène dans la zone centrale
+        }
+        private void OnSceneDeleteRequested(object? sender, EventArgs e)
+        {
+            if (sender is SceneModel sceneModel)
+            {
+                var result = DialogWindow.Show(LocalizationManager.GetTranslation("SceneDelete_Confirmation", sceneModel.Name, sceneModel.Class, sceneModel.Key),
+                                               LocalizationManager.GetTranslation("SceneDelete_Confirmation_Title", sceneModel.Name),
+                                               DialogIcon.Warning, DialogButtons.YesNo);
+                if (result == DialogResult.Yes)
+                {
+                    // Suppression des fichiers
+                    var sceneDesignerFile = _fileService.Combine(_gameProjectModel.RootPath, "Scenes", $"{sceneModel.Class}.Designer.cs");
+                    _fileService.DeleteFile(sceneDesignerFile);
+                    var sceneUserFile = _fileService.Combine(_gameProjectModel.RootPath, "Scenes", $"{sceneModel.Class}.cs");
+                    _fileService.DeleteFile(sceneUserFile);
+
+                    // Suppression de la scène dans SceneKey + GameProject.Designer
+                    _codeGenerator.RemoveScene(_gameProjectModel, sceneModel);
+
+                    // Mise à jour du fichier dina.project.json
+                    _projectService.RemoveSceneFromProject(_gameProjectModel, sceneModel);
+
+                    if (_viewModels.TryGetValue(typeof(ProjectHomeViewModel), out var vm) && vm is ProjectHomeViewModel projectHomeViewModel)
+                        projectHomeViewModel.RemoveScene(sceneModel);
+                }
+            }
         }
     }
 }

@@ -8,6 +8,7 @@
         Title="{Binding Title}" Height="220" Width="480" 
         Style="{StaticResource DinaWindowStyle}"
         TitleBarButtons="{x:Static common:TitleBarButtons.CloseOnly}"
+        SizeToContent="WidthAndHeight"
         WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.RowDefinitions>

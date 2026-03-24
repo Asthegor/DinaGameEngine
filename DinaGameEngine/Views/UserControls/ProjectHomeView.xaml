@@ -6,7 +6,16 @@
              xmlns:local="clr-namespace:DinaGameEngine.Views.UserControls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-            
-    </Grid>
+    <ScrollViewer Grid.Row="0" Background="Transparent">
+        <ItemsControl ItemsSource="{Binding Scenes}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <local:SceneCardView SceneName="{Binding Name}"
+                                         SceneKey="{Binding Key}"
+                                         ComponentCount="{Binding ComponentsCount}"/>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </ScrollViewer>
+
 </UserControl>

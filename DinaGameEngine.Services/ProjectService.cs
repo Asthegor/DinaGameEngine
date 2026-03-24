@@ -73,17 +73,6 @@ namespace DinaGameEngine.Services
                 return null;
             }
 
-            //var gameProjectModel = new GameProjectModel
-            //{
-            //    CreatedAt = DateTime.Now,
-            //    DinaVersion = GetDinaVersion(),
-            //    LastOpenedAt = DateTime.Now,
-            //    SolutionName = newProjectModel.Name,
-            //    ProjectName = newProjectModel.NameNoSpace,
-            //    RootPath = projectFolder,
-            //    RootNamespace = newProjectModel.RootNamespace
-            //};
-
             var rootNamespaceMarker = markers.First(m => m.Key == "__RootNamespace__");
             var solutionNameMarker = markers.First(m => m.Key == "__SolutionName__");
             var gameProjectNameMarker = markers.First(m => m.Key == "__GameProjectName__");
@@ -99,10 +88,13 @@ namespace DinaGameEngine.Services
             };
             gameProjectModel.Scenes.Add(new SceneModel { Name = "GameScene", Class = "GameScene", Key = "GameScene" });
 
+            _codeGenerator.GenerateAllFiles(gameProjectModel);
+
             UpdateJsonProjectFile(gameProjectModel);
 
             UpdateRecentProjects(gameProjectModel);
 
+            _logService.Info($"Projet '{gameProjectModel.SolutionName}' finalisé avec succès.");
             return gameProjectModel;
         }
 
@@ -175,6 +167,13 @@ namespace DinaGameEngine.Services
             var jsonSerialize = JsonHelper.Serialize(gameProjectModel);
             var projectFileName = _fileService.Combine(gameProjectModel.RootPath, ProjectStructure.ProjectFileName);
             _fileService.WriteAllText(projectFileName, jsonSerialize);
+            _logService.Info($"Mise à jour du fichier '{ProjectStructure.ProjectFileName}' effectuée.");
+        }
+
+        public void RemoveSceneFromProject(GameProjectModel gameProjectModel, SceneModel sceneModel)
+        {
+            gameProjectModel.Scenes.Remove(sceneModel);
+            UpdateJsonProjectFile(gameProjectModel);
         }
     }
 }

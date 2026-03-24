@@ -1,11 +1,4 @@
-﻿using DinaGameEngine.Abstractions;
-using DinaGameEngine.Models;
-
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace DinaGameEngine.CodeGeneration
+﻿namespace DinaGameEngine.CodeGeneration
 {
     public class SectionParser
     {
@@ -26,61 +19,37 @@ namespace DinaGameEngine.CodeGeneration
 
         public void InsertBeforeZone(string zoneName, IEnumerable<string> lines)
         {
-            var index = FindIndexZone(ZONE_OPEN, zoneName);
+            var index = FindIndexZone(ZONE_CLOSE, zoneName);
+            if (index < 0)
+                return;
             _lines.InsertRange(index, lines);
-        }
-        public void InsertField(string fieldDeclaration)
-        {
-
-        }
-        public void AddSection(string type, string key, string step, string code)
-        {
-
-        }
-        public void RemoveSection(string type, string key, string step)
-        {
-
-        }
-        public void RemoveAllSectionForComponent(string type, string key)
-        {
-
-        }
-        public void UpdateAvailableFields(string fieldComment)
-        {
-
         }
         public void AddUsingIfMissing(string namespaceName)
         {
-            var index = FindIndexZone(ZONE_OPEN, "USINGS");
-            for (int i = index; i >= 0; i--)
+            var indexOpen = FindIndexZone(ZONE_OPEN, "USINGS");
+            var indexClose = FindIndexZone(ZONE_CLOSE, "USINGS");
+            for (int i = indexOpen; i < indexClose; i++)
             {
                 if (_lines[i].Contains(namespaceName))
                     return;
             }
             InsertBeforeZone("USINGS", [$"using {namespaceName};"]);
         }
-        public void AddPartialDeclaration(string signature)
+        public void RemoveFromZone(string zoneName, string identifier) => RemoveFromZone(zoneName, line => line.Contains(identifier));
+        public void RemoveFromZone(string zoneName, Func<string, bool> predicate)
         {
-
-        }
-        public void ValidateChecksums()
-        {
-
+            var indexOpen = FindIndexZone(ZONE_OPEN, zoneName);
+            var indexClose = FindIndexZone(ZONE_CLOSE, zoneName);
+            for (int index = indexClose - 1; index > indexOpen; index--)
+            {
+                if (predicate(_lines[index]))
+                {
+                    _lines.RemoveAt(index);
+                    return;
+                }
+            }
         }
         public string GetContent() => string.Join(Environment.NewLine, _lines);
-
-        private void FindClassClosingBrace()
-        {
-
-        }
-        private void FindZone(string zoneName)
-        {
-
-        }
-        private void ComputeChecksum(string input)
-        {
-
-        }
 
         private int FindIndexZone(string template, string zoneName) => _lines.FindIndex(l => l.TrimStart() == string.Format(template, zoneName));
     }

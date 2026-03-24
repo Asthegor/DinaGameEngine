@@ -8,5 +8,6 @@ namespace DinaGameEngine.Abstractions
         public Task<GameProjectModel?> CreateProject(NewProjectModel newProjectModel, List<TemplateMarkerModel> markers);
 
         public void UpdateJsonProjectFile(GameProjectModel gameModelProject);
+        public void RemoveSceneFromProject(GameProjectModel gameProjectModel, SceneModel sceneModel);
     }
 }

@@ -306,4 +306,22 @@
   <data name="SceneName_Key" xml:space="preserve">
     <value>Key:</value>
   </data>
+  <data name="MainWindow_Scene_Components" xml:space="preserve">
+    <value>Number of components:</value>
+  </data>
+  <data name="Dialog_Open" xml:space="preserve">
+    <value>Open</value>
+  </data>
+  <data name="SceneDelete_Confirmation" xml:space="preserve">
+    <value>You are about to remove the scene ‘{0}’.
+This will remove:
+- the files ‘{1}.Designer.cs’ and ‘{1}.cs’
+- the key ‘{2}’ from the SceneKeys file
+- the scene entry in the main project file
+
+Do you still want to remove the scene ‘{0}’?</value>
+  </data>
+  <data name="SceneDelete_Confirmation_title" xml:space="preserve">
+    <value>Remove the scene '{0}'</value>
+  </data>
 </root>

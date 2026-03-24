@@ -306,4 +306,22 @@
   <data name="SceneName_Key" xml:space="preserve">
     <value>Clé :</value>
   </data>
+  <data name="MainWindow_Scene_Components" xml:space="preserve">
+    <value>Nombre de composants :</value>
+  </data>
+  <data name="Dialog_Open" xml:space="preserve">
+    <value>Ouvrir</value>
+  </data>
+  <data name="SceneDelete_Confirmation" xml:space="preserve">
+    <value>Vous êtes sur le point de supprimer la scène '{0}'.
+Cela supprimera :
+- les fichiers '{1].Designer.cs' et '{1}.cs'
+- la clé '{2}' du fichier SceneKeys
+- l'enregistrement de la scène dans le fichier principal du projet
+
+Voulez-vous tout de même supprimer la scène '{0}' ?</value>
+  </data>
+  <data name="SceneDelete_Confirmation_title" xml:space="preserve">
+    <value>Suppression de la scène '{0}'</value>
+  </data>
 </root>

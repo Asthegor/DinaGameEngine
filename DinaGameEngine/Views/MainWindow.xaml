@@ -3,11 +3,20 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:usercontrols="clr-namespace:DinaGameEngine.Views.UserControls"
+        xmlns:vm="clr-namespace:DinaGameEngine.ViewModels"
         xmlns:common="clr-namespace:DinaGameEngine.Common;assembly=DinaGameEngine.Common"
         Title="{Binding WindowTitle}" Height="450" Width="800"
         Style="{StaticResource DinaWindowStyle}"
         TitleBarButtons="{x:Static common:TitleBarButtons.MinimizeMaximizeAndClose}"
         WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type vm:ProjectHomeViewModel}">
+            <usercontrols:ProjectHomeView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:SceneEditorViewModel}">
+            <usercontrols:SceneEditorView/>
+        </DataTemplate>
+    </Window.Resources>
     <local:DinaWindow.InputBindings>
         <KeyBinding Key="N" Modifiers="Ctrl" Command="{Binding MainMenuFileNewProjectCommand}"/>
         <KeyBinding Key="O" Modifiers="Ctrl" Command="{Binding MainMenuFileLoadCommand}"/>
@@ -22,9 +31,14 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
+        <!-- Menu -->
         <DockPanel Grid.Row="0" Grid.ColumnSpan="5">
             <usercontrols:MainMenuView />
         </DockPanel>
-        
+
+
+        <ContentControl Grid.Row="1" Content="{Binding CurrentViewModel}"/>
+
+        <!-- Barre d'état -->
     </Grid>
 </local:DinaWindow>
