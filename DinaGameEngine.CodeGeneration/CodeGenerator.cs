@@ -305,6 +305,10 @@ namespace DinaGameEngine.CodeGeneration
             generatedFile.AppendLine(CodeBuilder.OpenBlock($"public {scene.Class}(SceneManager sceneManager) : base(sceneManager)", 2));
             generatedFile.AppendLine(CodeBuilder.CloseBlock(2));
 
+            // Variables privées
+            generatedFile.AppendLine(CodeBuilder.AddLine("// =[ZONE:FIELDS]=", 2));
+            generatedFile.AppendLine(CodeBuilder.AddLine("// =[/ZONE:FIELDS]=", 2));
+
             // Load
             generatedFile.AppendLine(CodeBuilder.OpenBlock("public override void Load()", 2));
             generatedFile.AppendLine(CodeBuilder.AddLine("// =[ZONE:COMPONENT_LOAD]=", 3));

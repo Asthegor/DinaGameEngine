@@ -7,18 +7,18 @@ namespace DinaGameEngine.CodeGeneration
     public interface IComponentGenerator
     {
         string ComponentType { get; }
-        void GenerateField(StringBuilder sb, ComponentModel component, int level);
+        void GenerateField(SectionParser sectionParser, ComponentModel component, int level);
 
-        void GenerateLoad(StringBuilder sb, ComponentModel component, int level);
-        void GenerateLoadUser(StringBuilder sb, ComponentModel component, int level);
+        void GenerateLoad(SectionParser sectionParser, ComponentModel component, int level);
+        void GenerateLoadUser(SectionParser sectionParser, ComponentModel component, int level);
 
-        void GenerateReset(StringBuilder sb, ComponentModel component, int level);
-        void GenerateResetUser(StringBuilder sb, ComponentModel component, int level);
+        void GenerateReset(SectionParser sectionParser, ComponentModel component, int level);
+        void GenerateResetUser(SectionParser sectionParser, ComponentModel component, int level);
 
-        void GenerateUpdate(StringBuilder sb, ComponentModel component, int level);
-        void GenerateUpdateUser(StringBuilder sb, ComponentModel component, int level);
+        void GenerateUpdate(SectionParser sectionParser, ComponentModel component, int level);
+        void GenerateUpdateUser(SectionParser sectionParser, ComponentModel component, int level);
 
-        void GenerateDraw(StringBuilder sb, ComponentModel component, int level);
-        void GenerateDrawUser(StringBuilder sb, ComponentModel component, int level);
+        void GenerateDraw(SectionParser sectionParser, ComponentModel component, int level);
+        void GenerateDrawUser(SectionParser sectionParser, ComponentModel component, int level);
     }
 }
