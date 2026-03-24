@@ -1,6 +1,4 @@
-﻿using System.Reflection.Metadata;
-
-namespace DinaGameEngine.CodeGeneration
+﻿namespace DinaGameEngine.CodeGeneration
 {
     public static class CodeBuilder
     {
@@ -8,7 +6,6 @@ namespace DinaGameEngine.CodeGeneration
         public static string CloseBlock(int level) => $$"""{{Indentation(level)}}}""";
         public static string AddLine(string content, int level) => $"{Indentation(level)}{content}";
         public static string AddEmptyLine()=> string.Empty;
-
         public static string AddUsing(string namespaceName) => $"using {namespaceName};";
         public static string AddPartialMethodDeclaration(string signature, int level) => $"{Indentation(level)}partial {signature}{(signature.EndsWith(';') ? string.Empty : ';')}";
         public static string AddPartialMethod(string signature, int level) => OpenBlock($"partial {signature}", level);
@@ -24,8 +21,6 @@ namespace DinaGameEngine.CodeGeneration
                    // </auto-generated>
                    """;
         }
-
-
-        private static string Indentation(int level) => new string(' ', 4 * level);
+        public static string Indentation(int level) => new string(' ', 4 * level);
     }
 }

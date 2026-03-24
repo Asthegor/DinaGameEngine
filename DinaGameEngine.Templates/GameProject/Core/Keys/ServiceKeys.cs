@@ -2,7 +2,7 @@
 
 namespace __RootNamespace__.Core.Keys
 {
-    public class ProjectServiceKeys
+    public class ServiceKeys
     {
         public static readonly Key<ServiceTag> Config = Key<ServiceTag>.FromString("Config.dat");
         public static readonly Key<ServiceTag> DefaultConfig = Key<ServiceTag>.FromString("DefaultConfig");

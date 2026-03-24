@@ -49,7 +49,7 @@ namespace __RootNamespace__.Scenes
         private void LoadingManagers()
         {
             _fontManager = ServiceLocator.Get<FontManager>(ServiceKeys.FontManager);
-            _soundManager = ServiceLocator.Get<SoundManager>(ProjectServiceKeys.SoundManager);
+            _soundManager = ServiceLocator.Get<SoundManager>(ServiceKeys.SoundManager);
             _menuManager = new MenuManager(MENU_SPACING);
         }
 
@@ -115,13 +115,13 @@ namespace __RootNamespace__.Scenes
         private MenuItem LaunchGame(MenuItem item)
         {
             _soundManager.StopSong();
-            SetCurrentScene(ProjectSceneKeys.GameScene);
+            SetCurrentScene(SceneKeys.GameScene);
             return item;
         }
         private MenuItem LaunchOptions(MenuItem item)
         {
             _soundManager.StopSong();
-            SetCurrentScene(ProjectSceneKeys.OptionsMenu);
+            SetCurrentScene(SceneKeys.OptionsMenu);
             return item;
         }
         private MenuItem QuitGame(MenuItem item)

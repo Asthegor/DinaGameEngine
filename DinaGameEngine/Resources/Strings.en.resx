@@ -294,4 +294,16 @@
   <data name="Dialog_No" xml:space="preserve">
     <value>No</value>
   </data>
+  <data name="Dialog_Add" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="SceneName_Label" xml:space="preserve">
+    <value>Scene Name:</value>
+  </data>
+  <data name="SceneName_ClassName" xml:space="preserve">
+    <value>Class name:</value>
+  </data>
+  <data name="SceneName_Key" xml:space="preserve">
+    <value>Key:</value>
+  </data>
 </root>

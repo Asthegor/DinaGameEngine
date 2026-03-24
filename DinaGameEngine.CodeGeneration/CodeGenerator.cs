@@ -156,9 +156,9 @@ namespace DinaGameEngine.CodeGeneration
             generatedFile.AppendLine(CodeBuilder.AddLine("var dpMaxResolution = ScreenManager.AvailableResolutions.ToList().Last();", 3));
             generatedFile.AppendLine(CodeBuilder.AddLine("Point maxResolution = new Point(dpMaxResolution.Width, dpMaxResolution.Height);", 3));
             generatedFile.AppendLine(CodeBuilder.AddLine("var defaultConfig = new DefaultConfigData(maxResolution, true);", 3));
-            generatedFile.AppendLine(CodeBuilder.AddLine("ServiceLocator.Register(ProjectServiceKeys.DefaultConfig, defaultConfig);", 3));
-            generatedFile.AppendLine(CodeBuilder.AddLine("var configData = SaveManager.LoadObjectFromEncryptFile<ConfigData>(ProjectServiceKeys.Config.Value) ?? defaultConfig;", 3));
-            generatedFile.AppendLine(CodeBuilder.AddLine("ServiceLocator.Register(ProjectServiceKeys.Config, configData);", 3));
+            generatedFile.AppendLine(CodeBuilder.AddLine("ServiceLocator.Register(ServiceKeys.DefaultConfig, defaultConfig);", 3));
+            generatedFile.AppendLine(CodeBuilder.AddLine("var configData = SaveManager.LoadObjectFromEncryptFile<ConfigData>(ServiceKeys.Config.Value) ?? defaultConfig;", 3));
+            generatedFile.AppendLine(CodeBuilder.AddLine("ServiceLocator.Register(ServiceKeys.Config, configData);", 3));
             generatedFile.AppendLine(CodeBuilder.CloseBlock(2));
 
             generatedFile.AppendLine(CodeBuilder.OpenBlock("private static void InitializeInputManager()", 2));
@@ -170,17 +170,17 @@ namespace DinaGameEngine.CodeGeneration
             generatedFile.AppendLine(CodeBuilder.AddLine("(PlayerInputKeys.Activate, new ControllerKey[] { new KeyboardControllerKey(Keys.Enter), new GamepadControllerKey(Buttons.A) }),", 4));
             generatedFile.AppendLine(CodeBuilder.AddLine("(PlayerInputKeys.Cancel, new ControllerKey[] { new KeyboardControllerKey(Keys.Back), new GamepadControllerKey(Buttons.B) })", 4));
             generatedFile.AppendLine(CodeBuilder.AddLine(");", 3));
-            generatedFile.AppendLine(CodeBuilder.AddLine("ServiceLocator.Register(ProjectServiceKeys.PlayerController, playerController);", 3));
+            generatedFile.AppendLine(CodeBuilder.AddLine("ServiceLocator.Register(ServiceKeys.PlayerController, playerController);", 3));
             generatedFile.AppendLine(CodeBuilder.CloseBlock(2));
 
             generatedFile.AppendLine(CodeBuilder.OpenBlock("private void RegisterServices()", 2));
-            generatedFile.AppendLine(CodeBuilder.AddLine("ServiceLocator.Register(ProjectServiceKeys.SoundManager, new SoundManager(this, \"AudioContent\"));", 3));
+            generatedFile.AppendLine(CodeBuilder.AddLine("ServiceLocator.Register(ServiceKeys.SoundManager, new SoundManager(this, \"AudioContent\"));", 3));
             generatedFile.AppendLine(CodeBuilder.AddLine("ResourceManager assetsResourceManager = new ResourceManager(Services, \"AssetsContent\");", 3));
-            generatedFile.AppendLine(CodeBuilder.AddLine("ServiceLocator.Register(ProjectServiceKeys.AssetsResourceManager, assetsResourceManager);", 3));
+            generatedFile.AppendLine(CodeBuilder.AddLine("ServiceLocator.Register(ServiceKeys.AssetsResourceManager, assetsResourceManager);", 3));
             generatedFile.AppendLine(CodeBuilder.CloseBlock(2));
 
             generatedFile.AppendLine(CodeBuilder.OpenBlock("private static void ApplyConfiguration()", 2));
-            generatedFile.AppendLine(CodeBuilder.AddLine("ConfigData configData = ServiceLocator.Get<ConfigData>(ProjectServiceKeys.Config);", 3));
+            generatedFile.AppendLine(CodeBuilder.AddLine("ConfigData configData = ServiceLocator.Get<ConfigData>(ServiceKeys.Config);", 3));
             generatedFile.AppendLine(CodeBuilder.AddLine("ScreenManager screenManager = ServiceLocator.Get<ScreenManager>(ServiceKeys.ScreenManager);", 3));
             generatedFile.AppendLine(CodeBuilder.AddLine("SoundManager soundManager = ServiceLocator.Get<SoundManager>(ServiceKeys.SoundManager);", 3));
             generatedFile.AppendLine(CodeBuilder.AddLine("screenManager.SetResolution(configData.ResolutionWidth, configData.ResolutionHeight);", 3));
@@ -233,13 +233,13 @@ namespace DinaGameEngine.CodeGeneration
             generatedFile.AppendLine(CodeBuilder.CloseBlock(2));
 
             generatedFile.AppendLine(CodeBuilder.AddPartialMethod("void RegisterAdditionalScenes()", 2));
-            generatedFile.AppendLine(CodeBuilder.AddLine("_sceneManager.AddScene(ProjectSceneKeys.MainMenu, () => new MainMenuScene(_sceneManager));", 3));
-            generatedFile.AppendLine(CodeBuilder.AddLine("_sceneManager.AddScene(ProjectSceneKeys.OptionsMenu, () => new OptionsMenuScene(_sceneManager));", 3));
+            generatedFile.AppendLine(CodeBuilder.AddLine("_sceneManager.AddScene(SceneKeys.MainMenu, () => new MainMenuScene(_sceneManager));", 3));
+            generatedFile.AppendLine(CodeBuilder.AddLine("_sceneManager.AddScene(SceneKeys.OptionsMenu, () => new OptionsMenuScene(_sceneManager));", 3));
             generatedFile.AppendLine(CodeBuilder.AddEmptyLine());
             generatedFile.AppendLine(CodeBuilder.CloseBlock(2));
 
             generatedFile.AppendLine(CodeBuilder.AddPartialMethod("void OnSetStartupScene()", 2));
-            generatedFile.AppendLine(CodeBuilder.AddLine("_sceneManager.SetCurrentScene(ProjectSceneKeys.MainMenu);", 3));
+            generatedFile.AppendLine(CodeBuilder.AddLine("_sceneManager.SetCurrentScene(SceneKeys.MainMenu);", 3));
             generatedFile.AppendLine(CodeBuilder.CloseBlock(2));
 
             generatedFile.AppendLine(CodeBuilder.AddLine("partial Color BackgroundColor => Color.Black;", 2));
@@ -256,18 +256,31 @@ namespace DinaGameEngine.CodeGeneration
             GenerateSceneDesigner(gameProjectModel, scene);
             GenerateSceneUserFile(gameProjectModel, scene);
 
+            // Ajout de la scène dans Core.Keys.SceneKeys
+            var sceneKeysFilePath = _fileService.Combine(gameProjectModel.RootPath, "Core", "Keys", "SceneKeys.cs");
+            var sceneKeysFileContent = _fileService.ReadAllText(sceneKeysFilePath);
+            if (string.IsNullOrEmpty(sceneKeysFileContent))
+            {
+                _logService.Error($"Fichier '{sceneKeysFilePath}' vide ou corrompu.");
+                throw new Exception($"Fichier '{sceneKeysFilePath}' vide ou corrompu.");
+            }
+            var sectionParserSceneKeys = new SectionParser(sceneKeysFileContent);
+            sectionParserSceneKeys.InsertBeforeZone("REGISTER_KEY_SCENE", [$"{CodeBuilder.Indentation(2)}public static readonly Key<SceneTag> {scene.Key} = Key<SceneTag>.FromString(\"{scene.Name}\");"]);
+            _fileService.WriteAllText(sceneKeysFilePath, sectionParserSceneKeys.GetContent());
+
+
+            // Ajout de la scène dans [GameProjectName].Designer.cs (fonction RegisterScene)
             var projectDesignerFilePath = _fileService.Combine(gameProjectModel.RootPath, gameProjectModel.ProjectName, $"{gameProjectModel.ProjectName}.Designer.cs");
             var projetDesignerFileContent = _fileService.ReadAllText(projectDesignerFilePath);
-            if( projetDesignerFileContent == null )
+            if (projetDesignerFileContent == null)
             {
                 _logService.Error($"Fichier '{projectDesignerFilePath}' vide.");
                 throw new Exception($"Fichier '{projectDesignerFilePath}' vide ou corrompu.");
             }
-
-            var sectionParser = new SectionParser(projetDesignerFileContent);
-            sectionParser.AddUsingIfMissing($"{gameProjectModel.RootNamespace}.Scenes");
-            sectionParser.InsertBeforeZone("REGISTER_SCENE", [$"_sceneManager.AddScene(ProjectSceneKeys.{scene.Key}, () => new {scene.Class}(_sceneManager));"]);
-            _fileService.WriteAllText(projectDesignerFilePath, sectionParser.GetContent());
+            var sectionParserProjectDesignerFile = new SectionParser(projetDesignerFileContent);
+            sectionParserProjectDesignerFile.AddUsingIfMissing($"{gameProjectModel.RootNamespace}.Scenes");
+            sectionParserProjectDesignerFile.InsertBeforeZone("REGISTER_SCENE", [$"{CodeBuilder.Indentation(3)}_sceneManager.AddScene(SceneKeys.{scene.Key}, () => new {scene.Class}(_sceneManager));"]);
+            _fileService.WriteAllText(projectDesignerFilePath, sectionParserProjectDesignerFile.GetContent());
         }
         private void GenerateSceneDesigner(GameProjectModel gameProjectModel, SceneModel scene)
         {

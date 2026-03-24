@@ -1,5 +1,4 @@
 ﻿using DinaGameEngine.Themes;
-using DinaGameEngine.ViewModels;
 
 namespace DinaGameEngine.Views
 {

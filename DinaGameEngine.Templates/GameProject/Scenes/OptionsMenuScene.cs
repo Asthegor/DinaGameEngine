@@ -66,7 +66,7 @@ namespace __RootNamespace__.Scenes
             UIScaler.Update(ScreenDimensions);
 
             _screenManager = ServiceLocator.Get<ScreenManager>(ServiceKeys.ScreenManager);
-            _soundManager = ServiceLocator.Get<SoundManager>(ProjectServiceKeys.SoundManager);
+            _soundManager = ServiceLocator.Get<SoundManager>(ServiceKeys.SoundManager);
             FontManager fontManager = ServiceLocator.Get<FontManager>(ServiceKeys.FontManager);
 
             LoadConfig();
@@ -151,13 +151,13 @@ namespace __RootNamespace__.Scenes
 
         private void SaveConfig()
         {
-            SaveManager.SaveObjectToFile(_configDatas, ProjectServiceKeys.Config.Value, true);
+            SaveManager.SaveObjectToFile(_configDatas, ServiceKeys.Config.Value, true);
         }
 
         private void LoadConfig()
         {
-            _defaultDatas = ServiceLocator.Get<DefaultConfigData>(ProjectServiceKeys.DefaultConfig);
-            _configDatas = ServiceLocator.Get<ConfigData>(ProjectServiceKeys.Config) ?? _defaultDatas;
+            _defaultDatas = ServiceLocator.Get<DefaultConfigData>(ServiceKeys.DefaultConfig);
+            _configDatas = ServiceLocator.Get<ConfigData>(ServiceKeys.Config) ?? _defaultDatas;
         }
 
         private Group CreateGraphicsGroup()
@@ -353,7 +353,7 @@ namespace __RootNamespace__.Scenes
         private void SaveAndGotoMainMenu(Button button)
         {
             SaveConfig();
-            SetCurrentScene(ProjectSceneKeys.MainMenu);
+            SetCurrentScene(SceneKeys.MainMenu);
         }
 
         private void ResetModifications(Button button)

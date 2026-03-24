@@ -97,7 +97,7 @@ namespace DinaGameEngine.Services
                 RootPath = projectFolder,
                 RootNamespace = rootNamespaceMarker.Value
             };
-            gameProjectModel.Scenes.Add(new SceneModel { Class = "GameScene", Key = "GameScene" });
+            gameProjectModel.Scenes.Add(new SceneModel { Name = "GameScene", Class = "GameScene", Key = "GameScene" });
 
             UpdateJsonProjectFile(gameProjectModel);
 

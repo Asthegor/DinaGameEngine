@@ -1,5 +1,4 @@
 ﻿using DinaGameEngine.Abstractions;
-using DinaGameEngine.CodeGeneration;
 using DinaGameEngine.Commands;
 using DinaGameEngine.Common;
 using DinaGameEngine.Models;
@@ -50,11 +49,11 @@ namespace DinaGameEngine.ViewModels
             {
                 var vm = new LanguageSelectionViewModel(_logService, _projectService, _fileService, _gameProjectModel);
                 var window = new LanguageSelectionWindow
-                {  DataContext=vm };
+                { DataContext = vm };
                 vm.LanguageSelected += (s, e) => window.Close();
                 window.ShowDialog();
             }
-            _codeGenerator.GenerateAllFiles(gameProjectModel);
+            _codeGenerator.GenerateAllDesigners(gameProjectModel);
             _codeGenerator.AddAllComponents(gameProjectModel);
 
             LoadScenes();
@@ -78,7 +77,21 @@ namespace DinaGameEngine.ViewModels
         }
         private void AddNewScene()
         {
-            
+            bool sceneConfirmed = false;
+
+            var addSceneViewModel = new AddSceneViewModel();
+            addSceneViewModel.SceneConfirmed += (s, result) => sceneConfirmed = result;
+
+            var addSceneWindow = new AddSceneWindow { DataContext = addSceneViewModel };
+            addSceneWindow.ShowDialog();
+
+            if (sceneConfirmed)
+            {
+                var sceneModel = new SceneModel { Name = addSceneViewModel.SceneName, Class = addSceneViewModel.ClassName, Key = addSceneViewModel.Key };
+                _gameProjectModel.Scenes.Add(sceneModel);
+                _codeGenerator.GenerateNewScene(_gameProjectModel, sceneModel);
+                _projectService.UpdateJsonProjectFile(_gameProjectModel);
+            }
         }
         private void AddNewImage()
         {
@@ -122,7 +135,6 @@ namespace DinaGameEngine.ViewModels
 
         private static void LoadScenes()
         {
-
         }
     }
 }

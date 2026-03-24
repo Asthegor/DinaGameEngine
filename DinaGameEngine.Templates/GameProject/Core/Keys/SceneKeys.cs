@@ -3,7 +3,7 @@ using DinaCSharp.Services.Scenes;
 
 namespace __RootNamespace__.Core.Keys
 {
-    public class ProjectSceneKeys
+    public class SceneKeys
     {
         public static readonly Key<SceneTag> MainMenu = Key<SceneTag>.FromString("MainMenu");
         public static readonly Key<SceneTag> OptionsMenu = Key<SceneTag>.FromString("OptionsMenu");

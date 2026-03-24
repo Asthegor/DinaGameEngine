@@ -78,7 +78,6 @@ namespace DinaGameEngine.Templates
         }
         private static List<TemplateMarkerModel>? GetTemplateSceneMarkers(object obj)
         {
-            // TODO: à implémenter et changer le type du paramètre
             if (obj is TemplateMarkerModel model)
                 return [model];
             return null;
