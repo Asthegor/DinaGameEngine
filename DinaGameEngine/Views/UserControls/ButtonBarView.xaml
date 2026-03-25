@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DinaGameEngine.Views.UserControls"
              xmlns:common="clr-namespace:DinaGameEngine.Common;assembly=DinaGameEngine.Common"
+             xmlns:enums="clr-namespace:DinaGameEngine.Common.Enums;assembly=DinaGameEngine.Common"
              xmlns:converters="clr-namespace:DinaGameEngine.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
@@ -31,18 +32,18 @@
                     <Button.Style>
                         <Style TargetType="Button" BasedOn="{StaticResource GhostFooterButton}">
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding Role}" Value="{x:Static common:ButtonRole.Primary}">
+                                <DataTrigger Binding="{Binding Role}" Value="{x:Static enums:ButtonRole.Primary}">
                                     <Setter Property="Background" Value="DarkViolet"/>
                                     <Setter Property="BorderBrush" Value="DarkViolet"/>
                                     <Setter Property="Foreground" Value="White"/>
                                     <Setter Property="Tag" Value="#532E80"/>
                                 </DataTrigger>
-                                <DataTrigger Binding="{Binding Role}" Value="{x:Static common:ButtonRole.Secondary}">
+                                <DataTrigger Binding="{Binding Role}" Value="{x:Static enums:ButtonRole.Secondary}">
                                     <Setter Property="BorderBrush" Value="OrangeRed"/>
                                     <Setter Property="Foreground" Value="OrangeRed"/>
                                     <Setter Property="Tag" Value="#FFECB3"/>
                                 </DataTrigger>
-                                <DataTrigger Binding="{Binding Role}" Value="{x:Static common:ButtonRole.Neutral}">
+                                <DataTrigger Binding="{Binding Role}" Value="{x:Static enums:ButtonRole.Neutral}">
                                     <Setter Property="BorderBrush" Value="DarkViolet"/>
                                     <Setter Property="Foreground" Value="DarkViolet"/>
                                     <Setter Property="Tag" Value="#F3E5F5"/>

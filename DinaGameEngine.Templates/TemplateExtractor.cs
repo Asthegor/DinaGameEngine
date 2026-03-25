@@ -1,5 +1,6 @@
 ﻿using DinaGameEngine.Abstractions;
 using DinaGameEngine.Common;
+using DinaGameEngine.Common.Enums;
 using DinaGameEngine.Models;
 
 namespace DinaGameEngine.Templates

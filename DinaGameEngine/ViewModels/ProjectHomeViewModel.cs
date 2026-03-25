@@ -12,36 +12,19 @@ namespace DinaGameEngine.ViewModels
             _gameProjectModel = gameProjectModel;
             Scenes.Clear();
             foreach (var scene in _gameProjectModel.Scenes)
-            {
-                var sceneCardViewModel = new SceneCardViewModel(scene);
-
-                sceneCardViewModel.SceneOpened += SceneCardViewModel_SceneOpened;
-                sceneCardViewModel.SceneDeleted += SceneCardViewModel_SceneDeleted;
-
-                Scenes.Add(sceneCardViewModel);
-            }
+                AddScene(scene);
 
         }
         public event EventHandler? SceneOpenRequested;
         public event EventHandler? SceneDeleteRequested;
-
-        private void SceneCardViewModel_SceneDeleted(object? sender, EventArgs e)
-        {
-            SceneDeleteRequested?.Invoke(sender, e);
-        }
-
-        private void SceneCardViewModel_SceneOpened(object? sender, EventArgs e)
-        {
-            SceneOpenRequested?.Invoke(sender, e);
-        }
 
         public ObservableCollection<SceneCardViewModel> Scenes { get; } = [];
 
         public void AddScene(SceneModel sceneModel)
         {
             var sceneCardViewModel = new SceneCardViewModel(sceneModel);
-            sceneCardViewModel.SceneOpened += SceneCardViewModel_SceneOpened;
-            sceneCardViewModel.SceneDeleted += SceneCardViewModel_SceneDeleted;
+            sceneCardViewModel.SceneOpened += (sender, eventArgs) => SceneOpenRequested?.Invoke(sender, eventArgs);
+            sceneCardViewModel.SceneDeleted += (sender, eventArgs) => SceneDeleteRequested?.Invoke(sender, eventArgs);
             Scenes.Add(sceneCardViewModel);
         }
         public void RemoveScene(SceneModel sceneModel)

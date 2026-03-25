@@ -1,5 +1,5 @@
 ﻿using DinaGameEngine.Commands;
-using DinaGameEngine.Common;
+using DinaGameEngine.Common.Enums;
 
 using System.Windows;
 using System.Windows.Input;

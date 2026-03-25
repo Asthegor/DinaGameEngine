@@ -1,5 +1,5 @@
 ﻿using DinaGameEngine.Abstractions;
-using DinaGameEngine.Common;
+using DinaGameEngine.Common.Enums;
 using DinaGameEngine.Views;
 
 using Microsoft.Win32;

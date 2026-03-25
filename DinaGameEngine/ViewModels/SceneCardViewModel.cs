@@ -1,5 +1,6 @@
 ﻿using DinaGameEngine.Commands;
 using DinaGameEngine.Common;
+using DinaGameEngine.Common.Enums;
 using DinaGameEngine.Models;
 
 namespace DinaGameEngine.ViewModels
@@ -21,15 +22,15 @@ namespace DinaGameEngine.ViewModels
         public string Name => _sceneModel.Name;
         public string Key => _sceneModel.Key;
         public int ComponentsCount => _sceneModel.Components.Count;
-        public RelayCommand OpenCommand { get; }
-        public RelayCommand DeleteCommand { get; }
         public event EventHandler? SceneOpened;
         public event EventHandler? SceneDeleted;
 
+        public RelayCommand OpenCommand { get; }
         private void OpenScene()
         {
             SceneOpened?.Invoke(_sceneModel, EventArgs.Empty);
         }
+        public RelayCommand DeleteCommand { get; }
         private void DeleteScene()
         {
             SceneDeleted?.Invoke(_sceneModel, EventArgs.Empty);

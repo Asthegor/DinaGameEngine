@@ -1,4 +1,4 @@
-﻿namespace DinaGameEngine.Common
+﻿namespace DinaGameEngine.Common.Enums
 {
     public enum ButtonRole
     {

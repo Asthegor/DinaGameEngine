@@ -1,6 +1,7 @@
 ﻿using DinaGameEngine.Abstractions;
 using DinaGameEngine.Commands;
 using DinaGameEngine.Common;
+using DinaGameEngine.Common.Enums;
 using DinaGameEngine.Models;
 
 using System.Globalization;
@@ -10,15 +11,13 @@ namespace DinaGameEngine.ViewModels
 {
     public class LanguageSelectionViewModel : ObservableObject
     {
-        private readonly ILogService _logService;
         private readonly IProjectService _projectService;
         private readonly IFileService _fileService;
         private readonly GameProjectModel _gameProjectModel;
 
         private LanguageDefinition? _selectedLanguage;
-        public LanguageSelectionViewModel(ILogService logService, IProjectService projectService, IFileService fileService, GameProjectModel gameProjectModel)
+        public LanguageSelectionViewModel(IProjectService projectService, IFileService fileService, GameProjectModel gameProjectModel)
         {
-            _logService = logService;
             _projectService = projectService;
             _fileService = fileService;
             _gameProjectModel = gameProjectModel;

@@ -1,6 +1,6 @@
 ﻿namespace DinaGameEngine.ViewModels
 {
-    internal class SceneEditorViewModel
+    public class SceneEditorViewModel
     {
     }
 }

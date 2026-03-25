@@ -1,12 +1,13 @@
-﻿using DinaGameEngine.Abstractions;
-using DinaGameEngine.Commands;
+﻿using DinaGameEngine.Commands;
 using DinaGameEngine.Common;
-using DinaGameEngine.Models;
+using DinaGameEngine.Common.Enums;
 
 namespace DinaGameEngine.ViewModels
 {
     public class AddSceneViewModel : ObservableObject
     {
+        private string _sceneName = string.Empty;
+
         public AddSceneViewModel()
         {
             AddCommand = new RelayCommand(execute: _ => ConfirmedScene(true),
@@ -17,7 +18,6 @@ namespace DinaGameEngine.ViewModels
             UpdateFooterButtons();
 
         }
-        private string _sceneName = string.Empty;
         public string SceneName
         {
             get => _sceneName;

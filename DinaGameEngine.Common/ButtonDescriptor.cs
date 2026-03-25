@@ -1,4 +1,6 @@
-﻿using System.Windows.Input;
+﻿using DinaGameEngine.Common.Enums;
+
+using System.Windows.Input;
 
 namespace DinaGameEngine.Common
 {

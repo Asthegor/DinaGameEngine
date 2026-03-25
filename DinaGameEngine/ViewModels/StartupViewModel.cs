@@ -1,23 +1,34 @@
 ﻿using DinaGameEngine.Abstractions;
 using DinaGameEngine.Commands;
 using DinaGameEngine.Common;
+using DinaGameEngine.Common.Enums;
+using DinaGameEngine.Common.Events;
 using DinaGameEngine.Models;
 using DinaGameEngine.Views;
 
 using System.Collections.ObjectModel;
 using System.Windows;
-using System.Windows.Controls;
 
 namespace DinaGameEngine.ViewModels
 {
     public class StartupViewModel : ObservableObject
     {
+        #region Champs privés
         private readonly IProjectService _projectService;
         private readonly IDialogService _dialogService;
         private readonly IFileService _fileService;
         private readonly ILogService _logService;
         private readonly ITemplateExtractor _templateExtractor;
 
+        private StartupState _currentState;
+
+        private RecentProjectViewModel? _selectedProject;
+
+        private string _newProjectName = string.Empty;
+        private string _newProjectParentFolder = string.Empty;
+        #endregion
+
+        #region Constructeurs
         public StartupViewModel(IProjectService projectService, IDialogService dialogService, IFileService fileService, ILogService logService, ITemplateExtractor templateExtractor)
         {
             _projectService = projectService;
@@ -44,19 +55,67 @@ namespace DinaGameEngine.ViewModels
 
             LoadRecentProjects();
         }
+        #endregion
 
-        public event EventHandler<GameProjectModel>? ProjectOpened;
+        #region Navigation
+        public event EventHandler<NavigationRequestedEventArgs>? NavigationRequested;
+        public StartupState CurrentState
+        {
+            get => _currentState;
+            set
+            {
+                SetProperty(ref _currentState, value);
+                OnPropertyChanged(nameof(WindowTitle));
+                UpdateFooterButtons();
+            }
+        }
+        public string WindowTitle
+        {
+            get
+            {
+                return CurrentState switch
+                {
+                    StartupState.RecentProjects => LocalizationManager.GetTranslation("App_Title"),
+                    StartupState.NewProject => LocalizationManager.GetTranslation("NewProject_Title"),
+                    StartupState.MarkerValidation => LocalizationManager.GetTranslation("Markers_Title"),
+                    _ => throw new InvalidOperationException("")
+                };
+            }
+        }
+        private void UpdateFooterButtons()
+        {
+            FooterButtons.Buttons.Clear();
+            switch (CurrentState)
+            {
+                case StartupState.RecentProjects:
+                    FooterButtons.Buttons.Add(new ButtonDescriptor { Icon = "+", Label = LocalizationManager.GetTranslation("Startup_NewProject"), Command = GoToNewProjectCommand, Role = ButtonRole.Neutral });
+                    FooterButtons.Buttons.Add(new ButtonDescriptor { Icon = "📂", Label = LocalizationManager.GetTranslation("Startup_Open"), Command = OpenProjectCommand, Role = ButtonRole.Secondary });
+                    break;
+                case StartupState.NewProject:
+                    FooterButtons.Buttons.Add(new ButtonDescriptor { Label = LocalizationManager.GetTranslation("NewProject_Cancel"), Command = CancelNewProjectCommand, Role = ButtonRole.Secondary });
+                    FooterButtons.Buttons.Add(new ButtonDescriptor { Label = LocalizationManager.GetTranslation("NewProject_Next"), Command = GoToMarkerValidationCommand, Role = ButtonRole.Primary });
+                    break;
+                case StartupState.MarkerValidation:
+                    FooterButtons.Buttons.Add(new ButtonDescriptor { Label = LocalizationManager.GetTranslation("Markers_Previous"), Command = GoToNewProjectCommand, Role = ButtonRole.Secondary });
+                    FooterButtons.Buttons.Add(new ButtonDescriptor { Label = LocalizationManager.GetTranslation("Markers_Create"), Command = ConfirmNewProjectCommand, Role = ButtonRole.Primary });
+                    break;
+            }
+        }
+        #endregion
 
+        #region Projets récents
         public ObservableCollection<RecentProjectGroupViewModel> ProjectGroups { get; } = [];
-
-        private RecentProjectViewModel? _selectedProject;
         public RecentProjectViewModel? SelectedProject
         {
             get => _selectedProject;
             set => SetProperty(ref _selectedProject, value);
         }
-
-
+        public RelayCommand SelectProjectCommand { get; }
+        private void SelectProject(object? obj)
+        {
+            if (obj is RecentProjectViewModel recentProjectViewModel)
+                SelectedProject = recentProjectViewModel;
+        }
         private void LoadRecentProjects()
         {
             var appDirectory = _fileService.GetAppDataDirectory();
@@ -137,7 +196,6 @@ namespace DinaGameEngine.ViewModels
 
             LoadSectionStates();
         }
-
         private RecentProjectViewModel CreateRecentProjectViewModel(RecentProjectModel model)
         {
             var vm = new RecentProjectViewModel(model, _fileService, _projectService);
@@ -145,6 +203,37 @@ namespace DinaGameEngine.ViewModels
             vm.ProjectOpened += OnProjectOpened;
             vm.ProjectRemoved += OnProjectRemoved;
             return vm;
+        }
+        private void OnProjectOpened(object? sender, ProjectOpenedEventArgs e)
+        {
+            _logService.Info($"Ouverture du projet '{e.Project.SolutionName}' réussie");
+            NavigationRequested?.Invoke(this, new NavigationRequestedEventArgs(NavigationRequest.OpenProject, e.Project));
+        }
+        private void OnProjectRemoved(object? sender, EventArgs e)
+        {
+            if (sender is not RecentProjectViewModel vm)
+                return;
+
+            var listProjectGroups = ProjectGroups.SelectMany(p => p.Projects).ToList();
+            var newListProjectGroups = listProjectGroups.Where(p => !(p.Name == vm.Name && p.ProjectFolderPath == vm.ProjectFolderPath)).ToList();
+            var listModels = newListProjectGroups.Select(p => new RecentProjectModel
+            {
+                Name = p.Name,
+                SolutionFolderPath = p.SolutionFolderPath,
+                ProjectFolderPath = p.ProjectFolderPath,
+                LastOpenedAt = p.LastOpenedAt,
+                IsPinned = p.IsPinned,
+                PinOrder = p.PinOrder
+            }).ToList();
+
+            var jsonContent = JsonHelper.Serialize(listModels);
+
+            var recentProjectFile = _fileService.Combine(_fileService.GetAppDataDirectory(), ProjectStructure.RecentProjectsFileName);
+            _fileService.WriteAllText(recentProjectFile, jsonContent);
+
+            _logService.Info($"Projet '{vm.Name}' supprimé de la liste.");
+
+            LoadRecentProjects();
         }
         private void OnPinChanged(object? sender, EventArgs e)
         {
@@ -189,38 +278,6 @@ namespace DinaGameEngine.ViewModels
 
             LoadRecentProjects();
         }
-        private void OnProjectOpened(object? sender, ProjectOpenedEventArgs e)
-        {
-            _logService.Info($"Ouverture du projet '{e.Project.SolutionName}' réussie");
-            NotifyProjectOpened(e.Project);
-        }
-        private void OnProjectRemoved(object? sender, EventArgs e)
-        {
-            if (sender is not RecentProjectViewModel vm)
-                return;
-
-            var listProjectGroups = ProjectGroups.SelectMany(p => p.Projects).ToList();
-            var newListProjectGroups = listProjectGroups.Where(p => !(p.Name == vm.Name && p.ProjectFolderPath == vm.ProjectFolderPath)).ToList();
-            var listModels = newListProjectGroups.Select(p => new RecentProjectModel
-            {
-                Name = p.Name,
-                SolutionFolderPath = p.SolutionFolderPath,
-                ProjectFolderPath = p.ProjectFolderPath,
-                LastOpenedAt = p.LastOpenedAt,
-                IsPinned = p.IsPinned,
-                PinOrder = p.PinOrder
-            }).ToList();
-
-            var jsonContent = JsonHelper.Serialize(listModels);
-
-            var recentProjectFile = _fileService.Combine(_fileService.GetAppDataDirectory(), ProjectStructure.RecentProjectsFileName);
-            _fileService.WriteAllText(recentProjectFile, jsonContent);
-
-            _logService.Info($"Projet '{vm.Name}' supprimé de la liste.");
-
-            LoadRecentProjects();
-        }
-
         private static string GetSectionName(DateTime lastOpenedAt)
         {
             DateTime today = DateTime.Today;
@@ -239,63 +296,6 @@ namespace DinaGameEngine.ViewModels
                 return LocalizationManager.GetTranslation("Startup_ThisMonth");
             return LocalizationManager.GetTranslation("Startup_Older");
         }
-
-
-        public RelayCommand NewProjectCommand { get; }
-        private void NewProject()
-        {
-            CurrentState = StartupState.NewProject;
-            NewProjectName = string.Empty;
-            NewProjectParentFolder = string.Empty;
-        }
-        public RelayCommand CancelNewProjectCommand { get; }
-        private void CancelNewProject()
-        {
-            CurrentState = StartupState.RecentProjects;
-        }
-
-        public RelayCommand BrowseFolderCommand { get; }
-        private void BrowseFolder()
-        {
-            var folder = _dialogService.OpenFolderDialog(LocalizationManager.GetTranslation("NewProject_Browse"));
-            if (folder != null)
-                NewProjectParentFolder = folder;
-        }
-
-        public RelayCommand OpenProjectCommand { get; }
-        private void OpenProject()
-        {
-            GameProjectModel? gameProjectModel;
-            string? solutionFolderPath;
-            if (SelectedProject != null)
-            {
-                solutionFolderPath = SelectedProject.SolutionFolderPath;
-            }
-            else
-            {
-                solutionFolderPath = _dialogService.OpenFolderDialog(LocalizationManager.GetTranslation("Dialog_OpenProject"));
-                if (solutionFolderPath == null)
-                    return; // L'utilisateur a annulé la commande
-            }
-
-            gameProjectModel = _projectService.OpenProject(solutionFolderPath);
-            if (gameProjectModel == null)
-            {
-                _dialogService.ShowError(LocalizationManager.GetTranslation("Dialog_OpenProject"),
-                    LocalizationManager.GetTranslation("Error_OpenProject", ProjectStructure.ProjectFileName));
-                return; // Le dossier sélectionné ne contient pas de dichier 
-            }
-
-            _logService.Info($"Ouverture du projet '{gameProjectModel.SolutionName}' réussie");
-            NotifyProjectOpened(gameProjectModel);
-        }
-
-
-        private void NotifyProjectOpened(GameProjectModel gameProjectModel)
-        {
-            ProjectOpened?.Invoke(this, gameProjectModel);
-        }
-
         private void LoadSectionStates()
         {
             var sectionStatesFile = _fileService.Combine(_fileService.GetAppDataDirectory(), ProjectStructure.SectionStatesFileName);
@@ -324,35 +324,40 @@ namespace DinaGameEngine.ViewModels
 
             _logService.Info("Sauvegarde des états des sections effectuée");
         }
+        public ButtonBarViewModel FooterButtons { get; }
+        #endregion
 
-        private StartupState _currentState;
-        public StartupState CurrentState
+        #region Ouverture de projet
+        public RelayCommand OpenProjectCommand { get; }
+        private void OpenProject()
         {
-            get => _currentState;
-            set
+            GameProjectModel? gameProjectModel;
+            string? solutionFolderPath;
+            if (SelectedProject != null)
             {
-                SetProperty(ref _currentState, value);
-                OnPropertyChanged(nameof(WindowTitle));
-                UpdateFooterButtons();
+                solutionFolderPath = SelectedProject.SolutionFolderPath;
             }
-        }
-
-        public string WindowTitle
-        {
-            get
+            else
             {
-                return CurrentState switch
-                {
-                    StartupState.RecentProjects => LocalizationManager.GetTranslation("App_Title"),
-                    StartupState.NewProject => LocalizationManager.GetTranslation("NewProject_Title"),
-                    StartupState.MarkerValidation => LocalizationManager.GetTranslation("Markers_Title"),
-                    _ => throw new InvalidOperationException("")
-                };
+                solutionFolderPath = _dialogService.OpenFolderDialog(LocalizationManager.GetTranslation("Dialog_OpenProject"));
+                if (solutionFolderPath == null)
+                    return; // L'utilisateur a annulé la commande
             }
+
+            gameProjectModel = _projectService.OpenProject(solutionFolderPath);
+            if (gameProjectModel == null)
+            {
+                _dialogService.ShowError(LocalizationManager.GetTranslation("Dialog_OpenProject"),
+                    LocalizationManager.GetTranslation("Error_OpenProject", ProjectStructure.ProjectFileName));
+                return; // Le dossier sélectionné ne contient pas de dichier 
+            }
+
+            _logService.Info($"Ouverture du projet '{gameProjectModel.SolutionName}' réussie");
+            NavigationRequested?.Invoke(this, new NavigationRequestedEventArgs(NavigationRequest.OpenProject, gameProjectModel));
         }
+        #endregion
 
-
-        private string _newProjectName = string.Empty;
+        #region Nouveau projet
         public string NewProjectName
         {
             get => _newProjectName;
@@ -362,7 +367,6 @@ namespace DinaGameEngine.ViewModels
                 OnPropertyChanged(nameof(NewProjectFolderPreview));
             }
         }
-        private string _newProjectParentFolder = string.Empty;
         public string NewProjectParentFolder
         {
             get => _newProjectParentFolder;
@@ -373,7 +377,54 @@ namespace DinaGameEngine.ViewModels
             }
         }
         public string NewProjectFolderPreview => _fileService.Combine(NewProjectParentFolder, NewProjectName, NewProjectName.Replace(" ", ""));
+        public RelayCommand NewProjectCommand { get; }
+        private void NewProject()
+        {
+            CurrentState = StartupState.NewProject;
+            NewProjectName = string.Empty;
+            NewProjectParentFolder = string.Empty;
+        }
+        public RelayCommand CancelNewProjectCommand { get; }
+        private void CancelNewProject()
+        {
+            CurrentState = StartupState.RecentProjects;
+        }
+        public RelayCommand BrowseFolderCommand { get; }
+        private void BrowseFolder()
+        {
+            var folder = _dialogService.OpenFolderDialog(LocalizationManager.GetTranslation("NewProject_Browse"));
+            if (folder != null)
+                NewProjectParentFolder = folder;
+        }
+        public RelayCommand GoToMarkerValidationCommand { get; }
+        private void GoToMarkerValidation()
+        {
+            var newProjectModel = new NewProjectModel
+            {
+                Name = NewProjectName,
+                ParentFolderPath = NewProjectParentFolder
+            };
 
+            var markers = _templateExtractor.GetMarkers(TemplateType.GameProject, newProjectModel);
+            if (markers == null)
+                return;
+
+            Markers.Clear();
+            foreach (var marker in markers)
+                Markers.Add(new TemplateMarkerViewModel(marker));
+
+            CurrentState = StartupState.MarkerValidation;
+        }
+        #endregion
+
+        #region Validation des marqueurs
+        public ObservableCollection<TemplateMarkerViewModel> Markers { get; } = [];
+        public RelayCommand GoToNewProjectCommand { get; }
+        private void GoToNewProject()
+        {
+            Markers.Clear();
+            CurrentState = StartupState.NewProject;
+        }
         public RelayCommand ConfirmNewProjectCommand { get; }
         private async void ConfirmNewProject()
         {
@@ -410,62 +461,8 @@ namespace DinaGameEngine.ViewModels
                 LocalizationManager.GetTranslation("CreatingProject_Success", gameProjectModel.SolutionName));
 
             CurrentState = StartupState.RecentProjects;
-            NotifyProjectOpened(gameProjectModel);
+            NavigationRequested?.Invoke(this, new NavigationRequestedEventArgs(NavigationRequest.OpenProject, gameProjectModel));
         }
-
-        public ObservableCollection<TemplateMarkerViewModel> Markers { get; } = [];
-
-        public RelayCommand GoToMarkerValidationCommand { get; }
-        private void GoToMarkerValidation()
-        {
-            var newProjectModel = new NewProjectModel
-            {
-                Name = NewProjectName,
-                ParentFolderPath = NewProjectParentFolder
-            };
-
-            var markers = _templateExtractor.GetMarkers(TemplateType.GameProject, newProjectModel);
-            if (markers == null)
-                return;
-
-            Markers.Clear();
-            foreach (var marker in markers)
-                Markers.Add(new TemplateMarkerViewModel(marker));
-
-            CurrentState = StartupState.MarkerValidation;
-        }
-        public RelayCommand GoToNewProjectCommand { get; }
-        private void GoToNewProject()
-        {
-            Markers.Clear();
-            CurrentState = StartupState.NewProject;
-        }
-
-        public RelayCommand SelectProjectCommand { get; }
-        private void SelectProject(object? obj)
-        {
-            if (obj is RecentProjectViewModel recentProjectViewModel)
-                SelectedProject = recentProjectViewModel;
-        }
-        public ButtonBarViewModel FooterButtons { get; }
-        private void UpdateFooterButtons()
-        {
-            FooterButtons.Buttons.Clear();
-            switch (CurrentState)
-            {
-                case StartupState.RecentProjects:
-                    FooterButtons.Buttons.Add(new ButtonDescriptor { Icon = "+", Label = LocalizationManager.GetTranslation("Startup_NewProject"), Command = GoToNewProjectCommand, Role = ButtonRole.Neutral });
-                    FooterButtons.Buttons.Add(new ButtonDescriptor { Icon = "📂", Label = LocalizationManager.GetTranslation("Startup_Open"), Command = OpenProjectCommand, Role = ButtonRole.Secondary });
-                    break;
-                case StartupState.NewProject:
-                    FooterButtons.Buttons.Add(new ButtonDescriptor { Label = LocalizationManager.GetTranslation("NewProject_Cancel"), Command = CancelNewProjectCommand, Role = ButtonRole.Secondary });
-                    FooterButtons.Buttons.Add(new ButtonDescriptor { Label = LocalizationManager.GetTranslation("NewProject_Next"), Command = GoToMarkerValidationCommand, Role = ButtonRole.Primary });
-                    break;
-                case StartupState.MarkerValidation:
-                    FooterButtons.Buttons.Add(new ButtonDescriptor { Label = LocalizationManager.GetTranslation("Markers_Previous"), Command = GoToNewProjectCommand, Role = ButtonRole.Secondary });
-                    FooterButtons.Buttons.Add(new ButtonDescriptor { Label = LocalizationManager.GetTranslation("Markers_Create"), Command = ConfirmNewProjectCommand, Role = ButtonRole.Primary });
-                    break;
-            }
-        }
+        #endregion
     }
 }

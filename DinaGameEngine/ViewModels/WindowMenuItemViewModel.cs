@@ -1,14 +1,12 @@
 ﻿using DinaGameEngine.Commands;
 using DinaGameEngine.Common;
 
-using System.Net.Http.Headers;
-
 namespace DinaGameEngine.ViewModels
 {
     public class WindowMenuItemViewModel : ObservableObject
     {
         private bool _isActive;
-        private Action<object> _activateAction;
+        private readonly Action<object> _activateAction;
 
         public WindowMenuItemViewModel(string title, object viewModel, Action<object> activateAction)
         {

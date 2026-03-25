@@ -4,10 +4,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:usercontrols="clr-namespace:DinaGameEngine.Views.UserControls"
         xmlns:ext="clr-namespace:DinaGameEngine.Extensions"
-        xmlns:common="clr-namespace:DinaGameEngine.Common;assembly=DinaGameEngine.Common"
+        xmlns:enums="clr-namespace:DinaGameEngine.Common.Enums;assembly=DinaGameEngine.Common"
         Title="{Binding Title}" Height="220" Width="480" 
         Style="{StaticResource DinaWindowStyle}"
-        TitleBarButtons="{x:Static common:TitleBarButtons.CloseOnly}"
+        TitleBarButtons="{x:Static enums:TitleBarButtons.CloseOnly}"
         SizeToContent="WidthAndHeight"
         WindowStartupLocation="CenterScreen">
     <Grid>
@@ -22,7 +22,7 @@
                 <ContentControl.Style>
                     <Style TargetType="ContentControl">
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding Icon}" Value="{x:Static common:DialogIcon.Info}">
+                            <DataTrigger Binding="{Binding Icon}" Value="{x:Static enums:DialogIcon.Info}">
                                 <Setter Property="Content">
                                     <Setter.Value>
                                         <Border Width="40" Height="40" CornerRadius="20"
@@ -34,7 +34,7 @@
                                     </Setter.Value>
                                 </Setter>
                             </DataTrigger>
-                            <DataTrigger Binding="{Binding Icon}" Value="{x:Static common:DialogIcon.Warning}">
+                            <DataTrigger Binding="{Binding Icon}" Value="{x:Static enums:DialogIcon.Warning}">
                                 <Setter Property="Content">
                                     <Setter.Value>
                                         <Border Width="40" Height="40" CornerRadius="20"
@@ -46,7 +46,7 @@
                                     </Setter.Value>
                                 </Setter>
                             </DataTrigger>
-                            <DataTrigger Binding="{Binding Icon}" Value="{x:Static common:DialogIcon.Error}">
+                            <DataTrigger Binding="{Binding Icon}" Value="{x:Static enums:DialogIcon.Error}">
                                 <Setter Property="Content">
                                     <Setter.Value>
                                         <Border Width="40" Height="40" CornerRadius="20"
@@ -58,7 +58,7 @@
                                     </Setter.Value>
                                 </Setter>
                             </DataTrigger>
-                            <DataTrigger Binding="{Binding Icon}" Value="{x:Static common:DialogIcon.Success}">
+                            <DataTrigger Binding="{Binding Icon}" Value="{x:Static enums:DialogIcon.Success}">
                                 <Setter Property="Content">
                                     <Setter.Value>
                                         <Border Width="40" Height="40" CornerRadius="20"
@@ -70,7 +70,7 @@
                                     </Setter.Value>
                                 </Setter>
                             </DataTrigger>
-                            <DataTrigger Binding="{Binding Icon}" Value="{x:Static common:DialogIcon.None}">
+                            <DataTrigger Binding="{Binding Icon}" Value="{x:Static enums:DialogIcon.None}">
                                 <Setter Property="Content">
                                     <Setter.Value>
                                         <ContentControl/>
@@ -91,7 +91,7 @@
                 <Style TargetType="Grid">
                     <Setter Property="Visibility" Value="Collapsed"/>
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding Buttons}" Value="{x:Static common:DialogButtons.OK}">
+                        <DataTrigger Binding="{Binding Buttons}" Value="{x:Static enums:DialogButtons.OK}">
                             <Setter Property="Visibility" Value="Visible"/>
                         </DataTrigger>
                     </Style.Triggers>
@@ -117,7 +117,7 @@
                 <Style TargetType="Grid">
                     <Setter Property="Visibility" Value="Collapsed"/>
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding Buttons}" Value="{x:Static common:DialogButtons.OKCancel}">
+                        <DataTrigger Binding="{Binding Buttons}" Value="{x:Static enums:DialogButtons.OKCancel}">
                             <Setter Property="Visibility" Value="Visible"/>
                         </DataTrigger>
                     </Style.Triggers>
@@ -151,7 +151,7 @@
                 <Style TargetType="Grid">
                     <Setter Property="Visibility" Value="Collapsed"/>
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding Buttons}" Value="{x:Static common:DialogButtons.YesNo}">
+                        <DataTrigger Binding="{Binding Buttons}" Value="{x:Static enums:DialogButtons.YesNo}">
                             <Setter Property="Visibility" Value="Visible"/>
                         </DataTrigger>
                     </Style.Triggers>

@@ -18,7 +18,7 @@ namespace DinaGameEngine.ViewModels
             _projectService = projectService;
 
             PinProjectCommand = new RelayCommand(ExecutePinProject);
-            OpenRecentProjectCommand = new RelayCommand(ExecuteOpenProject);
+            OpenProjectCommand = new RelayCommand(ExecuteOpenProject);
             RemoveFromListCommand = new RelayCommand(ExecuteRemoveProjectFromList);
         }
 
@@ -61,8 +61,7 @@ namespace DinaGameEngine.ViewModels
         }
         public DateTime LastOpenedAt
         {
-            get
-        => _model.LastOpenedAt;
+            get => _model.LastOpenedAt;
             set
             {
                 if (_model.LastOpenedAt == value)
@@ -95,16 +94,14 @@ namespace DinaGameEngine.ViewModels
         }
         public string IconPath => _fileService.Combine(ProjectFolderPath, ProjectStructure.IconFileName);
 
-
         public RelayCommand PinProjectCommand { get; }
-        public RelayCommand OpenRecentProjectCommand { get; }
-        public RelayCommand RemoveFromListCommand { get; }
 
         private void ExecutePinProject()
         {
             IsPinned = !IsPinned;
             PinChanged?.Invoke(this, EventArgs.Empty);
         }
+        public RelayCommand OpenProjectCommand { get; }
         private void ExecuteOpenProject()
         {
             var project = _projectService.OpenProject(_model.ProjectFolderPath);
@@ -112,6 +109,7 @@ namespace DinaGameEngine.ViewModels
                 return;
             ProjectOpened?.Invoke(this, new ProjectOpenedEventArgs(project));
         }
+        public RelayCommand RemoveFromListCommand { get; }
         private void ExecuteRemoveProjectFromList()
         {
             ProjectRemoved?.Invoke(this, EventArgs.Empty);

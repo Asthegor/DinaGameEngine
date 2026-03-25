@@ -4,10 +4,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:usercontrols="clr-namespace:DinaGameEngine.Views.UserControls"
         xmlns:vm="clr-namespace:DinaGameEngine.ViewModels"
-        xmlns:common="clr-namespace:DinaGameEngine.Common;assembly=DinaGameEngine.Common"
+        xmlns:enums="clr-namespace:DinaGameEngine.Common.Enums;assembly=DinaGameEngine.Common"
         Title="{Binding WindowTitle}" Height="450" Width="800"
         Style="{StaticResource DinaWindowStyle}"
-        TitleBarButtons="{x:Static common:TitleBarButtons.MinimizeMaximizeAndClose}"
+        TitleBarButtons="{x:Static enums:TitleBarButtons.MinimizeMaximizeAndClose}"
         WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <DataTemplate DataType="{x:Type vm:ProjectHomeViewModel}">

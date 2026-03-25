@@ -1,6 +1,8 @@
 ﻿using DinaGameEngine.Abstractions;
 using DinaGameEngine.Commands;
 using DinaGameEngine.Common;
+using DinaGameEngine.Common.Enums;
+using DinaGameEngine.Common.Events;
 using DinaGameEngine.Models;
 using DinaGameEngine.Views;
 
@@ -14,24 +16,18 @@ namespace DinaGameEngine.ViewModels
         private readonly IProjectService _projectService;
         private readonly IDialogService _dialogService;
         private readonly IFileService _fileService;
-        private readonly ILogService _logService;
-        private readonly ITemplateExtractor _templateExtractor;
         private readonly ICodeGenerator _codeGenerator;
-
         private readonly GameProjectModel _gameProjectModel;
 
         private Dictionary<Type, object?> _viewModels = [];
-        
+        private object? _currentViewModel;
 
         public MainViewModel(IProjectService projectService, IDialogService dialogService, IFileService fileService,
-                             ILogService logService, ITemplateExtractor templateExtractor, ICodeGenerator codeGenerator,
-                             GameProjectModel gameProjectModel)
+                             ICodeGenerator codeGenerator, GameProjectModel gameProjectModel)
         {
             _projectService = projectService;
             _dialogService = dialogService;
             _fileService = fileService;
-            _logService = logService;
-            _templateExtractor = templateExtractor;
             _codeGenerator = codeGenerator;
             _gameProjectModel = gameProjectModel;
 
@@ -51,7 +47,7 @@ namespace DinaGameEngine.ViewModels
 
             if (string.IsNullOrEmpty(_gameProjectModel.DefaultLanguage) || !LanguageDefinitions.Languages.Any(l => l.Code == _gameProjectModel.DefaultLanguage))
             {
-                var vm = new LanguageSelectionViewModel(_logService, _projectService, _fileService, _gameProjectModel);
+                var vm = new LanguageSelectionViewModel(_projectService, _fileService, _gameProjectModel);
                 var window = new LanguageSelectionWindow
                 { DataContext = vm };
                 vm.LanguageSelected += (s, e) => window.Close();
@@ -63,7 +59,6 @@ namespace DinaGameEngine.ViewModels
             LoadScenes();
         }
 
-        private object? _currentViewModel;
         public object? CurrentViewModel
         {
             get => _currentViewModel;
@@ -79,7 +74,7 @@ namespace DinaGameEngine.ViewModels
         }
         private void NewProject()
         {
-            NewProjectRequested?.Invoke(this, EventArgs.Empty);
+            NavigationRequested?.Invoke(this, new NavigationRequestedEventArgs(NavigationRequest.ShowStartupNewProject));
         }
         private void LoadProject()
         {
@@ -93,7 +88,7 @@ namespace DinaGameEngine.ViewModels
                                          LocalizationManager.GetTranslation("Error_OpenProject", ProjectStructure.ProjectFileName));
                 return;
             }
-            ProjectLoaded?.Invoke(this, gameProjectModel);
+            NavigationRequested?.Invoke(this, new NavigationRequestedEventArgs(NavigationRequest.OpenProject, gameProjectModel));
         }
         private void SaveProject()
         {
@@ -104,7 +99,7 @@ namespace DinaGameEngine.ViewModels
         }
         private void CloseProject()
         {
-            ProjectClosed?.Invoke(this, EventArgs.Empty);
+            NavigationRequested?.Invoke(this, new NavigationRequestedEventArgs(NavigationRequest.ShowStartup));
         }
         private void AddNewScene()
         {
@@ -176,7 +171,7 @@ namespace DinaGameEngine.ViewModels
             CurrentViewModel = projectHomeViewModel;
             var title = _gameProjectModel.SolutionName;
             var windowMenuItemViewModel = new WindowMenuItemViewModel(title, projectHomeViewModel, (obj) => CurrentViewModel = obj);
-            if (OpenWindows.FirstOrDefault(w => w.Title == title && w.ViewModel == projectHomeViewModel, null) == null)
+            if (OpenWindows.FirstOrDefault(w => w?.Title == title && w.ViewModel == projectHomeViewModel, null) == null)
                 OpenWindows.Add(windowMenuItemViewModel);
         }
 
@@ -212,8 +207,6 @@ namespace DinaGameEngine.ViewModels
         }
         public ObservableCollection<WindowMenuItemViewModel> OpenWindows { get; } = [];
 
-        public event EventHandler? NewProjectRequested;
-        public event EventHandler? ProjectClosed;
-        public event EventHandler<GameProjectModel>? ProjectLoaded;
+        public event EventHandler<NavigationRequestedEventArgs>? NavigationRequested;
     }
 }

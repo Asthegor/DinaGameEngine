@@ -11,6 +11,7 @@ namespace DinaGameEngine.ViewModels
         public TemplateMarkerViewModel(TemplateMarkerModel model)
         {
             _model = model;
+
             ResetMarkerCommand = new RelayCommand(ExecuteResetMarker);
         }
 

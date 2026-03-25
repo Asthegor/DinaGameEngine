@@ -4,10 +4,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:usercontrols="clr-namespace:DinaGameEngine.Views.UserControls"
         xmlns:ext="clr-namespace:DinaGameEngine.Extensions"
-        xmlns:common="clr-namespace:DinaGameEngine.Common;assembly=DinaGameEngine.Common"
+        xmlns:enums="clr-namespace:DinaGameEngine.Common.Enums;assembly=DinaGameEngine.Common"
         Title="{Binding WindowTitle}" Height="550" Width="900" 
         Style="{StaticResource DinaWindowStyle}"
-        TitleBarButtons="{x:Static common:TitleBarButtons.MinimizeAndClose}"
+        TitleBarButtons="{x:Static enums:TitleBarButtons.MinimizeAndClose}"
         WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.RowDefinitions>
@@ -19,21 +19,21 @@
             <ContentControl.Style>
                 <Style TargetType="ContentControl">
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding CurrentState}" Value="{x:Static common:StartupState.RecentProjects}">
+                        <DataTrigger Binding="{Binding CurrentState}" Value="{x:Static enums:StartupState.RecentProjects}">
                             <Setter Property="Content">
                                 <Setter.Value>
                                     <usercontrols:ListRecentProjectsView/>
                                 </Setter.Value>
                             </Setter>
                         </DataTrigger>
-                        <DataTrigger Binding="{Binding CurrentState}" Value="{x:Static common:StartupState.NewProject}">
+                        <DataTrigger Binding="{Binding CurrentState}" Value="{x:Static enums:StartupState.NewProject}">
                             <Setter Property="Content">
                                 <Setter.Value>
                                     <usercontrols:NewProjectView/>
                                 </Setter.Value>
                             </Setter>
                         </DataTrigger>
-                        <DataTrigger Binding="{Binding CurrentState}"  Value="{x:Static common:StartupState.MarkerValidation}">
+                        <DataTrigger Binding="{Binding CurrentState}"  Value="{x:Static enums:StartupState.MarkerValidation}">
                             <Setter Property="Content">
                                 <Setter.Value>
                                     <usercontrols:MarkersListView/>
