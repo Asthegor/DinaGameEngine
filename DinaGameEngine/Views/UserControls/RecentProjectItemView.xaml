@@ -97,14 +97,16 @@
                                FontSize="11"/>
                 </StackPanel>
                 <Grid x:Name="PinGrid" Cursor="Hand" Background="Transparent">
-                    <TextBlock x:Name="PinIcon" Text="📌" FontSize="18" VerticalAlignment="Center">
+                    <TextBlock x:Name="PinIcon" FontFamily="Segoe Fluent Icons" FontSize="18" VerticalAlignment="Center">
                         <TextBlock.Style>
                             <Style TargetType="TextBlock">
+                                <Setter Property="Text" Value="&#xE718;"/>
                                 <Setter Property="Foreground" Value="#CCCCCC"/>
                                 <Setter Property="Opacity" Value="0.5"/>
 
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding IsPinned, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="True">
+                                        <Setter Property="Text" Value="&#xE718;"/>
                                         <Setter Property="Foreground" Value="DarkViolet"/>
                                         <Setter Property="Opacity" Value="1"/>
                                     </DataTrigger>
@@ -114,7 +116,8 @@
                                             <Condition Binding="{Binding IsMouseOver, ElementName=PinGrid}" Value="True"/>
                                             <Condition Binding="{Binding IsPinned, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="False"/>
                                         </MultiDataTrigger.Conditions>
-                                        <Setter Property="Foreground" Value="Orange"/>
+                                        <Setter Property="Text" Value="&#xE718;"/>
+                                        <Setter Property="Foreground" Value="Darkviolet"/>
                                         <Setter Property="Opacity" Value="1"/>
                                     </MultiDataTrigger>
 
@@ -123,6 +126,7 @@
                                             <Condition Binding="{Binding IsMouseOver, ElementName=PinGrid}" Value="True"/>
                                             <Condition Binding="{Binding IsPinned, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="True"/>
                                         </MultiDataTrigger.Conditions>
+                                        <Setter Property="Text" Value="&#xE77A;"/>
                                         <Setter Property="Foreground" Value="Red"/>
                                         <Setter Property="Opacity" Value="1"/>
                                     </MultiDataTrigger>

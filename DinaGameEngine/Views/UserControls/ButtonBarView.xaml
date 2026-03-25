@@ -11,6 +11,7 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
         <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
+        <converters:NullToThicknessConverter x:Key="NullToThicknessConverter"/>
     </UserControl.Resources>
     <ItemsControl ItemsSource="{Binding Buttons}"
                   HorizontalAlignment="{Binding HorizontalAlignment}"
@@ -59,12 +60,14 @@
                     </Button.Style>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="{Binding Icon}" 
-                                   FontSize="14"
-                                   Margin="0,0,8,0" VerticalAlignment="Center"
-                                   Visibility="{Binding Icon, Converter={StaticResource NullToVisibilityConverter}}"/>
+                                   FontSize="12" FontFamily="Segoe Fluent Icons"
+                                   VerticalAlignment="Center"
+                                   Visibility="{Binding Icon, Converter={StaticResource NullToVisibilityConverter}}"
+                                   Margin="{Binding Label, Converter={StaticResource NullToThicknessConverter}}"/>
                         <TextBlock Text="{Binding Label}" 
-                                   VerticalAlignment="Center" 
-                                   FontSize="14" FontWeight="SemiBold"/>
+                                   VerticalAlignment="Center"
+                                   FontSize="14" FontWeight="SemiBold"
+                                   Visibility="{Binding Label, Converter={StaticResource NullToVisibilityConverter}}"/>
                     </StackPanel>
                 </Button>
             </DataTemplate>

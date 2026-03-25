@@ -79,6 +79,7 @@ namespace DinaGameEngine.Services
             var gameProjectNameMarker = markers.First(m => m.Key == "__GameProjectName__");
             var gameProjectModel = new GameProjectModel
             {
+                Id = Guid.NewGuid(),
                 CreatedAt = DateTime.Now,
                 DinaVersion = GetDinaVersion(),
                 LastOpenedAt = DateTime.Now,

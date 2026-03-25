@@ -25,48 +25,36 @@
                             <DataTrigger Binding="{Binding Icon}" Value="{x:Static enums:DialogIcon.Info}">
                                 <Setter Property="Content">
                                     <Setter.Value>
-                                        <Border Width="40" Height="40" CornerRadius="20"
-                                                    Background="#2196F3">
-                                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
-                                                           FontSize="20" Foreground="White" FontWeight="Bold"
-                                                           Text="i"/>
-                                        </Border>
+                                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                   FontSize="40" Foreground="#2196F3" FontWeight="Bold"
+                                                   Text="&#xE946;" FontFamily="Segoe Fluent Icons"/>
                                     </Setter.Value>
                                 </Setter>
                             </DataTrigger>
                             <DataTrigger Binding="{Binding Icon}" Value="{x:Static enums:DialogIcon.Warning}">
                                 <Setter Property="Content">
                                     <Setter.Value>
-                                        <Border Width="40" Height="40" CornerRadius="20"
-                                                    Background="#FF9800">
-                                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
-                                                           FontSize="20" Foreground="White" FontWeight="Bold"
-                                                           Text="!"/>
-                                        </Border>
+                                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                   FontSize="40" Foreground="#FF9800" FontWeight="Bold"
+                                                   Text="&#xE7BA;" FontFamily="Segoe Fluent Icons"/>
                                     </Setter.Value>
                                 </Setter>
                             </DataTrigger>
                             <DataTrigger Binding="{Binding Icon}" Value="{x:Static enums:DialogIcon.Error}">
                                 <Setter Property="Content">
                                     <Setter.Value>
-                                        <Border Width="40" Height="40" CornerRadius="20"
-                                                    Background="#F44336">
-                                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
-                                                           FontSize="20" Foreground="White" FontWeight="Bold"
-                                                           Text="✕"/>
-                                        </Border>
+                                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                   FontSize="40" Foreground="#F44336" FontWeight="Bold"
+                                                   Text="&#xE783;" FontFamily="Segoe Fluent Icons"/>
                                     </Setter.Value>
                                 </Setter>
                             </DataTrigger>
                             <DataTrigger Binding="{Binding Icon}" Value="{x:Static enums:DialogIcon.Success}">
                                 <Setter Property="Content">
                                     <Setter.Value>
-                                        <Border Width="40" Height="40" CornerRadius="20"
-                                                    Background="#4CAF50">
-                                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
-                                                           FontSize="20" Foreground="White" FontWeight="Bold"
-                                                           Text="✓"/>
-                                        </Border>
+                                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                   FontSize="40" Foreground="#4CAF50" FontWeight="Bold"
+                                                   Text="&#xE73E;" FontFamily="Segoe Fluent Icons"/>
                                     </Setter.Value>
                                 </Setter>
                             </DataTrigger>

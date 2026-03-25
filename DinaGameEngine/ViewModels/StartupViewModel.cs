@@ -3,6 +3,7 @@ using DinaGameEngine.Commands;
 using DinaGameEngine.Common;
 using DinaGameEngine.Common.Enums;
 using DinaGameEngine.Common.Events;
+using DinaGameEngine.Extensions;
 using DinaGameEngine.Models;
 using DinaGameEngine.Views;
 
@@ -88,8 +89,8 @@ namespace DinaGameEngine.ViewModels
             switch (CurrentState)
             {
                 case StartupState.RecentProjects:
-                    FooterButtons.Buttons.Add(new ButtonDescriptor { Icon = "+", Label = LocalizationManager.GetTranslation("Startup_NewProject"), Command = GoToNewProjectCommand, Role = ButtonRole.Neutral });
-                    FooterButtons.Buttons.Add(new ButtonDescriptor { Icon = "📂", Label = LocalizationManager.GetTranslation("Startup_Open"), Command = OpenProjectCommand, Role = ButtonRole.Secondary });
+                    FooterButtons.Buttons.Add(new ButtonDescriptor { Icon = DinaIcon.Add.ToGlyph(), Label = LocalizationManager.GetTranslation("Startup_NewProject"), Command = GoToNewProjectCommand, Role = ButtonRole.Neutral });
+                    FooterButtons.Buttons.Add(new ButtonDescriptor { Icon = DinaIcon.Open.ToGlyph(), Label = LocalizationManager.GetTranslation("Startup_Open"), Command = OpenProjectCommand, Role = ButtonRole.Secondary });
                     break;
                 case StartupState.NewProject:
                     FooterButtons.Buttons.Add(new ButtonDescriptor { Label = LocalizationManager.GetTranslation("NewProject_Cancel"), Command = CancelNewProjectCommand, Role = ButtonRole.Secondary });

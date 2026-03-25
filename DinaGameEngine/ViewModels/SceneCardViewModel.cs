@@ -1,6 +1,7 @@
 ﻿using DinaGameEngine.Commands;
 using DinaGameEngine.Common;
 using DinaGameEngine.Common.Enums;
+using DinaGameEngine.Extensions;
 using DinaGameEngine.Models;
 
 namespace DinaGameEngine.ViewModels
@@ -40,8 +41,8 @@ namespace DinaGameEngine.ViewModels
         private void CreateButtons()
         {
             Buttons.Buttons.Clear();
-            Buttons.Buttons.Add(new ButtonDescriptor { Icon = "📂", Command = OpenCommand, Role = ButtonRole.Primary });
-            Buttons.Buttons.Add(new ButtonDescriptor { Icon = "🗑", Command = DeleteCommand, Role = ButtonRole.Secondary });
+            Buttons.Buttons.Add(new ButtonDescriptor { Icon = DinaIcon.Open.ToGlyph(), Command = OpenCommand, Role = ButtonRole.Primary });
+            Buttons.Buttons.Add(new ButtonDescriptor { Icon = DinaIcon.Delete.ToGlyph(), Command = DeleteCommand, Role = ButtonRole.Secondary });
         }
     }
 }

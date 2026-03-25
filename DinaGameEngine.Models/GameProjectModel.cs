@@ -12,6 +12,8 @@ namespace DinaGameEngine.Models
         private string _rootPath = string.Empty;
         private string _rootNamespace = string.Empty;
         private string _defaultLanguage = string.Empty;
+
+        public Guid Id { get; set; }
         public string SolutionName
         {
             get => _solutionName;
