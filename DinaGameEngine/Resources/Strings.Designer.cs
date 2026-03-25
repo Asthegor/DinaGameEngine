@@ -61,6 +61,15 @@ namespace DinaGameEngine.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ajout d&apos;une nouvelle scène.
+        /// </summary>
+        public static string AddScene_title {
+            get {
+                return ResourceManager.GetString("AddScene_title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Dina Game Engine.
         /// </summary>
         public static string App_Title {
@@ -273,6 +282,24 @@ namespace DinaGameEngine.Resources {
         public static string MainMenu_File_Save {
             get {
                 return ResourceManager.GetString("MainMenu_File_Save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Le projet &apos;{0}&apos; a été sauvegardé avec succès..
+        /// </summary>
+        public static string MainMenu_File_Save_Message {
+            get {
+                return ResourceManager.GetString("MainMenu_File_Save_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sauvegarde du projet &apos;{0}&apos;.
+        /// </summary>
+        public static string MainMenu_File_Save_Title {
+            get {
+                return ResourceManager.GetString("MainMenu_File_Save_Title", resourceCulture);
             }
         }
         

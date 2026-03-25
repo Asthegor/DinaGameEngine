@@ -1,10 +1,10 @@
 ﻿using DinaGameEngine.Abstractions;
-using DinaGameEngine.CodeGeneration;
 using DinaGameEngine.Commands;
 using DinaGameEngine.Common;
 using DinaGameEngine.Models;
 using DinaGameEngine.Views;
 
+using System.Collections.ObjectModel;
 using System.Windows;
 
 namespace DinaGameEngine.ViewModels
@@ -21,6 +21,7 @@ namespace DinaGameEngine.ViewModels
         private readonly GameProjectModel _gameProjectModel;
 
         private Dictionary<Type, object?> _viewModels = [];
+        
 
         public MainViewModel(IProjectService projectService, IDialogService dialogService, IFileService fileService,
                              ILogService logService, ITemplateExtractor templateExtractor, ICodeGenerator codeGenerator,
@@ -71,22 +72,39 @@ namespace DinaGameEngine.ViewModels
                 SetProperty(ref _currentViewModel, value);
                 if (_currentViewModel != null)
                     _viewModels[_currentViewModel.GetType()] = _currentViewModel;
+
+                foreach (var item in OpenWindows)
+                    item.IsActive = item.ViewModel == _currentViewModel;
             }
         }
         private void NewProject()
         {
-            throw new NotImplementedException();
+            NewProjectRequested?.Invoke(this, EventArgs.Empty);
         }
         private void LoadProject()
         {
+            var path = _dialogService.OpenFolderDialog(LocalizationManager.GetTranslation("Dialog_OpenProject"));
+            if (path == null)
+                return;
+            var gameProjectModel = _projectService.OpenProject(path);
+            if (gameProjectModel == null)
+            {
+                _dialogService.ShowError(LocalizationManager.GetTranslation("Dialog_OpenProject"),
+                                         LocalizationManager.GetTranslation("Error_OpenProject", ProjectStructure.ProjectFileName));
+                return;
+            }
+            ProjectLoaded?.Invoke(this, gameProjectModel);
         }
         private void SaveProject()
         {
-            throw new NotImplementedException();
+            _projectService.UpdateJsonProjectFile(_gameProjectModel);
+            DialogWindow.Show(LocalizationManager.GetTranslation("MainMenu_File_Save_Message", _gameProjectModel.SolutionName),
+                              LocalizationManager.GetTranslation("MainMenu_File_Save_Title", _gameProjectModel.SolutionName),
+                              DialogIcon.Success, DialogButtons.OK);
         }
         private void CloseProject()
         {
-            throw new NotImplementedException();
+            ProjectClosed?.Invoke(this, EventArgs.Empty);
         }
         private void AddNewScene()
         {
@@ -156,6 +174,10 @@ namespace DinaGameEngine.ViewModels
             projectHomeViewModel.SceneOpenRequested += OnSceneOpenRequested;
             projectHomeViewModel.SceneDeleteRequested += OnSceneDeleteRequested;
             CurrentViewModel = projectHomeViewModel;
+            var title = _gameProjectModel.SolutionName;
+            var windowMenuItemViewModel = new WindowMenuItemViewModel(title, projectHomeViewModel, (obj) => CurrentViewModel = obj);
+            if (OpenWindows.FirstOrDefault(w => w.Title == title && w.ViewModel == projectHomeViewModel, null) == null)
+                OpenWindows.Add(windowMenuItemViewModel);
         }
 
         private void OnSceneOpenRequested(object? sender, EventArgs e)
@@ -188,5 +210,10 @@ namespace DinaGameEngine.ViewModels
                 }
             }
         }
+        public ObservableCollection<WindowMenuItemViewModel> OpenWindows { get; } = [];
+
+        public event EventHandler? NewProjectRequested;
+        public event EventHandler? ProjectClosed;
+        public event EventHandler<GameProjectModel>? ProjectLoaded;
     }
 }

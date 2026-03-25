@@ -324,4 +324,13 @@ Do you still want to remove the scene ‘{0}’?</value>
   <data name="SceneDelete_Confirmation_title" xml:space="preserve">
     <value>Remove the scene '{0}'</value>
   </data>
+  <data name="MainMenu_File_Save_Title" xml:space="preserve">
+    <value>Saving project '{0}'</value>
+  </data>
+  <data name="MainMenu_File_Save_Message" xml:space="preserve">
+    <value>The ‘{0}’ project has been successfully saved.</value>
+  </data>
+  <data name="AddScene_title" xml:space="preserve">
+    <value>Adding a new scene</value>
+  </data>
 </root>

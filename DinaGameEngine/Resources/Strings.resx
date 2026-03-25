@@ -324,4 +324,13 @@ Voulez-vous tout de même supprimer la scène '{0}' ?</value>
   <data name="SceneDelete_Confirmation_title" xml:space="preserve">
     <value>Suppression de la scène '{0}'</value>
   </data>
+  <data name="MainMenu_File_Save_Title" xml:space="preserve">
+    <value>Sauvegarde du projet '{0}'</value>
+  </data>
+  <data name="MainMenu_File_Save_Message" xml:space="preserve">
+    <value>Le projet '{0}' a été sauvegardé avec succès.</value>
+  </data>
+  <data name="AddScene_title" xml:space="preserve">
+    <value>Ajout d'une nouvelle scène</value>
+  </data>
 </root>

@@ -216,7 +216,7 @@ namespace DinaGameEngine.ViewModels
             var recentProjectFile = _fileService.Combine(_fileService.GetAppDataDirectory(), ProjectStructure.RecentProjectsFileName);
             _fileService.WriteAllText(recentProjectFile, jsonContent);
 
-            _logService.Info(vm.IsPinned ? $"{vm.Name} épinglé (position: {vm.PinOrder})" : $"{vm.Name} désépinglé");
+            _logService.Info($"Projet '{vm.Name}' supprimé de la liste.");
 
             LoadRecentProjects();
         }

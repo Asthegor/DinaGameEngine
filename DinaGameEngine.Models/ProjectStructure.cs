@@ -11,8 +11,10 @@
         public const string AssetsProject = "Assets/Assets.csproj";
         public const string CoreProject = "Core/Core.csproj";
         public const string ScenesProject = "Scenes/Scenes.csproj";
-        
-        public const string LogFileName = "log.txt";
+
+        public const string LogFilePrefix = "log_";
+        public const string LogFileExtension = ".txt";
+        public const int LogFileMaxCount = 10;
 
         public const string SectionStatesFileName = "sectionProjects.json";
     }

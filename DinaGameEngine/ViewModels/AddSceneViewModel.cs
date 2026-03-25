@@ -29,7 +29,7 @@ namespace DinaGameEngine.ViewModels
                 AddCommand.RaiseCanExecuteChanged();
             }
         }
-        public string ClassName => $"{SceneName.ToPascalCase()}Scene";
+        public string ClassName => string.IsNullOrEmpty(SceneName) ? string.Empty : $"{SceneName.ToPascalCase()}Scene";
         public string Key => SceneName.ToPascalCase();
 
         public event EventHandler<bool>? SceneConfirmed;

@@ -1,6 +1,7 @@
 ﻿using DinaGameEngine.Abstractions;
 using DinaGameEngine.CodeGeneration;
 using DinaGameEngine.Common;
+using DinaGameEngine.Models;
 using DinaGameEngine.Resources;
 using DinaGameEngine.Services;
 using DinaGameEngine.Templates;
@@ -15,39 +16,60 @@ namespace DinaGameEngine
 {
     public partial class App : Application
     {
+        private IFileService _fileService;
+        private IGeneratedFileChecker _generatedFileChecker;
+        private ILogService _logService;
+        private ITemplateExtractor _templateExtractor;
+        private ICodeGenerator _codeGenerator;
+        private IProjectService _projectService;
+        private IDialogService _dialogService;
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
 
             // Injection manuelle des dépendances
-            IFileService fileService = new FileService();
-            IGeneratedFileChecker generatedFileChecker = new GeneratedFileChecker(fileService);
-            ILogService logService = new LogService(fileService);
-            ITemplateExtractor templateExtractor = new TemplateExtractor(logService);
-            ICodeGenerator codeGenerator = new CodeGenerator(fileService, logService, generatedFileChecker);
-            IProjectService projectService = new ProjectService(fileService, logService, templateExtractor, codeGenerator);
-            IDialogService dialogService = new DialogService();
+            _fileService = new FileService();
+            _generatedFileChecker = new GeneratedFileChecker(_fileService);
+            _logService = new LogService(_fileService);
+            _templateExtractor = new TemplateExtractor(_logService);
+            _codeGenerator = new CodeGenerator(_fileService, _logService, _generatedFileChecker);
+            _projectService = new ProjectService(_fileService, _logService, _templateExtractor, _codeGenerator);
+            _dialogService = new DialogService();
 
             LocalizationManager.Register(typeof(Strings));
 
-            CheckLibsPath(templateExtractor);
+            CheckLibsPath(_templateExtractor);
 
-            var viewModel = new StartupViewModel(projectService, dialogService, fileService, logService, templateExtractor);
-            var startupWindow = new StartupWindow(viewModel);
-
-            viewModel.ProjectOpened += (sender, gameProjectModel) =>
+            ShowStartupWindow(StartupState.RecentProjects);
+        }
+        private void ShowStartupWindow(StartupState state)
+        {
+            _logService.Info($"ShowStartupWindow => {state}");
+            var startupViewModel = new StartupViewModel(_projectService, _dialogService, _fileService, _logService, _templateExtractor)
             {
-                var mainViewModel = new MainViewModel(projectService, dialogService, fileService, logService, templateExtractor, codeGenerator, gameProjectModel);
-
-                var mainWindow = new MainWindow
-                { DataContext = mainViewModel };
-                mainWindow.Show();
-                startupWindow.Close();
+                CurrentState = state
             };
+            var startupWindow = new StartupWindow(startupViewModel);
 
+            startupViewModel.ProjectOpened += (sender, gameProjectModel) => OpenMainWindow(startupWindow, gameProjectModel);
             startupWindow.Show();
         }
-
+        private void OpenMainWindow(Window windowToClose, GameProjectModel gameProjectModel)
+        {
+            var mainViewModel = new MainViewModel(_projectService, _dialogService, _fileService, _logService,
+                                                  _templateExtractor, _codeGenerator, gameProjectModel);
+            var mainWindow = new MainWindow { DataContext = mainViewModel };
+            mainViewModel.NewProjectRequested += (sender, e) => CloseMainWindowAndShowStartupWindow(mainWindow, StartupState.NewProject);
+            mainViewModel.ProjectClosed += (sender, e) => CloseMainWindowAndShowStartupWindow(mainWindow, StartupState.RecentProjects);
+            mainViewModel.ProjectLoaded += (sender, newGameProjectModel) => OpenMainWindow(mainWindow, newGameProjectModel);
+            mainWindow.Show();
+            windowToClose.Close();
+        }
+        private void CloseMainWindowAndShowStartupWindow(MainWindow mainWindow, StartupState startupState)
+        {
+            ShowStartupWindow(startupState);
+            mainWindow.Close();
+        }
         private static void CheckLibsPath(ITemplateExtractor templateExtractor)
         {
             var libsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Libs");
