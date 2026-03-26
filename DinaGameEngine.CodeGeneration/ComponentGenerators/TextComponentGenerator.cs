@@ -1,4 +1,4 @@
-﻿using DinaGameEngine.Models;
+﻿using DinaGameEngine.Models.Project;
 
 namespace DinaGameEngine.CodeGeneration.ComponentGenerators
 {

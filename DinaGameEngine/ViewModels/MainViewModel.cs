@@ -4,6 +4,8 @@ using DinaGameEngine.Common;
 using DinaGameEngine.Common.Enums;
 using DinaGameEngine.Common.Events;
 using DinaGameEngine.Models;
+using DinaGameEngine.Models.Project;
+using DinaGameEngine.ViewModels.Project.Editors;
 using DinaGameEngine.Views;
 
 using System.Collections.ObjectModel;
@@ -32,9 +34,9 @@ namespace DinaGameEngine.ViewModels
             _gameProjectModel = gameProjectModel;
 
             MainMenuFileNewProjectCommand = new RelayCommand(_ => NewProject());
-            MainMenuFileLoadCommand = new RelayCommand(_ => LoadProject());
-            MainMenuFileSaveCommand = new RelayCommand(_ => SaveProject());
-            MainMenuFileCloseCommand = new RelayCommand(_ => CloseProject());
+            MainMenuFileLoadProjectCommand = new RelayCommand(_ => LoadProject());
+            MainMenuFileSaveProjectCommand = new RelayCommand(_ => SaveProject());
+            MainMenuFileCloseProjectCommand = new RelayCommand(_ => CloseProject());
             MainMenuFileQuitCommand = new RelayCommand(_ => Application.Current.Shutdown());
             MainMenuProjectAddSceneCommand = new RelayCommand(_ => AddNewScene());
             MainMenuProjectAddImageCommand = new RelayCommand(_ => AddNewImage());
@@ -149,9 +151,9 @@ namespace DinaGameEngine.ViewModels
         }
 
         public RelayCommand MainMenuFileNewProjectCommand { get; }
-        public RelayCommand MainMenuFileLoadCommand { get; }
-        public RelayCommand MainMenuFileSaveCommand { get; }
-        public RelayCommand MainMenuFileCloseCommand { get; }
+        public RelayCommand MainMenuFileLoadProjectCommand { get; }
+        public RelayCommand MainMenuFileSaveProjectCommand { get; }
+        public RelayCommand MainMenuFileCloseProjectCommand { get; }
         public RelayCommand MainMenuFileQuitCommand { get; }
         public RelayCommand MainMenuProjectAddSceneCommand { get; }
         public RelayCommand MainMenuProjectAddImageCommand { get; }
@@ -168,11 +170,53 @@ namespace DinaGameEngine.ViewModels
             var projectHomeViewModel = new ProjectHomeViewModel(_gameProjectModel);
             projectHomeViewModel.SceneOpenRequested += OnSceneOpenRequested;
             projectHomeViewModel.SceneDeleteRequested += OnSceneDeleteRequested;
+            projectHomeViewModel.EditorRequested += OnEditorRequested;
             CurrentViewModel = projectHomeViewModel;
             var title = _gameProjectModel.SolutionName;
             var windowMenuItemViewModel = new WindowMenuItemViewModel(title, projectHomeViewModel, (obj) => CurrentViewModel = obj);
             if (OpenWindows.FirstOrDefault(w => w?.Title == title && w.ViewModel == projectHomeViewModel, null) == null)
                 OpenWindows.Add(windowMenuItemViewModel);
+        }
+
+        private void OnEditorRequested(object? sender, ProjectView view)
+        {
+            var editorType = view switch
+            {
+                ProjectView.Localization => typeof(LocalizationEditorViewModel),
+                ProjectView.Fonts => typeof(FontEditorViewModel),
+                ProjectView.Images => typeof(ImageEditorViewModel),
+                ProjectView.Audio => typeof(AudioEditorViewModel),
+                ProjectView.Colors => typeof(ColorEditorViewModel),
+                ProjectView.Inputs => typeof(InputEditorViewModel),
+                ProjectView.ProjectDefaultSettings => typeof(ConfigEditorViewModel),
+                _ => null
+            };
+
+            if (editorType == null)
+                return;
+
+            if (!_viewModels.TryGetValue(editorType, out var editorViewModel) || editorViewModel == null)
+            {
+                editorViewModel = view switch
+                {
+                    ProjectView.Localization => new LocalizationEditorViewModel(),
+                    ProjectView.Fonts => new FontEditorViewModel(),
+                    ProjectView.Images => new ImageEditorViewModel(),
+                    ProjectView.Audio => new AudioEditorViewModel(),
+                    ProjectView.Colors => new ColorEditorViewModel(),
+                    ProjectView.Inputs => new InputEditorViewModel(),
+                    ProjectView.ProjectDefaultSettings => new ConfigEditorViewModel(),
+                    _ => null
+                };
+
+                if (editorViewModel == null)
+                    return;
+                _viewModels[editorType] = editorViewModel;
+                OpenWindows.Add(new WindowMenuItemViewModel(LocalizationManager.GetTranslation($"Nav_{view}"),
+                                                            editorViewModel, (obj) => CurrentViewModel = obj));
+            }
+
+            CurrentViewModel = editorViewModel;
         }
 
         private void OnSceneOpenRequested(object? sender, EventArgs e)

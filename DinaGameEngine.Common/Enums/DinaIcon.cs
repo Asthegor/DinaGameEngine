@@ -2,6 +2,7 @@
 {
     public enum DinaIcon
     {
+        None = 0,
         Color = 0xE790,
         Locale = 0xF2B7,
         Game = 0xE7FC,

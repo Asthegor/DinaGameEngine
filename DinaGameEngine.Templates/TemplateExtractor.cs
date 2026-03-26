@@ -1,7 +1,7 @@
 ﻿using DinaGameEngine.Abstractions;
 using DinaGameEngine.Common;
 using DinaGameEngine.Common.Enums;
-using DinaGameEngine.Models;
+using DinaGameEngine.Models.Startup;
 
 namespace DinaGameEngine.Templates
 {

@@ -1,4 +1,5 @@
 ﻿using DinaGameEngine.Models;
+using DinaGameEngine.Models.Project;
 
 namespace DinaGameEngine.Abstractions
 {

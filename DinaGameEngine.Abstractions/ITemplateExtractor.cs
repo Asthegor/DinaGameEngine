@@ -1,5 +1,5 @@
 ﻿using DinaGameEngine.Common.Enums;
-using DinaGameEngine.Models;
+using DinaGameEngine.Models.Startup;
 
 namespace DinaGameEngine.Abstractions
 {

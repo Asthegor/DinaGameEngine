@@ -213,14 +213,14 @@
   <data name="MainMenu_File_NewProject" xml:space="preserve">
     <value>Nouveau projet</value>
   </data>
-  <data name="MainMenu_File_Open" xml:space="preserve">
-    <value>Ouvrir</value>
+  <data name="MainMenu_File_OpenProject" xml:space="preserve">
+    <value>Ouvrir un projet</value>
   </data>
-  <data name="MainMenu_File_Save" xml:space="preserve">
-    <value>Sauvegarder</value>
+  <data name="MainMenu_File_SaveProject" xml:space="preserve">
+    <value>Sauvegarder le projet</value>
   </data>
-  <data name="MainMenu_File_Close" xml:space="preserve">
-    <value>Fermer</value>
+  <data name="MainMenu_File_CloseProject" xml:space="preserve">
+    <value>Fermer le projet</value>
   </data>
   <data name="MainMenu_File_Quit" xml:space="preserve">
     <value>Quitter</value>
@@ -332,5 +332,26 @@ Voulez-vous tout de même supprimer la scène '{0}' ?</value>
   </data>
   <data name="AddScene_title" xml:space="preserve">
     <value>Ajout d'une nouvelle scène</value>
+  </data>
+  <data name="Nav_Localization" xml:space="preserve">
+    <value>Localisation</value>
+  </data>
+  <data name="Nav_Fonts" xml:space="preserve">
+    <value>Polices</value>
+  </data>
+  <data name="Nav_Images" xml:space="preserve">
+    <value>Images</value>
+  </data>
+  <data name="Nav_Audio" xml:space="preserve">
+    <value>Sons/SFX</value>
+  </data>
+  <data name="Nav_Colors" xml:space="preserve">
+    <value>Couleurs</value>
+  </data>
+  <data name="Nav_Inputs" xml:space="preserve">
+    <value>Contrôles</value>
+  </data>
+  <data name="Nav_ProjectDefaultSettings" xml:space="preserve">
+    <value>Paramètres par défaut du projet</value>
   </data>
 </root>

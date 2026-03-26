@@ -241,11 +241,11 @@ namespace DinaGameEngine.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Fermer.
+        ///   Looks up a localized string similar to Fermer le projet.
         /// </summary>
-        public static string MainMenu_File_Close {
+        public static string MainMenu_File_CloseProject {
             get {
-                return ResourceManager.GetString("MainMenu_File_Close", resourceCulture);
+                return ResourceManager.GetString("MainMenu_File_CloseProject", resourceCulture);
             }
         }
         
@@ -259,11 +259,11 @@ namespace DinaGameEngine.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Ouvrir.
+        ///   Looks up a localized string similar to Ouvrir un projet.
         /// </summary>
-        public static string MainMenu_File_Open {
+        public static string MainMenu_File_OpenProject {
             get {
-                return ResourceManager.GetString("MainMenu_File_Open", resourceCulture);
+                return ResourceManager.GetString("MainMenu_File_OpenProject", resourceCulture);
             }
         }
         
@@ -273,15 +273,6 @@ namespace DinaGameEngine.Resources {
         public static string MainMenu_File_Quit {
             get {
                 return ResourceManager.GetString("MainMenu_File_Quit", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Sauvegarder.
-        /// </summary>
-        public static string MainMenu_File_Save {
-            get {
-                return ResourceManager.GetString("MainMenu_File_Save", resourceCulture);
             }
         }
         
@@ -300,6 +291,15 @@ namespace DinaGameEngine.Resources {
         public static string MainMenu_File_Save_Title {
             get {
                 return ResourceManager.GetString("MainMenu_File_Save_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sauvegarder le projet.
+        /// </summary>
+        public static string MainMenu_File_SaveProject {
+            get {
+                return ResourceManager.GetString("MainMenu_File_SaveProject", resourceCulture);
             }
         }
         
@@ -489,6 +489,69 @@ namespace DinaGameEngine.Resources {
         public static string Markers_ValueHeader {
             get {
                 return ResourceManager.GetString("Markers_ValueHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sons/SFX.
+        /// </summary>
+        public static string Nav_Audio {
+            get {
+                return ResourceManager.GetString("Nav_Audio", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Couleurs.
+        /// </summary>
+        public static string Nav_Colors {
+            get {
+                return ResourceManager.GetString("Nav_Colors", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Polices.
+        /// </summary>
+        public static string Nav_Fonts {
+            get {
+                return ResourceManager.GetString("Nav_Fonts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Images.
+        /// </summary>
+        public static string Nav_Images {
+            get {
+                return ResourceManager.GetString("Nav_Images", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Contrôles.
+        /// </summary>
+        public static string Nav_Inputs {
+            get {
+                return ResourceManager.GetString("Nav_Inputs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Localisation.
+        /// </summary>
+        public static string Nav_Localization {
+            get {
+                return ResourceManager.GetString("Nav_Localization", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Paramètres par défaut du projet.
+        /// </summary>
+        public static string Nav_ProjectDefaultSettings {
+            get {
+                return ResourceManager.GetString("Nav_ProjectDefaultSettings", resourceCulture);
             }
         }
         

@@ -1,6 +1,7 @@
 ﻿using DinaGameEngine.Abstractions;
 using DinaGameEngine.Common;
 using DinaGameEngine.Models;
+using DinaGameEngine.Models.Project;
 
 using System.Text;
 
@@ -162,8 +163,8 @@ namespace DinaGameEngine.CodeGeneration
             generatedFile.AppendLine(CodeBuilder.AddLine("Point maxResolution = new Point(dpMaxResolution.Width, dpMaxResolution.Height);", 3));
             generatedFile.AppendLine(CodeBuilder.AddLine("var defaultConfig = new DefaultConfigData(maxResolution, true);", 3));
             generatedFile.AppendLine(CodeBuilder.AddLine("ServiceLocator.Register(ServiceKeys.DefaultConfig, defaultConfig);", 3));
-            generatedFile.AppendLine(CodeBuilder.AddLine("var configData = SaveManager.LoadObjectFromEncryptFile<ConfigData>(ServiceKeys.Config.Value) ?? defaultConfig;", 3));
-            generatedFile.AppendLine(CodeBuilder.AddLine("ServiceLocator.Register(ServiceKeys.Config, configData);", 3));
+            generatedFile.AppendLine(CodeBuilder.AddLine("var configData = SaveManager.LoadObjectFromEncryptFile<ConfigData>(ServiceKeys.ProjectDefaultSettings.Value) ?? defaultConfig;", 3));
+            generatedFile.AppendLine(CodeBuilder.AddLine("ServiceLocator.Register(ServiceKeys.ProjectDefaultSettings, configData);", 3));
             generatedFile.AppendLine(CodeBuilder.CloseBlock(2));
 
             generatedFile.AppendLine(CodeBuilder.OpenBlock("private static void InitializeInputManager()", 2));
@@ -185,7 +186,7 @@ namespace DinaGameEngine.CodeGeneration
             generatedFile.AppendLine(CodeBuilder.CloseBlock(2));
 
             generatedFile.AppendLine(CodeBuilder.OpenBlock("private static void ApplyConfiguration()", 2));
-            generatedFile.AppendLine(CodeBuilder.AddLine("ConfigData configData = ServiceLocator.Get<ConfigData>(ServiceKeys.Config);", 3));
+            generatedFile.AppendLine(CodeBuilder.AddLine("ConfigData configData = ServiceLocator.Get<ConfigData>(ServiceKeys.ProjectDefaultSettings);", 3));
             generatedFile.AppendLine(CodeBuilder.AddLine("ScreenManager screenManager = ServiceLocator.Get<ScreenManager>(ServiceKeys.ScreenManager);", 3));
             generatedFile.AppendLine(CodeBuilder.AddLine("SoundManager soundManager = ServiceLocator.Get<SoundManager>(ServiceKeys.SoundManager);", 3));
             generatedFile.AppendLine(CodeBuilder.AddLine("screenManager.SetResolution(configData.ResolutionWidth, configData.ResolutionHeight);", 3));
