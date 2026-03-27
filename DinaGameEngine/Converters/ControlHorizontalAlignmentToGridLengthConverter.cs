@@ -6,11 +6,11 @@ using System.Windows.Data;
 
 namespace DinaGameEngine.Converters
 {
-    class ControlVerticalAlignmentToGridLengthConverter : IValueConverter
+    class ControlHorizontalAlignmentToGridLengthConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return (ControlVerticalAlignment)value == ControlVerticalAlignment.Stretch
+            return (ControlHorizontalAlignment)value == ControlHorizontalAlignment.Stretch
                 ? new GridLength(1, GridUnitType.Star)
                 : GridLength.Auto;
         }
