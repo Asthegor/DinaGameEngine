@@ -10,7 +10,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
-        <converters:NullStringToVisibilityConverter x:Key="NullStringToVisibilityConverter"/>
         <converters:NullToThicknessConverter x:Key="NullToThicknessConverter"/>
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
         <converters:BoolToStringValueConverter x:Key="BoolToStringValueConverter"/>
@@ -18,6 +17,8 @@
         <converters:ControlVerticalAlignmentToVerticalAlignmentConverter x:Key="ControlVerticalAlignmentToVerticalAlignmentConverter"/>
         <converters:StringToColumnSpanConverter x:Key="StringToColumnSpanConverter"/>
         <converters:ControlHorizontalAlignmentToGridLengthConverter x:Key="ControlHorizontalAlignmentToGridLengthConverter"/>
+        <converters:IconToMarginConverter x:Key="IconToMarginConverter"/>
+        <converters:LabelVisibilityConverter x:Key="LabelVisibilityConverter"/>
     </UserControl.Resources>
     <ItemsControl ItemsSource="{Binding Buttons}"
                   HorizontalAlignment="{Binding HorizontalAlignment}"
@@ -71,7 +72,9 @@
                     </Button.Style>
                     <!--<StackPanel Orientation="Horizontal">-->
                     <Grid HorizontalAlignment="{Binding ContentHorizontalAlignment,
-                                                       Converter={StaticResource ControlHorizontalAlignmentToHorizontalAlignmentConverter}}">
+                                                       Converter={StaticResource ControlHorizontalAlignmentToHorizontalAlignmentConverter}}"
+                          VerticalAlignment="{Binding ContentVerticalAlignment,
+                                              Converter={StaticResource ControlVerticalAlignmentToVerticalAlignmentConverter}}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="{Binding ContentHorizontalAlignment, 
                                                       Converter={StaticResource ControlHorizontalAlignmentToGridLengthConverter}}"/>
@@ -84,7 +87,8 @@
                         
                         <TextBlock Grid.Column="0" Grid.Row="0"
                                    Text="{Binding Icon}" 
-                                   FontSize="12" FontFamily="Segoe Fluent Icons"
+                                   FontSize="{Binding IconSize}" FontFamily="Segoe Fluent Icons"
+                                   FontWeight="{Binding IconWeightStr}"
                                    HorizontalAlignment="{Binding LeftIconHorizontalAlignment, Converter={StaticResource ControlHorizontalAlignmentToHorizontalAlignmentConverter}}"
                                    VerticalAlignment="{Binding LeftIconVerticalAlignment, Converter={StaticResource ControlVerticalAlignmentToVerticalAlignmentConverter}}"
                                    Visibility="{Binding IsIconLeft, Converter={StaticResource BoolToVisibilityConverter}}"
@@ -96,12 +100,25 @@
                                    TextWrapping="Wrap"
                                    HorizontalAlignment="{Binding LabelHorizontalAlignment, Converter={StaticResource ControlHorizontalAlignmentToHorizontalAlignmentConverter}}"
                                    VerticalAlignment="{Binding LabelVerticalAlignment, Converter={StaticResource ControlVerticalAlignmentToVerticalAlignmentConverter}}"
-                                   FontSize="14" FontWeight="SemiBold"
-                                   Visibility="{Binding Label, Converter={StaticResource NullStringToVisibilityConverter}}"/>
+                                   FontSize="{Binding LabelSize}" FontWeight="{Binding LabelWeightStr}">
+                            <TextBlock.Margin>
+                                <MultiBinding Converter="{StaticResource IconToMarginConverter}">
+                                    <Binding Path="Icon"/>
+                                    <Binding Path="IsIconLeft"/>
+                                </MultiBinding>
+                            </TextBlock.Margin>
+                            <TextBlock.Visibility>
+                                <MultiBinding Converter="{StaticResource LabelVisibilityConverter}">
+                                    <Binding Path="Label"/>
+                                    <Binding Path="DataContext.IsCollapsed" RelativeSource="{RelativeSource AncestorType=ItemsControl}"/>
+                                </MultiBinding>
+                            </TextBlock.Visibility>
+                        </TextBlock>
                         <TextBlock Grid.Column="{Binding IsIconRight, Converter={StaticResource BoolToStringValueConverter}}"
                                    Grid.Row="0"
                                    Text="{Binding Icon}" 
-                                   FontSize="12" FontFamily="Segoe Fluent Icons"
+                                   FontSize="{Binding IconSize}" FontFamily="Segoe Fluent Icons"
+                                   FontWeight="{Binding IconWeightStr}"
                                    HorizontalAlignment="{Binding RightIconHorizontalAlignment, Converter={StaticResource ControlHorizontalAlignmentToHorizontalAlignmentConverter}}"
                                    VerticalAlignment="{Binding RightIconVerticalAlignment, Converter={StaticResource ControlVerticalAlignmentToVerticalAlignmentConverter}}"
                                    Visibility="{Binding IsIconRight, Converter={StaticResource BoolToVisibilityConverter}}"/>

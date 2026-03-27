@@ -11,40 +11,14 @@
              d:DesignHeight="60" d:DesignWidth="750"
              Margin="0,2,0,2">
     <UserControl.Resources>
-        <conv:EqualityToBoolConverter x:Key="EqualityToBoolConverter"/>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Themes/CardItem.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </UserControl.Resources>
-    <Border CornerRadius="10" Padding="5">
-        <Border.Style>
-            <Style TargetType="Border">
-                <Setter Property="BorderThickness" Value="1"/>
-                <Setter Property="BorderBrush" Value="Transparent"/>
-                <Setter Property="Background" Value="White"/>
 
-                <Style.Triggers>
-                    <Trigger Property="IsMouseOver" Value="True">
-                        <Setter Property="BorderBrush" Value="#E0E0E0"/>
-                        <Setter Property="Background" Value="#F9F9F9"/>
-                    </Trigger>
-
-                    <DataTrigger Value="True">
-                        <DataTrigger.Binding>
-                            <MultiBinding Converter="{StaticResource EqualityToBoolConverter}">
-                                <Binding Path="." />
-                                <Binding Path="DataContext.SelectedProject" RelativeSource="{RelativeSource AncestorType=Window}"/>
-                            </MultiBinding>
-                        </DataTrigger.Binding>
-                        <Setter Property="BorderBrush" Value="#FFBF28FF"/>
-                        <Setter Property="Background" Value="#3FF0D0FF"/>
-                        <Setter Property="Border.Effect">
-                            <Setter.Value>
-                                <DropShadowEffect BlurRadius="10" ShadowDepth="2" Opacity="0.2" Color="Black"/>
-                            </Setter.Value>
-                        </Setter>
-                    </DataTrigger>
-                </Style.Triggers>
-            </Style>
-        </Border.Style>
-
+    <Border CornerRadius="10" Padding="5" Style="{StaticResource CardItemBorderStyle}">
         <Grid Background="Transparent">
             <Grid.InputBindings>
                 <MouseBinding MouseAction="LeftDoubleClick"

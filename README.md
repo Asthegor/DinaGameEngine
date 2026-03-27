@@ -34,6 +34,9 @@ The goal is simple: **get a fully functional game project up and running in seco
 - **Localization support** — multi-language projects out of the box
 - **Recent projects list** — with pinning, grouping by date, and custom icons
 - **Partial class architecture** — engine code and user code clearly separated, never overwritten
+- **Scene management** — add, delete and browse scenes directly from the editor
+- **Collapsible navigation panel** — icon-only or full labels, your choice
+- **Visual scene selection** — click to select, double-click to open
 
 ---
 
@@ -112,10 +115,10 @@ All projects reference `DinaCSharp.dll`, which is placed at the solution root an
 
 The following features are planned for upcoming releases:
 
-- **Add scene** — create and register new game scenes directly from the editor
+- **Scene editor** — visual canvas for placing and configuring scene components
+- **Component generators** — Text, MenuManager and more
 - **Add font** — add new SpriteFont files with custom resolution variants
-- **Text component** — place and configure text elements in a scene visually
-- **UI components** — Button, Checkbox, Slider support
+- **UI components** — place and configure UI elements in a scene visually
 
 ---
 

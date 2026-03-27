@@ -19,5 +19,8 @@
         Delete = 0xE74D,
         Pin = 0xE718,
         Unpin = 0xE77A,
+        ClosePane = 0xE89F,
+        OpenPane = 0xE8A0,
+        LookupEntities = 0xF5B5,
     }
 }

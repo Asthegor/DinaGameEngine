@@ -315,7 +315,7 @@
   <data name="SceneDelete_Confirmation" xml:space="preserve">
     <value>Vous êtes sur le point de supprimer la scène '{0}'.
 Cela supprimera :
-- les fichiers '{1].Designer.cs' et '{1}.cs'
+- les fichiers '{1}.Designer.cs' et '{1}.cs'
 - la clé '{2}' du fichier SceneKeys
 - l'enregistrement de la scène dans le fichier principal du projet
 

@@ -13,6 +13,7 @@ namespace DinaGameEngine.ViewModels
     public class ProjectHomeViewModel : ObservableObject
     {
         private GameProjectModel _gameProjectModel;
+        private SceneCardViewModel? _selectedScene;
         public ProjectHomeViewModel(GameProjectModel gameProjectModel)
         {
             _gameProjectModel = gameProjectModel;
@@ -20,8 +21,16 @@ namespace DinaGameEngine.ViewModels
             foreach (var scene in _gameProjectModel.Scenes)
                 AddScene(scene);
 
+            ToggleNavigationCommand = new RelayCommand(_ => NavigationButtons!.IsCollapsed = !NavigationButtons.IsCollapsed);
+
             NavigationButtons = new ButtonBarViewModel { Orientation = Orientation.Vertical };
             CreateButtons();
+
+            NavigationButtons.PropertyChanged += (s, e) =>
+            {
+                if (e.PropertyName == nameof(ButtonBarViewModel.IsCollapsed))
+                    OnPropertyChanged(nameof(CollapsedIcon));
+            };
         }
 
         public event EventHandler<ProjectView>? EditorRequested;
@@ -30,12 +39,23 @@ namespace DinaGameEngine.ViewModels
         public event EventHandler? SceneDeleteRequested;
 
         public ObservableCollection<SceneCardViewModel> Scenes { get; } = [];
+        public SceneCardViewModel? SelectedScene
+        {
+            get => _selectedScene;
+            set
+            {
+                _selectedScene?.IsSelected = false;
+                value?.IsSelected = true;
+                SetProperty(ref _selectedScene, value);
+            }
+        }
 
         public void AddScene(SceneModel sceneModel)
         {
             var sceneCardViewModel = new SceneCardViewModel(sceneModel);
             sceneCardViewModel.SceneOpened += (sender, eventArgs) => SceneOpenRequested?.Invoke(sender, eventArgs);
             sceneCardViewModel.SceneDeleted += (sender, eventArgs) => SceneDeleteRequested?.Invoke(sender, eventArgs);
+            sceneCardViewModel.SceneSelected += (sender, eventArgs) => SelectedScene = (SceneCardViewModel)sender!;
             Scenes.Add(sceneCardViewModel);
         }
         public void RemoveScene(SceneModel sceneModel)
@@ -45,6 +65,7 @@ namespace DinaGameEngine.ViewModels
                 Scenes.Remove(sceneCardViewModel);
         }
         public ButtonBarViewModel NavigationButtons { get; }
+        public string CollapsedIcon => (NavigationButtons.IsCollapsed ? DinaIcon.ClosePane : DinaIcon.OpenPane).ToGlyph();
         private void CreateButtons()
         {
             NavigationButtons.Buttons.Clear();
@@ -65,8 +86,12 @@ namespace DinaGameEngine.ViewModels
                 IconPosition = IconPosition.Right,
                 LabelHorizontalAlignment = ControlHorizontalAlignment.Left,
                 ContentHorizontalAlignment = ControlHorizontalAlignment.Stretch,
-                Command = new RelayCommand(_ => EditorRequested?.Invoke(this, view))
+                Command = new RelayCommand(_ => EditorRequested?.Invoke(this, view)),
+                LabelWeight = TextWeight.Normal,
+                IconWeight = TextWeight.Normal,
             };
         }
+
+        public RelayCommand ToggleNavigationCommand { get; }
     }
 }

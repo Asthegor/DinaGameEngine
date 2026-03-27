@@ -7,32 +7,56 @@
              xmlns:ext="clr-namespace:DinaGameEngine.Extensions"
              mc:Ignorable="d" 
              d:DesignHeight="150" d:DesignWidth="600">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="Auto"/>
-        </Grid.ColumnDefinitions>
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Themes/CardItem.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
 
-        <Grid Grid.Column="0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
+    <Border Style="{StaticResource CardItemBorderStyle}" CornerRadius="10" Padding="5" Margin="0,2,0,2">
+        <Grid Background="Transparent">
+            <Grid.InputBindings>
+                <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding OpenCommand}"/>
+                <MouseBinding MouseAction="LeftClick" Command="{Binding SelectCommand}"/>
+            </Grid.InputBindings>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="48"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
 
-            <TextBlock Grid.Row="0" VerticalAlignment="Center">
-                <Run Text="{Binding SceneName, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=OneWay}" Foreground="DimGray" FontWeight="SemiBold"/>
-                <Run Text=" (" Foreground="Gray" FontSize="11"/>
-                <Run Text="{Binding SceneKey, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=OneWay}" FontFamily="Consolas" FontSize="11" Foreground="Gray"/>
-                <Run Text=")" Foreground="Gray" FontSize="11"/>
-            </TextBlock>
-            <TextBlock Grid.Row="1" VerticalAlignment="Center">
-                <Run Text="{ext:Translate Key=MainWindow_Scene_Components}" Foreground="DimGray" FontWeight="SemiBold"/>
-                <Run Text="{Binding ComponentCount, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=OneWay}" FontFamily="Consolas" FontSize="11" Foreground="Gray"/>
-            </TextBlock>
-        </Grid>
+            <TextBlock Grid.Column="0"
+                       Text="{Binding Icon}"
+                       FontFamily="Segoe Fluent Icons"
+                       FontSize="32"
+                       Margin="0,0,8,0"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"/>
+            
+            <Grid Grid.Column="1" VerticalAlignment="Center">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                
 
-        <local:ButtonBarView Grid.Column="1" HorizontalAlignment="Right"
+                <TextBlock Grid.Row="0" VerticalAlignment="Center">
+                    <Run Text="{Binding Name, Mode=OneWay}" Foreground="DimGray" FontWeight="SemiBold"/>
+                    <Run Text=" (" Foreground="Gray" FontSize="11"/>
+                    <Run Text="{Binding Key, Mode=OneWay}" FontFamily="Consolas" FontSize="11" Foreground="Gray"/>
+                    <Run Text=")" Foreground="Gray" FontSize="11"/>
+                </TextBlock>
+                <TextBlock Grid.Row="1" VerticalAlignment="Center">
+                    <Run Text="{ext:Translate Key=MainWindow_Scene_Components}" Foreground="DimGray" FontWeight="SemiBold"/>
+                    <Run Text="{Binding ComponentsCount, Mode=OneWay}" FontFamily="Consolas" FontSize="11" Foreground="Gray"/>
+                </TextBlock>
+            </Grid>
+
+            <local:ButtonBarView Grid.Column="2" HorizontalAlignment="Right"
                              DataContext="{Binding Buttons}" 
                              Margin="8,4,8,8"/>
-    </Grid>
+        </Grid>
+    </Border>
 </UserControl>

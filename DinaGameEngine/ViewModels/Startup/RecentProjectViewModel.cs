@@ -11,6 +11,7 @@ namespace DinaGameEngine.ViewModels
         private readonly RecentProjectModel _model;
         private readonly IFileService _fileService;
         private readonly IProjectService _projectService;
+        private bool _isSelected;
 
         public RecentProjectViewModel(RecentProjectModel model, IFileService fileService, IProjectService projectService)
         {
@@ -114,6 +115,11 @@ namespace DinaGameEngine.ViewModels
         private void ExecuteRemoveProjectFromList()
         {
             ProjectRemoved?.Invoke(this, EventArgs.Empty);
+        }
+        public bool IsSelected
+        {
+            get => _isSelected;
+            set => SetProperty(ref _isSelected, value);
         }
     }
 }

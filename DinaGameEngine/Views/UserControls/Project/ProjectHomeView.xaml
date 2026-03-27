@@ -13,16 +13,23 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <local:ButtonBarView Grid.Row="1" 
-                             DataContext="{Binding NavigationButtons}"/>
+        <StackPanel Orientation="Vertical" Grid.Column="0">
+            <Button Content="{Binding CollapsedIcon}"
+                    FontFamily="Segoe Fluent Icons"
+                    Foreground="DarkViolet"
+                    Background="Transparent"
+                    HorizontalAlignment="Right"
+                    FontSize="16"
+                    BorderThickness="0"
+                    Command="{Binding ToggleNavigationCommand}"/>
+            <local:ButtonBarView DataContext="{Binding NavigationButtons}"/>
+        </StackPanel>
 
-        <ScrollViewer Grid.Column="1" Background="Transparent">
+        <ScrollViewer Grid.Column="1" Background="Transparent" Margin="16">
             <ItemsControl ItemsSource="{Binding Scenes}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <local:SceneCardView SceneName="{Binding Name}"
-                                             SceneKey="{Binding Key}"
-                                             ComponentCount="{Binding ComponentsCount}"/>
+                        <local:SceneCardView />
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>

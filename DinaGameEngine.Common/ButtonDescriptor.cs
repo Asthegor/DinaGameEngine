@@ -7,10 +7,16 @@ namespace DinaGameEngine.Common
     public class ButtonDescriptor
     {
         public string Label { get; set; } = string.Empty;
+        public int LabelSize { get; set; } = 12;
+        public TextWeight LabelWeight { get; set; } = TextWeight.SemiBold;
+        public string LabelWeightStr => LabelWeight.ToString();
         public ICommand? Command { get; set; }
         public ButtonRole Role { get; set; } = ButtonRole.Neutral;
         public string? Icon { get; set; }
         public IconPosition IconPosition { get; set; } = IconPosition.Left;
+        public int IconSize { get; set; } = 14;
+        public TextWeight IconWeight { get; set; } = TextWeight.Normal;
+        public string IconWeightStr => IconWeight.ToString();
         public bool IsIconLeft => !string.IsNullOrEmpty(Icon) && IconPosition == IconPosition.Left;
         public bool IsIconRight => !string.IsNullOrEmpty(Icon) && IconPosition == IconPosition.Right;
         public ControlVerticalAlignment LeftIconVerticalAlignment { get; set; } = ControlVerticalAlignment.Center;

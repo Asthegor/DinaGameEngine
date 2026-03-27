@@ -10,6 +10,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="ViewModels\Project\Panels\**" />
+    <EmbeddedResource Remove="ViewModels\Project\Panels\**" />
+    <None Remove="ViewModels\Project\Panels\**" />
+    <Page Remove="ViewModels\Project\Panels\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Views\Button_Cross.png" />
     <None Remove="Views\Icon.bmp" />
   </ItemGroup>
@@ -38,10 +45,6 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Strings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="ViewModels\Project\Panels\" />
   </ItemGroup>
 
 </Project>

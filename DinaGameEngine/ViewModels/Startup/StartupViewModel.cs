@@ -84,6 +84,8 @@ namespace DinaGameEngine.ViewModels
                 };
             }
         }
+        public ButtonBarViewModel FooterButtons { get; }
+
         private void UpdateFooterButtons()
         {
             FooterButtons.Buttons.Clear();
@@ -124,7 +126,12 @@ namespace DinaGameEngine.ViewModels
         public RecentProjectViewModel? SelectedProject
         {
             get => _selectedProject;
-            set => SetProperty(ref _selectedProject, value);
+            set
+            {
+                _selectedProject?.IsSelected = false;
+                value?.IsSelected = true;
+                SetProperty(ref _selectedProject, value);
+            }
         }
         public RelayCommand SelectProjectCommand { get; }
         private void SelectProject(object? obj)
@@ -340,7 +347,6 @@ namespace DinaGameEngine.ViewModels
 
             _logService.Info("Sauvegarde des états des sections effectuée");
         }
-        public ButtonBarViewModel FooterButtons { get; }
         #endregion
 
         #region Ouverture de projet

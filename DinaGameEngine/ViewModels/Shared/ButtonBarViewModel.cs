@@ -8,6 +8,7 @@ namespace DinaGameEngine.ViewModels
 {
     public class ButtonBarViewModel : ObservableObject
     {
+        private bool _isCollapsed;
         public ObservableCollection<ButtonDescriptor> Buttons { get; set; } = [];
         public Orientation Orientation { get; set; } = Orientation.Horizontal;
         public HorizontalAlignment HorizontalAlignment { get; set; } = HorizontalAlignment.Stretch;
@@ -16,5 +17,10 @@ namespace DinaGameEngine.ViewModels
         public Thickness ButtonPadding { get; set; } = new Thickness(0);
         public int Rows => Orientation == Orientation.Horizontal ? 1 : 0;
         public int Columns => Orientation == Orientation.Vertical ? 1 : 0;
+        public bool IsCollapsed
+        {
+            get => _isCollapsed;
+            set => SetProperty(ref _isCollapsed, value);
+        }
     }
 }
