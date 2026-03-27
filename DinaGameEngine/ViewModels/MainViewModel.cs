@@ -220,18 +220,24 @@ namespace DinaGameEngine.ViewModels
 
             if (editorViewModel == null)
                 return;
-
-            OpenWindows.Add(new WindowMenuItemViewModel(title: LocalizationManager.GetTranslation($"Nav_{view}"),
-                                                        viewModel: editorViewModel,
-                                                        activateAction: (obj) => CurrentViewModel = obj,
-                                                        closeAction: obj => CloseView(editorViewModel),
-                                                        isClosable: true));
-            CurrentViewModel = editorViewModel;
+            AddViewModelToOpenWindows(editorViewModel, title: LocalizationManager.GetTranslation($"Nav_{view}"));
         }
 
         private void OnSceneOpenRequested(object? sender, EventArgs e)
         {
-            // TODO : ouvrir la scène dans la zone centrale
+            if (sender is SceneModel sceneModel)
+            {
+                var existingWindow = OpenWindows.FirstOrDefault(w => w.ViewModel is SceneEditorViewModel vm
+                                                                      && vm.SceneId == sceneModel.Id);
+                if (existingWindow != null)
+                {
+                    CurrentViewModel = existingWindow.ViewModel;
+                    return;
+                }
+
+                var sceneEditorViewModel = new SceneEditorViewModel(sceneModel);
+                AddViewModelToOpenWindows(sceneEditorViewModel, sceneModel.Name);
+            }
         }
         private void OnSceneDeleteRequested(object? sender, EventArgs e)
         {
@@ -282,6 +288,18 @@ namespace DinaGameEngine.ViewModels
             var toRemove = OpenWindows.Skip(1).ToList();
             foreach (var item in toRemove)
                 OpenWindows.Remove(item);
+        }
+
+        private void AddViewModelToOpenWindows(object? viewModel, string title, bool isClosable = true)
+        {
+            if (viewModel == null)
+                return;
+            OpenWindows.Add(new WindowMenuItemViewModel(title,
+                                                        viewModel,
+                                                        activateAction: (obj) => CurrentViewModel = obj,
+                                                        closeAction: obj => CloseView(viewModel),
+                                                        isClosable));
+            CurrentViewModel = viewModel;
         }
     }
 }

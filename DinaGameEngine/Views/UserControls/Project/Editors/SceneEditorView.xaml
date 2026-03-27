@@ -7,6 +7,34 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-            
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="250"/>
+            <ColumnDefinition Width="4"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="4"/>
+            <ColumnDefinition Width="280"/>
+        </Grid.ColumnDefinitions>
+
+        <Border Grid.Column="0"
+                Background="#F9F9F9"/>
+
+        <GridSplitter Grid.Column="1"
+                      x:Name="LeftSplitter"
+                      Background="#E0E0E0"
+                      HorizontalAlignment="Stretch"
+                      VerticalAlignment="Stretch"/>
+
+        <Border Grid.Column="2"
+                Background="Black"/>
+
+        <GridSplitter Grid.Column="3"
+                      x:Name="RightSplitter"
+                      Background="#E0E0E0"
+                      HorizontalAlignment="Stretch"
+                      VerticalAlignment="Stretch"/>
+
+        <Border Grid.Column="4"
+                Background="#F9F9F9"/>
+
     </Grid>
 </UserControl>

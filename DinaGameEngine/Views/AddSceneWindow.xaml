@@ -30,8 +30,7 @@
 
             <TextBlock Grid.Row="0" Margin="0,0,0,8"
                        Text="{ext:Translate Key=SceneName_Label}"
-                       Style="{DynamicResource FieldLabelStyle}"
-                       />
+                       Style="{DynamicResource FieldLabelStyle}"/>
             <TextBox Grid.Row="1" Margin="0,0,0,8" 
                      Text="{Binding SceneName, UpdateSourceTrigger=PropertyChanged}"
                      Style="{DynamicResource ModernTextBoxStyle}"

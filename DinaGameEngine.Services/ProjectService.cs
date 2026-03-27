@@ -90,7 +90,7 @@ namespace DinaGameEngine.Services
                 RootPath = projectFolder,
                 RootNamespace = rootNamespaceMarker.Value
             };
-            gameProjectModel.Scenes.Add(new SceneModel { Name = "GameScene", Class = "GameScene", Key = "GameScene" });
+            gameProjectModel.Scenes.Add(new SceneModel { Name = "Game", Class = "GameScene", Key = "GameScene" });
 
             _codeGenerator.GenerateAllFiles(gameProjectModel);
 
