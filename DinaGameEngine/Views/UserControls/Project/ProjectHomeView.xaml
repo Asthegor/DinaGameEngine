@@ -1,10 +1,10 @@
-﻿<UserControl x:Class="DinaGameEngine.Views.UserControls.ProjectHomeView"
+﻿<UserControl x:Class="DinaGameEngine.Views.UserControls.Project.ProjectHomeView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:DinaGameEngine.Views.UserControls"
-             xmlns:panels="clr-namespace:DinaGameEngine.Views.UserControls.Panels"
+             xmlns:local="clr-namespace:DinaGameEngine.Views.UserControls.Project"
+             xmlns:shared="clr-namespace:DinaGameEngine.Views.UserControls.Shared"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
@@ -22,7 +22,7 @@
                     FontSize="16"
                     BorderThickness="0"
                     Command="{Binding ToggleNavigationCommand}"/>
-            <local:ButtonBarView DataContext="{Binding NavigationButtons}"/>
+            <shared:ButtonBarView DataContext="{Binding NavigationButtons}"/>
         </StackPanel>
 
         <ScrollViewer Grid.Column="1" Background="Transparent" Margin="16">

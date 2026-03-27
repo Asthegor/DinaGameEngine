@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace DinaGameEngine.Views.UserControls
+namespace DinaGameEngine.Views.UserControls.Shared
 {
     /// <summary>
     /// Logique d'interaction pour MainMenuView.xaml

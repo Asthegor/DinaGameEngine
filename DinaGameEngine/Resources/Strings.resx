@@ -321,7 +321,7 @@ Cela supprimera :
 
 Voulez-vous tout de même supprimer la scène '{0}' ?</value>
   </data>
-  <data name="SceneDelete_Confirmation_title" xml:space="preserve">
+  <data name="SceneDelete_Confirmation_Title" xml:space="preserve">
     <value>Suppression de la scène '{0}'</value>
   </data>
   <data name="MainMenu_File_Save_Title" xml:space="preserve">
@@ -353,5 +353,11 @@ Voulez-vous tout de même supprimer la scène '{0}' ?</value>
   </data>
   <data name="Nav_ProjectDefaultSettings" xml:space="preserve">
     <value>Paramètres par défaut du projet</value>
+  </data>
+  <data name="MainMenu_File_CloseView" xml:space="preserve">
+    <value>Fermer la vue</value>
+  </data>
+  <data name="MainMenu_File_CloseAllViews" xml:space="preserve">
+    <value>Fermer toutes les vues</value>
   </data>
 </root>

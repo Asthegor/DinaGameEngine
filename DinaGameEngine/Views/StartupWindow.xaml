@@ -3,6 +3,8 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:usercontrols="clr-namespace:DinaGameEngine.Views.UserControls"
+        xmlns:startup="clr-namespace:DinaGameEngine.Views.UserControls.Startup"
+        xmlns:shared="clr-namespace:DinaGameEngine.Views.UserControls.Shared"
         xmlns:ext="clr-namespace:DinaGameEngine.Extensions"
         xmlns:enums="clr-namespace:DinaGameEngine.Common.Enums;assembly=DinaGameEngine.Common"
         Title="{Binding WindowTitle}" Height="550" Width="900" 
@@ -22,21 +24,21 @@
                         <DataTrigger Binding="{Binding CurrentState}" Value="{x:Static enums:StartupState.RecentProjects}">
                             <Setter Property="Content">
                                 <Setter.Value>
-                                    <usercontrols:ListRecentProjectsView/>
+                                    <startup:ListRecentProjectsView/>
                                 </Setter.Value>
                             </Setter>
                         </DataTrigger>
                         <DataTrigger Binding="{Binding CurrentState}" Value="{x:Static enums:StartupState.NewProject}">
                             <Setter Property="Content">
                                 <Setter.Value>
-                                    <usercontrols:NewProjectView/>
+                                    <startup:NewProjectView/>
                                 </Setter.Value>
                             </Setter>
                         </DataTrigger>
                         <DataTrigger Binding="{Binding CurrentState}"  Value="{x:Static enums:StartupState.MarkerValidation}">
                             <Setter Property="Content">
                                 <Setter.Value>
-                                    <usercontrols:MarkersListView/>
+                                    <startup:MarkersListView/>
                                 </Setter.Value>
                             </Setter>
                         </DataTrigger>
@@ -46,7 +48,7 @@
         </ContentControl>
 
         <!--Footer -->
-        <usercontrols:ButtonBarView Grid.Row="1" 
+        <shared:ButtonBarView Grid.Row="1" 
                                     DataContext="{Binding FooterButtons}" 
                                     Margin="16,8,16,16"/>
     </Grid>

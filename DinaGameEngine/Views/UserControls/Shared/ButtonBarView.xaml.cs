@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace DinaGameEngine.Views.UserControls
+namespace DinaGameEngine.Views.UserControls.Shared
 {
     /// <summary>
     /// Interaction logic for ButtonBarView.xaml

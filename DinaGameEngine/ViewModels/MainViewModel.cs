@@ -21,7 +21,6 @@ namespace DinaGameEngine.ViewModels
         private readonly ICodeGenerator _codeGenerator;
         private readonly GameProjectModel _gameProjectModel;
 
-        private Dictionary<Type, object?> _viewModels = [];
         private object? _currentViewModel;
 
         public MainViewModel(IProjectService projectService, IDialogService dialogService, IFileService fileService,
@@ -37,6 +36,8 @@ namespace DinaGameEngine.ViewModels
             MainMenuFileLoadProjectCommand = new RelayCommand(_ => LoadProject());
             MainMenuFileSaveProjectCommand = new RelayCommand(_ => SaveProject());
             MainMenuFileCloseProjectCommand = new RelayCommand(_ => CloseProject());
+            MainMenuFileCloseViewCommand = new RelayCommand(_ => CloseView(CurrentViewModel!));
+            MainMenuFileCloseAllViewsCommand = new RelayCommand(_ => CloseAllViews());
             MainMenuFileQuitCommand = new RelayCommand(_ => Application.Current.Shutdown());
             MainMenuProjectAddSceneCommand = new RelayCommand(_ => AddNewScene());
             MainMenuProjectAddImageCommand = new RelayCommand(_ => AddNewImage());
@@ -46,6 +47,7 @@ namespace DinaGameEngine.ViewModels
             MainMenuHelpShowNewsCommand = new RelayCommand(_ => ShowNews());
             MainMenuHelpShowAboutCommand = new RelayCommand(_ => ShowAbout());
 
+            OpenWindows.CollectionChanged += (s, e) => OnPropertyChanged(nameof(HasMultipleViews));
 
             if (string.IsNullOrEmpty(_gameProjectModel.DefaultLanguage) || !LanguageDefinitions.Languages.Any(l => l.Code == _gameProjectModel.DefaultLanguage))
             {
@@ -59,6 +61,7 @@ namespace DinaGameEngine.ViewModels
             _codeGenerator.AddAllComponents(gameProjectModel);
 
             LoadScenes();
+
         }
 
         public object? CurrentViewModel
@@ -67,8 +70,6 @@ namespace DinaGameEngine.ViewModels
             set
             {
                 SetProperty(ref _currentViewModel, value);
-                if (_currentViewModel != null)
-                    _viewModels[_currentViewModel.GetType()] = _currentViewModel;
 
                 foreach (var item in OpenWindows)
                     item.IsActive = item.ViewModel == _currentViewModel;
@@ -120,8 +121,7 @@ namespace DinaGameEngine.ViewModels
                 _codeGenerator.GenerateNewScene(_gameProjectModel, sceneModel);
                 _projectService.UpdateJsonProjectFile(_gameProjectModel);
 
-                if (_viewModels.TryGetValue(typeof(ProjectHomeViewModel), out var vm) && vm is ProjectHomeViewModel projectHomeViewModel)
-                    projectHomeViewModel.AddScene(sceneModel);
+                OpenWindows.Select(w => w.ViewModel).OfType<ProjectHomeViewModel>().FirstOrDefault()?.AddScene(sceneModel);
             }
 
         }
@@ -160,9 +160,11 @@ namespace DinaGameEngine.ViewModels
         public RelayCommand MainMenuProjectAddSoundCommand { get; }
         public RelayCommand MainMenuProjectAddFontCommand { get; }
         public RelayCommand MainMenuToolsShowTransitionsCommand { get; }
+        public RelayCommand MainMenuFileCloseViewCommand { get; }
+        public RelayCommand MainMenuFileCloseAllViewsCommand { get; }
         public RelayCommand MainMenuHelpShowNewsCommand { get; }
         public RelayCommand MainMenuHelpShowAboutCommand { get; }
-
+        public bool HasMultipleViews => OpenWindows.Count >= 2;
         public string WindowTitle => $"Dina Game Engine - {_gameProjectModel.SolutionName}";
 
         private void LoadScenes()
@@ -173,7 +175,11 @@ namespace DinaGameEngine.ViewModels
             projectHomeViewModel.EditorRequested += OnEditorRequested;
             CurrentViewModel = projectHomeViewModel;
             var title = _gameProjectModel.SolutionName;
-            var windowMenuItemViewModel = new WindowMenuItemViewModel(title, projectHomeViewModel, (obj) => CurrentViewModel = obj);
+            var windowMenuItemViewModel = new WindowMenuItemViewModel(title: title,
+                                                                      viewModel: projectHomeViewModel,
+                                                                      activateAction: (obj) => CurrentViewModel = obj,
+                                                                      closeAction: _ => { },
+                                                                      isClosable: false);
             if (OpenWindows.FirstOrDefault(w => w?.Title == title && w.ViewModel == projectHomeViewModel, null) == null)
                 OpenWindows.Add(windowMenuItemViewModel);
         }
@@ -194,28 +200,32 @@ namespace DinaGameEngine.ViewModels
 
             if (editorType == null)
                 return;
-
-            if (!_viewModels.TryGetValue(editorType, out var editorViewModel) || editorViewModel == null)
+            var existingWindow = OpenWindows.FirstOrDefault(w => w.ViewModel?.GetType() == editorType);
+            if (existingWindow != null)
             {
-                editorViewModel = view switch
-                {
-                    ProjectView.Localization => new LocalizationEditorViewModel(),
-                    ProjectView.Fonts => new FontEditorViewModel(),
-                    ProjectView.Images => new ImageEditorViewModel(),
-                    ProjectView.Audio => new AudioEditorViewModel(),
-                    ProjectView.Colors => new ColorEditorViewModel(),
-                    ProjectView.Inputs => new InputEditorViewModel(),
-                    ProjectView.ProjectDefaultSettings => new ConfigEditorViewModel(),
-                    _ => null
-                };
-
-                if (editorViewModel == null)
-                    return;
-                _viewModels[editorType] = editorViewModel;
-                OpenWindows.Add(new WindowMenuItemViewModel(LocalizationManager.GetTranslation($"Nav_{view}"),
-                                                            editorViewModel, (obj) => CurrentViewModel = obj));
+                CurrentViewModel = existingWindow.ViewModel;
+                return;
             }
+            object? editorViewModel = view switch
+            {
+                ProjectView.Localization => new LocalizationEditorViewModel(),
+                ProjectView.Fonts => new FontEditorViewModel(),
+                ProjectView.Images => new ImageEditorViewModel(),
+                ProjectView.Audio => new AudioEditorViewModel(),
+                ProjectView.Colors => new ColorEditorViewModel(),
+                ProjectView.Inputs => new InputEditorViewModel(),
+                ProjectView.ProjectDefaultSettings => new ConfigEditorViewModel(),
+                _ => null
+            };
 
+            if (editorViewModel == null)
+                return;
+
+            OpenWindows.Add(new WindowMenuItemViewModel(title: LocalizationManager.GetTranslation($"Nav_{view}"),
+                                                        viewModel: editorViewModel,
+                                                        activateAction: (obj) => CurrentViewModel = obj,
+                                                        closeAction: obj => CloseView(editorViewModel),
+                                                        isClosable: true));
             CurrentViewModel = editorViewModel;
         }
 
@@ -244,13 +254,34 @@ namespace DinaGameEngine.ViewModels
                     // Mise à jour du fichier dina.project.json
                     _projectService.RemoveSceneFromProject(_gameProjectModel, sceneModel);
 
-                    if (_viewModels.TryGetValue(typeof(ProjectHomeViewModel), out var vm) && vm is ProjectHomeViewModel projectHomeViewModel)
-                        projectHomeViewModel.RemoveScene(sceneModel);
+                    OpenWindows.Select(w => w.ViewModel).OfType<ProjectHomeViewModel>().FirstOrDefault()?.RemoveScene(sceneModel);
                 }
             }
         }
         public ObservableCollection<WindowMenuItemViewModel> OpenWindows { get; } = [];
 
         public event EventHandler<NavigationRequestedEventArgs>? NavigationRequested;
+
+        private void CloseView(object viewModel)
+        {
+            var viewToClose = OpenWindows.FirstOrDefault(w => w.ViewModel == viewModel);
+            if (viewToClose != null)
+            {
+                OpenWindows.Remove(viewToClose);
+
+                if (viewToClose.ViewModel == CurrentViewModel)
+                {
+                    var lastWindow = OpenWindows.ElementAt(OpenWindows.Count - 1);
+                    lastWindow.IsActive = true;
+                    CurrentViewModel = lastWindow.ViewModel;
+                }
+            }
+        }
+        private void CloseAllViews()
+        {
+            var toRemove = OpenWindows.Skip(1).ToList();
+            foreach (var item in toRemove)
+                OpenWindows.Remove(item);
+        }
     }
 }

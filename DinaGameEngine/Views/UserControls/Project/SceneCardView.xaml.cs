@@ -1,7 +1,6 @@
-﻿using System.Windows;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 
-namespace DinaGameEngine.Views.UserControls
+namespace DinaGameEngine.Views.UserControls.Project
 {
     /// <summary>
     /// Interaction logic for SceneCardView.xaml

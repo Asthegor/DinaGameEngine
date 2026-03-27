@@ -96,6 +96,10 @@ The goal is simple: **get a fully functional game project up and running in seco
 
 <img src="screenshots/08_project_home.png" alt="Project home" width="700"/>
 
+**Step 9** — Navigate between open editors using the tab bar
+
+<img src="screenshots/09_tab_view.png" alt="Tab bar" width="700"/>
+
 ---
 
 ## 📁 Project Structure

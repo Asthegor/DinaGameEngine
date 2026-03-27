@@ -2,18 +2,20 @@
         xmlns:local="clr-namespace:DinaGameEngine.Themes"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:usercontrols="clr-namespace:DinaGameEngine.Views.UserControls"
+        xmlns:project="clr-namespace:DinaGameEngine.Views.UserControls.Project"
+        xmlns:shared="clr-namespace:DinaGameEngine.Views.UserControls.Shared"
         xmlns:editors="clr-namespace:DinaGameEngine.Views.UserControls.Project.Editors"
         xmlns:vm="clr-namespace:DinaGameEngine.ViewModels"
         xmlns:vmEditors="clr-namespace:DinaGameEngine.ViewModels.Project.Editors"
         xmlns:enums="clr-namespace:DinaGameEngine.Common.Enums;assembly=DinaGameEngine.Common"
+        xmlns:converters="clr-namespace:DinaGameEngine.Converters"
         Title="{Binding WindowTitle}" Height="450" Width="800"
         Style="{StaticResource DinaWindowStyle}"
         TitleBarButtons="{x:Static enums:TitleBarButtons.MinimizeMaximizeAndClose}"
         WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <DataTemplate DataType="{x:Type vm:ProjectHomeViewModel}">
-            <usercontrols:ProjectHomeView/>
+            <project:ProjectHomeView/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type vm:SceneEditorViewModel}">
             <editors:SceneEditorView/>
@@ -39,16 +41,18 @@
         <DataTemplate DataType="{x:Type vmEditors:ConfigEditorViewModel}">
             <editors:ConfigEditorView/>
         </DataTemplate>
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
     </Window.Resources>
     <local:DinaWindow.InputBindings>
         <KeyBinding Key="N" Modifiers="Ctrl" Command="{Binding MainMenuFileNewProjectCommand}"/>
         <KeyBinding Key="O" Modifiers="Ctrl" Command="{Binding MainMenuFileLoadCommand}"/>
         <KeyBinding Key="S" Modifiers="Ctrl" Command="{Binding MainMenuFileSaveCommand}"/>
-        <KeyBinding Key="W" Modifiers="Ctrl" Command="{Binding MainMenuFileCloseCommand}"/>
+        <KeyBinding Key="W" Modifiers="Ctrl" Command="{Binding MainMenuWindowCloseViewCommand}"/>
         <KeyBinding Key="Q" Modifiers="Ctrl" Command="{Binding MainMenuFileQuitCommand}"/>
     </local:DinaWindow.InputBindings>
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
@@ -56,11 +60,15 @@
 
         <!-- Menu -->
         <DockPanel Grid.Row="0" Grid.ColumnSpan="5">
-            <usercontrols:MainMenuView />
+            <shared:MainMenuView />
         </DockPanel>
 
+        <!-- Barre d'onglets -->
+        <shared:TabBarView Grid.Row="1"
+                           Visibility="{Binding HasMultipleViews, Converter={StaticResource BoolToVisibilityConverter}}"/>
 
-        <ContentControl Grid.Row="1" Content="{Binding CurrentViewModel}"/>
+        <!-- Fenêtre principale -->
+        <ContentControl Grid.Row="2" Content="{Binding CurrentViewModel}"/>
 
         <!-- Barre d'état -->
     </Grid>

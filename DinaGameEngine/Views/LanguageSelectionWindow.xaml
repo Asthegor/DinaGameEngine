@@ -5,7 +5,7 @@
         xmlns:ext="clr-namespace:DinaGameEngine.Extensions"
         xmlns:common="clr-namespace:DinaGameEngine.Common;assembly=DinaGameEngine.Common"
         xmlns:enums="clr-namespace:DinaGameEngine.Common.Enums;assembly=DinaGameEngine.Common"
-        xmlns:usercontrols="clr-namespace:DinaGameEngine.Views.UserControls"
+        xmlns:shared="clr-namespace:DinaGameEngine.Views.UserControls.Shared"
         Title="{ext:Translate Key=Language_Title}"
         SizeToContent="Height" Width="400"
         Style="{StaticResource DinaWindowStyle}"
@@ -32,7 +32,7 @@
                       DisplayMemberPath="Name"/>
 
         </Grid>
-        <usercontrols:ButtonBarView Grid.Row="1" 
+        <shared:ButtonBarView Grid.Row="1" 
                                     DataContext="{Binding FooterButtons}" 
                                     Margin="8,4,8,8"/>
     </Grid>

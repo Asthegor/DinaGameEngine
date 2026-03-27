@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace DinaGameEngine.Views.UserControls
+namespace DinaGameEngine.Views.UserControls.Startup
 {
     /// <summary>
     /// Logique d'interaction pour ListRecentProjectsView.xaml
