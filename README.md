@@ -92,6 +92,10 @@ The goal is simple: **get a fully functional game project up and running in seco
 
 <img src="screenshots/07_game.png" alt="Game running" width="700"/>
 
+**Step 8** — Manage your scenes from the project home
+
+<img src="screenshots/08_project_home.png" alt="Project home" width="700"/>
+
 ---
 
 ## 📁 Project Structure
