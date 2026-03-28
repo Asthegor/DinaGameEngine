@@ -5,7 +5,7 @@ using System.Text;
 
 namespace DinaGameEngine.CodeGeneration
 {
-    public class ComponentGeneratorRegistry
+    public class ComponentGeneratorRegistry : IComponentGeneratorRegistry
     {
         private readonly ILogService _logService;
         private Dictionary<string, IComponentGenerator> _componentGenerators = [];
@@ -27,6 +27,11 @@ namespace DinaGameEngine.CodeGeneration
                 return;
             }
             //generator.Generate(sb, component, level);
+        }
+
+        public IEnumerable<IComponentGenerator> GetAllComponents()
+        {
+            return _componentGenerators.Values;
         }
     }
 }

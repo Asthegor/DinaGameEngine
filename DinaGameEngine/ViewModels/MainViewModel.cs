@@ -1,4 +1,5 @@
 ﻿using DinaGameEngine.Abstractions;
+using DinaGameEngine.CodeGeneration;
 using DinaGameEngine.Commands;
 using DinaGameEngine.Common;
 using DinaGameEngine.Common.Enums;
@@ -15,21 +16,27 @@ namespace DinaGameEngine.ViewModels
 {
     public class MainViewModel : ObservableObject
     {
+        private readonly IFileService _fileService;
+        private readonly ILogService _logService;
         private readonly IProjectService _projectService;
         private readonly IDialogService _dialogService;
-        private readonly IFileService _fileService;
         private readonly ICodeGenerator _codeGenerator;
+        private readonly IComponentGeneratorRegistry _componentGeneratorRegistry;
         private readonly GameProjectModel _gameProjectModel;
 
         private object? _currentViewModel;
 
-        public MainViewModel(IProjectService projectService, IDialogService dialogService, IFileService fileService,
-                             ICodeGenerator codeGenerator, GameProjectModel gameProjectModel)
+        public MainViewModel(IFileService fileService, ILogService logService, IProjectService projectService, 
+                             IDialogService dialogService, ICodeGenerator codeGenerator,
+                             IComponentGeneratorRegistry componentGeneratorRegistry,
+                             GameProjectModel gameProjectModel)
         {
+            _logService = logService;
             _projectService = projectService;
             _dialogService = dialogService;
             _fileService = fileService;
             _codeGenerator = codeGenerator;
+            _componentGeneratorRegistry = componentGeneratorRegistry;
             _gameProjectModel = gameProjectModel;
 
             MainMenuFileNewProjectCommand = new RelayCommand(_ => NewProject());
@@ -235,7 +242,7 @@ namespace DinaGameEngine.ViewModels
                     return;
                 }
 
-                var sceneEditorViewModel = new SceneEditorViewModel(sceneModel);
+                var sceneEditorViewModel = new SceneEditorViewModel(_logService, _componentGeneratorRegistry, sceneModel);
                 AddViewModelToOpenWindows(sceneEditorViewModel, sceneModel.Name);
             }
         }

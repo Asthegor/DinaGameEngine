@@ -15,8 +15,53 @@
             <ColumnDefinition Width="280"/>
         </Grid.ColumnDefinitions>
 
-        <Border Grid.Column="0"
-                Background="#F9F9F9"/>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBox Grid.Column="0"
+                         Text="{Binding FilterText, UpdateSourceTrigger=PropertyChanged}"/>
+                <Button Grid.Column="1"
+                        x:Name="AddComponentButton"
+                        Click="AddComponentButton_Click"
+                        Content="{Binding AddIcon}"
+                        FontFamily="Segoe Fluent Icons"
+                        FontSize="20">
+                    <Button.ContextMenu>
+                        <ContextMenu ItemsSource="{Binding AvailableGenerators}">
+                            <ContextMenu.ItemContainerStyle>
+                                <Style TargetType="MenuItem">
+                                    <Setter Property="Header" Value="{Binding ComponentType}"/>
+                                </Style>
+                            </ContextMenu.ItemContainerStyle>
+                        </ContextMenu>
+                    </Button.ContextMenu>
+                </Button>
+            </Grid>
+
+            <ScrollViewer Grid.Row="1">
+                <ItemsControl ItemsSource="{Binding FilteredComponents}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock>
+                                <Run Text="{Binding Key, Mode=OneWay}" Foreground="DimGray" FontWeight="SemiBold"/>
+                                <Run Text=" (" Foreground="Gray" FontSize="11"/>
+                                <Run Text="{Binding Type, Mode=OneWay}" FontFamily="Consolas" FontSize="11" Foreground="Gray"/>
+                                <Run Text=")" Foreground="Gray" FontSize="11"/>
+                            </TextBlock>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </Grid>
 
         <GridSplitter Grid.Column="1"
                       x:Name="LeftSplitter"

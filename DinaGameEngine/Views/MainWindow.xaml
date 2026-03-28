@@ -45,9 +45,9 @@
     </Window.Resources>
     <local:DinaWindow.InputBindings>
         <KeyBinding Key="N" Modifiers="Ctrl" Command="{Binding MainMenuFileNewProjectCommand}"/>
-        <KeyBinding Key="O" Modifiers="Ctrl" Command="{Binding MainMenuFileLoadCommand}"/>
-        <KeyBinding Key="S" Modifiers="Ctrl" Command="{Binding MainMenuFileSaveCommand}"/>
-        <KeyBinding Key="W" Modifiers="Ctrl" Command="{Binding MainMenuWindowCloseViewCommand}"/>
+        <KeyBinding Key="O" Modifiers="Ctrl" Command="{Binding MainMenuFileLoadProjectCommand }"/>
+        <KeyBinding Key="S" Modifiers="Ctrl" Command="{Binding MainMenuFileSaveProjectCommand}"/>
+        <KeyBinding Key="W" Modifiers="Ctrl" Command="{Binding MainMenuFileCloseViewCommand}"/>
         <KeyBinding Key="Q" Modifiers="Ctrl" Command="{Binding MainMenuFileQuitCommand}"/>
     </local:DinaWindow.InputBindings>
     <Grid>

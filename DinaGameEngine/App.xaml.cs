@@ -1,5 +1,6 @@
 ﻿using DinaGameEngine.Abstractions;
 using DinaGameEngine.CodeGeneration;
+using DinaGameEngine.CodeGeneration.ComponentGenerators;
 using DinaGameEngine.Common;
 using DinaGameEngine.Common.Enums;
 using DinaGameEngine.Models;
@@ -30,14 +31,20 @@ namespace DinaGameEngine
             var projectService = new ProjectService(fileService, logService, templateExtractor, codeGenerator);
             var dialogService = new DialogService();
 
+            // Enregistrement des composants
+            var componentGeneratorRegistry = new ComponentGeneratorRegistry(logService);
+            componentGeneratorRegistry.Register(new TextComponentGenerator());
+
             LocalizationManager.Register(typeof(Strings));
             
             // Vérification de la présence des DLL de DinaCSharp et DLACrypto.
             CheckLibsPath(templateExtractor);
 
             var navigationService = new NavigationService(fileService, generatedFileChecker, logService, templateExtractor,
-                                                          codeGenerator, projectService, dialogService);
+                                                          codeGenerator, projectService, dialogService, componentGeneratorRegistry);
             navigationService.Navigate(NavigationRequest.ShowStartup);
+
+
         }
         private static void CheckLibsPath(ITemplateExtractor templateExtractor)
         {

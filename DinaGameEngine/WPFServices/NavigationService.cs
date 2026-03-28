@@ -1,4 +1,5 @@
 ﻿using DinaGameEngine.Abstractions;
+using DinaGameEngine.CodeGeneration;
 using DinaGameEngine.Common;
 using DinaGameEngine.Common.Enums;
 using DinaGameEngine.Models;
@@ -21,11 +22,13 @@ namespace DinaGameEngine.WPFServices
         private ICodeGenerator _codeGenerator;
         private IProjectService _projectService;
         private IDialogService _dialogService;
+        private IComponentGeneratorRegistry _componentGeneratorRegistry;
 
         private DinaWindow? _currentWindow;
         public NavigationService(IFileService fileService, IGeneratedFileChecker generatedFileChecker, ILogService logService,
                                  ITemplateExtractor templateExtractor, ICodeGenerator codeGenerator,
-                                 IProjectService projectService, IDialogService dialogService)
+                                 IProjectService projectService, IDialogService dialogService,
+                                 IComponentGeneratorRegistry componentGeneratorRegistry)
         {
             _fileService = fileService;
             _generatedFileChecker = generatedFileChecker;
@@ -34,6 +37,7 @@ namespace DinaGameEngine.WPFServices
             _codeGenerator = codeGenerator;
             _projectService = projectService;
             _dialogService = dialogService;
+            _componentGeneratorRegistry = componentGeneratorRegistry;
         }
         public void Navigate(NavigationRequest request, object? parameter = null)
         {
@@ -66,7 +70,8 @@ namespace DinaGameEngine.WPFServices
         }
         private MainWindow OpenMainWindow(DinaWindow? windowToClose, GameProjectModel gameProjectModel)
         {
-            var mainViewModel = new MainViewModel(_projectService, _dialogService, _fileService, _codeGenerator, gameProjectModel);
+            var mainViewModel = new MainViewModel(_fileService, _logService, _projectService, _dialogService, 
+                                                  _codeGenerator, _componentGeneratorRegistry, gameProjectModel);
             var mainWindow = new MainWindow { DataContext = mainViewModel };
             mainViewModel.NavigationRequested += (s, e) => Navigate(e.Request, e.Parameter);
             mainWindow.Show();
