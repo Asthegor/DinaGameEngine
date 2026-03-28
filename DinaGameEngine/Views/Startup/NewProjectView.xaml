@@ -1,0 +1,63 @@
+﻿<UserControl x:Class="DinaGameEngine.Views.Startup.NewProjectView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:ext="clr-namespace:DinaGameEngine.Extensions"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <Grid Margin="25">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Text="{ext:Translate Key=NewProject_Title}" FontSize="22" FontWeight="Light" Foreground="#333" 
+                   Margin="0,0,0,25"/>
+
+        <StackPanel Grid.Row="1" Margin="0,0,0,20">
+            <TextBlock Text="{ext:Translate Key=NewProject_Name}"
+                       Style="{DynamicResource FieldLabelStyle}"/>
+            <TextBox Text="{Binding DataContext.NewProjectName, RelativeSource={RelativeSource AncestorType=UserControl}}" 
+                     Style="{DynamicResource ModernTextBoxStyle}"/>
+        </StackPanel>
+
+        <Grid Grid.Row="2" Margin="0,0,0,25">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" Text="{ext:Translate Key=NewProject_Location}"
+                       Style="{DynamicResource FieldLabelStyle}"/>
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBox Grid.Column="0" IsReadOnly="True" 
+                         Text="{Binding DataContext.NewProjectParentFolder, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                         Style="{DynamicResource ModernTextBoxStyle}"/>
+
+                <Button Grid.Column="1" Margin="10,0,0,0"
+                        Content="📂" FontSize="14"
+                        Command="{Binding DataContext.BrowseFolderCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                        Style="{DynamicResource GhostFooterButton}" 
+                        Width="40"
+                        BorderBrush="DarkViolet" 
+                        Foreground="DarkViolet"
+                        Tag="#F3E5F5"/>
+            </Grid>
+        </Grid>
+
+        <Border Grid.Row="3" Background="#F9F9F9" BorderBrush="#EAEAEA" BorderThickness="1" CornerRadius="6" Padding="15" VerticalAlignment="Top">
+            <StackPanel>
+                <TextBlock Text="{ext:Translate Key=NewProject_Preview}" Style="{DynamicResource FieldLabelStyle}"/>
+                <TextBlock Text="{Binding DataContext.NewProjectFolderPreview, RelativeSource={RelativeSource AncestorType=UserControl}}" 
+                           Foreground="DarkViolet" FontSize="13" FontWeight="Medium" TextWrapping="Wrap" Margin="0,5,0,0" FontFamily="Consolas"/>
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>

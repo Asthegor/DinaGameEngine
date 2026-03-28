@@ -5,7 +5,7 @@
         xmlns:ext="clr-namespace:DinaGameEngine.Extensions"
         xmlns:common="clr-namespace:DinaGameEngine.Common;assembly=DinaGameEngine.Common"
         xmlns:enums="clr-namespace:DinaGameEngine.Common.Enums;assembly=DinaGameEngine.Common"
-        xmlns:shared="clr-namespace:DinaGameEngine.Views.UserControls.Shared"
+        xmlns:shared="clr-namespace:DinaGameEngine.Views.Shared"
         Title="{ext:Translate Key=Language_Title}"
         SizeToContent="Height" Width="400"
         Style="{StaticResource DinaWindowStyle}"

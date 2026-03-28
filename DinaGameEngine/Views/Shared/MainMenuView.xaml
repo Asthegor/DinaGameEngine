@@ -1,0 +1,86 @@
+﻿<UserControl x:Class="DinaGameEngine.Views.Shared.MainMenuView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DinaGameEngine.Views.Shared"
+             xmlns:conv="clr-namespace:DinaGameEngine.Converters"
+             xmlns:ext="clr-namespace:DinaGameEngine.Extensions"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <conv:BoolToHIddenConverter x:Key="BoolToHIddenConverter"/>
+    </UserControl.Resources>
+    <Menu DockPanel.Dock="Top">
+        <MenuItem Header="{ext:Translate Key=MainMenu_File}"
+                  IsCheckable="False">
+            <MenuItem Header="{ext:Translate Key=MainMenu_File_NewProject}"
+                      Command="{Binding MainMenuFileNewProjectCommand}"
+                      InputGestureText="Ctrl+N"
+                      IsCheckable="False"/>
+            <MenuItem Header="{ext:Translate Key=MainMenu_File_OpenProject}"
+                      Command="{Binding MainMenuFileLoadProjectCommand}"
+                      InputGestureText="Ctrl+O"
+                      IsCheckable="False"/>
+            <MenuItem Header="{ext:Translate Key=MainMenu_File_SaveProject}"
+                      Command="{Binding MainMenuFileSaveProjectCommand}"
+                      InputGestureText="Ctrl+S"
+                      IsCheckable="False"/>
+            <MenuItem Header="{ext:Translate Key=MainMenu_File_CloseProject}"
+                      Command="{Binding MainMenuFileCloseProjectCommand}"
+                      IsCheckable="False"/>
+            <Separator/>
+            <MenuItem Header="{ext:Translate Key=MainMenu_File_CloseView}"
+                      Command="{Binding MainMenuFileCloseViewCommand}"
+                      IsEnabled="{Binding HasMultipleViews}"
+                      InputGestureText="Ctrl+W"
+                      IsCheckable="False"/>
+            <MenuItem Header="{ext:Translate Key=MainMenu_File_CloseAllViews}"
+                      Command="{Binding MainMenuFileCloseAllViewsCommand}"
+                      IsEnabled="{Binding HasMultipleViews}"
+                      IsCheckable="False"/>
+            <Separator/>
+            <MenuItem Header="{ext:Translate Key=MainMenu_File_Quit}"
+                      Command="{Binding MainMenuFileQuitCommand}"
+                      InputGestureText="Ctrl+Q"
+                      IsCheckable="False"/>
+        </MenuItem>
+        <MenuItem Header="{ext:Translate Key=MainMenu_Project}">
+            <MenuItem Header="{ext:Translate Key=MainMenu_Project_AddScene}"
+                      Command="{Binding MainMenuProjectAddSceneCommand}"
+                      IsCheckable="False"/>
+            <MenuItem Header="{ext:Translate Key=MainMenu_Project_AddImage}"
+                      Command="{Binding MainMenuProjectAddImageCommand}"
+                      IsCheckable="False"/>
+            <MenuItem Header="{ext:Translate Key=MainMenu_Project_AddSound}"
+                      Command="{Binding MainMenuProjectAddSoundCommand}"
+                      IsCheckable="False"/>
+            <MenuItem Header="{ext:Translate Key=MainMenu_Project_AddFont}"
+                      Command="{Binding MainMenuProjectAddFontCommand}"
+                      IsCheckable="False"/>
+        </MenuItem>
+        <MenuItem Header="{ext:Translate Key=MainMenu_Tools}">
+            <MenuItem Header="{ext:Translate Key=MainMenu_Tools_Transitions}"
+                      Command="{Binding MainMenuToolsShowTransitionsCommand}"
+                      IsCheckable="False"/>
+        </MenuItem>
+        <MenuItem Header="{ext:Translate Key=MainMenu_Window}" ItemsSource="{Binding OpenWindows}">
+            <MenuItem.ItemContainerStyle>
+                <Style TargetType="MenuItem">
+                    <Setter Property="Header" Value="{Binding Title}"/>
+                    <Setter Property="IsCheckable" Value="True"/>
+                    <Setter Property="IsChecked" Value="{Binding IsActive, Mode=OneWay}"/>
+                    <Setter Property="Command" Value="{Binding ActivateCommand}"/>
+                </Style>
+            </MenuItem.ItemContainerStyle>
+        </MenuItem>
+        <MenuItem Header="{ext:Translate Key=MainMenu_Help}">
+            <MenuItem Header="{ext:Translate Key=MainMenu_Help_News}"
+                      Command="{Binding MainMenuHelpShowNewsCommand}"
+                      IsCheckable="False"/>
+            <MenuItem Header="{ext:Translate Key=MainMenu_Help_About}"
+                      Command="{Binding MainMenuHelpShowAboutCommand}"
+                      IsCheckable="False"/>
+        </MenuItem>
+    </Menu>
+</UserControl>

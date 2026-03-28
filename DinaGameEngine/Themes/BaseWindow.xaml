@@ -51,7 +51,6 @@
                             Padding="{TemplateBinding Padding}"
                             CornerRadius="4">
                         <ContentPresenter/>
-                        <!--<ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>-->
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
@@ -81,8 +80,8 @@
                                 <VisualBrush>
                                     <VisualBrush.Visual>
                                         <Border Background="Black" SnapsToDevicePixels="True"
-                                                Width="{Binding ActualWidth, ElementName=MainBorder}"
-                                                Height="{Binding ActualHeight, ElementName=MainBorder}"
+                                                Width="{Binding ActualWidth, RelativeSource={RelativeSource TemplatedParent}}"
+                                                Height="{Binding ActualHeight, RelativeSource={RelativeSource TemplatedParent}}"
                                                 CornerRadius="8"/>
                                     </VisualBrush.Visual>
                                 </VisualBrush>
