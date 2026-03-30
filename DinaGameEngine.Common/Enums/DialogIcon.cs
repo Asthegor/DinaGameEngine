@@ -2,6 +2,10 @@
 {
     public enum DialogIcon
     {
-        None, Info, Warning, Error, Success
+        None,
+        Info,
+        Warning,
+        Error,
+        Success
     }
 }

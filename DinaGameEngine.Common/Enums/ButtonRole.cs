@@ -2,6 +2,8 @@
 {
     public enum ButtonRole
     {
-        Primary, Secondary, Neutral
+        Primary,
+        Secondary,
+        Neutral
     }
 }

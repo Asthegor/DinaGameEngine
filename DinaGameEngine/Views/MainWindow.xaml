@@ -70,6 +70,6 @@
         <!-- Fenêtre principale -->
         <ContentControl Grid.Row="2" Content="{Binding CurrentViewModel}"/>
 
-        <!-- Barre d'état -->
+        <!-- Barre d'état / à faire -->
     </Grid>
 </local:DinaWindow>

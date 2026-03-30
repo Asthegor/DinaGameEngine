@@ -36,6 +36,7 @@ namespace DinaGameEngine.ViewModels.Project.Add
 
             _existingKeys = existingKeys;
 
+            var titleKey ="AddColor_Title";
             if (colorModel != null)
             {
                 Key = colorModel.Key;
@@ -45,7 +46,10 @@ namespace DinaGameEngine.ViewModels.Project.Add
                 A = colorModel.A;
 
                 SelectedNamedColor = NamedColors.FirstOrDefault(c => c.Color.R == R && c.Color.G == G && c.Color.B == B && c.Color.A == A);
+
+                titleKey += "_Edit";
             }
+            WindowTitle = LocalizationManager.GetTranslation(titleKey);
         }
 
         public string Key
@@ -187,5 +191,6 @@ namespace DinaGameEngine.ViewModels.Project.Add
 
             AddCommand.RaiseCanExecuteChanged();
         }
+        public string WindowTitle { get; set; }
     }
 }

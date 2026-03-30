@@ -14,7 +14,7 @@ namespace DinaGameEngine.ViewModels.Project.Add
                                              canExecute: _ => !string.IsNullOrEmpty(SceneName));
             CancelCommand = new RelayCommand(_ => ConfirmedScene(false));
 
-            Buttons = new ButtonBarViewModel();
+            FooterButtons = new ButtonBarViewModel();
             CreateButtons();
 
         }
@@ -40,12 +40,12 @@ namespace DinaGameEngine.ViewModels.Project.Add
             SceneConfirmed?.Invoke(this, result);
         }
 
-        public ButtonBarViewModel Buttons { get; }
+        public ButtonBarViewModel FooterButtons { get; }
         private void CreateButtons()
         {
-            Buttons.Buttons.Clear();
-            Buttons.Buttons.Add(new ButtonDescriptor { Label = LocalizationManager.GetTranslation("Dialog_Cancel"), Command = CancelCommand, Role = ButtonRole.Secondary });
-            Buttons.Buttons.Add(new ButtonDescriptor { Label = LocalizationManager.GetTranslation("Dialog_Add"), Command = AddCommand, Role = ButtonRole.Primary });
+            FooterButtons.Buttons.Clear();
+            FooterButtons.Buttons.Add(new ButtonDescriptor { Label = LocalizationManager.GetTranslation("Dialog_Cancel"), Command = CancelCommand, Role = ButtonRole.Secondary });
+            FooterButtons.Buttons.Add(new ButtonDescriptor { Label = LocalizationManager.GetTranslation("Dialog_Add"), Command = AddCommand, Role = ButtonRole.Primary });
         }
 
     }

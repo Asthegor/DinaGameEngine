@@ -2,6 +2,8 @@
 {
     public enum DialogButtons
     {
-        OK, OKCancel, YesNo
+        OK,
+        OKCancel,
+        YesNo
     }
 }

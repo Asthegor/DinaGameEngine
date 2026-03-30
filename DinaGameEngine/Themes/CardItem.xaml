@@ -14,7 +14,7 @@
             </Trigger>
             <DataTrigger Binding="{Binding IsSelected}" Value="True">
                 <Setter Property="Background" Value="#3FF0D0FF"/>
-                <Setter Property="BorderBrush" Value="#FFBF28FF"/>
+                <Setter Property="BorderBrush" Value="DarkViolet"/>
                 <Setter Property="Border.Effect">
                     <Setter.Value>
                         <DropShadowEffect BlurRadius="10" ShadowDepth="2" Opacity="0.2" Color="Black"/>

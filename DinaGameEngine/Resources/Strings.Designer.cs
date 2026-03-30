@@ -72,9 +72,9 @@ namespace DinaGameEngine.Resources {
         /// <summary>
         ///   Looks up a localized string similar to La clé existe déjà. Veuillez en choisir une autre..
         /// </summary>
-        public static string AddColor_Key_AlreadyExists {
+        public static string AddColor_Key_AlreadyExist {
             get {
-                return ResourceManager.GetString("AddColor_Key_AlreadyExists", resourceCulture);
+                return ResourceManager.GetString("AddColor_Key_AlreadyExist", resourceCulture);
             }
         }
         
@@ -93,6 +93,15 @@ namespace DinaGameEngine.Resources {
         public static string AddColor_Title {
             get {
                 return ResourceManager.GetString("AddColor_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Modifier une couleur.
+        /// </summary>
+        public static string AddColor_Title_Edit {
+            get {
+                return ResourceManager.GetString("AddColor_Title_Edit", resourceCulture);
             }
         }
         

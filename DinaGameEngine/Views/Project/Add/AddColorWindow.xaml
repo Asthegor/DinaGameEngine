@@ -7,7 +7,7 @@
         xmlns:enums="clr-namespace:DinaGameEngine.Common.Enums;assembly=DinaGameEngine.Common"
         xmlns:ext="clr-namespace:DinaGameEngine.Extensions"
         xmlns:converters="clr-namespace:DinaGameEngine.Converters"
-        Title="{ext:Translate Key=AddColor_Title}" Height="450" Width="800"
+        Title="{Binding WindowTitle}" Height="450" Width="800"
         Style="{StaticResource DinaWindowStyle}"
         TitleBarButtons="{x:Static enums:TitleBarButtons.CloseOnly}"
         WindowStartupLocation="CenterScreen"
