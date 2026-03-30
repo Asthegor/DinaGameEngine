@@ -17,122 +17,162 @@
 
 ## What is Dina Game Engine?
 
-Dina Game Engine is a WPF-based visual editor that lets you create and manage 2D games built on [MonoGame](https://www.monogame.net/) and the [DinaCSharp](https://github.com/Asthegor/DinaCSharp) framework.
+**Dina Game Engine** is a visual editor designed for C# developers who want to create 2D games with [MonoGame](https://www.monogame.net/) and the [DinaCSharp](https://dinacsharp.lacombedominique.com) framework — without giving up control of their code.
 
-The goal is simple: **get a fully functional game project up and running in seconds**, without manually setting up solutions, projects, or boilerplate code. The engine generates clean, readable C# code that you can open, understand, and extend in Visual Studio — no black boxes, no locked files.
+The editor generates clean, structured C# code that stays fully editable in Visual Studio. No black box, no lock-in.
 
-> Dina Game Engine is designed for **C# developers new to MonoGame** who want a solid starting point without spending hours on project configuration.
-
----
-
-## ✨ Features
-
-- **One-click project creation** — generates a complete, ready-to-run Visual Studio solution built on MonoGame and DinaCSharp
-- **Automatic code generation** — `Designer.cs` files managed by the engine, `.cs` files yours to edit
-- **Built-in main menu and options screen** — functional from day one
-- **Automatic DinaCSharp integration** — the engine handles the framework dependency for you
-- **Localization support** — multi-language projects out of the box
-- **Recent projects list** — with pinning, grouping by date, and custom icons
-- **Partial class architecture** — engine code and user code clearly separated, never overwritten
-- **Scene management** — add, delete and browse scenes directly from the editor
-- **Collapsible navigation panel** — icon-only or full labels, your choice
-- **Visual scene selection** — click to select, double-click to open
+Built with **WPF / .NET 10**, targeting **Windows only**.
 
 ---
 
-## 🎬 See it in action
+## 🚀 Zero to playable in seconds
 
-> From zero to a running game in seconds.
+When you create a new project, Dina Game Engine generates a **100% functional Visual Studio solution** that compiles and runs immediately — no setup required.
 
-![Dina Game Engine Demo](demo.gif)
+Out of the box, your game includes:
 
----
-
-## 🚀 Getting Started
-
-### Prerequisites
-
-- [Visual Studio 2022](https://visualstudio.microsoft.com/) or later
-- [.NET 10 SDK](https://dotnet.microsoft.com/download)
-- [MonoGame extension for Visual Studio](https://docs.monogame.net/articles/getting_started/1_setting_up_your_development_environment_windows.html)
-
-### Installation
-
-1. Download the latest release from [GitHub Releases](https://github.com/Asthegor/DinaGameEngine/releases)
-2. Extract the archive and run `DinaGameEngine.exe`
-3. That's it — DinaCSharp is bundled and managed automatically
-
-### Creating your first project
-
-**Step 1** — Launch Dina Game Engine
-
-<img src="screenshots/01_startup.png" alt="Startup screen" width="700"/>
-
-**Step 2** — Click **New project**, enter a name and location
-
-<img src="screenshots/02_new_project.png" alt="New project" width="700"/>
-
-**Step 3** — Validate or customize the generated identifiers
-
-<img src="screenshots/03_markers.png" alt="Markers validation" width="700"/>
-
-**Step 4** — Click **Create** — your project is ready
-
-<img src="screenshots/04_success.png" alt="Project created" width="700"/>
-
-**Step 5** — Choose your default language
-
-<img src="screenshots/05_language.png" alt="Language selection" width="700"/>
-
-**Step 6** — Open the solution in Visual Studio
-
-<img src="screenshots/06_visual_studio.png" alt="Visual Studio solution" width="400"/>
-
-**Step 7** — Build and run — your game is already working
-
-<img src="screenshots/07_game.png" alt="Game running" width="700"/>
-
-**Step 8** — Manage your scenes from the project home
-
-<img src="screenshots/08_project_home.png" alt="Project home" width="700"/>
-
-**Step 9** — Navigate between open editors using the tab bar
-
-<img src="screenshots/09_tab_view.png" alt="Tab bar" width="700"/>
-
----
-
-## 📁 Project Structure
-
-Every generated project contains 6 sub-projects:
-
-| Project | Description |
+| Feature | Details |
 |---|---|
-| `Core` | Keys, configuration data, and localization strings |
-| `Fonts` | SpriteFont files for all supported resolutions |
-| `Audio` | Audio content (music and sound effects) |
-| `Assets` | Graphic assets (textures, sprites) |
-| `Scenes` | All game scenes |
-| `[YourGame]` | Main game project — your entry point |
+| 🎮 Main menu | Navigation between scenes, fully wired |
+| ⚙️ Options screen | Resolution, fullscreen mode, master/music/SFX volume |
+| 🔤 Font system | Multi-resolution SpriteFont support |
+| 🔊 Audio system | Sound and music management |
+| 🖼️ Asset system | Image and sprite resource management |
+| 🌍 Localization | Multi-language support out of the box |
 
-All projects reference `DinaCSharp.dll`, which is placed at the solution root and managed by the engine.
+> Just hit **Run** in Visual Studio — your game is already alive.
 
 ---
 
-## 🗺️ Roadmap
+## ✨ Editor Features (v0.7.0)
+
+- **Project management** — Create, open, and manage game projects. Recent projects grouped by date with icons, path, last access time, and pin support.
+- **Scene editor** — Add and filter scene components. Component type selector via contextual add menu. Scene preview panel is work in progress.
+- **Color palette management** — Add, edit, and delete named colors. Changes are automatically reflected in `PaletteColors.Designer.cs` in the game project.
+- **Code generation** — Partial class system separating auto-generated Designer files from user-editable files. Zone markers ensure safe incremental updates without overwriting user code.
+- **Multi-view navigation** — Tab bar with closable tabs for working across multiple editors simultaneously.
+- **Localization** — The editor is currently available in French and English. Additional languages can be contributed by providing translations.
+
+---
+
+## 📸 Screenshots
+
+### Startup Screen
+Recent projects grouped by date, with custom icons, path, and last access time.
+
+![Startup](screenshots/01_startup.png)
+
+---
+
+### Project Home
+Navigation panel giving access to all resource editors (Localization, Fonts, Images, Sounds, Colors, Controls, Settings) alongside the scene list.
+
+![Project Home](screenshots/14_ProjectHome.png)
+
+---
+
+### Scene Editor
+Three-panel layout: component list with live filter and contextual add menu (left) · scene preview — work in progress (center) · properties panel (right).
+
+![Scene Editor](screenshots/13_SceneEditor.png)
+
+---
+
+### Color Editor
+Complete color palette management with visual preview, key name, and per-entry open/delete actions.
+
+![Color Editor](screenshots/10_ColorEditor.png)
+
+---
+
+### Add Color Window
+Named color selector, RGBA sliders with live preview, and duplicate key validation.
+
+![Add Color](screenshots/11_AddColorView.png)
+
+---
+
+### Generated Code — PaletteColors.Designer.cs
+Auto-generated partial class containing all RGBA color definitions. Managed entirely by the engine — never edited manually.
+
+![PaletteColors Designer](screenshots/12_PaletteColors_Designer.png)
+
+---
+
+## 🏗️ Editor Solution Structure
+
+| Project | Role |
+|---|---|
+| `DinaGameEngine` | WPF application — Views, ViewModels, converters, styles |
+| `DinaGameEngine.Common` | Shared base classes: `ObservableObject`, `RelayCommand`, `ILogService` |
+| `DinaGameEngine.Models` | Data models: `GameProjectModel`, `SceneModel`, `ColorModel`, ... |
+| `DinaGameEngine.Abstractions` | Service interfaces: `ICodeGenerator`, `IProjectService`, ... |
+| `DinaGameEngine.Services` | Service implementations: `FileService`, `ProjectService`, ... |
+| `DinaGameEngine.CodeGeneration` | Code generation engine: `CodeGenerator`, `SectionParser`, component generators |
+| `DinaGameEngine.Templates` | Embedded game project templates |
+| `DinaGameEngine.Updater` | Auto-update module |
+
+---
+
+## 🎮 Generated Game Project Structure
+
+Each generated game is a standalone Visual Studio solution. `DinaCSharp.dll` is placed at the solution root and referenced by all projects automatically.
+
+| Project | Role |
+|---|---|
+| `Fonts` | TTF font files and auto-generated SpriteFont variants for each supported resolution (720p to 2160p) |
+| `Audio` | Sound effects and music content |
+| `Assets` | Images and sprite resources |
+| `Core` | Keys, data classes, palette colors, and shared game logic |
+| `Scenes` | All game scenes |
+| `[GameName]` | Main entry point, game loop, and configuration |
+
+Project metadata is stored in `dina.project.json` at the game project root.
+
+---
+
+## 🏛️ Editor Architecture
+
+| Aspect | Approach |
+|---|---|
+| Pattern | MVVM with manual dependency injection — no third-party DI framework |
+| Base classes | `ObservableObject`, `RelayCommand` shared in `DinaGameEngine.Common` |
+| Navigation | `NavigationService` centralizes all view transitions |
+| Code generation | Partial class system with zone markers (`=[ZONE:...]=`) for safe incremental updates |
+| Localization | Custom `TranslateExtension` markup extension backed by `.resx` resource files |
+
+---
+
+## 🛠️ Tech Stack
+
+| Technology | Details |
+|---|---|
+| Language | C# / .NET 10 |
+| UI Framework | WPF (Windows only) |
+| Game Framework | MonoGame 3.8.4 |
+| Game Library | [DinaCSharp](https://dinacsharp.lacombedominique.com) |
+| Versioning | MinVer — semantic versioning via Git tags |
+
+---
+
+## 📋 Roadmap
 
 The following features are planned for upcoming releases:
 
-- **Scene editor** — visual canvas for placing and configuring scene components
-- **Component generators** — Text, MenuManager and more
-- **Add font** — add new SpriteFont files with custom resolution variants
-- **UI components** — place and configure UI elements in a scene visually
+- [ ] **Add font** — add new SpriteFont files with custom resolution variants
+- [ ] **UI components** — place and configure UI elements in a scene visually
+- [ ] **Scene editor** — visual canvas for placing and configuring scene components
+- [ ] Auto-updater (DinaGameEngine.Updater)
+- [ ] GitHub Wiki
 
 ---
 
 ## 🤝 Contributing
 
-Contributions, bug reports, and feature suggestions are welcome. Please open an issue or submit a pull request on GitHub.
+Contributions, bug reports, and feature suggestions are welcome.
+Please open an issue or submit a pull request.
+
+Translation contributions are especially appreciated — the editor currently supports French and English, and each new language only requires a `.resx` file.
 
 ---
 
@@ -143,6 +183,6 @@ This project is licensed under the MIT License — see the [LICENSE](LICENSE) fi
 ---
 
 <div align="center">
-<sub>Built with ❤️ using C#, WPF, MonoGame and DinaCSharp</sub><br/>
+<sub>Built with ❤️ using C#, WPF, MonoGame, DinaCSharp and Claude AI</sub><br/>
 <sub>Ce projet est développé par un développeur francophone — les issues en français sont les bienvenues.</sub>
 </div>
