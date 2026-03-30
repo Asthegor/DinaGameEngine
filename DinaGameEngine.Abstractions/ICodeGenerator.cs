@@ -7,8 +7,10 @@ namespace DinaGameEngine.Abstractions
     {
         void GenerateAllFiles(GameProjectModel gameProjectModel);
         void GenerateAllDesigners(GameProjectModel gameProjectModel);
-        void GenerateNewScene(GameProjectModel gameProjectModel, SceneModel sceneName);
-        void AddAllComponents(GameProjectModel gameProjectModel);
+        void GenerateNewScene(GameProjectModel gameProjectModel, SceneModel scene);
         void RemoveScene(GameProjectModel gameProjectModel, SceneModel scene);
+        void GeneratePaletteColor(GameProjectModel gameProjectModel);
+        void AddColor(GameProjectModel gameProjectModel, ColorModel colorModel);
+        void RemoveColor(GameProjectModel gameProjectModel, ColorModel colorModel);
     }
 }

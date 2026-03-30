@@ -1,4 +1,6 @@
-﻿namespace DinaGameEngine.Models.Startup
+﻿using System.Text.Json.Serialization;
+
+namespace DinaGameEngine.Models.Startup
 {
     public class RecentProjectModel
     {

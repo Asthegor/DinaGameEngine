@@ -61,11 +61,47 @@ namespace DinaGameEngine.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Couleur.
+        /// </summary>
+        public static string AddColor_ColorPicker_Label {
+            get {
+                return ResourceManager.GetString("AddColor_ColorPicker_Label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to La clé existe déjà. Veuillez en choisir une autre..
+        /// </summary>
+        public static string AddColor_Key_AlreadyExists {
+            get {
+                return ResourceManager.GetString("AddColor_Key_AlreadyExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Clé dans PaletteColors.
+        /// </summary>
+        public static string AddColor_Key_Label {
+            get {
+                return ResourceManager.GetString("AddColor_Key_Label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ajout d&apos;une nouvelle couleur.
+        /// </summary>
+        public static string AddColor_Title {
+            get {
+                return ResourceManager.GetString("AddColor_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ajout d&apos;une nouvelle scène.
         /// </summary>
-        public static string AddScene_title {
+        public static string AddScene_Title {
             get {
-                return ResourceManager.GetString("AddScene_title", resourceCulture);
+                return ResourceManager.GetString("AddScene_Title", resourceCulture);
             }
         }
         
@@ -75,6 +111,15 @@ namespace DinaGameEngine.Resources {
         public static string App_Title {
             get {
                 return ResourceManager.GetString("App_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ajouter une couleur.
+        /// </summary>
+        public static string ColorEditor_AddColor {
+            get {
+                return ResourceManager.GetString("ColorEditor_AddColor", resourceCulture);
             }
         }
         
@@ -354,6 +399,15 @@ namespace DinaGameEngine.Resources {
         public static string MainMenu_Project {
             get {
                 return ResourceManager.GetString("MainMenu_Project", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ajouter une couleur....
+        /// </summary>
+        public static string MainMenu_Project_AddColor {
+            get {
+                return ResourceManager.GetString("MainMenu_Project_AddColor", resourceCulture);
             }
         }
         

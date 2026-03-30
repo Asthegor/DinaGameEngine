@@ -1,0 +1,61 @@
+﻿<local:DinaWindow x:Class="DinaGameEngine.Views.Project.Add.AddColorWindow"
+        xmlns:local="clr-namespace:DinaGameEngine.Themes"             
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:shared="clr-namespace:DinaGameEngine.Views.Shared"
+        xmlns:comps="clr-namespace:DinaGameEngine.Views.Project.Components"
+        xmlns:enums="clr-namespace:DinaGameEngine.Common.Enums;assembly=DinaGameEngine.Common"
+        xmlns:ext="clr-namespace:DinaGameEngine.Extensions"
+        xmlns:converters="clr-namespace:DinaGameEngine.Converters"
+        Title="{ext:Translate Key=AddColor_Title}" Height="450" Width="800"
+        Style="{StaticResource DinaWindowStyle}"
+        TitleBarButtons="{x:Static enums:TitleBarButtons.CloseOnly}"
+        WindowStartupLocation="CenterScreen"
+        FocusManager.FocusedElement="{Binding ElementName=ColorKeyTextBox}">
+    <Window.Resources>
+        <converters:StringToVisibilityConverter x:Key="StringToVisibilityConverter"/>
+    </Window.Resources>
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Grid.Row="0" Margin="0,0,0,8"
+                       Text="{ext:Translate Key=AddColor_Key_Label}"
+                       Style="{DynamicResource FieldLabelStyle}"/>
+
+            <TextBox Grid.Row="1" Margin="0,0,0,8" 
+                     Text="{Binding Key, UpdateSourceTrigger=PropertyChanged}"
+                     Style="{DynamicResource ModernTextBoxStyle}"
+                     GotFocus="ColorKeyTextBox_GotFocus"
+                     LostFocus="ColorKeyTextBox_LostFocus"
+                     x:Name="ColorKeyTextBox"/>
+
+            <TextBlock Grid.Row="2" 
+                       Text="{Binding KeyErrorMessage}"
+                       Foreground="OrangeRed"
+                       FontSize="11"
+                       Margin="0,0,0,8"
+                       Visibility="{Binding KeyErrorMessage, Converter={StaticResource StringToVisibilityConverter}}"/>
+
+            <comps:ColorPickerView Grid.Row="3" 
+                                   Label="{ext:Translate Key=AddColor_ColorPicker_Label}"
+                                   SelectedColor="{Binding PreviewColor, Mode=TwoWay}"
+                                   SelectedNamedColor="{Binding SelectedNamedColor, Mode=TwoWay}"
+                                   NamedColors="{Binding NamedColors, Mode=OneWay}"/>
+        </Grid>
+
+        <shared:ButtonBarView Grid.Row="1" 
+                              DataContext="{Binding FooterButtons}" 
+                              Margin="8,4,8,8"/>
+    </Grid>
+</local:DinaWindow>

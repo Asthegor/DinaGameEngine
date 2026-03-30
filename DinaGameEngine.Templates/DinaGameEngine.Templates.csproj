@@ -42,6 +42,7 @@
     <Compile Remove="GameProject\Core\Resources\**" />
     <EmbeddedResource Remove="GameProject\Core\Resources\**" />
     <None Remove="GameProject\Core\Resources\**" />
+    <EmbeddedResource Remove="GameProject\Core\Keys\PaletteColors.cs" />
     <EmbeddedResource Remove="GameProject\__GameProjectName__\__GameProjectName__.cs" />
     <EmbeddedResource Include="GameTemplateMarkers.json" />
   </ItemGroup>

@@ -48,7 +48,7 @@
 
         <!--Footer -->
         <shared:ButtonBarView Grid.Row="1" 
-                                    DataContext="{Binding FooterButtons}" 
-                                    Margin="16,8,16,16"/>
+                              DataContext="{Binding FooterButtons}" 
+                              Margin="16,8,16,16"/>
     </Grid>
 </local:DinaWindow>

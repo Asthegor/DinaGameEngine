@@ -15,6 +15,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Themes/CardItem.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+            <conv:IconPathToBitmapConverter x:Key="IconPathToBitmapConverter"/>
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -51,7 +52,7 @@
                Width="40" Height="40"
                HorizontalAlignment="Center"
                VerticalAlignment="Center"
-               Source="{Binding IconPath, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+               Source="{Binding IconPath, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource IconPathToBitmapConverter}}"/>
 
             <StackPanel Grid.Column="1" VerticalAlignment="Center">
                 <TextBlock Text="{Binding Title, RelativeSource={RelativeSource AncestorType=UserControl}}"

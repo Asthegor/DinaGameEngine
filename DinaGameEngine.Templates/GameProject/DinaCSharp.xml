@@ -701,29 +701,6 @@
             Le slider qui a déclenché l'événement.
             </summary>
         </member>
-        <member name="T:DinaCSharp.Events.SliderValueEventArgs">
-            <summary>
-            Contient les informations d'un changement de valeur d'un <see cref="T:DinaCSharp.Graphics.Slider"/>.
-            </summary>
-            <remarks>
-            Initialise une nouvelle instance de <see cref="T:DinaCSharp.Events.SliderValueEventArgs"/> avec la valeur spécifiée.
-            </remarks>
-            <param name="value">La valeur du slider.</param>
-        </member>
-        <member name="M:DinaCSharp.Events.SliderValueEventArgs.#ctor(System.Single)">
-            <summary>
-            Contient les informations d'un changement de valeur d'un <see cref="T:DinaCSharp.Graphics.Slider"/>.
-            </summary>
-            <remarks>
-            Initialise une nouvelle instance de <see cref="T:DinaCSharp.Events.SliderValueEventArgs"/> avec la valeur spécifiée.
-            </remarks>
-            <param name="value">La valeur du slider.</param>
-        </member>
-        <member name="P:DinaCSharp.Events.SliderValueEventArgs.Value">
-            <summary>
-            La nouvelle valeur du slider.
-            </summary>
-        </member>
         <member name="T:DinaCSharp.Events.SceneEventArgs">
             <summary>
             Contient les informations d'un événement lié à une <see cref="P:DinaCSharp.Events.SceneEventArgs.Scene"/>.
@@ -2374,11 +2351,6 @@
             Direction de progression du slider (ex: gauche-droite, droite-gauche, haut-bas, bas-haut).
             </summary>
         </member>
-        <member name="E:DinaCSharp.Graphics.Slider.OnValueChanged">
-            <summary>
-            Action appelée lorsque la valeur du slider change.
-            </summary>
-        </member>
         <member name="P:DinaCSharp.Graphics.Slider.Position">
             <summary>
             Position du slider.
@@ -2569,6 +2541,13 @@
             <summary>
             Angle du texte en radians.
             </summary>
+        </member>
+        <member name="M:DinaCSharp.Graphics.Text.#ctor(Microsoft.Xna.Framework.Graphics.SpriteFont,System.String)">
+            <summary>
+            Initialise une nouvelle instance de la classe Text.
+            </summary>
+            <param name="font">La police utilisée pour afficher le texte.</param>
+            <param name="content">Le contenu du texte.</param>
         </member>
         <member name="M:DinaCSharp.Graphics.Text.#ctor(Microsoft.Xna.Framework.Graphics.SpriteFont,System.String,Microsoft.Xna.Framework.Color,Microsoft.Xna.Framework.Vector2,DinaCSharp.Enums.HorizontalAlignment,DinaCSharp.Enums.VerticalAlignment,System.Int32)">
             <summary>
@@ -3147,6 +3126,57 @@
         <member name="M:DinaCSharp.Services.Audio.SoundManager.Dispose">
             <summary>
             Libère toutes les ressources utilisées par le SoundManager.
+            </summary>
+        </member>
+        <member name="T:DinaCSharp.Services.ServiceTag">
+            <summary>
+            Représente un tag vide utilisé pour typer les clés de service.
+            </summary>
+        </member>
+        <member name="T:DinaCSharp.Services.DinaServiceKeys">
+            <summary>
+            Représente une clé unique et immuable pour identifier un service dans le framework.
+            Fournit des méthodes utilitaires pour la création, la comparaison et la conversion de clés de service.
+            </summary>
+        </member>
+        <member name="F:DinaCSharp.Services.DinaServiceKeys.SceneManager">
+            <summary>
+            Clé représentant le gestionnaire de scènes.
+            </summary>
+        </member>
+        <member name="F:DinaCSharp.Services.DinaServiceKeys.Texture1px">
+            <summary>
+            Clé représentant la texture 1 pixel utilisée par défaut.
+            </summary>
+        </member>
+        <member name="F:DinaCSharp.Services.DinaServiceKeys.ScreenManager">
+            <summary>
+            Clé représentant le gestionnaire d'écran.
+            </summary>
+        </member>
+        <member name="F:DinaCSharp.Services.DinaServiceKeys.DropDownArrow">
+            <summary>
+            Clé représentant la texture de la flèche d'une liste déroulante.
+            </summary>
+        </member>
+        <member name="F:DinaCSharp.Services.DinaServiceKeys.FontProfile">
+            <summary>
+            Clé représentant le profil de polices.
+            </summary>
+        </member>
+        <member name="F:DinaCSharp.Services.DinaServiceKeys.FontManager">
+            <summary>
+            Clé représentant le gestionnaire de polices.
+            </summary>
+        </member>
+        <member name="F:DinaCSharp.Services.DinaServiceKeys.SoundManager">
+            <summary>
+            Clé représentant le gestionnaire de sons.
+            </summary>
+        </member>
+        <member name="F:DinaCSharp.Services.DinaServiceKeys.ResourceManager">
+            <summary>
+            Clé représentant le gestionnaire de ressources.
             </summary>
         </member>
         <member name="T:DinaCSharp.Services.Fonts.FontTag">
@@ -4112,6 +4142,11 @@
             <param key="overwritten">Indique si le fichier doit être écrasé.</param>
             <returns>Vrai si l'objet a été sauvegardé avec succès, sinon faux.</returns>
         </member>
+        <member name="T:DinaCSharp.Services.Scenes.SceneTag">
+            <summary>
+            Représente un tag vide utilisé pour typer les clés de scène.
+            </summary>
+        </member>
         <member name="T:DinaCSharp.Services.Scenes.FrameworkLogoScene">
             <summary>
             Scène d’introduction affichant le logo du framework avec un fondu enchaîné.
@@ -4306,11 +4341,6 @@
         <member name="M:DinaCSharp.Services.Scenes.Scene.ClearEventSubscribers">
             <summary>
             Détache tous les abonnés à l'événement <see cref="E:DinaCSharp.Services.Scenes.Scene.OnResolutionChanged"/>.
-            </summary>
-        </member>
-        <member name="T:DinaCSharp.Services.Scenes.SceneTag">
-            <summary>
-            Représente un tag vide utilisé pour typer les clés de scène.
             </summary>
         </member>
         <member name="T:DinaCSharp.Services.Scenes.SceneManager">
@@ -4615,57 +4645,6 @@
             Définit le mode plein écran (true) ou non (false).
             </summary>
             <param name="isChecked"></param>
-        </member>
-        <member name="T:DinaCSharp.Services.ServiceTag">
-            <summary>
-            Représente un tag vide utilisé pour typer les clés de service.
-            </summary>
-        </member>
-        <member name="T:DinaCSharp.Services.ServiceKeys">
-            <summary>
-            Représente une clé unique et immuable pour identifier un service dans le framework.
-            Fournit des méthodes utilitaires pour la création, la comparaison et la conversion de clés de service.
-            </summary>
-        </member>
-        <member name="F:DinaCSharp.Services.ServiceKeys.SceneManager">
-            <summary>
-            Clé représentant le gestionnaire de scènes.
-            </summary>
-        </member>
-        <member name="F:DinaCSharp.Services.ServiceKeys.Texture1px">
-            <summary>
-            Clé représentant la texture 1 pixel utilisée par défaut.
-            </summary>
-        </member>
-        <member name="F:DinaCSharp.Services.ServiceKeys.ScreenManager">
-            <summary>
-            Clé représentant le gestionnaire d'écran.
-            </summary>
-        </member>
-        <member name="F:DinaCSharp.Services.ServiceKeys.DropDownArrow">
-            <summary>
-            Clé représentant la texture de la flèche d'une liste déroulante.
-            </summary>
-        </member>
-        <member name="F:DinaCSharp.Services.ServiceKeys.FontProfile">
-            <summary>
-            Clé représentant le profil de polices.
-            </summary>
-        </member>
-        <member name="F:DinaCSharp.Services.ServiceKeys.FontManager">
-            <summary>
-            Clé représentant le gestionnaire de polices.
-            </summary>
-        </member>
-        <member name="F:DinaCSharp.Services.ServiceKeys.SoundManager">
-            <summary>
-            Clé représentant le gestionnaire de sons.
-            </summary>
-        </member>
-        <member name="F:DinaCSharp.Services.ServiceKeys.ResourceManager">
-            <summary>
-            Clé représentant le gestionnaire de ressources.
-            </summary>
         </member>
         <member name="T:DinaCSharp.Services.ServiceLocator">
             <summary>

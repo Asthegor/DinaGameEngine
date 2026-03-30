@@ -330,7 +330,7 @@ Voulez-vous tout de même supprimer la scène '{0}' ?</value>
   <data name="MainMenu_File_Save_Message" xml:space="preserve">
     <value>Le projet '{0}' a été sauvegardé avec succès.</value>
   </data>
-  <data name="AddScene_title" xml:space="preserve">
+  <data name="AddScene_Title" xml:space="preserve">
     <value>Ajout d'une nouvelle scène</value>
   </data>
   <data name="Nav_Localization" xml:space="preserve">
@@ -359,5 +359,23 @@ Voulez-vous tout de même supprimer la scène '{0}' ?</value>
   </data>
   <data name="MainMenu_File_CloseAllViews" xml:space="preserve">
     <value>Fermer toutes les vues</value>
+  </data>
+  <data name="AddColor_Title" xml:space="preserve">
+    <value>Ajout d'une nouvelle couleur</value>
+  </data>
+  <data name="MainMenu_Project_AddColor" xml:space="preserve">
+    <value>Ajouter une couleur...</value>
+  </data>
+  <data name="AddColor_Key_Label" xml:space="preserve">
+    <value>Clé dans PaletteColors</value>
+  </data>
+  <data name="AddColor_ColorPicker_Label" xml:space="preserve">
+    <value>Couleur</value>
+  </data>
+  <data name="ColorEditor_AddColor" xml:space="preserve">
+    <value>Ajouter une couleur</value>
+  </data>
+  <data name="AddColor_Key_AlreadyExists" xml:space="preserve">
+    <value>La clé existe déjà. Veuillez en choisir une autre.</value>
   </data>
 </root>

@@ -13,6 +13,7 @@
         Refresh = 0xE72C,
         Minimize = 0xE654,
         Maximize = 0xE655,
+        Restore = 0xE656,
         Close = 0xE653,
         Add = 0xECC8,
         Open = 0xE838,

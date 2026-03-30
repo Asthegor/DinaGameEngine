@@ -3,16 +3,15 @@ using DinaGameEngine.CodeGeneration;
 using DinaGameEngine.CodeGeneration.ComponentGenerators;
 using DinaGameEngine.Common;
 using DinaGameEngine.Common.Enums;
-using DinaGameEngine.Models;
 using DinaGameEngine.Resources;
 using DinaGameEngine.Services;
 using DinaGameEngine.Templates;
-using DinaGameEngine.ViewModels;
-using DinaGameEngine.Views;
 using DinaGameEngine.WPFServices;
 
 using System.IO;
 using System.Windows;
+
+using Application = System.Windows.Application;
 
 namespace DinaGameEngine
 {

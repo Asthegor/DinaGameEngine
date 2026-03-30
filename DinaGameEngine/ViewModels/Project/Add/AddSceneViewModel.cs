@@ -2,7 +2,7 @@
 using DinaGameEngine.Common;
 using DinaGameEngine.Common.Enums;
 
-namespace DinaGameEngine.ViewModels
+namespace DinaGameEngine.ViewModels.Project.Add
 {
     public class AddSceneViewModel : ObservableObject
     {
@@ -14,8 +14,8 @@ namespace DinaGameEngine.ViewModels
                                              canExecute: _ => !string.IsNullOrEmpty(SceneName));
             CancelCommand = new RelayCommand(_ => ConfirmedScene(false));
 
-            FooterButtons = new ButtonBarViewModel();
-            UpdateFooterButtons();
+            Buttons = new ButtonBarViewModel();
+            CreateButtons();
 
         }
         public string SceneName
@@ -40,12 +40,12 @@ namespace DinaGameEngine.ViewModels
             SceneConfirmed?.Invoke(this, result);
         }
 
-        public ButtonBarViewModel FooterButtons { get; }
-        private void UpdateFooterButtons()
+        public ButtonBarViewModel Buttons { get; }
+        private void CreateButtons()
         {
-            FooterButtons.Buttons.Clear();
-            FooterButtons.Buttons.Add(new ButtonDescriptor { Label = LocalizationManager.GetTranslation("Dialog_Cancel"), Command = CancelCommand, Role = ButtonRole.Secondary });
-            FooterButtons.Buttons.Add(new ButtonDescriptor { Label = LocalizationManager.GetTranslation("Dialog_Add"), Command = AddCommand, Role = ButtonRole.Primary });
+            Buttons.Buttons.Clear();
+            Buttons.Buttons.Add(new ButtonDescriptor { Label = LocalizationManager.GetTranslation("Dialog_Cancel"), Command = CancelCommand, Role = ButtonRole.Secondary });
+            Buttons.Buttons.Add(new ButtonDescriptor { Label = LocalizationManager.GetTranslation("Dialog_Add"), Command = AddCommand, Role = ButtonRole.Primary });
         }
 
     }

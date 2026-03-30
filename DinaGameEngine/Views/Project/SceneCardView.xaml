@@ -56,8 +56,8 @@
             </Grid>
 
             <shared:ButtonBarView Grid.Column="2" HorizontalAlignment="Right"
-                             DataContext="{Binding Buttons}" 
-                             Margin="8,4,8,8"/>
+                                  DataContext="{Binding NavigationButtons}" 
+                                  Margin="8,4,8,8"/>
         </Grid>
     </Border>
 </UserControl>

@@ -65,9 +65,9 @@ namespace __RootNamespace__.Scenes
         {
             UIScaler.Update(ScreenDimensions);
 
-            _screenManager = ServiceLocator.Get<ScreenManager>(ServiceKeys.ScreenManager);
+            FontManager fontManager = ServiceLocator.Get<FontManager>(DinaServiceKeys.FontManager);
+            _screenManager = ServiceLocator.Get<ScreenManager>(DinaServiceKeys.ScreenManager);
             _soundManager = ServiceLocator.Get<SoundManager>(ServiceKeys.SoundManager);
-            FontManager fontManager = ServiceLocator.Get<FontManager>(ServiceKeys.FontManager);
 
             LoadConfig();
 

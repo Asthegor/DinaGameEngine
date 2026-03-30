@@ -47,8 +47,4 @@
     </EmbeddedResource>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Views\Project\Components\" />
-  </ItemGroup>
-
 </Project>

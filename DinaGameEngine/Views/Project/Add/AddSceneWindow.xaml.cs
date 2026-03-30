@@ -1,9 +1,9 @@
 ﻿using DinaGameEngine.Themes;
-using DinaGameEngine.ViewModels;
+using DinaGameEngine.ViewModels.Project.Add;
 
 using System.Windows;
 
-namespace DinaGameEngine.Views
+namespace DinaGameEngine.Views.Project.Add
 {
     /// <summary>
     /// Logique d'interaction pour AddSceneWindow.xaml

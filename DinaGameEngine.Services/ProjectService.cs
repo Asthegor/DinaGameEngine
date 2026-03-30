@@ -91,6 +91,24 @@ namespace DinaGameEngine.Services
                 RootNamespace = rootNamespaceMarker.Value
             };
             gameProjectModel.Scenes.Add(new SceneModel { Name = "Game", Class = "GameScene", Key = "GameScene" });
+            gameProjectModel.Colors.Add(new ColorModel { Key = "MainMenu_Title",                    R = 255, G = 165, B = 000, A = 255 });
+            gameProjectModel.Colors.Add(new ColorModel { Key = "MainMenu_Title_Shadow",             R = 169, G = 169, B = 169, A = 255 });
+            gameProjectModel.Colors.Add(new ColorModel { Key = "MainMenu_MenuItem_Disabled",        R = 169, G = 169, B = 169, A = 255 });
+            gameProjectModel.Colors.Add(new ColorModel { Key = "MainMenu_MenuItem",                 R = 255, G = 255, B = 255, A = 255 });
+            gameProjectModel.Colors.Add(new ColorModel { Key = "MainMenu_MenuItem_Hovered",         R = 255, G = 255, B = 000, A = 255 });
+            gameProjectModel.Colors.Add(new ColorModel { Key = "Options_Title",                     R = 255, G = 165, B = 000, A = 255 });
+            gameProjectModel.Colors.Add(new ColorModel { Key = "Options_Title_Shadow",              R = 169, G = 169, B = 169, A = 255 });
+            gameProjectModel.Colors.Add(new ColorModel { Key = "Options_Category",                  R = 211, G = 211, B = 211, A = 255 });
+            gameProjectModel.Colors.Add(new ColorModel { Key = "Options_Label",                     R = 255, G = 255, B = 255, A = 255 });
+            gameProjectModel.Colors.Add(new ColorModel { Key = "Options_Button_Text",               R = 255, G = 255, B = 255, A = 255 });
+            gameProjectModel.Colors.Add(new ColorModel { Key = "Options_Button_Background",         R = 063, G = 063, B = 063, A = 063 });
+            gameProjectModel.Colors.Add(new ColorModel { Key = "Options_Button_Border",             R = 255, G = 255, B = 255, A = 255 });
+            gameProjectModel.Colors.Add(new ColorModel { Key = "Options_Button_Back_Border",        R = 255, G = 255, B = 255, A = 255 });
+            gameProjectModel.Colors.Add(new ColorModel { Key = "Options_Button_Back_Background",    R = 063, G = 063, B = 063, A = 063 });
+            gameProjectModel.Colors.Add(new ColorModel { Key = "Options_Button_Back_Hovered",       R = 255, G = 255, B = 000, A = 255 });
+            gameProjectModel.Colors.Add(new ColorModel { Key = "Options_Button_Reset_Border",       R = 139, G = 000, B = 000, A = 255 });
+            gameProjectModel.Colors.Add(new ColorModel { Key = "Options_Button_Reset_Background",   R = 063, G = 000, B = 000, A = 063 });
+            gameProjectModel.Colors.Add(new ColorModel { Key = "Options_Button_Reset_Hovered",      R = 255, G = 165, B = 000, A = 255 });
 
             _codeGenerator.GenerateAllFiles(gameProjectModel);
 

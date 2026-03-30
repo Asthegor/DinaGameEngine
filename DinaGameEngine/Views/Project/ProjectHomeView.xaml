@@ -26,7 +26,7 @@
         </StackPanel>
 
         <ScrollViewer Grid.Column="1" Background="Transparent" Margin="16">
-            <ItemsControl ItemsSource="{Binding Scenes}">
+            <ItemsControl ItemsSource="{Binding Items}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <local:SceneCardView />

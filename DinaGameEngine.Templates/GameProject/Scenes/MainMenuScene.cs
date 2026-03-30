@@ -48,7 +48,7 @@ namespace __RootNamespace__.Scenes
 
         private void LoadingManagers()
         {
-            _fontManager = ServiceLocator.Get<FontManager>(ServiceKeys.FontManager);
+            _fontManager = ServiceLocator.Get<FontManager>(DinaServiceKeys.FontManager);
             _soundManager = ServiceLocator.Get<SoundManager>(ServiceKeys.SoundManager);
             _menuManager = new MenuManager(MENU_SPACING);
         }

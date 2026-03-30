@@ -1,0 +1,36 @@
+﻿using DinaGameEngine.Themes;
+using DinaGameEngine.ViewModels.Project.Add;
+
+using System.Windows;
+
+namespace DinaGameEngine.Views.Project.Add
+{
+    /// <summary>
+    /// Interaction logic for AddColorWindow.xaml
+    /// </summary>
+    public partial class AddColorWindow : DinaWindow
+    {
+        public AddColorWindow()
+        {
+            InitializeComponent();
+            DataContextChanged += OnDataContextChanged;
+        }
+        private void OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (e.NewValue is AddColorViewModel vm)
+            {
+                vm.ColorConfirmed += (s, args) => Close();
+            }
+        }
+        private void ColorKeyTextBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if (DataContext is AddColorViewModel vm)
+                vm.IsKeyFocused = true;
+        }
+        private void ColorKeyTextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (DataContext is AddColorViewModel vm)
+                vm.IsKeyFocused = false;
+        }
+    }
+}

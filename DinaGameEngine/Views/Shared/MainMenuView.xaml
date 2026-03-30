@@ -58,6 +58,9 @@
             <MenuItem Header="{ext:Translate Key=MainMenu_Project_AddFont}"
                       Command="{Binding MainMenuProjectAddFontCommand}"
                       IsCheckable="False"/>
+            <MenuItem Header="{ext:Translate Key=MainMenu_Project_AddColor}"
+                      Command="{Binding MainMenuProjectAddColorCommand}"
+                      IsCheckable="False"/>
         </MenuItem>
         <MenuItem Header="{ext:Translate Key=MainMenu_Tools}">
             <MenuItem Header="{ext:Translate Key=MainMenu_Tools_Transitions}"

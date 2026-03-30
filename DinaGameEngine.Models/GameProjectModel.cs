@@ -62,5 +62,6 @@ namespace DinaGameEngine.Models
         }
         public HashSet<string> Languages { get; set; } = [];
         public HashSet<SceneModel> Scenes { get; set; } = [];
+        public List<ColorModel> Colors { get; set; } = [];
     }
 }

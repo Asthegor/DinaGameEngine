@@ -9,6 +9,7 @@ namespace __RootNamespace__.Core.Keys
         // Valeur par défaut pour le titre, l'ombre du titre
         // et les items du menu désactivés
 
+        // =[ZONE:PALETTE_COLORS]=
         public static readonly Color Transparent = Color.Transparent;
 
         #region Menu principal
@@ -34,7 +35,6 @@ namespace __RootNamespace__.Core.Keys
         public static readonly Color Options_Button_Reset_Background = Color.Red * 0.25f;
         public static readonly Color Options_Button_Reset_Hovered = Color.Orange;
         #endregion
-
-
+        // =[/ZONE:PALETTE_COLORS]=
     }
 }

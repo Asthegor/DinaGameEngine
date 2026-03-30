@@ -6,8 +6,10 @@ using DinaGameEngine.Common.Enums;
 using DinaGameEngine.Common.Events;
 using DinaGameEngine.Models;
 using DinaGameEngine.Models.Project;
+using DinaGameEngine.ViewModels.Project.Add;
 using DinaGameEngine.ViewModels.Project.Editors;
 using DinaGameEngine.Views;
+using DinaGameEngine.Views.Project.Add;
 
 using System.Collections.ObjectModel;
 using System.Windows;
@@ -50,6 +52,7 @@ namespace DinaGameEngine.ViewModels
             MainMenuProjectAddImageCommand = new RelayCommand(_ => AddNewImage());
             MainMenuProjectAddSoundCommand = new RelayCommand(_ => AddNewSound());
             MainMenuProjectAddFontCommand = new RelayCommand(_ => AddNewFont());
+            MainMenuProjectAddColorCommand = new RelayCommand(_ => AddNewColor());
             MainMenuToolsShowTransitionsCommand = new RelayCommand(_ => ShowTransitions());
             MainMenuHelpShowNewsCommand = new RelayCommand(_ => ShowNews());
             MainMenuHelpShowAboutCommand = new RelayCommand(_ => ShowAbout());
@@ -65,7 +68,6 @@ namespace DinaGameEngine.ViewModels
                 window.ShowDialog();
             }
             _codeGenerator.GenerateAllDesigners(gameProjectModel);
-            _codeGenerator.AddAllComponents(gameProjectModel);
 
             LoadScenes();
 
@@ -128,7 +130,7 @@ namespace DinaGameEngine.ViewModels
                 _codeGenerator.GenerateNewScene(_gameProjectModel, sceneModel);
                 _projectService.UpdateJsonProjectFile(_gameProjectModel);
 
-                OpenWindows.Select(w => w.ViewModel).OfType<ProjectHomeViewModel>().FirstOrDefault()?.AddScene(sceneModel);
+                OpenWindows.Select(w => w.ViewModel).OfType<ProjectHomeViewModel>().FirstOrDefault()?.AddItem(sceneModel);
             }
 
         }
@@ -156,6 +158,12 @@ namespace DinaGameEngine.ViewModels
         {
             throw new NotImplementedException();
         }
+        private void AddNewColor()
+        {
+            var colorEditorViewModel = OpenWindows.Select(w => w.ViewModel).OfType<ColorEditorViewModel>().FirstOrDefault()
+                                    ?? new ColorEditorViewModel(_codeGenerator, _projectService, _gameProjectModel);
+            colorEditorViewModel.OpenAddColorWindow();
+        }
 
         public RelayCommand MainMenuFileNewProjectCommand { get; }
         public RelayCommand MainMenuFileLoadProjectCommand { get; }
@@ -166,6 +174,7 @@ namespace DinaGameEngine.ViewModels
         public RelayCommand MainMenuProjectAddImageCommand { get; }
         public RelayCommand MainMenuProjectAddSoundCommand { get; }
         public RelayCommand MainMenuProjectAddFontCommand { get; }
+        public RelayCommand MainMenuProjectAddColorCommand { get; }
         public RelayCommand MainMenuToolsShowTransitionsCommand { get; }
         public RelayCommand MainMenuFileCloseViewCommand { get; }
         public RelayCommand MainMenuFileCloseAllViewsCommand { get; }
@@ -177,8 +186,8 @@ namespace DinaGameEngine.ViewModels
         private void LoadScenes()
         {
             var projectHomeViewModel = new ProjectHomeViewModel(_gameProjectModel);
-            projectHomeViewModel.SceneOpenRequested += OnSceneOpenRequested;
-            projectHomeViewModel.SceneDeleteRequested += OnSceneDeleteRequested;
+            projectHomeViewModel.ItemOpenRequested += OnSceneOpenRequested;
+            projectHomeViewModel.ItemDeleteRequested += OnSceneDeleteRequested;
             projectHomeViewModel.EditorRequested += OnEditorRequested;
             CurrentViewModel = projectHomeViewModel;
             var title = _gameProjectModel.SolutionName;
@@ -219,7 +228,7 @@ namespace DinaGameEngine.ViewModels
                 ProjectView.Fonts => new FontEditorViewModel(),
                 ProjectView.Images => new ImageEditorViewModel(),
                 ProjectView.Audio => new AudioEditorViewModel(),
-                ProjectView.Colors => new ColorEditorViewModel(),
+                ProjectView.Colors => new ColorEditorViewModel(_codeGenerator, _projectService, _gameProjectModel),
                 ProjectView.Inputs => new InputEditorViewModel(),
                 ProjectView.ProjectDefaultSettings => new ConfigEditorViewModel(),
                 _ => null
@@ -267,7 +276,7 @@ namespace DinaGameEngine.ViewModels
                     // Mise à jour du fichier dina.project.json
                     _projectService.RemoveSceneFromProject(_gameProjectModel, sceneModel);
 
-                    OpenWindows.Select(w => w.ViewModel).OfType<ProjectHomeViewModel>().FirstOrDefault()?.RemoveScene(sceneModel);
+                    OpenWindows.Select(w => w.ViewModel).OfType<ProjectHomeViewModel>().FirstOrDefault()?.RemoveItem(sceneModel);
                 }
             }
         }
