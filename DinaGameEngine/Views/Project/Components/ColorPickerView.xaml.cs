@@ -71,28 +71,28 @@ namespace DinaGameEngine.Views.Project.Components
         }
 
         public string? NamedColor => SelectedNamedColor?.Name;
-        public NamedColorItem? SelectedNamedColor
+        public NamedItem<Color>? SelectedNamedColor
         {
-            get { return (NamedColorItem?)GetValue(SelectedNamedColorProperty); }
+            get { return (NamedItem<Color>?)GetValue(SelectedNamedColorProperty); }
             set
             {
                 SetValue(SelectedNamedColorProperty, value);
             }
         }
         public static readonly DependencyProperty SelectedNamedColorProperty =
-            DependencyProperty.Register(nameof(SelectedNamedColor), typeof(NamedColorItem), typeof(ColorPickerView),
+            DependencyProperty.Register(nameof(SelectedNamedColor), typeof(NamedItem<Color>), typeof(ColorPickerView),
                 new PropertyMetadata(null, (d, e) =>
                 {
                     // Point d'arrêt ici
                     var val = e.NewValue;
                 }));
-        public IEnumerable<NamedColorItem> NamedColors
+        public IEnumerable<NamedItem<Color>> NamedColors
         {
-            get { return (IEnumerable<NamedColorItem>)GetValue(NamedColorsProperty); }
+            get { return (IEnumerable<NamedItem<Color>>)GetValue(NamedColorsProperty); }
             set { SetValue(NamedColorsProperty, value); }
         }
         public static readonly DependencyProperty NamedColorsProperty =
-            DependencyProperty.Register(nameof(NamedColors), typeof(IEnumerable<NamedColorItem>), typeof(ColorPickerView), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(NamedColors), typeof(IEnumerable<NamedItem<Color>>), typeof(ColorPickerView), new PropertyMetadata(null));
 
     }
 }

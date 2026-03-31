@@ -50,8 +50,8 @@
             <comps:ColorPickerView Grid.Row="3" 
                                    Label="{ext:Translate Key=AddColor_ColorPicker_Label}"
                                    SelectedColor="{Binding PreviewColor, Mode=TwoWay}"
-                                   SelectedNamedColor="{Binding SelectedNamedColor, Mode=TwoWay}"
-                                   NamedColors="{Binding NamedColors, Mode=OneWay}"/>
+                                   SelectedNamedColor="{Binding SelectedNamedItem, Mode=TwoWay}"
+                                   NamedColors="{Binding NamedItems, Mode=OneWay}"/>
         </Grid>
 
         <shared:ButtonBarView Grid.Row="1" 

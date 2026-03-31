@@ -17,6 +17,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="ViewModels\Project\Add\NamedColorItem.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Views\Button_Cross.png" />
     <None Remove="Views\Icon.bmp" />
   </ItemGroup>

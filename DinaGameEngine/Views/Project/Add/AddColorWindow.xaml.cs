@@ -19,7 +19,7 @@ namespace DinaGameEngine.Views.Project.Add
         {
             if (e.NewValue is AddColorViewModel vm)
             {
-                vm.ColorConfirmed += (s, args) => Close();
+                vm.ItemConfirmed += (s, args) => Close();
             }
         }
         private void ColorKeyTextBox_GotFocus(object sender, RoutedEventArgs e)

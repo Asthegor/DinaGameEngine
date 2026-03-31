@@ -375,7 +375,7 @@ Do you still want to remove the scene ‘{0}’?</value>
   <data name="ColorEditor_AddColor" xml:space="preserve">
     <value>Add a new color</value>
   </data>
-  <data name="AddColor_Key_AlreadyExist" xml:space="preserve">
+  <data name="Key_AlreadyExist" xml:space="preserve">
     <value>The key already exists. Please enter another one.</value>
   </data>
   <data name="AddColor_Title_Edit" xml:space="preserve">

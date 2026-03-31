@@ -52,7 +52,7 @@ namespace DinaGameEngine.ViewModels.Project.Editors
 
             var existingKeys = _gameProjectModel.Colors.Where(c => c.Id != colorModel?.Id).Select(c => c.Key).ToList();
             var addColorViewModel = new AddColorViewModel(existingKeys, colorModel);
-            addColorViewModel.ColorConfirmed += (s, result) => colorConfirmed = result;
+            addColorViewModel.ItemConfirmed += (s, result) => colorConfirmed = result;
 
             var addColorWindow = new AddColorWindow { DataContext = addColorViewModel };
             addColorWindow.ShowDialog();
