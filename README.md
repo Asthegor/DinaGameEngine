@@ -49,6 +49,7 @@ Out of the box, your game includes:
 - **Project management** — Create, open, and manage game projects. Recent projects grouped by date with icons, path, last access time, and pin support.
 - **Scene editor** — Add and filter scene components. Component type selector via contextual add menu. Scene preview panel is work in progress.
 - **Color palette management** — Add, edit, and delete named colors. Changes are automatically reflected in `PaletteColors.Designer.cs` in the game project.
+- **Font management** — Add, edit, and delete named fonts with TTF file selection. Multi-resolution SpriteFont files are automatically generated for all supported resolutions (720p to 2160p) with proportional size calculation. Changes are reflected in `FontKeys.Designer.cs` and `FontContent.mgcb`.
 - **Code generation** — Partial class system separating auto-generated Designer files from user-editable files. Zone markers ensure safe incremental updates without overwriting user code.
 - **Multi-view navigation** — Tab bar with closable tabs for working across multiple editors simultaneously.
 - **Localization** — The editor is currently available in French and English. Additional languages can be contributed by providing translations.
@@ -96,6 +97,20 @@ Named color selector, RGBA sliders with live preview, and duplicate key validati
 Auto-generated partial class containing all RGBA color definitions. Managed entirely by the engine — never edited manually.
 
 ![PaletteColors Designer](screenshots/12_PaletteColors_Designer.png)
+
+---
+
+### Font Editor
+Complete font management with TTF file selection, multi-resolution SpriteFont generation, and per-entry open/delete actions.
+
+![Color Editor](screenshots/17_FontEditor.png)
+
+---
+
+### Add Font Window
+TTF file selector with browsing support, size (base 1080p with automatic scaling per resolution), style, spacing, and duplicate key validation.
+
+![Add Color](screenshots/16_AddFontView.png)
 
 ---
 
@@ -159,7 +174,7 @@ Project metadata is stored in `dina.project.json` at the game project root.
 
 The following features are planned for upcoming releases:
 
-- [ ] **Add font** — add new SpriteFont files with custom resolution variants
+- [x] **Add font** — add new SpriteFont files with custom resolution variants
 - [ ] **UI components** — place and configure UI elements in a scene visually
 - [ ] **Scene editor** — visual canvas for placing and configuring scene components
 - [ ] Auto-updater (DinaGameEngine.Updater)
