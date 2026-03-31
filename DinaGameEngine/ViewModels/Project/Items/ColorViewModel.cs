@@ -8,10 +8,7 @@ namespace DinaGameEngine.ViewModels.Project.Items
 {
     public class ColorViewModel : ItemViewModel
     {
-        public ColorViewModel(ColorModel model) : base(model)
-        {
-        }
-
+        public ColorViewModel(ColorModel model) : base(model) { }
         public override string Icon => DinaIcon.Color.ToGlyph();
         public override string Name => ((ColorModel)Model).Key;
         public override string Key => ((ColorModel)Model).Key;

@@ -411,6 +411,7 @@ namespace DinaGameEngine.ViewModels
         {
             CurrentState = StartupState.RecentProjects;
         }
+        public string BrowseIcon => DinaIcon.Open.ToGlyph();
         public RelayCommand BrowseFolderCommand { get; }
         private void BrowseFolder()
         {

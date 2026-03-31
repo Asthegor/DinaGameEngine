@@ -11,7 +11,7 @@
         Style="{StaticResource DinaWindowStyle}"
         TitleBarButtons="{x:Static enums:TitleBarButtons.CloseOnly}"
         WindowStartupLocation="CenterScreen"
-        FocusManager.FocusedElement="{Binding ElementName=ColorKeyTextBox}">
+        FocusManager.FocusedElement="{Binding ElementName=KeyTextBox}">
     <Window.Resources>
         <converters:StringToVisibilityConverter x:Key="StringToVisibilityConverter"/>
     </Window.Resources>
@@ -36,9 +36,9 @@
             <TextBox Grid.Row="1" Margin="0,0,0,8" 
                      Text="{Binding Key, UpdateSourceTrigger=PropertyChanged}"
                      Style="{DynamicResource ModernTextBoxStyle}"
-                     GotFocus="ColorKeyTextBox_GotFocus"
-                     LostFocus="ColorKeyTextBox_LostFocus"
-                     x:Name="ColorKeyTextBox"/>
+                     GotFocus="KeyTextBox_GotFocus"
+                     LostFocus="KeyTextBox_LostFocus"
+                     x:Name="KeyTextBox"/>
 
             <TextBlock Grid.Row="2" 
                        Text="{Binding KeyErrorMessage}"

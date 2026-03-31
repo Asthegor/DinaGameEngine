@@ -69,7 +69,7 @@
                 Visibility="{Binding IsNotDefaultValue, Converter={StaticResource BoolToVisibility}}"
                 Width="30" Height="30" FontSize="12"
                 FontFamily="Segoe Fluent Icons" 
-                Content="&#xE72C;" 
+                Content="{Binding RefreshIcon, Mode=OneWay}"
                 Tag="#F3E5F5" BorderBrush="DarkViolet" Foreground="DarkViolet"/>
 
         <TextBox Grid.Column="2"

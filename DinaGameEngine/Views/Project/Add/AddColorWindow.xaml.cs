@@ -22,12 +22,12 @@ namespace DinaGameEngine.Views.Project.Add
                 vm.ItemConfirmed += (s, args) => Close();
             }
         }
-        private void ColorKeyTextBox_GotFocus(object sender, RoutedEventArgs e)
+        private void KeyTextBox_GotFocus(object sender, RoutedEventArgs e)
         {
             if (DataContext is AddColorViewModel vm)
                 vm.IsKeyFocused = true;
         }
-        private void ColorKeyTextBox_LostFocus(object sender, RoutedEventArgs e)
+        private void KeyTextBox_LostFocus(object sender, RoutedEventArgs e)
         {
             if (DataContext is AddColorViewModel vm)
                 vm.IsKeyFocused = false;

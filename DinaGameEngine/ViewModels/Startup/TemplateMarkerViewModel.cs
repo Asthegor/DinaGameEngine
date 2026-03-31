@@ -1,5 +1,7 @@
 ﻿using DinaGameEngine.Commands;
 using DinaGameEngine.Common;
+using DinaGameEngine.Common.Enums;
+using DinaGameEngine.Extensions;
 using DinaGameEngine.Models.Startup;
 
 namespace DinaGameEngine.ViewModels
@@ -18,6 +20,7 @@ namespace DinaGameEngine.ViewModels
         public string Key => _model.Key;
         public string Label => _model.Label;
         public string DefaultValue => _model.DefaultValue;
+        public string RefreshIcon => DinaIcon.Refresh.ToGlyph();
 
         public string Value
         {

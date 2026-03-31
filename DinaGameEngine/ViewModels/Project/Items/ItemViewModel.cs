@@ -51,7 +51,7 @@ namespace DinaGameEngine.ViewModels.Project.Items
         private void CreateButtons()
         {
             NavigationButtons.Buttons.Clear();
-            NavigationButtons.Buttons.Add(new ButtonDescriptor { Icon = DinaIcon.Open.ToGlyph(), Command = OpenCommand, Role = ButtonRole.Primary });
+            NavigationButtons.Buttons.Add(new ButtonDescriptor { Icon = DinaIcon.Open.ToGlyph(), Command = OpenCommand, Role = ButtonRole.Neutral });
             NavigationButtons.Buttons.Add(new ButtonDescriptor { Icon = DinaIcon.Delete.ToGlyph(), Command = DeleteCommand, Role = ButtonRole.Secondary });
         }
 

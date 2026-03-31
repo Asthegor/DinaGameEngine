@@ -42,9 +42,13 @@
                          Style="{DynamicResource ModernTextBoxStyle}"/>
 
                 <Button Grid.Column="1" Margin="10,0,0,0"
-                        Content="📂" FontSize="14"
+                        Content="{Binding DataContext.BrowseIcon, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                        FontSize="14"
+                        FontFamily="Segoe Fluent Icons"
                         Command="{Binding DataContext.BrowseFolderCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                        Style="{DynamicResource GhostFooterButton}" 
+                        Style="{DynamicResource GhostFooterButton}"
+                        VerticalAlignment="Stretch"
+                        HorizontalAlignment="Stretch"
                         Width="40"
                         BorderBrush="DarkViolet" 
                         Foreground="DarkViolet"
