@@ -117,15 +117,15 @@ namespace DinaGameEngine.ViewModels
         {
             bool sceneConfirmed = false;
 
-            var addSceneViewModel = new AddSceneViewModel();
-            addSceneViewModel.SceneConfirmed += (s, result) => sceneConfirmed = result;
+            var addViewModel = new AddSceneViewModel();
+            addViewModel.SceneConfirmed += (s, result) => sceneConfirmed = result;
 
-            var addSceneWindow = new AddSceneWindow { DataContext = addSceneViewModel };
-            addSceneWindow.ShowDialog();
+            var addWindow = new AddSceneWindow { DataContext = addViewModel };
+            addWindow.ShowDialog();
 
             if (sceneConfirmed)
             {
-                var sceneModel = new SceneModel { Name = addSceneViewModel.SceneName, Class = addSceneViewModel.ClassName, Key = addSceneViewModel.Key };
+                var sceneModel = new SceneModel { Name = addViewModel.SceneName, Class = addViewModel.ClassName, Key = addViewModel.Key };
                 _gameProjectModel.Scenes.Add(sceneModel);
                 _codeGenerator.GenerateNewScene(_gameProjectModel, sceneModel);
                 _projectService.UpdateJsonProjectFile(_gameProjectModel);
@@ -144,7 +144,9 @@ namespace DinaGameEngine.ViewModels
         }
         private void AddNewFont()
         {
-            throw new NotImplementedException();
+            var editorViewModel = OpenWindows.Select(w => w.ViewModel).OfType<FontEditorViewModel>().FirstOrDefault()
+                        ?? new FontEditorViewModel(_fileService, _dialogService, _codeGenerator, _projectService, _gameProjectModel);
+            editorViewModel.OpenAddFontWindow();
         }
         private void ShowTransitions()
         {
@@ -160,9 +162,9 @@ namespace DinaGameEngine.ViewModels
         }
         private void AddNewColor()
         {
-            var colorEditorViewModel = OpenWindows.Select(w => w.ViewModel).OfType<ColorEditorViewModel>().FirstOrDefault()
+            var editorViewModel = OpenWindows.Select(w => w.ViewModel).OfType<ColorEditorViewModel>().FirstOrDefault()
                                     ?? new ColorEditorViewModel(_codeGenerator, _projectService, _gameProjectModel);
-            colorEditorViewModel.OpenAddColorWindow();
+            editorViewModel.OpenAddColorWindow();
         }
 
         public RelayCommand MainMenuFileNewProjectCommand { get; }
@@ -225,7 +227,7 @@ namespace DinaGameEngine.ViewModels
             object? editorViewModel = view switch
             {
                 ProjectView.Localization => new LocalizationEditorViewModel(),
-                ProjectView.Fonts => new FontEditorViewModel(),
+                ProjectView.Fonts => new FontEditorViewModel(_fileService, _dialogService, _codeGenerator, _projectService, _gameProjectModel),
                 ProjectView.Images => new ImageEditorViewModel(),
                 ProjectView.Audio => new AudioEditorViewModel(),
                 ProjectView.Colors => new ColorEditorViewModel(_codeGenerator, _projectService, _gameProjectModel),

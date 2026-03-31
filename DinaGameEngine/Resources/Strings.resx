@@ -381,4 +381,34 @@ Voulez-vous tout de même supprimer la scène '{0}' ?</value>
   <data name="AddColor_Title_Edit" xml:space="preserve">
     <value>Modifier une couleur</value>
   </data>
+  <data name="AddFont_Title" xml:space="preserve">
+    <value>Ajout d'une nouvelle police</value>
+  </data>
+  <data name="AddFont_Title_Edit" xml:space="preserve">
+    <value>Modifier une police</value>
+  </data>
+  <data name="AddFont_Key_Label" xml:space="preserve">
+    <value>Clé dans FontKeys</value>
+  </data>
+  <data name="AddFont_TtfFile_Label" xml:space="preserve">
+    <value>Fichier de la police (.ttf)</value>
+  </data>
+  <data name="AddFont_Size_Label" xml:space="preserve">
+    <value>Taille</value>
+  </data>
+  <data name="AddFont_Style_Label" xml:space="preserve">
+    <value>Style</value>
+  </data>
+  <data name="AddFont_Spacing_Label" xml:space="preserve">
+    <value>Espacement</value>
+  </data>
+  <data name="FontEditor_AddFont" xml:space="preserve">
+    <value>Ajouter une police</value>
+  </data>
+  <data name="AddFont_BrowseTtf_Title" xml:space="preserve">
+    <value>Rechercher une police (.ttf)</value>
+  </data>
+  <data name="AddFont_BrowseTtf_File" xml:space="preserve">
+    <value>Fichiers TTF (*.ttf)|*.ttf</value>
+  </data>
 </root>

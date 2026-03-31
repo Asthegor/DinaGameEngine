@@ -91,6 +91,8 @@ namespace DinaGameEngine.Services
                 RootNamespace = rootNamespaceMarker.Value
             };
             gameProjectModel.Scenes.Add(new SceneModel { Name = "Game", Class = "GameScene", Key = "GameScene" });
+
+            #region Ajout des couleurs pré-définies
             gameProjectModel.Colors.Add(new ColorModel { Key = "MainMenu_Title",                    R = 255, G = 165, B = 000, A = 255 });
             gameProjectModel.Colors.Add(new ColorModel { Key = "MainMenu_Title_Shadow",             R = 169, G = 169, B = 169, A = 255 });
             gameProjectModel.Colors.Add(new ColorModel { Key = "MainMenu_MenuItem_Disabled",        R = 169, G = 169, B = 169, A = 255 });
@@ -109,6 +111,9 @@ namespace DinaGameEngine.Services
             gameProjectModel.Colors.Add(new ColorModel { Key = "Options_Button_Reset_Border",       R = 139, G = 000, B = 000, A = 255 });
             gameProjectModel.Colors.Add(new ColorModel { Key = "Options_Button_Reset_Background",   R = 063, G = 000, B = 000, A = 063 });
             gameProjectModel.Colors.Add(new ColorModel { Key = "Options_Button_Reset_Hovered",      R = 255, G = 165, B = 000, A = 255 });
+            #endregion
+
+            gameProjectModel.Fonts.Add(new FontModel { Key = "Default", Size = 12, Spacing = 0, Style = SpriteFontStyle.Regular, TtfRelativePath= "../TTF_Files/Roboto-Regular.ttf" });
 
             _codeGenerator.GenerateAllFiles(gameProjectModel);
 

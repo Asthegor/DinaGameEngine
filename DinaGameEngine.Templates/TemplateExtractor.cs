@@ -12,7 +12,7 @@ namespace DinaGameEngine.Templates
         private const string _templateProjectPrefix = "DinaGameEngine.Templates.GameProject.";
         private const string _templateProjectMarkersFile = "DinaGameEngine.Templates.GameTemplateMarkers.json";
         private static readonly string[] _templateProjectSpecialFiles = ["Directory.Build.props", "DinaCSharp.deps.json"];
-        private static readonly string[] _templateProjectBinaryFiles = ["Icon.ico", "Icon.bmp", "DinaCSharp.dll", "DLACrypto.dll"];
+        private static readonly string[] _templateProjectBinaryFiles = ["Icon.ico", "Icon.bmp", "DinaCSharp.dll", "DLACrypto.dll", "Roboto.zip", "Roboto-Regular.ttf"];
 
         public List<TemplateMarkerModel>? GetMarkers<T>(TemplateType type, T model)
         {

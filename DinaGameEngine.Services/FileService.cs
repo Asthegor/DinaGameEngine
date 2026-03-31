@@ -10,6 +10,7 @@ namespace DinaGameEngine.Services
         public bool DirectoryExists(string path) => Directory.Exists(path);
         public void CreateDirectory(string path) => Directory.CreateDirectory(path);
         public string ReadAllText(string path) => File.ReadAllText(path);
+        public void AppendAllText(string path, string content) => File.AppendAllText(path, content);
         public void WriteAllText(string path, string content)
         {
             var directory = Path.GetDirectoryName(path);
@@ -27,11 +28,10 @@ namespace DinaGameEngine.Services
         }
         public void DeleteFile(string path) => File.Delete(path);
         public void CopyFile(string source, string destination) => File.Copy(source, destination);
-        public IEnumerable<string> GetFiles(string path, string searchPattern) => Directory.GetFiles(path, searchPattern);
+        public IEnumerable<string> GetFiles(string path, string searchPattern, bool recursive = false) => Directory.GetFiles(path, searchPattern, recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly);
+        public string GetFileName(string path) => Path.GetFileName(path);
 
-        //public string Combine(string path1, string path2) => Path.Combine(path1, path2);
         public string Combine(params string[] paths) => Path.Combine(paths);
-        public void AppendAllText(string path, string content) => File.AppendAllText(path, content);
 
         public void CreateResxFile(string path, string namespaceName, string className)
         {

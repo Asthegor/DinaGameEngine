@@ -97,6 +97,87 @@ namespace DinaGameEngine.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Fichiers TTF (*.ttf)|*.ttf.
+        /// </summary>
+        public static string AddFont_BrowseTtf_File {
+            get {
+                return ResourceManager.GetString("AddFont_BrowseTtf_File", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rechercher une police (.ttf).
+        /// </summary>
+        public static string AddFont_BrowseTtf_Title {
+            get {
+                return ResourceManager.GetString("AddFont_BrowseTtf_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Clé dans FontKeys.
+        /// </summary>
+        public static string AddFont_Key_Label {
+            get {
+                return ResourceManager.GetString("AddFont_Key_Label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Taille.
+        /// </summary>
+        public static string AddFont_Size_Label {
+            get {
+                return ResourceManager.GetString("AddFont_Size_Label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Espacement.
+        /// </summary>
+        public static string AddFont_Spacing_Label {
+            get {
+                return ResourceManager.GetString("AddFont_Spacing_Label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Style.
+        /// </summary>
+        public static string AddFont_Style_Label {
+            get {
+                return ResourceManager.GetString("AddFont_Style_Label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ajout d&apos;une nouvelle police.
+        /// </summary>
+        public static string AddFont_Title {
+            get {
+                return ResourceManager.GetString("AddFont_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Modifier une police.
+        /// </summary>
+        public static string AddFont_Title_Edit {
+            get {
+                return ResourceManager.GetString("AddFont_Title_Edit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fichier de la police (.ttf).
+        /// </summary>
+        public static string AddFont_TtfFile_Label {
+            get {
+                return ResourceManager.GetString("AddFont_TtfFile_Label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ajout d&apos;une nouvelle scène.
         /// </summary>
         public static string AddScene_Title {
@@ -246,6 +327,15 @@ namespace DinaGameEngine.Resources {
         public static string Error_OpenProject {
             get {
                 return ResourceManager.GetString("Error_OpenProject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ajouter une police.
+        /// </summary>
+        public static string FontEditor_AddFont {
+            get {
+                return ResourceManager.GetString("FontEditor_AddFont", resourceCulture);
             }
         }
         

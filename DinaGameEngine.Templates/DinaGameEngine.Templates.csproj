@@ -25,11 +25,6 @@
     <None Remove="GameProject\Assets\AssetsContent\AssetsContent.mgcb" />
     <None Remove="GameProject\Audio\AudioContent\AudioContent.mgcb" />
     <None Remove="GameProject\Directory.Build.props" />
-    <None Remove="GameProject\Fonts\FontContent\_1080p\Default.spritefont" />
-    <None Remove="GameProject\Fonts\FontContent\_1440p\Default.spritefont" />
-    <None Remove="GameProject\Fonts\FontContent\_2160p\Default.spritefont" />
-    <None Remove="GameProject\Fonts\FontContent\_720p\Default.spritefont" />
-    <None Remove="GameProject\Fonts\FontContent\_900p\Default.spritefont" />
     <None Remove="GameProject\Fonts\FontContent\FontContent.mgcb" />
     <None Remove="GameProject\__GameProjectName__\app.manifest" />
     <None Remove="GameProject\__GameProjectName__\Icon.bmp" />
@@ -40,8 +35,24 @@
   <ItemGroup>
     <EmbeddedResource Include="GameProject\**\*" />
     <Compile Remove="GameProject\Core\Resources\**" />
+    <Compile Remove="GameProject\Fonts\FontContent\_1080p\**" />
+    <Compile Remove="GameProject\Fonts\FontContent\_1440p\**" />
+    <Compile Remove="GameProject\Fonts\FontContent\_2160p\**" />
+    <Compile Remove="GameProject\Fonts\FontContent\_720p\**" />
+    <Compile Remove="GameProject\Fonts\FontContent\_900p\**" />
     <EmbeddedResource Remove="GameProject\Core\Resources\**" />
+    <EmbeddedResource Remove="GameProject\Fonts\FontContent\_1080p\**" />
+    <EmbeddedResource Remove="GameProject\Fonts\FontContent\_1440p\**" />
+    <EmbeddedResource Remove="GameProject\Fonts\FontContent\_2160p\**" />
+    <EmbeddedResource Remove="GameProject\Fonts\FontContent\_720p\**" />
+    <EmbeddedResource Remove="GameProject\Fonts\FontContent\_900p\**" />
     <None Remove="GameProject\Core\Resources\**" />
+    <None Remove="GameProject\Fonts\FontContent\_1080p\**" />
+    <None Remove="GameProject\Fonts\FontContent\_1440p\**" />
+    <None Remove="GameProject\Fonts\FontContent\_2160p\**" />
+    <None Remove="GameProject\Fonts\FontContent\_720p\**" />
+    <None Remove="GameProject\Fonts\FontContent\_900p\**" />
+    <EmbeddedResource Remove="GameProject\Core\Keys\FontKeys.cs" />
     <EmbeddedResource Remove="GameProject\Core\Keys\PaletteColors.cs" />
     <EmbeddedResource Remove="GameProject\__GameProjectName__\__GameProjectName__.cs" />
     <EmbeddedResource Include="GameTemplateMarkers.json" />
@@ -50,6 +61,10 @@
   <ItemGroup>
     <ProjectReference Include="..\DinaGameEngine.Abstractions\DinaGameEngine.Abstractions.csproj" />
     <ProjectReference Include="..\DinaGameEngine.Models\DinaGameEngine.Models.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="GameProject\Fonts\FontContent\TTF_Files\" />
   </ItemGroup>
 
 </Project>

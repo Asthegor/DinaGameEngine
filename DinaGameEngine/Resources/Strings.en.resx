@@ -381,4 +381,34 @@ Do you still want to remove the scene ‘{0}’?</value>
   <data name="AddColor_Title_Edit" xml:space="preserve">
     <value>Edit color</value>
   </data>
+  <data name="AddFont_Title" xml:space="preserve">
+    <value>Adding a new font</value>
+  </data>
+  <data name="AddFont_Title_Edit" xml:space="preserve">
+    <value>Edit font</value>
+  </data>
+  <data name="AddFont_Key_Label" xml:space="preserve">
+    <value>Key in FontKeys</value>
+  </data>
+  <data name="AddFont_TtfFile_Label" xml:space="preserve">
+    <value>Font file (.ttf)</value>
+  </data>
+  <data name="AddFont_Size_Label" xml:space="preserve">
+    <value>Size</value>
+  </data>
+  <data name="AddFont_Style_Label" xml:space="preserve">
+    <value>Style</value>
+  </data>
+  <data name="AddFont_Spacing_Label" xml:space="preserve">
+    <value>Spacing</value>
+  </data>
+  <data name="FontEditor_AddFont" xml:space="preserve">
+    <value>Add a new font</value>
+  </data>
+  <data name="AddFont_BrowseTtf_Title" xml:space="preserve">
+    <value>Browse font file (.ttf)</value>
+  </data>
+  <data name="AddFont_BrowseTtf_File" xml:space="preserve">
+    <value>TTF files (*.ttf)|*.ttf</value>
+  </data>
 </root>

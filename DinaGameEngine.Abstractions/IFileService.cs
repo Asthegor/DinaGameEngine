@@ -9,11 +9,12 @@
         bool DirectoryExists(string path);
         void CreateDirectory(string path);
         void CopyFile(string source, string destination);
-        IEnumerable<string> GetFiles(string path, string searchPattern);
+        public IEnumerable<string> GetFiles(string path, string searchPattern, bool recursive = false);
         string GetAppDataDirectory(); // Retourne le dossier AppData\DinaGameEngine
         string Combine(params string[] paths);
         void AppendAllText(string path, string content);
         void CreateResxFile(string path, string namespaceName, string className);
         void CreateResxDesignerFile(string path, string namespaceName, string className);
+        string GetFileName(string path);
     }
 }
