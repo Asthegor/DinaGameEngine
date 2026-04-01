@@ -44,13 +44,14 @@ Out of the box, your game includes:
 
 ---
 
-## ✨ Editor Features (v0.7.0)
+## ✨ Editor Features (v0.9.0)
 
 - **Project management** — Create, open, and manage game projects. Recent projects grouped by date with icons, path, last access time, and pin support.
-- **Scene editor** — Add and filter scene components. Component type selector via contextual add menu. Scene preview panel is work in progress.
+- **Scene editor** — Add, select, edit, and delete scene components. Component type selector via contextual add menu. Properties panel displays and edits component properties with Apply/Cancel support. Scene preview panel is work in progress.
+- **Text component** — First fully functional scene component. Supports font, content, and color properties. Automatically generates and updates the scene Designer file (`FIELDS`, `COMPONENT_LOAD`, `COMPONENT_UPDATE`, `COMPONENT_DRAW` zones) and maintains an `AVAILABLE_FIELDS` summary in the user file. Warns if a deleted field is still referenced in user code.
 - **Color palette management** — Add, edit, and delete named colors. Changes are automatically reflected in `PaletteColors.Designer.cs` in the game project.
 - **Font management** — Add, edit, and delete named fonts with TTF file selection. Multi-resolution SpriteFont files are automatically generated for all supported resolutions (720p to 2160p) with proportional size calculation. Changes are reflected in `FontKeys.Designer.cs` and `FontContent.mgcb`.
-- **Code generation** — Partial class system separating auto-generated Designer files from user-editable files. Zone markers ensure safe incremental updates without overwriting user code.
+- **Code generation** — Partial class system separating auto-generated Designer files from user-editable files. Zone markers ensure safe incremental updates without overwriting user code. Extensible component generator architecture via `ComponentGenerator`, `IComponentGenerator`, and `IComponentGeneratorRegistry`.
 - **Multi-view navigation** — Tab bar with closable tabs for working across multiple editors simultaneously.
 - **Localization** — The editor is currently available in French and English. Additional languages can be contributed by providing translations.
 
@@ -154,6 +155,7 @@ Project metadata is stored in `dina.project.json` at the game project root.
 | Base classes | `ObservableObject`, `RelayCommand` shared in `DinaGameEngine.Common` |
 | Navigation | `NavigationService` centralizes all view transitions |
 | Code generation | Partial class system with zone markers (`=[ZONE:...]=`) for safe incremental updates |
+| Component system | Extensible via `ComponentGenerator` (abstract), `IComponentGenerator`, `IComponentGeneratorRegistry`, and two factory interfaces (`IComponentPropertiesViewModelFactory`, `IAddComponentViewModelFactory`) |
 | Localization | Custom `TranslateExtension` markup extension backed by `.resx` resource files |
 
 ---
@@ -175,8 +177,9 @@ Project metadata is stored in `dina.project.json` at the game project root.
 The following features are planned for upcoming releases:
 
 - [x] **Add font** — add new SpriteFont files with custom resolution variants
-- [ ] **UI components** — place and configure UI elements in a scene visually
-- [ ] **Scene editor** — visual canvas for placing and configuring scene components
+- [x] **Text component** — place and configure text elements in a scene visually
+- [ ] **Additional components** — Slider, Button, MenuManager, and more
+- [ ] **Scene editor canvas** — visual placement of components on the scene
 - [ ] Auto-updater (DinaGameEngine.Updater)
 - [ ] GitHub Wiki
 
