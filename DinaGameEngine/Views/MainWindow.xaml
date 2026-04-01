@@ -5,8 +5,10 @@
         xmlns:project="clr-namespace:DinaGameEngine.Views.Project"
         xmlns:shared="clr-namespace:DinaGameEngine.Views.Shared"
         xmlns:editors="clr-namespace:DinaGameEngine.Views.Project.Editors"
+        xmlns:comps="clr-namespace:DinaGameEngine.Views.Project.Components"
         xmlns:vm="clr-namespace:DinaGameEngine.ViewModels"
         xmlns:vmEditors="clr-namespace:DinaGameEngine.ViewModels.Project.Editors"
+        xmlns:vmComps="clr-namespace:DinaGameEngine.ViewModels.Project.Components"
         xmlns:enums="clr-namespace:DinaGameEngine.Common.Enums;assembly=DinaGameEngine.Common"
         xmlns:converters="clr-namespace:DinaGameEngine.Converters"
         Title="{Binding WindowTitle}" Height="450" Width="800"
@@ -40,6 +42,9 @@
         </DataTemplate>
         <DataTemplate DataType="{x:Type vmEditors:ConfigEditorViewModel}">
             <editors:ConfigEditorView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vmComps:TextComponentPropertiesViewModel}">
+            <comps:ComponentPropertiesView/>
         </DataTemplate>
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
     </Window.Resources>

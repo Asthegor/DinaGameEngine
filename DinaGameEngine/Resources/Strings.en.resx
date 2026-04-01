@@ -411,4 +411,11 @@ Do you still want to remove the scene ‘{0}’?</value>
   <data name="AddFont_BrowseTtf_File" xml:space="preserve">
     <value>TTF files (*.ttf)|*.ttf</value>
   </data>
+  <data name="Component_FieldStillUsed_Title" xml:space="preserve">
+    <value>Field still in use</value>
+  </data>
+  <data name="Component_FieldStillUsed_Message" xml:space="preserve">
+    <value>The field '{0}' is still referenced in your code.
+Please remove it manually.</value>
+  </data>
 </root>

@@ -16,10 +16,15 @@ namespace DinaGameEngine.CodeGeneration
         public void AddFont(GameProjectModel gameProjectModel, FontModel model)
         {
             GenerateSpriteFontFiles(gameProjectModel, model);
-
+            AddFontKey(gameProjectModel, model);
+        }
+        private void AddFontKey(GameProjectModel gameProjectModel, FontModel model)
+        {
             var designerFilePath = _fileService.Combine(gameProjectModel.RootPath, "Core", "Keys", "FontKeys.Designer.cs");
             var sectionParser = CreateSectionParserFor(designerFilePath);
-            sectionParser.InsertBeforeZone("FONT_KEYS", [$"{CodeBuilder.Indentation(2)}public static readonly Key<FontTag> {model.Key} = Key<FontTag>.FromString(\"{model.Key}\");"]);
+            sectionParser.InsertBeforeZone("FONT_KEYS",
+                [$"{CodeBuilder.Indentation(2)}public static readonly Key<FontTag> {model.Key} = Key<FontTag>.FromString(\"{model.Key}\");"],
+                checkExistingLines: true);
             _fileService.WriteAllText(designerFilePath, sectionParser.GetContent());
         }
         public void RemoveFont(GameProjectModel gameProjectModel, FontModel model)

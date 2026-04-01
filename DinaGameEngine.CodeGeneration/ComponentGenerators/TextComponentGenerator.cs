@@ -2,14 +2,25 @@
 
 namespace DinaGameEngine.CodeGeneration.ComponentGenerators
 {
-    public class TextComponentGenerator : IComponentGenerator
+    public class TextComponentGenerator : ComponentGenerator, IComponentGenerator
     {
-        public string ComponentType => "Text";
-        public void GenerateField(SectionParser sectionParser, ComponentModel component, int level)
+        public override string ComponentType => "Text";
+
+
+        protected override void GenerateUsing(SectionParser sectionParser)
         {
-            sectionParser.InsertBeforeZone("FIELDS", [$"{CodeBuilder.Indentation(level)}private Text _{component.Key}Text;"]);
+            sectionParser.AddUsingIfMissing("DinaCSharp.Graphics");
+            sectionParser.AddUsingIfMissing("DinaCSharp.Services");
+            sectionParser.AddUsingIfMissing("DinaCSharp.Services.Fonts");
         }
-        public void GenerateLoad(SectionParser sectionParser, ComponentModel component, int level)
+        protected override void GenerateField(SectionParser sectionParser, ComponentModel component, int level)
+        {
+            sectionParser.InsertBeforeZone("FIELDS",
+                                           [$"{CodeBuilder.Indentation(level)}private FontManager _fontManager = ServiceLocator.Get<FontManager>(DinaServiceKeys.FontManager);"],
+                                           checkExistingLines: true);
+            base.GenerateField(sectionParser, component, level);
+        }
+        protected override void GenerateLoad(SectionParser sectionParser, ComponentModel component, int level)
         {
             var font = component.Properties["Font"];
             var content = component.Properties["Content"];
@@ -17,38 +28,55 @@ namespace DinaGameEngine.CodeGeneration.ComponentGenerators
             sectionParser.InsertBeforeZone("COMPONENT_LOAD",
                 [
                     $"{CodeBuilder.Indentation(level)}var {component.Key}Font = _fontManager.Load(FontKeys.{font});",
-                    $"{CodeBuilder.Indentation(level)}_{component.Key}Text = new Text({component.Key}Font, {content}, PaletteColors.{colorKey});"
+                    $"{CodeBuilder.Indentation(level)}{GetFieldName(component)} = new {ComponentType}({component.Key}Font, \"{content}\", PaletteColors.{colorKey});"
                 ]);
 
             var excludedKeys = new[] { "Font", "Content", "Color" };
             foreach (var property in component.Properties)
             {
                 if (!excludedKeys.Contains(property.Key))
-                    sectionParser.InsertBeforeZone("COMPONENT_LOAD", [$"{CodeBuilder.Indentation(level)}_{component.Key}Text.{property.Key} = {property.Value};"]);
+                    sectionParser.InsertBeforeZone("COMPONENT_LOAD", [$"{CodeBuilder.Indentation(level)}{GetFieldName(component)}.{property.Key} = {property.Value};"]);
             }
         }
-        public void GenerateLoadUser(SectionParser sectionParser, ComponentModel component, int level)
+        protected override void GenerateUpdate(SectionParser sectionParser, ComponentModel component, int level)
         {
+            sectionParser.InsertBeforeZone("COMPONENT_UPDATE", [$"{CodeBuilder.Indentation(level)}{GetFieldName(component)}.Update(gameTime);"]);
         }
-        public void GenerateReset(SectionParser sectionParser, ComponentModel component, int level)
+        protected override void GenerateDraw(SectionParser sectionParser, ComponentModel component, int level)
         {
+            sectionParser.InsertBeforeZone("COMPONENT_DRAW", [$"{CodeBuilder.Indentation(level)}{GetFieldName(component)}.Draw(spriteBatch);"]);
         }
-        public void GenerateResetUser(SectionParser sectionParser, ComponentModel component, int level)
+
+        protected override IEnumerable<string> RemoveField(SectionParser sectionParser, ComponentModel component, int level)
         {
+            var fields = base.RemoveField(sectionParser, component, level).ToList();
+            sectionParser.RemoveField("_fontManager");
+            fields.Add("_fontManager");
+            return fields;
         }
-        public void GenerateUpdate(SectionParser sectionParser, ComponentModel component, int level)
+        protected override void RemoveLoad(SectionParser sectionParser, ComponentModel component, int level)
         {
-            sectionParser.InsertBeforeZone("COMPONENT_UPDATE", [$"{CodeBuilder.Indentation(level)}_{component.Key}Text.Update(gameTime);"]);
+            var font = component.Properties["Font"];
+            var content = component.Properties["Content"];
+            var colorKey = component.Properties["Color"];
+            sectionParser.RemoveFromZone("COMPONENT_LOAD", line => line == $"{CodeBuilder.Indentation(level)}var {component.Key}Font = _fontManager.Load(FontKeys.{font});");
+            sectionParser.RemoveFromZone("COMPONENT_LOAD", line => line == $"{CodeBuilder.Indentation(level)}{GetFieldName(component)} = new {ComponentType}({component.Key}Font, \"{content}\", PaletteColors.{colorKey});");
+
+            var excludedKeys = new[] { "Font", "Content", "Color" };
+            foreach (var property in component.Properties)
+            {
+                if (!excludedKeys.Contains(property.Key))
+                    sectionParser.RemoveFromZone("COMPONENT_LOAD", $"{CodeBuilder.Indentation(level)}{GetFieldName(component)}.{property.Key} = {property.Value};");
+            }
+
         }
-        public void GenerateUpdateUser(SectionParser sectionParser, ComponentModel component, int level)
+        protected override void RemoveUpdate(SectionParser sectionParser, ComponentModel component, int level)
         {
+            sectionParser.RemoveFromZone("COMPONENT_UPDATE", line => line == $"{CodeBuilder.Indentation(level)}{GetFieldName(component)}.Update(gameTime);");
         }
-        public void GenerateDraw(SectionParser sectionParser, ComponentModel component, int level)
+        protected override void RemoveDraw(SectionParser sectionParser, ComponentModel component, int level)
         {
-            sectionParser.InsertBeforeZone("COMPONENT_DRAW", [$"{CodeBuilder.Indentation(level)}_{component.Key}Text.Draw(spriteBatch);"]);
-        }
-        public void GenerateDrawUser(SectionParser sectionParser, ComponentModel component, int level)
-        {
+            sectionParser.RemoveFromZone("COMPONENT_DRAW", line => line == $"{CodeBuilder.Indentation(level)}{GetFieldName(component)}.Draw(spriteBatch);");
         }
     }
 }

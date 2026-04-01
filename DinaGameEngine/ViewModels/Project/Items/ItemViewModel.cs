@@ -21,7 +21,7 @@ namespace DinaGameEngine.ViewModels.Project.Items
             NavigationButtons = new ButtonBarViewModel();
             CreateButtons();
         }
-        protected ItemModel Model => _model;
+        public ItemModel Model => _model;
         public Guid ItemId => _model.Id;
         public abstract string Icon { get; }
         public abstract string Name { get; }
@@ -39,7 +39,7 @@ namespace DinaGameEngine.ViewModels.Project.Items
         public RelayCommand DeleteCommand { get; }
         private void Delete()
         {
-            ItemDeleted?.Invoke(_model, EventArgs.Empty);
+            ItemDeleted?.Invoke(this, EventArgs.Empty);
         }
         public RelayCommand SelectCommand { get; }
         private void Select()

@@ -4,8 +4,6 @@ using DinaGameEngine.Views;
 
 using Microsoft.Win32;
 
-using System.Windows;
-
 namespace DinaGameEngine.WPFServices
 {
     public class DialogService : IDialogService
@@ -50,6 +48,11 @@ namespace DinaGameEngine.WPFServices
                 DialogResult.No => MessageResult.No,
                 _ => MessageResult.Cancel
             };
+        }
+
+        public void ShowWarning(string title, string message)
+        {
+            DialogWindow.Show(message, title, DialogIcon.Warning, DialogButtons.OK);
         }
     }
 }

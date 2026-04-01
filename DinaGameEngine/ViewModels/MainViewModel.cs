@@ -4,6 +4,7 @@ using DinaGameEngine.Commands;
 using DinaGameEngine.Common;
 using DinaGameEngine.Common.Enums;
 using DinaGameEngine.Common.Events;
+using DinaGameEngine.Interfaces;
 using DinaGameEngine.Models;
 using DinaGameEngine.Models.Project;
 using DinaGameEngine.ViewModels.Project.Add;
@@ -25,13 +26,15 @@ namespace DinaGameEngine.ViewModels
         private readonly ICodeGenerator _codeGenerator;
         private readonly IComponentGeneratorRegistry _componentGeneratorRegistry;
         private readonly GameProjectModel _gameProjectModel;
+        private readonly IComponentPropertiesViewModelFactory _componentPropertiesViewModelFactory;
+        private readonly IAddComponentViewModelFactory _addComponentViewModelFactory;
 
         private object? _currentViewModel;
 
-        public MainViewModel(IFileService fileService, ILogService logService, IProjectService projectService, 
-                             IDialogService dialogService, ICodeGenerator codeGenerator,
-                             IComponentGeneratorRegistry componentGeneratorRegistry,
-                             GameProjectModel gameProjectModel)
+        public MainViewModel(IFileService fileService, ILogService logService, IProjectService projectService,
+                             IDialogService dialogService, ICodeGenerator codeGenerator, IComponentGeneratorRegistry componentGeneratorRegistry,
+                             GameProjectModel gameProjectModel, IComponentPropertiesViewModelFactory componentPropertiesViewModelFactory,
+                             IAddComponentViewModelFactory addComponentViewModelFactory)
         {
             _logService = logService;
             _projectService = projectService;
@@ -40,6 +43,8 @@ namespace DinaGameEngine.ViewModels
             _codeGenerator = codeGenerator;
             _componentGeneratorRegistry = componentGeneratorRegistry;
             _gameProjectModel = gameProjectModel;
+            _componentPropertiesViewModelFactory = componentPropertiesViewModelFactory;
+            _addComponentViewModelFactory = addComponentViewModelFactory;
 
             MainMenuFileNewProjectCommand = new RelayCommand(_ => NewProject());
             MainMenuFileLoadProjectCommand = new RelayCommand(_ => LoadProject());
@@ -253,7 +258,9 @@ namespace DinaGameEngine.ViewModels
                     return;
                 }
 
-                var sceneEditorViewModel = new SceneEditorViewModel(_logService, _componentGeneratorRegistry, sceneModel);
+                var sceneEditorViewModel = new SceneEditorViewModel(_logService, _componentGeneratorRegistry, sceneModel,
+                                                                    _gameProjectModel, _componentPropertiesViewModelFactory,
+                                                                    _addComponentViewModelFactory, _codeGenerator, _projectService);
                 AddViewModelToOpenWindows(sceneEditorViewModel, sceneModel.Name);
             }
         }

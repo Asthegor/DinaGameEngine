@@ -9,6 +9,7 @@ namespace DinaGameEngine.Abstractions
         public MessageResult ShowMessageDialog (string title, string message);
         public void ShowError(string title, string message);
         public void ShowInfo(string title, string message);
+        public void ShowWarning(string title, string message);
 
     }
 }

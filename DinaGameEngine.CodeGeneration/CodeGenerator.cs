@@ -3,8 +3,6 @@ using DinaGameEngine.Common;
 using DinaGameEngine.Models;
 using DinaGameEngine.Models.Project;
 
-using System.Text;
-
 namespace DinaGameEngine.CodeGeneration
 {
     public partial class CodeGenerator : ICodeGenerator
@@ -14,11 +12,16 @@ namespace DinaGameEngine.CodeGeneration
         private readonly IFileService _fileService;
         private readonly ILogService _logService;
         private readonly IGeneratedFileChecker _generatedFileChecker;
-        public CodeGenerator(IFileService fileService, ILogService logService, IGeneratedFileChecker generatedFileChecker)
+        private readonly IComponentGeneratorRegistry _componentGeneratorRegistry;
+        private readonly IDialogService _dialogService;
+        public CodeGenerator(IFileService fileService, ILogService logService, IGeneratedFileChecker generatedFileChecker,
+                             IComponentGeneratorRegistry componentGeneratorRegistry, IDialogService dialogService)
         {
             _fileService = fileService;
             _logService = logService;
             _generatedFileChecker = generatedFileChecker;
+            _componentGeneratorRegistry = componentGeneratorRegistry;
+            _dialogService = dialogService;
         }
 
         public void GenerateAllFiles(GameProjectModel gameProjectModel)
@@ -26,13 +29,14 @@ namespace DinaGameEngine.CodeGeneration
             GenerateGameProjectDesigner(gameProjectModel);
             GenerateGameProjectUserFile(gameProjectModel);
 
-            foreach (var scene in gameProjectModel.Scenes)
-                GenerateNewScene(gameProjectModel, scene);
-
             #region Génération des fichiers de clés
+            GenerateSceneKeys(gameProjectModel);
             GeneratePaletteColors(gameProjectModel);
             GenerateFontKeys(gameProjectModel);
             #endregion
+
+            foreach (var scene in gameProjectModel.Scenes)
+                GenerateNewScene(gameProjectModel, scene);
         }
         public void GenerateAllDesigners(GameProjectModel gameProjectModel)
         {
@@ -41,7 +45,11 @@ namespace DinaGameEngine.CodeGeneration
             foreach (var scene in gameProjectModel.Scenes)
             {
                 GenerateSceneDesigner(gameProjectModel, scene);
+                UpdateSceneKeys(gameProjectModel, scene);
                 UpdateGameProjectDesignerScenes(gameProjectModel, scene);
+
+                foreach (var component in scene.Components)
+                    AddComponent(gameProjectModel, scene, component);
             }
 
             GeneratePaletteColorDesigner(gameProjectModel);
@@ -50,8 +58,7 @@ namespace DinaGameEngine.CodeGeneration
 
             GenerateFontKeysDesigner(gameProjectModel);
             foreach (var font in gameProjectModel.Fonts)
-                AddFont(gameProjectModel, font);
-
+                AddFontKey(gameProjectModel, font);
         }
 
         private SectionParser CreateSectionParserFor(string fileFullName)
@@ -65,5 +72,55 @@ namespace DinaGameEngine.CodeGeneration
             return new SectionParser(fileContent);
         }
 
+        public void AddComponent(GameProjectModel gameProjectModel, SceneModel sceneModel, ComponentModel component)
+        {
+            var generator = _componentGeneratorRegistry.GetGenerator(component.Type);
+            if (generator == null)
+            {
+                _logService.Warning($"Générateur du componsant '{component.Type}' non trouvé.");
+                return;
+            }
+            var designerFilePath = _fileService.Combine(gameProjectModel.RootPath, "Scenes", $"{sceneModel.Class}.Designer.cs");
+            var sectionParser = CreateSectionParserFor(designerFilePath);
+            generator.Add(sectionParser, component);
+            _fileService.WriteAllText(designerFilePath, sectionParser.GetContent());
+
+            var userFilePath = _fileService.Combine(gameProjectModel.RootPath, "Scenes", $"{sceneModel.Class}.cs");
+            sectionParser = CreateSectionParserFor(userFilePath);
+            generator.GenerateUserFileCommentField(sectionParser, component);
+            _fileService.WriteAllText(userFilePath, sectionParser.GetContent());
+        }
+
+        public void RemoveComponent(GameProjectModel gameProjectModel, SceneModel sceneModel, ComponentModel component)
+        {
+            var generator = _componentGeneratorRegistry.GetGenerator(component.Type);
+            if (generator == null)
+            {
+                _logService.Warning($"Générateur du componsant '{component.Type}' non trouvé.");
+                return;
+            }
+            var designerFilePath = _fileService.Combine(gameProjectModel.RootPath, "Scenes", $"{sceneModel.Class}.Designer.cs");
+            var sectionParserDesigner = CreateSectionParserFor(designerFilePath);
+            // Suppression dans le Designer
+            var removedFields = generator.Remove(sectionParserDesigner, component);
+            _fileService.WriteAllText(designerFilePath, sectionParserDesigner.GetContent());
+
+            var userFilePath = _fileService.Combine(gameProjectModel.RootPath, "Scenes", $"{sceneModel.Class}.cs");
+            var sectionParserUser = CreateSectionParserFor(userFilePath);
+
+            generator.RemoveUserFileCommentField(sectionParserUser, component);
+            _fileService.WriteAllText(userFilePath, sectionParserUser.GetContent());
+
+            var stillUsed = removedFields
+                .Where(fieldName => sectionParserUser.ContainsOutsideZone("AVAILABLE_FIELDS", fieldName))
+                .ToList();
+
+            
+            if (stillUsed.Any())
+                _dialogService.ShowWarning(
+                    LocalizationManager.GetTranslation("Component_FieldStillUsed_Title"),
+                    LocalizationManager.GetTranslation("Component_FieldStillUsed_Message",
+                                                       string.Join(", ", stillUsed)));
+        }
     }
 }

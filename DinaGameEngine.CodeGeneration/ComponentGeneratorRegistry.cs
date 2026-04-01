@@ -1,7 +1,4 @@
 ﻿using DinaGameEngine.Common;
-using DinaGameEngine.Models.Project;
-
-using System.Text;
 
 namespace DinaGameEngine.CodeGeneration
 {
@@ -19,14 +16,10 @@ namespace DinaGameEngine.CodeGeneration
         {
             _componentGenerators[componentGenerator.ComponentType] = componentGenerator;
         }
-        public void Generate(StringBuilder sb, ComponentModel component, int level)
+        public IComponentGenerator? GetGenerator(string componentType)
         {
-            if (!_componentGenerators.TryGetValue(component.Type, out var generator))
-            {
-                _logService.Warning($"Générator non trouvé pour '{component.Type}'");
-                return;
-            }
-            //generator.Generate(sb, component, level);
+            _componentGenerators.TryGetValue(componentType, out var generator);
+            return generator;
         }
 
         public IEnumerable<IComponentGenerator> GetAllComponents()

@@ -205,6 +205,25 @@ namespace DinaGameEngine.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Le champ &apos;{0}&apos; est encore utilisé dans votre code.
+        ///Pensez à le supprimer manuellement..
+        /// </summary>
+        public static string Component_FieldStillUsed_Message {
+            get {
+                return ResourceManager.GetString("Component_FieldStillUsed_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Champ encore utilisé.
+        /// </summary>
+        public static string Component_FieldStillUsed_Title {
+            get {
+                return ResourceManager.GetString("Component_FieldStillUsed_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Supprimer de la liste.
         /// </summary>
         public static string ContextMenu_RemoveFromList {

@@ -15,5 +15,8 @@ namespace DinaGameEngine.Abstractions
         void GenerateFontKeys(GameProjectModel gameProjectModel);
         void AddFont(GameProjectModel gameProjectModel, FontModel existingFontModel);
         void RemoveFont(GameProjectModel gameProjectModel, FontModel fontModel);
+        void AddComponent(GameProjectModel gameProjectModel, SceneModel sceneModel, ComponentModel component);
+        void RemoveComponent(GameProjectModel gameProjectModel, SceneModel sceneModel, ComponentModel component);
+
     }
 }

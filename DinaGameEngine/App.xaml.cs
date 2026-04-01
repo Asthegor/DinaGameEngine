@@ -6,6 +6,8 @@ using DinaGameEngine.Common.Enums;
 using DinaGameEngine.Resources;
 using DinaGameEngine.Services;
 using DinaGameEngine.Templates;
+using DinaGameEngine.ViewModels.Project.Add;
+using DinaGameEngine.ViewModels.Project.Components;
 using DinaGameEngine.WPFServices;
 
 using System.IO;
@@ -23,24 +25,28 @@ namespace DinaGameEngine
 
             // Injection manuelle des dépendances
             var fileService = new FileService();
+            var dialogService = new DialogService();
             var generatedFileChecker = new GeneratedFileChecker(fileService);
             var logService = new LogService(fileService);
+            var componentGeneratorRegistry = new ComponentGeneratorRegistry(logService);
             var templateExtractor = new TemplateExtractor(logService);
-            var codeGenerator = new CodeGenerator(fileService, logService, generatedFileChecker);
+            var codeGenerator = new CodeGenerator(fileService, logService, generatedFileChecker, componentGeneratorRegistry, dialogService);
             var projectService = new ProjectService(fileService, logService, templateExtractor, codeGenerator);
-            var dialogService = new DialogService();
+            var componentPropertiesViewModelFactory = new ComponentPropertiesViewModelFactory();
+            var addComponentViewModelFactory = new AddComponentViewModelFactory();
 
             // Enregistrement des composants
-            var componentGeneratorRegistry = new ComponentGeneratorRegistry(logService);
             componentGeneratorRegistry.Register(new TextComponentGenerator());
-
             LocalizationManager.Register(typeof(Strings));
+
+
             
             // Vérification de la présence des DLL de DinaCSharp et DLACrypto.
             CheckLibsPath(templateExtractor);
 
             var navigationService = new NavigationService(fileService, generatedFileChecker, logService, templateExtractor,
-                                                          codeGenerator, projectService, dialogService, componentGeneratorRegistry);
+                                                          codeGenerator, projectService, dialogService, componentGeneratorRegistry,
+                                                          componentPropertiesViewModelFactory, addComponentViewModelFactory);
             navigationService.Navigate(NavigationRequest.ShowStartup);
 
 

@@ -411,4 +411,11 @@ Voulez-vous tout de même supprimer la scène '{0}' ?</value>
   <data name="AddFont_BrowseTtf_File" xml:space="preserve">
     <value>Fichiers TTF (*.ttf)|*.ttf</value>
   </data>
+  <data name="Component_FieldStillUsed_Title" xml:space="preserve">
+    <value>Champ encore utilisé</value>
+  </data>
+  <data name="Component_FieldStillUsed_Message" xml:space="preserve">
+    <value>Le champ '{0}' est encore utilisé dans votre code.
+Pensez à le supprimer manuellement.</value>
+  </data>
 </root>

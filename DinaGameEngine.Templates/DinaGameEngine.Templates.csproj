@@ -54,6 +54,7 @@
     <None Remove="GameProject\Fonts\FontContent\_900p\**" />
     <EmbeddedResource Remove="GameProject\Core\Keys\FontKeys.cs" />
     <EmbeddedResource Remove="GameProject\Core\Keys\PaletteColors.cs" />
+    <EmbeddedResource Remove="GameProject\Core\Keys\SceneKeys.cs" />
     <EmbeddedResource Remove="GameProject\__GameProjectName__\__GameProjectName__.cs" />
     <EmbeddedResource Include="GameTemplateMarkers.json" />
   </ItemGroup>

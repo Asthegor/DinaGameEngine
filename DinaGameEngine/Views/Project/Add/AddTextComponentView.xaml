@@ -1,0 +1,47 @@
+﻿<UserControl x:Class="DinaGameEngine.Views.Project.Components.AddTextComponentPropertiesView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:shared="clr-namespace:DinaGameEngine.Views.Shared"
+             xmlns:ext="clr-namespace:DinaGameEngine.Extensions"
+             xmlns:converters="clr-namespace:DinaGameEngine.Converters"
+             mc:Ignorable="d">
+    <UserControl.Resources>
+        <converters:ColorModelToBrushConverter x:Key="ColorModelToBrushConverter"/>
+    </UserControl.Resources>
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="0,8,0,0">
+
+            <TextBlock Text="{ext:Translate Key=AddComponent_Font_Label}"
+                       Style="{DynamicResource FieldLabelStyle}"
+                       Margin="0,0,0,4"/>
+            <ComboBox ItemsSource="{Binding AvailableFonts}"
+                      SelectedItem="{Binding SelectedFont, Mode=TwoWay}"
+                      DisplayMemberPath="Key"
+                      Margin="0,0,0,8"/>
+
+            <shared:LabeledTextBox Label="{ext:Translate Key=AddComponent_Content_Label}"
+                               Text="{Binding Content, Mode=TwoWay}"/>
+
+            <TextBlock Text="{ext:Translate Key=AddComponent_Color_Label}"
+                       Style="{DynamicResource FieldLabelStyle}"
+                       Margin="0,0,0,4"/>
+            <ComboBox ItemsSource="{Binding AvailableColors}"
+                      SelectedItem="{Binding SelectedColor, Mode=TwoWay}"
+                      Margin="0,0,0,8">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <Border Width="16" Height="16" Margin="0,0,8,0"
+                                    BorderBrush="Black" BorderThickness="1">
+                                <Rectangle Fill="{Binding Converter={StaticResource ColorModelToBrushConverter}}"/>
+                            </Border>
+                            <TextBlock Text="{Binding Key}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

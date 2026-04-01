@@ -2,11 +2,13 @@
 using DinaGameEngine.CodeGeneration;
 using DinaGameEngine.Common;
 using DinaGameEngine.Common.Enums;
+using DinaGameEngine.Interfaces;
 using DinaGameEngine.Models;
 using DinaGameEngine.Services;
 using DinaGameEngine.Templates;
 using DinaGameEngine.Themes;
 using DinaGameEngine.ViewModels;
+using DinaGameEngine.ViewModels.Project.Components;
 using DinaGameEngine.Views;
 
 using System.Windows;
@@ -23,12 +25,16 @@ namespace DinaGameEngine.WPFServices
         private IProjectService _projectService;
         private IDialogService _dialogService;
         private IComponentGeneratorRegistry _componentGeneratorRegistry;
+        private IComponentPropertiesViewModelFactory _componentPropertiesViewModelFactory;
+        private IAddComponentViewModelFactory _addComponentViewModelFactory;
 
         private DinaWindow? _currentWindow;
         public NavigationService(IFileService fileService, IGeneratedFileChecker generatedFileChecker, ILogService logService,
                                  ITemplateExtractor templateExtractor, ICodeGenerator codeGenerator,
                                  IProjectService projectService, IDialogService dialogService,
-                                 IComponentGeneratorRegistry componentGeneratorRegistry)
+                                 IComponentGeneratorRegistry componentGeneratorRegistry,
+                                 IComponentPropertiesViewModelFactory componentPropertiesViewModelFactory,
+                                 IAddComponentViewModelFactory addComponentViewModelFactory)
         {
             _fileService = fileService;
             _generatedFileChecker = generatedFileChecker;
@@ -38,6 +44,8 @@ namespace DinaGameEngine.WPFServices
             _projectService = projectService;
             _dialogService = dialogService;
             _componentGeneratorRegistry = componentGeneratorRegistry;
+            _componentPropertiesViewModelFactory = componentPropertiesViewModelFactory;
+            _addComponentViewModelFactory = addComponentViewModelFactory;
         }
         public void Navigate(NavigationRequest request, object? parameter = null)
         {
@@ -71,7 +79,8 @@ namespace DinaGameEngine.WPFServices
         private MainWindow OpenMainWindow(DinaWindow? windowToClose, GameProjectModel gameProjectModel)
         {
             var mainViewModel = new MainViewModel(_fileService, _logService, _projectService, _dialogService, 
-                                                  _codeGenerator, _componentGeneratorRegistry, gameProjectModel);
+                                                  _codeGenerator, _componentGeneratorRegistry, gameProjectModel,
+                                                  _componentPropertiesViewModelFactory, _addComponentViewModelFactory);
             var mainWindow = new MainWindow { DataContext = mainViewModel };
             mainViewModel.NavigationRequested += (s, e) => Navigate(e.Request, e.Parameter);
             mainWindow.Show();
