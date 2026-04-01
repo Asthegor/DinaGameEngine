@@ -40,7 +40,7 @@ namespace DinaGameEngine.CodeGeneration.ComponentGenerators
         protected virtual void GenerateDraw(SectionParser sectionParser, ComponentModel component, int level) { }
         public virtual void GenerateUserFileCommentField(SectionParser sectionParser, ComponentModel component)
         {
-            sectionParser.InsertBeforeZone("AVAILABLE_FIELDS", [$"{CodeBuilder.Indentation(1)}[{ComponentType}] {GetFieldName(component)}"], true);
+            sectionParser.InsertBeforeZone("AVAILABLE_FIELDS", [$"{CodeBuilder.Indentation(1)}// [{ComponentType}] {GetFieldName(component)}"], true);
         }
         #endregion
 
@@ -57,7 +57,7 @@ namespace DinaGameEngine.CodeGeneration.ComponentGenerators
         protected virtual void RemoveDraw(SectionParser sectionParser, ComponentModel component, int level) { }
         public virtual void RemoveUserFileCommentField(SectionParser sectionParser, ComponentModel component)
         {
-            sectionParser.RemoveFromZone("AVAILABLE_FIELDS", line => line == $"{CodeBuilder.Indentation(1)}[{ComponentType}] {GetFieldName(component)}");
+            sectionParser.RemoveFromZone("AVAILABLE_FIELDS", line => line == $"{CodeBuilder.Indentation(1)}// [{ComponentType}] {GetFieldName(component)}");
         }
         #endregion
 
