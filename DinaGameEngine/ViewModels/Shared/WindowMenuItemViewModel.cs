@@ -3,7 +3,7 @@ using DinaGameEngine.Common;
 using DinaGameEngine.Common.Enums;
 using DinaGameEngine.Extensions;
 
-namespace DinaGameEngine.ViewModels
+namespace DinaGameEngine.ViewModels.Shared
 {
     public class WindowMenuItemViewModel : ObservableObject
     {

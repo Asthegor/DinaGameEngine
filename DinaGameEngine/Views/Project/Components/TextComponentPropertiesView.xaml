@@ -6,14 +6,31 @@
              xmlns:shared="clr-namespace:DinaGameEngine.Views.Shared"
              xmlns:ext="clr-namespace:DinaGameEngine.Extensions"
              xmlns:converters="clr-namespace:DinaGameEngine.Converters"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:enums="clr-namespace:DinaGameEngine.Common.Enums;assembly=DinaGameEngine.Common"
              mc:Ignorable="d">
     <UserControl.Resources>
         <converters:ColorModelToBrushConverter x:Key="ColorModelToBrushConverter"/>
+        <converters:EnumValuesFilterConverter x:Key="EnumValuesFilterConverter"/>
+        <ObjectDataProvider x:Key="HorizontalAlignmentValues"
+                    MethodName="GetValues"
+                    ObjectType="{x:Type sys:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="enums:DinaHorizontalAlignment"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <ObjectDataProvider x:Key="VerticalAlignmentValues"
+                    MethodName="GetValues"
+                    ObjectType="{x:Type sys:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="enums:DinaVerticalAlignment"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
     </UserControl.Resources>
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <StackPanel Margin="0,8,0,0">
 
-            <TextBlock Text="{ext:Translate Key=AddComponent_Font_Label}"
+            <TextBlock Text="{ext:Translate Key=Component_Font_Label}"
                        Style="{DynamicResource FieldLabelStyle}"
                        Margin="0,0,0,4"/>
             <ComboBox ItemsSource="{Binding AvailableFonts}"
@@ -21,10 +38,10 @@
                       DisplayMemberPath="Key"
                       Margin="0,0,0,8"/>
 
-            <shared:LabeledTextBox Label="{ext:Translate Key=AddComponent_Content_Label}"
+            <shared:LabeledTextBox Label="{ext:Translate Key=Component_Content_Label}"
                                    Text="{Binding Content, Mode=TwoWay}"/>
 
-            <TextBlock Text="{ext:Translate Key=AddComponent_Color_Label}"
+            <TextBlock Text="{ext:Translate Key=Component_Color_Label}"
                        Style="{DynamicResource FieldLabelStyle}"
                        Margin="0,0,0,4"/>
             <ComboBox ItemsSource="{Binding AvailableColors}"
@@ -42,6 +59,96 @@
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
+            
+            <TextBlock Text="{ext:Translate Key=Component_Position_Label}"
+                       Style="{DynamicResource FieldLabelStyle}"
+                       Margin="0,0,0,4"/>
+            
+            <Grid x:Name="GridPosition">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBox Grid.Column="0"
+                         Text="{Binding PositionX, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                         Style="{DynamicResource ModernTextBoxStyle}"
+                         Margin="0,0,0,8"/>
+                <TextBox Grid.Column="1"
+                         Text="{Binding PositionY, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                         Style="{DynamicResource ModernTextBoxStyle}"
+                         Margin="0,0,0,8"/>
+                <Button Grid.Column="2"
+                        Margin="4,0,4,0"
+                        Content="{Binding ResetIcon}"
+                        FontFamily="Segoe Fluent Icons"
+                        FontSize="14"
+                        Command="{Binding ResetPositionCommand}"
+                        Style="{DynamicResource GhostFooterButton}"
+                        ToolTip="{ext:Translate Key=Component_Reset_Tooltip}"
+                        Width="28" Height="28"
+                        BorderBrush="OrangeRed"
+                        Foreground="OrangeRed"
+                        Tag="#FFECB3"/>
+            </Grid>
+
+            <TextBlock Text="{ext:Translate Key=Component_Dimensions_Label}"
+                       Style="{DynamicResource FieldLabelStyle}"
+                       Margin="0,0,0,4"/>
+            <Grid x:Name="GridDimensions">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBox Grid.Column="0"
+                         Text="{Binding DimensionsX, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                         Style="{DynamicResource ModernTextBoxStyle}"
+                         Margin="0,0,0,8"/>
+                <TextBox Grid.Column="1"
+                         Text="{Binding DimensionsY, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                         Style="{DynamicResource ModernTextBoxStyle}"
+                         Margin="0,0,0,8"/>
+                <Button Grid.Column="2"
+                        Margin="4,0,4,0"
+                        Content="{Binding ResetIcon}"
+                        FontFamily="Segoe Fluent Icons"
+                        FontSize="14"
+                        Command="{Binding ResetDimensionsCommand}"
+                        Style="{DynamicResource GhostFooterButton}"
+                        ToolTip="{ext:Translate Key=Component_Reset_Tooltip}"
+                        Width="28" Height="28"
+                        BorderBrush="OrangeRed"
+                        Foreground="OrangeRed"
+                        Tag="#FFECB3"/>
+            </Grid>
+
+            <shared:LabeledTextBox Label="{ext:Translate Key=Component_ZOrder_Label}"
+                                   Text="{Binding ZOrder, Mode=TwoWay}"/>
+
+            <CheckBox  IsChecked="{Binding Visible}"
+                       Content="{ext:Translate Key=Component_Visible_Label}"/>
+
+            <shared:LabeledTextBox Label="{ext:Translate Key=Component_Rotation_Label}"
+                                   Text="{Binding Rotation, Mode=TwoWay}"/>
+
+            <TextBlock Text="{ext:Translate Key=Component_HorizontalAlignment_Label}"
+                       Style="{DynamicResource FieldLabelStyle}"
+                       Margin="0,0,0,4"/>
+            <ComboBox ItemsSource="{Binding Source={StaticResource HorizontalAlignmentValues}, 
+                                    Converter={StaticResource EnumValuesFilterConverter}}"
+                      SelectedItem="{Binding HorizontalAlignment, Mode=TwoWay}"
+                      Margin="0,0,4,8"/>
+
+            <TextBlock Text="{ext:Translate Key=Component_VerticalAlignment_Label}"
+                       Style="{DynamicResource FieldLabelStyle}"
+                       Margin="0,0,0,4"/>
+            <ComboBox ItemsSource="{Binding Source={StaticResource VerticalAlignmentValues}, 
+                                    Converter={StaticResource EnumValuesFilterConverter}}"
+                      SelectedItem="{Binding VerticalAlignment, Mode=TwoWay}"
+                      Margin="0,0,0,8"/>
 
         </StackPanel>
     </ScrollViewer>

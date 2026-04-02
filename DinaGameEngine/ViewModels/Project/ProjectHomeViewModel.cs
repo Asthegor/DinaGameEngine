@@ -5,10 +5,11 @@ using DinaGameEngine.Extensions;
 using DinaGameEngine.Models;
 using DinaGameEngine.ViewModels.Project.Editors;
 using DinaGameEngine.ViewModels.Project.Items;
+using DinaGameEngine.ViewModels.Shared;
 
 using System.Windows.Controls;
 
-namespace DinaGameEngine.ViewModels
+namespace DinaGameEngine.ViewModels.Project
 {
     public class ProjectHomeViewModel : EditorViewModel<SceneCardViewModel>
     {

@@ -7,17 +7,18 @@ using DinaGameEngine.Models;
 using DinaGameEngine.Models.Project;
 using DinaGameEngine.ViewModels.Project.Add;
 using DinaGameEngine.ViewModels.Project.Items;
+using DinaGameEngine.ViewModels.Shared;
 using DinaGameEngine.Views.Project.Add;
 
 namespace DinaGameEngine.ViewModels.Project.Editors
 {
     public class FontEditorViewModel : EditorViewModel<FontViewModel>
     {
-        private IFileService _fileService;
-        private IDialogService _dialogService;
-        private ICodeGenerator _codeGenerator;
-        private IProjectService _projectService;
-        private GameProjectModel _gameProjectModel;
+        private readonly IFileService _fileService;
+        private readonly IDialogService _dialogService;
+        private readonly ICodeGenerator _codeGenerator;
+        private readonly IProjectService _projectService;
+        private readonly GameProjectModel _gameProjectModel;
 
         public FontEditorViewModel(IFileService fileService, IDialogService dialogService, ICodeGenerator codeGenerator, IProjectService projectService, GameProjectModel gameProjectModel)
             : base([.. gameProjectModel.Fonts])

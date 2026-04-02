@@ -3,6 +3,7 @@ using DinaGameEngine.Common;
 using DinaGameEngine.Common.Enums;
 using DinaGameEngine.Extensions;
 using DinaGameEngine.Models.Project;
+using DinaGameEngine.ViewModels.Shared;
 
 namespace DinaGameEngine.ViewModels.Project.Items
 {

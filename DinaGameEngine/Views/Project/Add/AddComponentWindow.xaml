@@ -6,7 +6,7 @@
         xmlns:enums="clr-namespace:DinaGameEngine.Common.Enums;assembly=DinaGameEngine.Common"
         xmlns:ext="clr-namespace:DinaGameEngine.Extensions"
         xmlns:converters="clr-namespace:DinaGameEngine.Converters"
-        xmlns:comps="clr-namespace:DinaGameEngine.Views.Project.Components"
+        xmlns:add="clr-namespace:DinaGameEngine.Views.Project.Add"
         xmlns:vmAdd="clr-namespace:DinaGameEngine.ViewModels.Project.Add"
         Title="{Binding WindowTitle}"
         SizeToContent="Height" Width="400"
@@ -17,7 +17,7 @@
     <Window.Resources>
         <converters:StringToVisibilityConverter x:Key="StringToVisibilityConverter"/>
         <DataTemplate DataType="{x:Type vmAdd:AddTextComponentViewModel}">
-            <comps:AddTextComponentPropertiesView/>
+            <add:AddTextComponentPropertiesView/>
         </DataTemplate>
     </Window.Resources>
     <Grid Margin="16">
@@ -30,7 +30,7 @@
         </Grid.RowDefinitions>
 
         <TextBlock Grid.Row="0" Margin="0,0,0,8"
-                   Text="{ext:Translate Key=AddComponent_Key_Label}"
+                   Text="{ext:Translate Key=Component_Key_Label}"
                    Style="{DynamicResource FieldLabelStyle}"/>
 
         <TextBox Grid.Row="1" Margin="0,0,0,4"

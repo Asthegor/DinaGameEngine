@@ -3,6 +3,7 @@ using DinaGameEngine.Commands;
 using DinaGameEngine.Common;
 using DinaGameEngine.Common.Enums;
 using DinaGameEngine.Models;
+using DinaGameEngine.ViewModels.Shared;
 
 using System.Globalization;
 using System.Windows;

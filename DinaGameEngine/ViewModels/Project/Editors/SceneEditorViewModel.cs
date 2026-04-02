@@ -14,7 +14,7 @@ using DinaGameEngine.Views.Project.Add;
 
 using System.Collections.ObjectModel;
 
-namespace DinaGameEngine.ViewModels
+namespace DinaGameEngine.ViewModels.Project.Editors
 {
     public class SceneEditorViewModel : ObservableObject
     {
@@ -73,7 +73,7 @@ namespace DinaGameEngine.ViewModels
                                || c.Type.Contains(FilterText));
 
         public IEnumerable<IComponentGenerator> AvailableGenerators => _componentGeneratorRegistry.GetAllComponents();
-        public string AddIcon => DinaIcon.Add.ToGlyph();
+        public static string AddIcon => DinaIcon.Add.ToGlyph();
 
         private ComponentPropertiesViewModel? _selectedComponentViewModel;
         public ComponentPropertiesViewModel? SelectedComponentViewModel
@@ -119,7 +119,7 @@ namespace DinaGameEngine.ViewModels
             if (sender is not ComponentPropertiesViewModel vm)
                 return;
 
-            _codeGenerator.RemoveComponent(_gameProjectModel, _sceneModel, oldSnapshot);
+            _codeGenerator.RemoveComponent(_gameProjectModel, _sceneModel, oldSnapshot, showWarning: false);
             _codeGenerator.AddComponent(_gameProjectModel, _sceneModel, vm.Component);
             _projectService.UpdateJsonProjectFile(_gameProjectModel);
         }
@@ -134,10 +134,8 @@ namespace DinaGameEngine.ViewModels
             var existingKeys = _sceneModel.Components.Select(c => c.Key).ToList();
             var addComponentViewModel = new AddComponentViewModel(existingKeys, $"AddComponent_{generator.ComponentType}_Title");
 
-            var addVm = _addComponentViewModelFactory.Create(
-                generator.ComponentType,
-                _gameProjectModel,
-                () => addComponentViewModel.ConfirmCommand.RaiseCanExecuteChanged());
+            var addVm = _addComponentViewModelFactory.Create(generator.ComponentType, _gameProjectModel,
+                                                             addComponentViewModel.ConfirmCommand.RaiseCanExecuteChanged);
 
             addComponentViewModel.SpecificProperties = addVm;
             if (addVm != null)

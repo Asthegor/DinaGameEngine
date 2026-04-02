@@ -1,4 +1,4 @@
-﻿using DinaGameEngine.Common;
+﻿using DinaGameEngine.Common.Enums;
 
 using System.Windows.Media;
 

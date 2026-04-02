@@ -4,7 +4,7 @@ using DinaGameEngine.Common;
 using DinaGameEngine.Models;
 using DinaGameEngine.Models.Startup;
 
-namespace DinaGameEngine.ViewModels
+namespace DinaGameEngine.ViewModels.Startup
 {
     public class RecentProjectViewModel : ObservableObject
     {

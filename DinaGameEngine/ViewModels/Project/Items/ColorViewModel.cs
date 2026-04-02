@@ -6,9 +6,8 @@ using System.Windows.Media;
 
 namespace DinaGameEngine.ViewModels.Project.Items
 {
-    public class ColorViewModel : ItemViewModel
+    public class ColorViewModel(ColorModel model) : ItemViewModel(model)
     {
-        public ColorViewModel(ColorModel model) : base(model) { }
         public override string Icon => DinaIcon.Color.ToGlyph();
         public override string Name => ((ColorModel)Model).Key;
         public override string Key => ((ColorModel)Model).Key;

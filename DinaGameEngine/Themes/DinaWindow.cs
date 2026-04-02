@@ -20,15 +20,15 @@ namespace DinaGameEngine.Themes
 
             Activated += (_, _) =>
             {
-                TitleBarBackground = Common.DinaColor.TitleBarBackground.ToBrush();
-                TitleBarForeground = Common.DinaColor.TitleBarForeground.ToBrush();
-                TitleBarBorderBrush = Common.DinaColor.WindowBorder.ToBrush();
+                TitleBarBackground = DinaColor.TitleBarBackground.ToBrush();
+                TitleBarForeground = DinaColor.TitleBarForeground.ToBrush();
+                TitleBarBorderBrush = DinaColor.WindowBorder.ToBrush();
             };
             Deactivated += (_, _) =>
             {
-                TitleBarBackground = Common.DinaColor.WindowInactiveBackground.ToBrush();
-                TitleBarForeground = Common.DinaColor.WindowInactiveForeground.ToBrush();
-                TitleBarBorderBrush = Common.DinaColor.WindowInactiveBorder.ToBrush();
+                TitleBarBackground = DinaColor.WindowInactiveBackground.ToBrush();
+                TitleBarForeground = DinaColor.WindowInactiveForeground.ToBrush();
+                TitleBarBorderBrush = DinaColor.WindowInactiveBorder.ToBrush();
             };
         }
 
@@ -84,7 +84,7 @@ namespace DinaGameEngine.Themes
         }
         public static readonly DependencyProperty TitleBarBackgroundProperty =
             DependencyProperty.Register(nameof(TitleBarBackground), typeof(Brush), typeof(DinaWindow),
-                new PropertyMetadata(Common.DinaColor.TitleBarBackground.ToBrush()));
+                new PropertyMetadata(DinaColor.TitleBarBackground.ToBrush()));
 
         public Brush TitleBarForeground
         {
@@ -93,7 +93,7 @@ namespace DinaGameEngine.Themes
         }
         public static readonly DependencyProperty TitleBarForegroundProperty =
             DependencyProperty.Register(nameof(TitleBarForeground), typeof(Brush), typeof(DinaWindow),
-                new PropertyMetadata(Common.DinaColor.TitleBarForeground.ToBrush()));
+                new PropertyMetadata(DinaColor.TitleBarForeground.ToBrush()));
 
         public Brush TitleBarBorderBrush
         {
@@ -102,7 +102,7 @@ namespace DinaGameEngine.Themes
         }
         public static readonly DependencyProperty TitleBarBorderBrushProperty =
             DependencyProperty.Register(nameof(TitleBarBorderBrush), typeof(Brush), typeof(DinaWindow),
-                new PropertyMetadata(Common.DinaColor.WindowBorder.ToBrush()));
+                new PropertyMetadata(DinaColor.WindowBorder.ToBrush()));
 
         private void MaximizeWindow()
         {

@@ -418,4 +418,40 @@ Do you still want to remove the scene ‘{0}’?</value>
     <value>The field '{0}' is still referenced in your code.
 Please remove it manually.</value>
   </data>
+  <data name="Component_Position_Label" xml:space="preserve">
+    <value>Position</value>
+  </data>
+  <data name="Component_Dimensions_Label" xml:space="preserve">
+    <value>Dimensions</value>
+  </data>
+  <data name="Component_ZOrder_Label" xml:space="preserve">
+    <value>ZOrder</value>
+  </data>
+  <data name="Component_Visible_Label" xml:space="preserve">
+    <value>Visibility</value>
+  </data>
+  <data name="Component_Rotation_Label" xml:space="preserve">
+    <value>Rotation</value>
+  </data>
+  <data name="Component_HorizontalAlignment_Label" xml:space="preserve">
+    <value>Horizontal alignment</value>
+  </data>
+  <data name="Component_VerticalAlignment_Label" xml:space="preserve">
+    <value>Vertical alignment</value>
+  </data>
+  <data name="Component_Key_Label" xml:space="preserve">
+    <value>Key</value>
+  </data>
+  <data name="Dialog_Apply" xml:space="preserve">
+    <value>Apply</value>
+  </data>
+  <data name="Key_Required" xml:space="preserve">
+    <value>Key required</value>
+  </data>
+  <data name="Component_Reset_Tooltip" xml:space="preserve">
+    <value>Reset the values to Auto</value>
+  </data>
+  <data name="AddComponent_Text_Title" xml:space="preserve">
+    <value>Adding a new text</value>
+  </data>
 </root>

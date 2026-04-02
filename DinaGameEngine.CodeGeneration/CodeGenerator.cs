@@ -5,24 +5,16 @@ using DinaGameEngine.Models.Project;
 
 namespace DinaGameEngine.CodeGeneration
 {
-    public partial class CodeGenerator : ICodeGenerator
+    public partial class CodeGenerator(IFileService fileService, ILogService logService, IGeneratedFileChecker generatedFileChecker,
+                         IComponentGeneratorRegistry componentGeneratorRegistry, IDialogService dialogService) : ICodeGenerator
     {
-        private string[] _resolutionPath = { "_720p", "_900p", "_1080p", "_1440p", "_2160p" };
+        private readonly string[] _resolutionPath = ["_720p", "_900p", "_1080p", "_1440p", "_2160p"];
 
-        private readonly IFileService _fileService;
-        private readonly ILogService _logService;
-        private readonly IGeneratedFileChecker _generatedFileChecker;
-        private readonly IComponentGeneratorRegistry _componentGeneratorRegistry;
-        private readonly IDialogService _dialogService;
-        public CodeGenerator(IFileService fileService, ILogService logService, IGeneratedFileChecker generatedFileChecker,
-                             IComponentGeneratorRegistry componentGeneratorRegistry, IDialogService dialogService)
-        {
-            _fileService = fileService;
-            _logService = logService;
-            _generatedFileChecker = generatedFileChecker;
-            _componentGeneratorRegistry = componentGeneratorRegistry;
-            _dialogService = dialogService;
-        }
+        private readonly IFileService _fileService = fileService;
+        private readonly ILogService _logService = logService;
+        private readonly IGeneratedFileChecker _generatedFileChecker = generatedFileChecker;
+        private readonly IComponentGeneratorRegistry _componentGeneratorRegistry = componentGeneratorRegistry;
+        private readonly IDialogService _dialogService = dialogService;
 
         public void GenerateAllFiles(GameProjectModel gameProjectModel)
         {
@@ -91,12 +83,12 @@ namespace DinaGameEngine.CodeGeneration
             _fileService.WriteAllText(userFilePath, sectionParser.GetContent());
         }
 
-        public void RemoveComponent(GameProjectModel gameProjectModel, SceneModel sceneModel, ComponentModel component)
+        public void RemoveComponent(GameProjectModel gameProjectModel, SceneModel sceneModel, ComponentModel component, bool showWarning = true)
         {
             var generator = _componentGeneratorRegistry.GetGenerator(component.Type);
             if (generator == null)
             {
-                _logService.Warning($"Générateur du componsant '{component.Type}' non trouvé.");
+                _logService.Warning($"Générateur du composant '{component.Type}' non trouvé.");
                 return;
             }
             var designerFilePath = _fileService.Combine(gameProjectModel.RootPath, "Scenes", $"{sceneModel.Class}.Designer.cs");
@@ -115,12 +107,13 @@ namespace DinaGameEngine.CodeGeneration
                 .Where(fieldName => sectionParserUser.ContainsOutsideZone("AVAILABLE_FIELDS", fieldName))
                 .ToList();
 
-            
-            if (stillUsed.Any())
+            if (showWarning && stillUsed.Count != 0)
+            {
                 _dialogService.ShowWarning(
                     LocalizationManager.GetTranslation("Component_FieldStillUsed_Title"),
                     LocalizationManager.GetTranslation("Component_FieldStillUsed_Message",
                                                        string.Join(", ", stillUsed)));
+            }
         }
     }
 }

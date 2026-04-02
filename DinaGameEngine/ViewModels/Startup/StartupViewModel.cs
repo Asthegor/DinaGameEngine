@@ -6,12 +6,13 @@ using DinaGameEngine.Common.Events;
 using DinaGameEngine.Extensions;
 using DinaGameEngine.Models;
 using DinaGameEngine.Models.Startup;
+using DinaGameEngine.ViewModels.Shared;
 using DinaGameEngine.Views;
 
 using System.Collections.ObjectModel;
 using System.Windows;
 
-namespace DinaGameEngine.ViewModels
+namespace DinaGameEngine.ViewModels.Startup
 {
     public class StartupViewModel : ObservableObject
     {
@@ -411,7 +412,7 @@ namespace DinaGameEngine.ViewModels
         {
             CurrentState = StartupState.RecentProjects;
         }
-        public string BrowseIcon => DinaIcon.Open.ToGlyph();
+        public static string BrowseIcon => DinaIcon.Open.ToGlyph();
         public RelayCommand BrowseFolderCommand { get; }
         private void BrowseFolder()
         {

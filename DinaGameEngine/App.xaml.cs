@@ -51,7 +51,7 @@ namespace DinaGameEngine
 
 
         }
-        private static void CheckLibsPath(ITemplateExtractor templateExtractor)
+        private static void CheckLibsPath(TemplateExtractor templateExtractor)
         {
             var libsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Libs");
             var allFilesPresent = Directory.Exists(libsPath) &&

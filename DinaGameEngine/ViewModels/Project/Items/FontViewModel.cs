@@ -6,9 +6,8 @@ using System.IO;
 
 namespace DinaGameEngine.ViewModels.Project.Items
 {
-    public class FontViewModel : ItemViewModel
+    public class FontViewModel(FontModel fontModel) : ItemViewModel(fontModel)
     {
-        public FontViewModel(FontModel fontModel) : base(fontModel) { }
         public override string Icon => DinaIcon.Font.ToGlyph();
         public override string Name => ((FontModel)Model).Key;
         public override string Key => ((FontModel)Model).Key;

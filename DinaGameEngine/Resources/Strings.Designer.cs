@@ -97,6 +97,15 @@ namespace DinaGameEngine.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ajout d&apos;un nouveau texte.
+        /// </summary>
+        public static string AddComponent_Text_Title {
+            get {
+                return ResourceManager.GetString("AddComponent_Text_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Fichiers TTF (*.ttf)|*.ttf.
         /// </summary>
         public static string AddFont_BrowseTtf_File {
@@ -205,6 +214,15 @@ namespace DinaGameEngine.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Dimensions.
+        /// </summary>
+        public static string Component_Dimensions_Label {
+            get {
+                return ResourceManager.GetString("Component_Dimensions_Label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Le champ &apos;{0}&apos; est encore utilisé dans votre code.
         ///Pensez à le supprimer manuellement..
         /// </summary>
@@ -220,6 +238,78 @@ namespace DinaGameEngine.Resources {
         public static string Component_FieldStillUsed_Title {
             get {
                 return ResourceManager.GetString("Component_FieldStillUsed_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Alignement horizontal.
+        /// </summary>
+        public static string Component_HorizontalAlignment_Label {
+            get {
+                return ResourceManager.GetString("Component_HorizontalAlignment_Label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Clé.
+        /// </summary>
+        public static string Component_Key_Label {
+            get {
+                return ResourceManager.GetString("Component_Key_Label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Position.
+        /// </summary>
+        public static string Component_Position_Label {
+            get {
+                return ResourceManager.GetString("Component_Position_Label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remise à Auto des valeurs.
+        /// </summary>
+        public static string Component_Reset_Tooltip {
+            get {
+                return ResourceManager.GetString("Component_Reset_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rotation.
+        /// </summary>
+        public static string Component_Rotation_Label {
+            get {
+                return ResourceManager.GetString("Component_Rotation_Label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Alignement vertical.
+        /// </summary>
+        public static string Component_VerticalAlignment_Label {
+            get {
+                return ResourceManager.GetString("Component_VerticalAlignment_Label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Visibilité.
+        /// </summary>
+        public static string Component_Visible_Label {
+            get {
+                return ResourceManager.GetString("Component_Visible_Label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ZOrder.
+        /// </summary>
+        public static string Component_ZOrder_Label {
+            get {
+                return ResourceManager.GetString("Component_ZOrder_Label", resourceCulture);
             }
         }
         
@@ -274,6 +364,15 @@ namespace DinaGameEngine.Resources {
         public static string Dialog_Add {
             get {
                 return ResourceManager.GetString("Dialog_Add", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Appliquer.
+        /// </summary>
+        public static string Dialog_Apply {
+            get {
+                return ResourceManager.GetString("Dialog_Apply", resourceCulture);
             }
         }
         
@@ -364,6 +463,15 @@ namespace DinaGameEngine.Resources {
         public static string Key_AlreadyExist {
             get {
                 return ResourceManager.GetString("Key_AlreadyExist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Clé requise.
+        /// </summary>
+        public static string Key_Required {
+            get {
+                return ResourceManager.GetString("Key_Required", resourceCulture);
             }
         }
         

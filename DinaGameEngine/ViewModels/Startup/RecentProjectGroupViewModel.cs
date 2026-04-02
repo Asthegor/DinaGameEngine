@@ -3,7 +3,7 @@ using DinaGameEngine.Models.Startup;
 
 using System.Collections.ObjectModel;
 
-namespace DinaGameEngine.ViewModels
+namespace DinaGameEngine.ViewModels.Startup
 {
     public class RecentProjectGroupViewModel(RecentProjectGroupModel model) : ObservableObject
     {

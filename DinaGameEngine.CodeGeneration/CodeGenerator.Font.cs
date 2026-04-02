@@ -174,7 +174,7 @@ namespace DinaGameEngine.CodeGeneration
             }
         }
 
-        private float GetSizeForResolution(string fontPath, float baseSize)
+        private static float GetSizeForResolution(string fontPath, float baseSize)
         {
             return fontPath switch
             {

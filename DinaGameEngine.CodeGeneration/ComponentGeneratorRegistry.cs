@@ -2,19 +2,14 @@
 
 namespace DinaGameEngine.CodeGeneration
 {
-    public class ComponentGeneratorRegistry : IComponentGeneratorRegistry
+    public class ComponentGeneratorRegistry(ILogService logService) : IComponentGeneratorRegistry
     {
-        private readonly ILogService _logService;
-        private Dictionary<string, IComponentGenerator> _componentGenerators = [];
-
-        public ComponentGeneratorRegistry(ILogService logService)
-        {
-            _logService = logService;
-        }
+        private readonly Dictionary<string, IComponentGenerator> _componentGenerators = [];
 
         public void Register(IComponentGenerator componentGenerator)
         {
             _componentGenerators[componentGenerator.ComponentType] = componentGenerator;
+            logService.Info($"ComponentGenerator '{componentGenerator.ComponentType}' enregistré.");
         }
         public IComponentGenerator? GetGenerator(string componentType)
         {

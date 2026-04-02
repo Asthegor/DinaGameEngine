@@ -1,16 +1,11 @@
 ﻿namespace DinaGameEngine.CodeGeneration
 {
-    public class SectionParser
+    public class SectionParser(string fileContent)
     {
         const string ZONE_OPEN = "// =[ZONE:{0}]=";
         const string ZONE_CLOSE = "// =[/ZONE:{0}]=";
 
-        private List<string> _lines = [];
-
-        public SectionParser(string fileContent)
-        {
-            _lines = [.. fileContent.Split(["\r\n", "\n"], StringSplitOptions.None)];
-        }
+        private readonly List<string> _lines = [.. fileContent.Split(["\r\n", "\n"], StringSplitOptions.None)];
 
         public void InsertBeforeZone(string zoneName, IEnumerable<string> lines, bool checkExistingLines = false)
         {

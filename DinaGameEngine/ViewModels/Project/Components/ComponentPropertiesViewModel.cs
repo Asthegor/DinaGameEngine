@@ -1,7 +1,11 @@
 ﻿using DinaGameEngine.Commands;
 using DinaGameEngine.Common;
 using DinaGameEngine.Common.Enums;
+using DinaGameEngine.Extensions;
 using DinaGameEngine.Models.Project;
+using DinaGameEngine.ViewModels.Shared;
+
+using System.Text.Json;
 
 namespace DinaGameEngine.ViewModels.Project.Components
 {
@@ -54,7 +58,9 @@ namespace DinaGameEngine.ViewModels.Project.Components
             if (_snapshot == null)
                 return;
             _component.Key = _snapshot.Key;
+#pragma warning disable IDE0028 // Simplify collection initialization
             _component.Properties = new Dictionary<string, object>(_snapshot.Properties);
+#pragma warning restore IDE0028 // Simplify collection initialization
             _key = _snapshot.Key;
             OnPropertyChanged(nameof(Key));
             LoadFrom(_component);
@@ -126,5 +132,7 @@ namespace DinaGameEngine.ViewModels.Project.Components
             Cancelled?.Invoke(this, EventArgs.Empty);
         }
         public abstract void ApplyToModel();
+
+        public static string ResetIcon => DinaIcon.Refresh.ToGlyph();
     }
 }

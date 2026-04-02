@@ -14,11 +14,9 @@ namespace DinaGameEngine.ViewModels.Project.Add
         private readonly string _rootPath;
         private readonly IFileService _fileService;
         private readonly IDialogService _dialogService;
-        private string _ttfFolder;
+        private readonly string _ttfFolder;
 
-        public AddFontViewModel(IEnumerable<string> existingKeys, string rootPath,
-                                IFileService fileService, IDialogService dialogService,
-                                FontModel? fontModel = null)
+        public AddFontViewModel(IEnumerable<string> existingKeys, string rootPath, IFileService fileService, IDialogService dialogService, FontModel? fontModel = null)
             : base(existingKeys, "AddFont_Title", fontModel != null)
         {
             _rootPath = rootPath;
@@ -28,7 +26,7 @@ namespace DinaGameEngine.ViewModels.Project.Add
 
             AvailableStyles = [.. Enum.GetValues<SpriteFontStyle>()];
 
-            BrowseTtfFileCommand = new RelayCommand(_ => BrowseTtfFile());
+            BrowseTtfFileCommand = new RelayCommand(BrowseTtfFile);
 
             RefreshTtfFiles();
 
@@ -68,13 +66,9 @@ namespace DinaGameEngine.ViewModels.Project.Add
 
         public RelayCommand BrowseTtfFileCommand { get; }
 
-        protected override bool CanConfirm()
-            => base.CanConfirm() && SelectedNamedItem != null && Size > 0;
+        protected override bool CanConfirm() => base.CanConfirm() && SelectedNamedItem != null && Size > 0;
 
-        protected override void OnSelectedNamedItemChanged(NamedItem<string>? item)
-        {
-            AddCommand.RaiseCanExecuteChanged();
-        }
+        protected override void OnSelectedNamedItemChanged(NamedItem<string>? item) => AddCommand.RaiseCanExecuteChanged();
 
         private void RefreshTtfFiles()
         {

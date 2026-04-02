@@ -6,7 +6,7 @@
         xmlns:shared="clr-namespace:DinaGameEngine.Views.Shared"
         xmlns:editors="clr-namespace:DinaGameEngine.Views.Project.Editors"
         xmlns:comps="clr-namespace:DinaGameEngine.Views.Project.Components"
-        xmlns:vm="clr-namespace:DinaGameEngine.ViewModels"
+        xmlns:vmProj="clr-namespace:DinaGameEngine.ViewModels.Project"
         xmlns:vmEditors="clr-namespace:DinaGameEngine.ViewModels.Project.Editors"
         xmlns:vmComps="clr-namespace:DinaGameEngine.ViewModels.Project.Components"
         xmlns:enums="clr-namespace:DinaGameEngine.Common.Enums;assembly=DinaGameEngine.Common"
@@ -16,10 +16,10 @@
         TitleBarButtons="{x:Static enums:TitleBarButtons.MinimizeMaximizeAndClose}"
         WindowStartupLocation="CenterScreen">
     <Window.Resources>
-        <DataTemplate DataType="{x:Type vm:ProjectHomeViewModel}">
+        <DataTemplate DataType="{x:Type vmProj:ProjectHomeViewModel}">
             <project:ProjectHomeView/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type vm:SceneEditorViewModel}">
+        <DataTemplate DataType="{x:Type vmEditors:SceneEditorViewModel}">
             <editors:SceneEditorView/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type vmEditors:LocalizationEditorViewModel}">

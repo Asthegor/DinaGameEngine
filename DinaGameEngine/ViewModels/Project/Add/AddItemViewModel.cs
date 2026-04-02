@@ -1,6 +1,7 @@
 ﻿using DinaGameEngine.Commands;
 using DinaGameEngine.Common;
 using DinaGameEngine.Common.Enums;
+using DinaGameEngine.ViewModels.Shared;
 
 namespace DinaGameEngine.ViewModels.Project.Add
 {

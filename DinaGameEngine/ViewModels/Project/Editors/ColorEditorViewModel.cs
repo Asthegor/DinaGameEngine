@@ -7,15 +7,16 @@ using DinaGameEngine.Models;
 using DinaGameEngine.Models.Project;
 using DinaGameEngine.ViewModels.Project.Add;
 using DinaGameEngine.ViewModels.Project.Items;
+using DinaGameEngine.ViewModels.Shared;
 using DinaGameEngine.Views.Project.Add;
 
 namespace DinaGameEngine.ViewModels.Project.Editors
 {
     public class ColorEditorViewModel : EditorViewModel<ColorViewModel>
     {
-        private ICodeGenerator _codeGenerator;
-        private IProjectService _projectService;
-        private GameProjectModel _gameProjectModel;
+        private readonly ICodeGenerator _codeGenerator;
+        private readonly IProjectService _projectService;
+        private readonly GameProjectModel _gameProjectModel;
         public ColorEditorViewModel(ICodeGenerator codeGenerator, IProjectService projectService, GameProjectModel gameProjectModel)
             : base([.. gameProjectModel.Colors])
         {

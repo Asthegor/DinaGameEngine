@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace DinaGameEngine.ViewModels
+namespace DinaGameEngine.ViewModels.Shared
 {
     public class ButtonBarViewModel : ObservableObject
     {

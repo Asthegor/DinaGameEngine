@@ -7,8 +7,10 @@ using DinaGameEngine.Common.Events;
 using DinaGameEngine.Interfaces;
 using DinaGameEngine.Models;
 using DinaGameEngine.Models.Project;
+using DinaGameEngine.ViewModels.Project;
 using DinaGameEngine.ViewModels.Project.Add;
 using DinaGameEngine.ViewModels.Project.Editors;
+using DinaGameEngine.ViewModels.Shared;
 using DinaGameEngine.Views;
 using DinaGameEngine.Views.Project.Add;
 
