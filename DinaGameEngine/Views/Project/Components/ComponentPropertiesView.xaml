@@ -12,6 +12,9 @@
         <DataTemplate DataType="{x:Type vmComps:TextComponentPropertiesViewModel}">
             <comps:TextComponentPropertiesView/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type vmComps:MenuManagerComponentPropertiesViewModel}">
+            <comps:MenuManagerComponentPropertiesView/>
+        </DataTemplate>
     </UserControl.Resources>
     <Grid Margin="8">
         <Grid.RowDefinitions>

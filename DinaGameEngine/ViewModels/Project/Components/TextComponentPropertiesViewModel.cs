@@ -258,6 +258,9 @@ namespace DinaGameEngine.ViewModels.Project.Components
                 NotifyChange();
             }
         }
+        #endregion
+
+        #region Commandes
         public RelayCommand ResetPositionCommand { get; }
         private void ResetPosition()
         {

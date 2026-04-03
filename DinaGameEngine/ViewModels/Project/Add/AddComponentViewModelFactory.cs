@@ -10,6 +10,7 @@ namespace DinaGameEngine.ViewModels.Project.Add
             return componentType switch
             {
                 "Text" => new AddTextComponentViewModel(gameProjectModel.Fonts, gameProjectModel.Colors, onValidityChanged),
+                "MenuManager" => new AddMenuManagerComponentViewModel(),
                 _ => null
             };
         }

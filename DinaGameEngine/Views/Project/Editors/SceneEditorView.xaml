@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DinaGameEngine.Views.Project.Editors"
-             xmlns:comps="clr-namespace:DinaGameEngine.Views.Project.Components"
+             xmlns:cards="clr-namespace:DinaGameEngine.Views.Project.Cards"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
@@ -55,7 +55,7 @@
                 <ItemsControl ItemsSource="{Binding FilteredComponents}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <comps:ComponentCardView/>
+                            <cards:ComponentCardView/>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>

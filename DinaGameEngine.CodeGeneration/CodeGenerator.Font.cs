@@ -23,7 +23,7 @@ namespace DinaGameEngine.CodeGeneration
             var designerFilePath = _fileService.Combine(gameProjectModel.RootPath, "Core", "Keys", "FontKeys.Designer.cs");
             var sectionParser = CreateSectionParserFor(designerFilePath);
             sectionParser.InsertBeforeZone("FONT_KEYS",
-                [$"{CodeBuilder.Indentation(2)}public static readonly Key<FontTag> {model.Key} = Key<FontTag>.FromString(\"{model.Key}\");"],
+                [CodeBuilder.AddLine($"public static readonly Key<FontTag> {model.Key} = Key<FontTag>.FromString(\"{model.Key}\");", level: 2)],
                 checkExistingLines: true);
             _fileService.WriteAllText(designerFilePath, sectionParser.GetContent());
         }

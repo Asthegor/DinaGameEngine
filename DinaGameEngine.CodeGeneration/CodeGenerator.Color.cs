@@ -85,7 +85,7 @@ namespace DinaGameEngine.CodeGeneration
         {
             var designerFilePath = _fileService.Combine(gameProjectModel.RootPath, "Core", "Keys", "PaletteColors.Designer.cs");
             var sectionParser = CreateSectionParserFor(designerFilePath);
-            sectionParser.InsertBeforeZone("PALETTE_COLORS", [$"{CodeBuilder.Indentation(2)}public static readonly Color {model.Key} = new Color({model.R}, {model.G}, {model.B}, {model.A});"]);
+            sectionParser.InsertBeforeZone("PALETTE_COLORS", [CodeBuilder.AddLine($"public static readonly Color {model.Key} = new Color({model.R}, {model.G}, {model.B}, {model.A});", level: 2)]);
             _fileService.WriteAllText(designerFilePath, sectionParser.GetContent());
         }
         public void RemoveColor(GameProjectModel gameProjectModel, ColorModel model)

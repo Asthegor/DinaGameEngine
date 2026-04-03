@@ -37,10 +37,11 @@ namespace DinaGameEngine.ViewModels.Project.Items
         {
             ItemOpened?.Invoke(_model, EventArgs.Empty);
         }
+        public static string DeleteIcon => DinaIcon.Delete.ToGlyph();
         public RelayCommand DeleteCommand { get; }
         private void Delete()
         {
-            ItemDeleted?.Invoke(this, EventArgs.Empty);
+            ItemDeleted?.Invoke(_model, EventArgs.Empty);
         }
         public RelayCommand SelectCommand { get; }
         private void Select()

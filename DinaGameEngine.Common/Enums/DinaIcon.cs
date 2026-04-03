@@ -23,5 +23,7 @@
         ClosePane = 0xE89F,
         OpenPane = 0xE8A0,
         LookupEntities = 0xF5B5,
+        ChevronDown = 0xE70D,
+        ChevronUp = 0xE70E,
     }
 }

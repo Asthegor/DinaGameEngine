@@ -1,66 +1,91 @@
-﻿using DinaGameEngine.Models.Project;
+﻿using DinaGameEngine.Models;
+using DinaGameEngine.Models.Project;
 
 namespace DinaGameEngine.CodeGeneration.ComponentGenerators
 {
     public abstract class ComponentGenerator
     {
         public abstract string ComponentType { get; }
+        private List<string> fieldsToRemove = [];
         public string GetFieldName(ComponentModel component) => $"_{component.Key}{ComponentType}";
 
-        public void Add(SectionParser sectionParser, ComponentModel component)
+        public void AddToDesigner(SectionParser sectionParser, ComponentModel component, string rootNamespace)
         {
-            GenerateUsing(sectionParser);
+            GenerateUsing(sectionParser, rootNamespace);
             GenerateField(sectionParser, component, level: 2);
             GenerateLoad(sectionParser, component, level: 3);
             GenerateReset(sectionParser, component, level: 3);
             GenerateUpdate(sectionParser, component, level: 3);
             GenerateDraw(sectionParser, component, level: 3);
+            GeneratePartialFunctions(sectionParser, component, level: 2);
         }
-        public IEnumerable<string> Remove(SectionParser sectionParser, ComponentModel component)
-        {
-            var removedFields = new List<string>();
-            RemoveDraw(sectionParser, component, level: 3);
-            RemoveUpdate(sectionParser, component, level: 3);
-            RemoveReset(sectionParser, component, level: 3);
-            RemoveLoad(sectionParser, component, level: 3);
-            var fields = RemoveField(sectionParser, component, 2);
-            removedFields.AddRange(fields);
-            return removedFields;
-        }
-
-        #region Générations
-        protected virtual void GenerateUsing(SectionParser sectionParser) { }
+        #region Générations pour le Designer
+        protected virtual void GenerateUsing(SectionParser sectionParser, string rootNamespace) { }
         protected virtual void GenerateField(SectionParser sectionParser, ComponentModel component, int level)
         {
-            sectionParser.InsertBeforeZone("FIELDS", [$"{CodeBuilder.Indentation(level)}private {ComponentType} {GetFieldName(component)};"]);
+            sectionParser.InsertBeforeZone("FIELDS", [CodeBuilder.AddLine($"private {ComponentType} {GetFieldName(component)};", level)]);
         }
         protected virtual void GenerateLoad(SectionParser sectionParser, ComponentModel component, int level) { }
         protected virtual void GenerateReset(SectionParser sectionParser, ComponentModel component, int level) { }
         protected virtual void GenerateUpdate(SectionParser sectionParser, ComponentModel component, int level) { }
         protected virtual void GenerateDraw(SectionParser sectionParser, ComponentModel component, int level) { }
-        public virtual void GenerateUserFileCommentField(SectionParser sectionParser, ComponentModel component)
-        {
-            sectionParser.InsertBeforeZone("AVAILABLE_FIELDS", [$"{CodeBuilder.Indentation(1)}// [{ComponentType}] {GetFieldName(component)}"], true);
-        }
+        protected virtual void GeneratePartialFunctions(SectionParser sectionParser, ComponentModel component, int level) { }
         #endregion
 
-        #region Suppressions
+        public virtual void AddToUserFile(SectionParser sectionParser, ComponentModel component)
+        {
+            GenerateUserFileUsings(sectionParser, component);
+            GenerateUserFileCommentField(sectionParser, component, level: 1);
+            GenerateUserFilePartialFunctions(sectionParser, component, level: 2);
+        }
+        #region Générations pour UserFile
+        protected virtual void GenerateUserFileUsings(SectionParser sectionParser, ComponentModel component) { }
+        protected virtual void GenerateUserFileCommentField(SectionParser sectionParser, ComponentModel component, int level)
+        {
+            sectionParser.InsertBeforeZone("AVAILABLE_FIELDS", [CodeBuilder.AddLine($"// [{ComponentType}] {GetFieldName(component)}", level)], true);
+        }
+        protected virtual void GenerateUserFilePartialFunctions(SectionParser sectionParser, ComponentModel component, int level) { }
+        #endregion
+
+
+        public IEnumerable<string> RemoveFromDesigner(SectionParser sectionParser, ComponentModel component)
+        {
+            var removedFields = new List<string>();
+            RemovePartialFunctions(sectionParser, component, level: 2);
+            RemoveDraw(sectionParser, component, level: 3);
+            RemoveUpdate(sectionParser, component, level: 3);
+            RemoveReset(sectionParser, component, level: 3);
+            RemoveLoad(sectionParser, component, level: 3);
+            var fields = RemoveField(sectionParser, component, level: 2);
+            removedFields.AddRange(fields);
+            fieldsToRemove = [.. removedFields];
+            return removedFields;
+        }
+        #region Suppressions du Designer
         protected virtual IEnumerable<string> RemoveField(SectionParser sectionParser, ComponentModel component, int level)
         {
             var fieldName = GetFieldName(component);
-            sectionParser.RemoveFromZone("FIELDS", line => line == $"{CodeBuilder.Indentation(level)}private {ComponentType} {fieldName};");
+            sectionParser.RemoveFromZone("FIELDS", line => line == CodeBuilder.AddLine($"private {ComponentType} {fieldName};", level));
             return [fieldName];
         }
         protected virtual void RemoveLoad(SectionParser sectionParser, ComponentModel component, int level) {}
         protected virtual void RemoveReset(SectionParser sectionParser, ComponentModel component, int level) { }
         protected virtual void RemoveUpdate(SectionParser sectionParser, ComponentModel component, int level) { }
         protected virtual void RemoveDraw(SectionParser sectionParser, ComponentModel component, int level) { }
-        public virtual void RemoveUserFileCommentField(SectionParser sectionParser, ComponentModel component)
-        {
-            sectionParser.RemoveFromZone("AVAILABLE_FIELDS", line => line == $"{CodeBuilder.Indentation(1)}// [{ComponentType}] {GetFieldName(component)}");
-        }
+        protected virtual void RemovePartialFunctions(SectionParser sectionParser, ComponentModel component, int level) { }
         #endregion
 
-
+        public virtual void RemoveFromUserFile(SectionParser sectionParser, ComponentModel component)
+        {
+            RemoveUserFileCommentField(sectionParser, component);
+            RemoveUserFilePartialFunctions(sectionParser, component);
+        }
+        #region Suppression du UserFile
+        protected virtual void RemoveUserFileCommentField(SectionParser sectionParser, ComponentModel component)
+        {
+            sectionParser.RemoveFromZone("AVAILABLE_FIELDS", GetFieldName(component));
+        }
+        protected virtual void RemoveUserFilePartialFunctions(SectionParser sectionParser, ComponentModel component) { }
+        #endregion
     }
 }

@@ -91,6 +91,9 @@ namespace DinaGameEngine.CodeGeneration
             generatedFile.AppendLine(CodeBuilder.AddPartialMethodDeclaration("void OnReset();", 2));
             generatedFile.AppendLine(CodeBuilder.AddPartialMethodDeclaration("void OnUpdate(GameTime gameTime);", 2));
             generatedFile.AppendLine(CodeBuilder.AddPartialMethodDeclaration("void OnDraw(SpriteBatch spriteBatch);", 2));
+            generatedFile.AppendLine(CodeBuilder.AddEmptyLine());
+            generatedFile.AppendLine(CodeBuilder.AddLine("// =[ZONE:PARTIAL_METHODS]=", 2));
+            generatedFile.AppendLine(CodeBuilder.AddLine("// =[/ZONE:PARTIAL_METHODS]=", 2));
 
 
             // Fermeture de la classe
@@ -121,6 +124,11 @@ namespace DinaGameEngine.CodeGeneration
             foreach (var ns in usings)
                 generatedFile.AppendLine(CodeBuilder.AddUsing(ns));
             generatedFile.AppendLine(CodeBuilder.AddEmptyLine());
+
+            generatedFile.AppendLine(CodeBuilder.AddLine("// =[ZONE:USINGS]=", 0));
+            generatedFile.AppendLine(CodeBuilder.AddEmptyLine());
+            generatedFile.AppendLine(CodeBuilder.AddLine("// =[/ZONE:USINGS]=", 0));
+
 
             // Naemspace
             generatedFile.AppendLine(CodeBuilder.OpenBlock($"namespace {gameProjectModel.RootNamespace}.Scenes", 0));
@@ -158,6 +166,11 @@ namespace DinaGameEngine.CodeGeneration
             generatedFile.AppendLine(CodeBuilder.AddEmptyLine());
             generatedFile.AppendLine(CodeBuilder.CloseBlock(2));
 
+            // Méthodes partielles supplémentaires
+            generatedFile.AppendLine(CodeBuilder.AddEmptyLine());
+            generatedFile.AppendLine(CodeBuilder.AddLine("// =[ZONE:PARTIAL_METHODS]=", 2));
+            generatedFile.AppendLine(CodeBuilder.AddLine("// =[/ZONE:PARTIAL_METHODS]=", 2));
+
             // Fermeture de la classe
             generatedFile.AppendLine(CodeBuilder.CloseBlock(1));
 
@@ -175,7 +188,7 @@ namespace DinaGameEngine.CodeGeneration
             var projectDesignerFilePath = _fileService.Combine(gameProjectModel.RootPath, gameProjectModel.ProjectName, $"{gameProjectModel.ProjectName}.Designer.cs");
             var sectionParserProjectDesignerFile = CreateSectionParserFor(projectDesignerFilePath);
             sectionParserProjectDesignerFile.AddUsingIfMissing($"{gameProjectModel.RootNamespace}.Scenes");
-            sectionParserProjectDesignerFile.InsertBeforeZone("REGISTER_SCENE", [$"{CodeBuilder.Indentation(3)}_sceneManager.AddScene(SceneKeys.{scene.Key}, () => new {scene.Class}(_sceneManager));"]);
+            sectionParserProjectDesignerFile.InsertBeforeZone("REGISTER_SCENE", [CodeBuilder.AddLine($"_sceneManager.AddScene(SceneKeys.{scene.Key}, () => new {scene.Class}(_sceneManager));", level: 3)]);
             _fileService.WriteAllText(projectDesignerFilePath, sectionParserProjectDesignerFile.GetContent());
         }
         private void UpdateSceneKeys(GameProjectModel gameProjectModel, SceneModel scene)
@@ -184,7 +197,7 @@ namespace DinaGameEngine.CodeGeneration
             var sectionParserSceneKeys = CreateSectionParserFor(sceneKeysFilePath);
 
             sectionParserSceneKeys.InsertBeforeZone("SCENE_KEYS",
-                                                    [$"{CodeBuilder.Indentation(2)}public static readonly Key<SceneTag> {scene.Key} = Key<SceneTag>.FromString(\"{scene.Name}\");"],
+                                                    [CodeBuilder.AddLine($"public static readonly Key<SceneTag> {scene.Key} = Key<SceneTag>.FromString(\"{scene.Name}\");", level: 2)],
                                                     checkExistingLines: true);
             _fileService.WriteAllText(sceneKeysFilePath, sectionParserSceneKeys.GetContent());
         }

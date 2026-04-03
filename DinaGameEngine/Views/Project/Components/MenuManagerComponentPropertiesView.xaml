@@ -1,0 +1,74 @@
+﻿<UserControl x:Class="DinaGameEngine.Views.Project.Components.MenuManagerComponentPropertiesView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DinaGameEngine.Views.Project.Components"
+             xmlns:shared="clr-namespace:DinaGameEngine.Views.Shared"
+             xmlns:ext="clr-namespace:DinaGameEngine.Extensions"
+             xmlns:converters="clr-namespace:DinaGameEngine.Converters"
+             mc:Ignorable="d" 
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:enums="clr-namespace:DinaGameEngine.Common.Enums;assembly=DinaGameEngine.Common"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <converters:EnumValuesFilterConverter x:Key="EnumValuesFilterConverter"/>
+        <ObjectDataProvider x:Key="DirectionValues"
+                    MethodName="GetValues"
+                    ObjectType="{x:Type sys:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="enums:DinaDirection"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+
+    </UserControl.Resources>
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="0,8,0,0">
+
+            <TextBlock Text="{ext:Translate Key=Component_MenuManager_ItemSpacing_Label}"
+                       Style="{DynamicResource FieldLabelStyle}"
+                       Margin="0,0,0,4"/>
+            <Grid x:Name="GridItemSpacing">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBox Grid.Column="0"
+                         Text="{Binding ItemSpacingX, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                         Style="{DynamicResource ModernTextBoxStyle}"
+                         Margin="0,0,0,8"/>
+                <TextBox Grid.Column="1"
+                         Text="{Binding ItemSpacingY, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                         Style="{DynamicResource ModernTextBoxStyle}"
+                         Margin="0,0,0,8"/>
+                <Button Grid.Column="2"
+                        Margin="4,0,4,0"
+                        Content="{Binding ResetIcon}"
+                        FontFamily="Segoe Fluent Icons"
+                        FontSize="14"
+                        Command="{Binding ResetItemSpacingCommand}"
+                        Style="{DynamicResource GhostFooterButton}"
+                        ToolTip="{ext:Translate Key=Component_Reset_Tooltip}"
+                        Width="28" Height="28"
+                        BorderBrush="OrangeRed"
+                        Foreground="OrangeRed"
+                        Tag="#FFECB3"/>
+            </Grid>
+
+            <shared:LabeledTextBox Label="{ext:Translate Key=Component_MenuManager_CurrentItemIndex_Label}"
+                                   Text="{Binding CurrentItemIndex, Mode=TwoWay}"/>
+
+            <TextBlock Text="{ext:Translate Key=Component_MenuManager_Direction_Label}"
+                       Style="{DynamicResource FieldLabelStyle}"
+                       Margin="0,0,0,4"/>
+            <ComboBox ItemsSource="{Binding Source={StaticResource DirectionValues}, 
+                                    Converter={StaticResource EnumValuesFilterConverter}}"
+                      SelectedItem="{Binding Direction, Mode=TwoWay}"
+                      Margin="0,0,4,8"/>
+
+
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

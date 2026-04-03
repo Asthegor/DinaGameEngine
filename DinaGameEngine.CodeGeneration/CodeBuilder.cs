@@ -21,7 +21,7 @@
                    // </auto-generated>
                    """;
         }
-        public static string Indentation(int level) => new string(' ', 4 * level);
+        private static string Indentation(int level) => new string(' ', 4 * level);
         public static string SpritefontContent()
         {
             return """

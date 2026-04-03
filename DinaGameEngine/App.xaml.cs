@@ -37,6 +37,9 @@ namespace DinaGameEngine
 
             // Enregistrement des composants
             componentGeneratorRegistry.Register(new TextComponentGenerator());
+            componentGeneratorRegistry.Register(new MenuManagerComponentGenerator());
+
+
             LocalizationManager.Register(typeof(Strings));
 
 

@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace DinaGameEngine.Views.Project.Components
+namespace DinaGameEngine.Views.Project.Cards
 {
     /// <summary>
     /// Interaction logic for FontCardView.xaml

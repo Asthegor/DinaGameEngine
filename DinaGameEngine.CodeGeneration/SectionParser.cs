@@ -79,7 +79,7 @@
             var indexField = -1;
             for (int i = indexOpen; i < indexClose; i++)
             {
-                if (_lines[i].Contains($" {fieldName} = "))
+                if (_lines[i].Contains($" {fieldName}"))
                 {
                     isFieldPresent = true;
                     indexField = i;
@@ -106,6 +106,46 @@
                     return true;
             }
             return false;
+        }
+        public void RemovePartialFunction(string functionSignature)
+        {
+            var indexStartZone = FindIndexZone(ZONE_OPEN, "PARTIAL_METHODS");
+            var indexEndZone = FindIndexZone(ZONE_CLOSE, "PARTIAL_METHODS");
+            var isFunctionPresent = false;
+            var indexStartFunction = -1;
+            for (int index = indexStartZone; index < indexEndZone; index++)
+            {
+                if (_lines[index].Contains(functionSignature))
+                {
+                    isFunctionPresent = true;
+                    indexStartFunction = index;
+                    break;
+                }
+            }
+            if (!isFunctionPresent)
+                return;
+
+            var indexEndFunction = -1;
+            var brackets = -1;
+            for(int index = indexStartFunction; index < indexEndZone; index++)
+            {
+                if (_lines[index].Contains('{'))
+                {
+                    if (brackets < 0)
+                        brackets = 0;
+                    brackets++;
+                }
+                if (_lines[index].Contains('}'))
+                    brackets--;
+
+                if (brackets == 0)
+                {
+                    indexEndFunction = index;
+                    break;
+                }
+            }
+
+            _lines.RemoveRange(indexStartFunction, indexEndFunction - indexStartFunction + 1);
         }
     }
 }

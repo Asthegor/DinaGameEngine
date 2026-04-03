@@ -3,11 +3,11 @@
 namespace DinaGameEngine.Views.Project.Add
 {
     /// <summary>
-    /// Interaction logic for TextComponentPropertiesView.xaml
+    /// Interaction logic for TextComponentView.xaml
     /// </summary>
-    public partial class AddTextComponentPropertiesView : UserControl
+    public partial class AddTextComponentView : UserControl
     {
-        public AddTextComponentPropertiesView()
+        public AddTextComponentView()
         {
             InitializeComponent();
         }

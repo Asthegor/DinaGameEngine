@@ -50,6 +50,9 @@ namespace DinaGameEngine.ViewModels.Project.Editors
                 var vm = new ComponentViewModel(component, propertiesVm);
                 vm.ItemSelected += OnComponentSelected;
                 vm.ItemDeleted += OnComponentDeleted;
+                vm.AfterMenuItemAdded += OnMenuItemAdded;
+                vm.BeforeMenuItemRemoved += OnMenuItemBeforeChanged;
+                vm.AfterMenuItemRemoved += OnMenuItemChanged;
                 Components.Add(vm);
             }
 
@@ -99,10 +102,13 @@ namespace DinaGameEngine.ViewModels.Project.Editors
         }
         private void OnComponentDeleted(object? sender, EventArgs e)
         {
-            if (sender is not ComponentViewModel vm)
+            if (sender is not ComponentModel component)
                 return;
 
-            var component = (ComponentModel)vm.Model;
+            var vm = Components.FirstOrDefault(c => c.Model == component);
+            if (vm == null)
+                return;
+
             Components.Remove(vm);
             _sceneModel.Components.Remove(component);
 
@@ -156,11 +162,32 @@ namespace DinaGameEngine.ViewModels.Project.Editors
                 var vm = new ComponentViewModel(newComponent, propertiesVm);
                 vm.ItemSelected += OnComponentSelected;
                 vm.ItemDeleted += OnComponentDeleted;
+                vm.AfterMenuItemAdded += OnMenuItemAdded;
+                vm.BeforeMenuItemRemoved += OnMenuItemBeforeChanged;
+                vm.AfterMenuItemRemoved += OnMenuItemChanged;
                 Components.Add(vm);
                 _codeGenerator.AddComponent(_gameProjectModel, _sceneModel, newComponent);
                 _projectService.UpdateJsonProjectFile(_gameProjectModel);
                 OnPropertyChanged(nameof(FilteredComponents));
             }
+        }
+        private void OnMenuItemBeforeChanged(object? sender, EventArgs e)
+        {
+            if (sender is not ComponentModel component)
+                return;
+            _codeGenerator.RemoveComponent(_gameProjectModel, _sceneModel, component, showWarning: false);
+        }
+        private void OnMenuItemChanged(object? sender, EventArgs e)
+        {
+            if (sender is not ComponentModel component)
+                return;
+            _codeGenerator.AddComponent(_gameProjectModel, _sceneModel, component);
+            _projectService.UpdateJsonProjectFile(_gameProjectModel);
+        }
+        private void OnMenuItemAdded(object? sender, EventArgs e)
+        {
+            OnMenuItemBeforeChanged(sender, e);
+            OnMenuItemChanged(sender, e);
         }
     }
 }

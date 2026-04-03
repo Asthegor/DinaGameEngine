@@ -74,12 +74,12 @@ namespace DinaGameEngine.CodeGeneration
             }
             var designerFilePath = _fileService.Combine(gameProjectModel.RootPath, "Scenes", $"{sceneModel.Class}.Designer.cs");
             var sectionParser = CreateSectionParserFor(designerFilePath);
-            generator.Add(sectionParser, component);
+            generator.AddToDesigner(sectionParser, component, gameProjectModel.RootNamespace);
             _fileService.WriteAllText(designerFilePath, sectionParser.GetContent());
 
             var userFilePath = _fileService.Combine(gameProjectModel.RootPath, "Scenes", $"{sceneModel.Class}.cs");
             sectionParser = CreateSectionParserFor(userFilePath);
-            generator.GenerateUserFileCommentField(sectionParser, component);
+            generator.AddToUserFile(sectionParser, component);
             _fileService.WriteAllText(userFilePath, sectionParser.GetContent());
         }
 
@@ -94,13 +94,13 @@ namespace DinaGameEngine.CodeGeneration
             var designerFilePath = _fileService.Combine(gameProjectModel.RootPath, "Scenes", $"{sceneModel.Class}.Designer.cs");
             var sectionParserDesigner = CreateSectionParserFor(designerFilePath);
             // Suppression dans le Designer
-            var removedFields = generator.Remove(sectionParserDesigner, component);
+            var removedFields = generator.RemoveFromDesigner(sectionParserDesigner, component);
             _fileService.WriteAllText(designerFilePath, sectionParserDesigner.GetContent());
 
             var userFilePath = _fileService.Combine(gameProjectModel.RootPath, "Scenes", $"{sceneModel.Class}.cs");
             var sectionParserUser = CreateSectionParserFor(userFilePath);
 
-            generator.RemoveUserFileCommentField(sectionParserUser, component);
+            generator.RemoveFromUserFile(sectionParserUser, component);
             _fileService.WriteAllText(userFilePath, sectionParserUser.GetContent());
 
             var stillUsed = removedFields

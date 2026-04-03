@@ -260,6 +260,33 @@ namespace DinaGameEngine.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Index de l&apos;item sélectionné par défaut.
+        /// </summary>
+        public static string Component_MenuManager_CurrentItemIndex_Label {
+            get {
+                return ResourceManager.GetString("Component_MenuManager_CurrentItemIndex_Label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sens d&apos;affichage des items.
+        /// </summary>
+        public static string Component_MenuManager_Direction_Label {
+            get {
+                return ResourceManager.GetString("Component_MenuManager_Direction_Label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Espacement entre les items.
+        /// </summary>
+        public static string Component_MenuManager_ItemSpacing_Label {
+            get {
+                return ResourceManager.GetString("Component_MenuManager_ItemSpacing_Label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Position.
         /// </summary>
         public static string Component_Position_Label {

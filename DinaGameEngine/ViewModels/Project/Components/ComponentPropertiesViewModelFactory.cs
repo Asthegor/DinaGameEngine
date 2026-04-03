@@ -1,6 +1,7 @@
 ﻿using DinaGameEngine.Interfaces;
 using DinaGameEngine.Models;
 using DinaGameEngine.Models.Project;
+using DinaGameEngine.ViewModels.Project.Add;
 
 namespace DinaGameEngine.ViewModels.Project.Components
 {
@@ -11,6 +12,7 @@ namespace DinaGameEngine.ViewModels.Project.Components
             return componentType switch
             {
                 "Text" => new TextComponentPropertiesViewModel(gameProjectModel.Fonts, gameProjectModel.Colors, component),
+                "MenuManager" => new MenuManagerComponentPropertiesViewModel(component),
                 _ => null
             };
         }

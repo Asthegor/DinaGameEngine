@@ -1,17 +1,102 @@
-﻿using DinaGameEngine.Common.Enums;
+﻿using DinaGameEngine.Commands;
+using DinaGameEngine.Common.Enums;
 using DinaGameEngine.Extensions;
 using DinaGameEngine.Models.Project;
 using DinaGameEngine.ViewModels.Project.Components;
 
+using System.Collections.ObjectModel;
+
 namespace DinaGameEngine.ViewModels.Project.Items
 {
-    public class ComponentViewModel(ComponentModel model, ComponentPropertiesViewModel? propertiesViewModel) : ItemViewModel(model)
+    public class ComponentViewModel : ItemViewModel
     {
+        private bool _isExpanded;
+
+        public ComponentViewModel(ComponentModel model, ComponentPropertiesViewModel? propertiesViewModel)
+            : base(model)
+        {
+            PropertiesViewModel = propertiesViewModel;
+
+            ToggleExpandCommand = new RelayCommand(ToggleExpand);
+            AddItemCommand = new RelayCommand(_ => AddItem(), _ => HasItems);
+
+            MenuItems = [];
+            foreach (var menuItem in model.MenuItems)
+            {
+                var menuItemViewModel = new MenuItemViewModel(menuItem);
+                menuItemViewModel.ItemSelected += OnMenuItemSelected;
+                menuItemViewModel.ItemDeleted += OnMenuItemDeleted;
+                MenuItems.Add(menuItemViewModel);
+            }
+
+        }
+
         public override string Icon => string.Empty;
         public override string Name => ((ComponentModel)Model).Key;
         public override string Key => ((ComponentModel)Model).Key;
         public string Type => ((ComponentModel)Model).Type;
-        public static string DeleteIcon => DinaIcon.Delete.ToGlyph();
-        public ComponentPropertiesViewModel? PropertiesViewModel { get; } = propertiesViewModel;
+        public static string AddIcon => DinaIcon.Add.ToGlyph();
+        public string ExpandIcon => IsExpanded ? DinaIcon.ChevronUp.ToGlyph() : DinaIcon.ChevronDown.ToGlyph();
+        public ComponentPropertiesViewModel? PropertiesViewModel { get; }
+
+        public bool HasItems => Type == "MenuManager";
+        public bool IsExpanded
+        {
+            get => _isExpanded;
+            set
+            {
+                SetProperty(ref _isExpanded, value);
+                OnPropertyChanged(nameof(ExpandIcon));
+            }
+        }
+        public ObservableCollection<MenuItemViewModel> MenuItems { get; set; }
+
+        private void OnMenuItemSelected(object? sender, EventArgs e)
+        {
+            if (sender is not MenuItemViewModel vm)
+                return;
+            var previous = MenuItems.FirstOrDefault(c => c.IsSelected);
+            if (previous != null)
+                previous.IsSelected = false;
+
+            vm.IsSelected = true;
+        }
+        private void OnMenuItemDeleted(object? sender, EventArgs e)
+        {
+            if (sender is not MenuItemModel menuItemModel)
+                return;
+
+            var vm = MenuItems.FirstOrDefault(m => (MenuItemModel)m.Model == menuItemModel);
+            if (vm == null)
+                return;
+
+            BeforeMenuItemRemoved?.Invoke(Model, EventArgs.Empty);
+            MenuItems.Remove(vm);
+            ((ComponentModel)Model).MenuItems.Remove(menuItemModel);
+            AfterMenuItemRemoved?.Invoke(Model, EventArgs.Empty);
+        }
+
+        public RelayCommand ToggleExpandCommand { get; }
+        private void ToggleExpand()
+        {
+            IsExpanded = !IsExpanded;
+        }
+
+        public RelayCommand AddItemCommand { get; }
+        private void AddItem()
+        {
+            var menuItemModel = new MenuItemModel();
+            ((ComponentModel)Model).MenuItems.Add(menuItemModel);
+            var menuItemViewModel = new MenuItemViewModel(menuItemModel);
+            menuItemViewModel.ItemSelected += OnMenuItemSelected;
+            menuItemViewModel.ItemDeleted += OnMenuItemDeleted;
+            MenuItems.Add(menuItemViewModel);
+            AfterMenuItemAdded?.Invoke(Model, EventArgs.Empty);
+        }
+
+        public event EventHandler? AfterMenuItemAdded;
+        public event EventHandler? BeforeMenuItemRemoved;
+        public event EventHandler? AfterMenuItemRemoved;
+
     }
 }

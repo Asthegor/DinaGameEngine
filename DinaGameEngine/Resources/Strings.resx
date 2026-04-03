@@ -454,4 +454,13 @@ Pensez à le supprimer manuellement.</value>
   <data name="AddComponent_Text_Title" xml:space="preserve">
     <value>Ajout d'un nouveau texte</value>
   </data>
+  <data name="Component_MenuManager_CurrentItemIndex_Label" xml:space="preserve">
+    <value>Index de l'item sélectionné par défaut</value>
+  </data>
+  <data name="Component_MenuManager_ItemSpacing_Label" xml:space="preserve">
+    <value>Espacement entre les items</value>
+  </data>
+  <data name="Component_MenuManager_Direction_Label" xml:space="preserve">
+    <value>Sens d'affichage des items</value>
+  </data>
 </root>
