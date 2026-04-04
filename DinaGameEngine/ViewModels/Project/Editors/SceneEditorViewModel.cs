@@ -268,6 +268,10 @@ namespace DinaGameEngine.ViewModels.Project.Editors
         private void OnMenuItemApplied(object? sender, ComponentModel oldSnapshot)
         {
             _projectService.UpdateJsonProjectFile(_gameProjectModel);
+
+            var parentVm = Components.FirstOrDefault(c => c.MenuItems.Any(m => m.Model == SelectedComponentViewModel?.Component));
+            var menuItemVm = parentVm?.MenuItems.FirstOrDefault(m => m.Model == SelectedComponentViewModel?.Component);
+            menuItemVm?.NotifyChanged();
         }
     }
 }

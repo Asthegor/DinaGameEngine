@@ -218,10 +218,6 @@ namespace DinaGameEngine.ViewModels.Project.Components
 
             ZOrder = ComponentPropertyConverter.GetIntProperty(source, "ZOrder", 0);
             Visible = ComponentPropertyConverter.GetBoolProperty(source, "Visible", true);
-
-            //OnPropertyChanged(nameof(SelectedFont));
-            //OnPropertyChanged(nameof(SelectedColor));
-            //OnPropertyChanged(nameof(State));
         }
 
         public override void ApplyToModel()

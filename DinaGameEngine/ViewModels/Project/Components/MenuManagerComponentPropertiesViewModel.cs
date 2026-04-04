@@ -89,7 +89,7 @@ namespace DinaGameEngine.ViewModels.Project.Components
             set
             {
                 if (_itemSpacingX == null && value != null && ItemSpacingY == null)
-                    ItemSpacingY = 0;
+                    _itemSpacingY = 0;
                 SetProperty(ref _itemSpacingX, value);
                 NotifyChange();
             }
@@ -100,7 +100,7 @@ namespace DinaGameEngine.ViewModels.Project.Components
             set
             {
                 if (_itemSpacingY == null && value != null && ItemSpacingX == null)
-                    ItemSpacingX = 0;
+                    _itemSpacingX = 0;
                 SetProperty(ref _itemSpacingY, value);
                 NotifyChange();
             }

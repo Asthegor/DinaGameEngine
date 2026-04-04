@@ -107,6 +107,13 @@
             }
             return false;
         }
+        public bool IsPartialFunctionExisting(string functionSignature)
+        {
+            var indexStartZone = FindIndexZone(ZONE_OPEN, "PARTIAL_METHODS");
+            var indexEndZone = FindIndexZone(ZONE_CLOSE, "PARTIAL_METHODS");
+            var partialMethodLines = _lines.GetRange(indexStartZone, indexEndZone - indexStartZone);
+            return partialMethodLines.Any(l => l.Contains(functionSignature));
+        }
         public void RemovePartialFunction(string functionSignature)
         {
             var indexStartZone = FindIndexZone(ZONE_OPEN, "PARTIAL_METHODS");

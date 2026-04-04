@@ -85,5 +85,11 @@ namespace DinaGameEngine.ViewModels.Project.Items
                 OnPropertyChanged();
             }
         }
+        public void NotifyChanged()
+        {
+            OnPropertyChanged(nameof(Key));
+            OnPropertyChanged(nameof(Name));
+            OnPropertyChanged(nameof(Content));
+        }
     }
 }

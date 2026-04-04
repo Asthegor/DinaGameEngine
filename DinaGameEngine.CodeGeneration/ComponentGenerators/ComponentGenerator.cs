@@ -1,5 +1,4 @@
-﻿using DinaGameEngine.Models;
-using DinaGameEngine.Models.Project;
+﻿using DinaGameEngine.Models.Project;
 
 using System.Drawing;
 using System.Text.Json;
@@ -9,7 +8,6 @@ namespace DinaGameEngine.CodeGeneration.ComponentGenerators
     public abstract class ComponentGenerator
     {
         public abstract string ComponentType { get; }
-        private List<string> fieldsToRemove = [];
         public string GetFieldName(ComponentModel component) => $"_{component.Key}{ComponentType}";
 
         public void AddToDesigner(SectionParser sectionParser, ComponentModel component, string rootNamespace)
@@ -61,8 +59,7 @@ namespace DinaGameEngine.CodeGeneration.ComponentGenerators
             RemoveLoad(sectionParser, component, level: 3);
             var fields = RemoveField(sectionParser, component, level: 2);
             removedFields.AddRange(fields);
-            fieldsToRemove = [.. removedFields];
-            return removedFields;
+            return [.. removedFields];
         }
         #region Suppressions du Designer
         protected virtual IEnumerable<string> RemoveField(SectionParser sectionParser, ComponentModel component, int level)
@@ -94,19 +91,28 @@ namespace DinaGameEngine.CodeGeneration.ComponentGenerators
         #region Utils
         protected static void AddVector2PropertyToLoad(ComponentModel component, string propertyName, SectionParser sectionParser, string componentFieldName, int level)
         {
-            if (component.Properties.TryGetValue(propertyName, out var position))
-            {
-                int x = 0, y = 0;
-                if (position is Point pt)
-                { x = pt.X; y = pt.Y; }
-                else if (position is JsonElement je)
-                {
-                    x = je.GetProperty("X").GetInt32();
-                    y = je.GetProperty("Y").GetInt32();
-                }
-                sectionParser.InsertBeforeZone("COMPONENT_LOAD", [CodeBuilder.AddLine($"{componentFieldName}.{propertyName} = new Vector2({x}f, {y}f);", level)]);
-            }
-
+            (int? x, int? y) = GetPointProperty(component, propertyName);
+            if (x == null || y == null)
+                return;
+            sectionParser.InsertBeforeZone("COMPONENT_LOAD", [CodeBuilder.AddLine($"{componentFieldName}.{propertyName} = new Vector2({x}f, {y}f);", level)]);
+        }
+        protected static string GetStringProperty(ComponentModel component, string key)
+        {
+            if (!component.Properties.TryGetValue(key, out var value))
+                return string.Empty;
+            return value is JsonElement je
+                   ? je.GetString() ?? string.Empty
+                   : value?.ToString() ?? string.Empty;
+        }
+        protected static (int? X, int? Y) GetPointProperty(ComponentModel component, string key)
+        {
+            if (!component.Properties.TryGetValue(key, out var value))
+                return (null, null);
+            if (value is Point pt)
+                return (pt.X, pt.Y);
+            if (value is JsonElement je)
+                return (je.GetProperty("X").GetInt32(), je.GetProperty("Y").GetInt32());
+            return (null, null);
         }
         #endregion
     }
