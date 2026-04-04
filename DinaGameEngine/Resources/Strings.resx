@@ -478,4 +478,7 @@ Pensez à le supprimer manuellement.</value>
   <data name="AddComponent_MenuTitle_Title" xml:space="preserve">
     <value>Ajouter un titre au menu</value>
   </data>
+  <data name="Component_State_Label" xml:space="preserve">
+    <value>État</value>
+  </data>
 </root>

@@ -134,5 +134,6 @@ namespace DinaGameEngine.ViewModels.Project.Components
         public abstract void ApplyToModel();
 
         public static string ResetIcon => DinaIcon.Refresh.ToGlyph();
+
     }
 }

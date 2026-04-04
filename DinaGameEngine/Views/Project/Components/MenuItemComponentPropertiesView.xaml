@@ -6,6 +6,7 @@
              xmlns:shared="clr-namespace:DinaGameEngine.Views.Shared"
              xmlns:ext="clr-namespace:DinaGameEngine.Extensions"
              xmlns:converters="clr-namespace:DinaGameEngine.Converters"
+             xmlns:comps="clr-namespace:DinaGameEngine.Views.Project.Components"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:enums="clr-namespace:DinaGameEngine.Common.Enums;assembly=DinaGameEngine.Common"
              mc:Ignorable="d">
@@ -59,6 +60,25 @@
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
+
+            <comps:Vector2InputView Label="{ext:Translate Key=Component_Position_Label}"
+                                    ValueX="{Binding PositionX, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    ValueY="{Binding PositionY, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    ResetIcon="{Binding ResetIcon}"
+                                    ResetCommand="{Binding ResetPositionCommand}"/>
+
+            <comps:Vector2InputView Label="{ext:Translate Key=Component_Dimensions_Label}"
+                                    ValueX="{Binding DimensionsX, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    ValueY="{Binding DimensionsY, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    ResetIcon="{Binding ResetIcon}"
+                                    ResetCommand="{Binding ResetDimensionsCommand}"/>
+
+
+            <shared:LabeledTextBox Label="{ext:Translate Key=Component_ZOrder_Label}"
+                                   Text="{Binding ZOrder, Mode=TwoWay}"/>
+
+            <CheckBox  IsChecked="{Binding Visible}"
+                       Content="{ext:Translate Key=Component_Visible_Label}"/>
 
             <TextBlock Text="{ext:Translate Key=Component_HorizontalAlignment_Label}"
                        Style="{DynamicResource FieldLabelStyle}"

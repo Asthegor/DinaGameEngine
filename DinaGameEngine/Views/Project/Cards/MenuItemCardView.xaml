@@ -36,20 +36,22 @@
 
             <StackPanel Grid.Column="0" Orientation="Horizontal"
                         VerticalAlignment="Center" Margin="8,0,0,0">
-                <TextBlock Text="{Binding EditableKey, Mode=OneWay}"
+                <TextBlock Text="{Binding Key, Mode=OneWay}"
                            Foreground="DimGray" FontWeight="SemiBold"/>
-                <TextBlock Text="{Binding Content, Mode=OneWay}"
-                           FontFamily="Consolas" FontSize="11" Foreground="Gray"
-                           Margin="4,0,0,0">
+                <TextBlock Margin="4,0,0,0">
                     <TextBlock.Style>
                         <Style TargetType="TextBlock">
                             <Style.Triggers>
-                                <Trigger Property="Text" Value="">
+                                <DataTrigger Binding="{Binding Content}" Value="">
                                     <Setter Property="Visibility" Value="Collapsed"/>
-                                </Trigger>
+                                </DataTrigger>
                             </Style.Triggers>
                         </Style>
                     </TextBlock.Style>
+                    <Run Text="(" Foreground="Gray"/>
+                    <Run Text="{Binding Content, Mode=OneWay}" 
+                         FontFamily="Consolas" FontSize="11" Foreground="Gray"/>
+                    <Run Text=")" Foreground="Gray"/>
                 </TextBlock>
             </StackPanel>
 

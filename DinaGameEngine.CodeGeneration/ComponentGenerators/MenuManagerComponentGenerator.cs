@@ -1,6 +1,8 @@
 ﻿using DinaGameEngine.Models.Project;
 
 using System.Drawing;
+using System.Reflection.Emit;
+using System.Text.Json;
 
 namespace DinaGameEngine.CodeGeneration.ComponentGenerators
 {
@@ -56,6 +58,8 @@ namespace DinaGameEngine.CodeGeneration.ComponentGenerators
                         CodeBuilder.AddLine($"var {fontFieldName} = _fontManager.Load(FontKeys.{menuTitle.Properties["Font"]});", level),
                         CodeBuilder.AddLine(titleLine, level)
                     ]);
+                AddVector2PropertyToLoad(menuTitle, "Position", sectionParser, menuTitleFieldName, level);
+                AddVector2PropertyToLoad(menuTitle, "Dimensions", sectionParser, menuTitleFieldName, level);
             }
 
 
@@ -71,7 +75,12 @@ namespace DinaGameEngine.CodeGeneration.ComponentGenerators
                     ]);
                 if (menuItem.Properties.TryGetValue("State", out var state) && !string.IsNullOrEmpty((string)state) && (string)state != "Enable")
                     sectionParser.InsertBeforeZone("COMPONENT_LOAD", [CodeBuilder.AddLine($"_{menuItemFieldName}.State = MenuItemState.{state};", level)]);
+
+                AddVector2PropertyToLoad(menuItem, "Position", sectionParser, menuItemFieldName, level);
+                AddVector2PropertyToLoad(menuItem, "Dimensions", sectionParser, menuItemFieldName, level);
+
             }
+
             sectionParser.InsertBeforeZone("COMPONENT_LOAD",
                                            [ CodeBuilder.AddLine($"{GetFieldName(component)}.SetActionKeys((MenuAction.Up, PlayerInputKeys.Up), " +
                                                                      "(MenuAction.Down, PlayerInputKeys.Down), " +

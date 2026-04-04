@@ -359,6 +359,15 @@ namespace DinaGameEngine.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to État.
+        /// </summary>
+        public static string Component_State_Label {
+            get {
+                return ResourceManager.GetString("Component_State_Label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Alignement vertical.
         /// </summary>
         public static string Component_VerticalAlignment_Label {

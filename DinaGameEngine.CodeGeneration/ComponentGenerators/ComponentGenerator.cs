@@ -1,6 +1,9 @@
 ﻿using DinaGameEngine.Models;
 using DinaGameEngine.Models.Project;
 
+using System.Drawing;
+using System.Text.Json;
+
 namespace DinaGameEngine.CodeGeneration.ComponentGenerators
 {
     public abstract class ComponentGenerator
@@ -86,6 +89,25 @@ namespace DinaGameEngine.CodeGeneration.ComponentGenerators
             sectionParser.RemoveFromZone("AVAILABLE_FIELDS", GetFieldName(component));
         }
         protected virtual void RemoveUserFilePartialFunctions(SectionParser sectionParser, ComponentModel component) { }
+        #endregion
+
+        #region Utils
+        protected static void AddVector2PropertyToLoad(ComponentModel component, string propertyName, SectionParser sectionParser, string componentFieldName, int level)
+        {
+            if (component.Properties.TryGetValue(propertyName, out var position))
+            {
+                int x = 0, y = 0;
+                if (position is Point pt)
+                { x = pt.X; y = pt.Y; }
+                else if (position is JsonElement je)
+                {
+                    x = je.GetProperty("X").GetInt32();
+                    y = je.GetProperty("Y").GetInt32();
+                }
+                sectionParser.InsertBeforeZone("COMPONENT_LOAD", [CodeBuilder.AddLine($"{componentFieldName}.{propertyName} = new Vector2({x}f, {y}f);", level)]);
+            }
+
+        }
         #endregion
     }
 }

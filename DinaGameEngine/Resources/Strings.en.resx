@@ -478,4 +478,7 @@ Please remove it manually.</value>
   <data name="AddComponent_MenuTitle_Title" xml:space="preserve">
     <value>Add a title to the menu</value>
   </data>
+  <data name="Component_State_Label" xml:space="preserve">
+    <value>State</value>
+  </data>
 </root>

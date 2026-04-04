@@ -1,6 +1,7 @@
 ﻿using DinaGameEngine.Models.Project;
 
 using System.Drawing;
+using System.Text.Json;
 
 namespace DinaGameEngine.CodeGeneration.ComponentGenerators
 {
@@ -33,11 +34,8 @@ namespace DinaGameEngine.CodeGeneration.ComponentGenerators
                     CodeBuilder.AddLine($"{GetFieldName(component)} = new {ComponentType}({component.Key}Font, \"{content}\", PaletteColors.{colorKey});", level)
                 ]);
 
-            if (component.Properties.TryGetValue("Position", out var position))
-                sectionParser.InsertBeforeZone("COMPONENT_LOAD", [CodeBuilder.AddLine($"{GetFieldName(component)}.Position = new Vector2({((Point)position).X}f, {((Point)position).Y}f);", level)]);
-
-            if (component.Properties.TryGetValue("DimensionsX", out var dx) && component.Properties.TryGetValue("DimensionsY", out var dy))
-                sectionParser.InsertBeforeZone("COMPONENT_LOAD", [CodeBuilder.AddLine($"{GetFieldName(component)}.Dimensions = new Vector2({dx}f, {dy}f);", level)]);
+            AddVector2PropertyToLoad(component, "Position", sectionParser, GetFieldName(component), level);
+            AddVector2PropertyToLoad(component, "Dimensions", sectionParser, GetFieldName(component), level);
 
             if (component.Properties.TryGetValue("Visible", out var visible))
                 sectionParser.InsertBeforeZone("COMPONENT_LOAD", [CodeBuilder.AddLine($"{GetFieldName(component)}.Visible = {visible.ToString()!.ToLower()};", level)]);
@@ -48,7 +46,7 @@ namespace DinaGameEngine.CodeGeneration.ComponentGenerators
                 sectionParser.InsertBeforeZone("COMPONENT_LOAD", [CodeBuilder.AddLine($"{GetFieldName(component)}.SetAlignments(HorizontalAlignment.{ha}, VerticalAlignment.{va});", level)]);
             }
 
-            var excludedKeys = new[] { "Font", "Content", "Color", "PositionX", "PositionY", "DimensionsX", "DimensionsY", "Visible",
+            var excludedKeys = new[] { "Font", "Content", "Color", "Position", "Dimensions", "Visible",
                                        "HorizontalAlignment", "VerticalAlignment" };
             foreach (var property in component.Properties)
             {

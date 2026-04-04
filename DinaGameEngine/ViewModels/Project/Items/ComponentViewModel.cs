@@ -86,7 +86,6 @@ namespace DinaGameEngine.ViewModels.Project.Items
         public RelayCommand AddItemCommand { get; }
         private void AddItem() => AddMenuItemRequested?.Invoke(Model, EventArgs.Empty);
 
-        public event EventHandler? AfterMenuItemAdded;
         public event EventHandler? BeforeMenuItemRemoved;
         public event EventHandler? AfterMenuItemRemoved;
         public event EventHandler? AddMenuItemRequested;
@@ -96,6 +95,11 @@ namespace DinaGameEngine.ViewModels.Project.Items
             menuItemViewModel.ItemSelected += OnMenuItemSelected;
             menuItemViewModel.ItemDeleted += OnMenuItemDeleted;
             MenuItems.Add(menuItemViewModel);
+        }
+        public void NotifyKeyChanged()
+        {
+            OnPropertyChanged(nameof(Key));
+            OnPropertyChanged(nameof(Name));
         }
     }
 }
