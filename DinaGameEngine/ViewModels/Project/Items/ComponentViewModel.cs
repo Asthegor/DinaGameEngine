@@ -21,7 +21,7 @@ namespace DinaGameEngine.ViewModels.Project.Items
             AddItemCommand = new RelayCommand(_ => AddItem(), _ => HasItems);
 
             MenuItems = [];
-            foreach (var menuItem in model.MenuItems)
+            foreach (var menuItem in model.SubComponents.Where(c => c.Type == "MenuItem"))
             {
                 var menuItemViewModel = new MenuItemViewModel(menuItem);
                 menuItemViewModel.ItemSelected += OnMenuItemSelected;
@@ -51,6 +51,7 @@ namespace DinaGameEngine.ViewModels.Project.Items
         }
         public ObservableCollection<MenuItemViewModel> MenuItems { get; set; }
 
+        public event EventHandler? MenuItemSelected;
         private void OnMenuItemSelected(object? sender, EventArgs e)
         {
             if (sender is not MenuItemViewModel vm)
@@ -58,21 +59,21 @@ namespace DinaGameEngine.ViewModels.Project.Items
             var previous = MenuItems.FirstOrDefault(c => c.IsSelected);
             if (previous != null)
                 previous.IsSelected = false;
-
             vm.IsSelected = true;
+            MenuItemSelected?.Invoke(vm, EventArgs.Empty);
         }
         private void OnMenuItemDeleted(object? sender, EventArgs e)
         {
-            if (sender is not MenuItemModel menuItemModel)
+            if (sender is not ComponentModel menuItemModel)
                 return;
 
-            var vm = MenuItems.FirstOrDefault(m => (MenuItemModel)m.Model == menuItemModel);
+            var vm = MenuItems.FirstOrDefault(m => (ComponentModel)m.Model == menuItemModel);
             if (vm == null)
                 return;
 
             BeforeMenuItemRemoved?.Invoke(Model, EventArgs.Empty);
             MenuItems.Remove(vm);
-            ((ComponentModel)Model).MenuItems.Remove(menuItemModel);
+            ((ComponentModel)Model).SubComponents.Remove(menuItemModel);
             AfterMenuItemRemoved?.Invoke(Model, EventArgs.Empty);
         }
 
@@ -83,20 +84,18 @@ namespace DinaGameEngine.ViewModels.Project.Items
         }
 
         public RelayCommand AddItemCommand { get; }
-        private void AddItem()
-        {
-            var menuItemModel = new MenuItemModel();
-            ((ComponentModel)Model).MenuItems.Add(menuItemModel);
-            var menuItemViewModel = new MenuItemViewModel(menuItemModel);
-            menuItemViewModel.ItemSelected += OnMenuItemSelected;
-            menuItemViewModel.ItemDeleted += OnMenuItemDeleted;
-            MenuItems.Add(menuItemViewModel);
-            AfterMenuItemAdded?.Invoke(Model, EventArgs.Empty);
-        }
+        private void AddItem() => AddMenuItemRequested?.Invoke(Model, EventArgs.Empty);
 
         public event EventHandler? AfterMenuItemAdded;
         public event EventHandler? BeforeMenuItemRemoved;
         public event EventHandler? AfterMenuItemRemoved;
+        public event EventHandler? AddMenuItemRequested;
 
+        public void AddMenuItem(MenuItemViewModel menuItemViewModel)
+        {
+            menuItemViewModel.ItemSelected += OnMenuItemSelected;
+            menuItemViewModel.ItemDeleted += OnMenuItemDeleted;
+            MenuItems.Add(menuItemViewModel);
+        }
     }
 }

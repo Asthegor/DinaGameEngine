@@ -463,4 +463,19 @@ Pensez à le supprimer manuellement.</value>
   <data name="Component_MenuManager_Direction_Label" xml:space="preserve">
     <value>Sens d'affichage des items</value>
   </data>
+  <data name="Component_Font_Label" xml:space="preserve">
+    <value>Police</value>
+  </data>
+  <data name="Component_Content_Label" xml:space="preserve">
+    <value>Contenu</value>
+  </data>
+  <data name="Component_Color_Label" xml:space="preserve">
+    <value>Couleur</value>
+  </data>
+  <data name="AddComponent_MenuItem_Title" xml:space="preserve">
+    <value>Ajouter une item au menu</value>
+  </data>
+  <data name="AddComponent_MenuTitle_Title" xml:space="preserve">
+    <value>Ajouter un titre au menu</value>
+  </data>
 </root>

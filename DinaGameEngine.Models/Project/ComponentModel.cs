@@ -5,6 +5,6 @@
         public string Type { get; set; } = string.Empty;
         public string Key { get; set; } = string.Empty;
         public Dictionary<string, object> Properties { get; set; } = [];
-        public List<MenuItemModel> MenuItems { get; set; } = [];
+        public List<ComponentModel> SubComponents { get; set; } = [];
     }
 }

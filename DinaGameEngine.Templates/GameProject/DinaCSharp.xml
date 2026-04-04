@@ -3982,7 +3982,7 @@
             Obtient ou définit la visibilité du menu.
             </summary>
         </member>
-        <member name="M:DinaCSharp.Services.Menus.MenuManager.AddTitle(Microsoft.Xna.Framework.Graphics.SpriteFont,System.String,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Color,System.Nullable{Microsoft.Xna.Framework.Color},System.Nullable{Microsoft.Xna.Framework.Vector2},System.Int32)">
+        <member name="M:DinaCSharp.Services.Menus.MenuManager.AddTitle(Microsoft.Xna.Framework.Graphics.SpriteFont,System.String,Microsoft.Xna.Framework.Color,Microsoft.Xna.Framework.Vector2,System.Nullable{Microsoft.Xna.Framework.Color},System.Nullable{Microsoft.Xna.Framework.Vector2},System.Int32)">
             <summary>
             Ajoute un titre au menu.
             </summary>

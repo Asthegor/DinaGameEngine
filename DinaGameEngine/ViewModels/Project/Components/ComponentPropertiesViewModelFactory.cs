@@ -13,6 +13,8 @@ namespace DinaGameEngine.ViewModels.Project.Components
             {
                 "Text" => new TextComponentPropertiesViewModel(gameProjectModel.Fonts, gameProjectModel.Colors, component),
                 "MenuManager" => new MenuManagerComponentPropertiesViewModel(component),
+                "MenuItem" => new MenuItemComponentPropertiesViewModel(gameProjectModel.Fonts, gameProjectModel.Colors, component),
+                "MenuTitle" => new MenuTitleComponentPropertiesViewModel(gameProjectModel.Fonts, gameProjectModel.Colors, component),
                 _ => null
             };
         }

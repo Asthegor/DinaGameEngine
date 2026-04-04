@@ -11,6 +11,7 @@ namespace DinaGameEngine.ViewModels.Project.Add
             {
                 "Text" => new AddTextComponentViewModel(gameProjectModel.Fonts, gameProjectModel.Colors, onValidityChanged),
                 "MenuManager" => new AddMenuManagerComponentViewModel(),
+                "MenuItem" => new AddMenuItemComponentViewModel(gameProjectModel.Fonts, gameProjectModel.Colors, onValidityChanged),
                 _ => null
             };
         }

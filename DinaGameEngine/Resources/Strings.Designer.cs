@@ -97,6 +97,24 @@ namespace DinaGameEngine.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ajouter une item au menu.
+        /// </summary>
+        public static string AddComponent_MenuItem_Title {
+            get {
+                return ResourceManager.GetString("AddComponent_MenuItem_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ajouter un titre au menu.
+        /// </summary>
+        public static string AddComponent_MenuTitle_Title {
+            get {
+                return ResourceManager.GetString("AddComponent_MenuTitle_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ajout d&apos;un nouveau texte.
         /// </summary>
         public static string AddComponent_Text_Title {
@@ -214,6 +232,24 @@ namespace DinaGameEngine.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Couleur.
+        /// </summary>
+        public static string Component_Color_Label {
+            get {
+                return ResourceManager.GetString("Component_Color_Label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Contenu.
+        /// </summary>
+        public static string Component_Content_Label {
+            get {
+                return ResourceManager.GetString("Component_Content_Label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Dimensions.
         /// </summary>
         public static string Component_Dimensions_Label {
@@ -238,6 +274,15 @@ namespace DinaGameEngine.Resources {
         public static string Component_FieldStillUsed_Title {
             get {
                 return ResourceManager.GetString("Component_FieldStillUsed_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Police.
+        /// </summary>
+        public static string Component_Font_Label {
+            get {
+                return ResourceManager.GetString("Component_Font_Label", resourceCulture);
             }
         }
         

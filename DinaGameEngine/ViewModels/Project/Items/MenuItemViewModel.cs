@@ -2,89 +2,86 @@
 
 namespace DinaGameEngine.ViewModels.Project.Items
 {
-    public class MenuItemViewModel(MenuItemModel model) : ItemViewModel(model)
+    public class MenuItemViewModel(ComponentModel model) : ItemViewModel(model)
     {
-        private MenuItemModel MenuItemModel => (MenuItemModel)Model;
-
         public override string Icon => string.Empty;
-        public override string Key => MenuItemModel.Key;
-        public override string Name => MenuItemModel.Key;
-        public string EditableKey
-        {
-            get => MenuItemModel.Key;
-            set
-            {
-                if (MenuItemModel.Key == value)
-                    return;
-                MenuItemModel.Key = value;
-                OnPropertyChanged();
-                OnPropertyChanged(nameof(Name));
-                OnPropertyChanged(nameof(Key));
-            }
-        }
+        public override string Key => ((ComponentModel)Model).Key;
+        public override string Name => ((ComponentModel)Model).Key;
         public string Font
         {
-            get => MenuItemModel.Font;
+            get => ((ComponentModel)Model).Properties.TryGetValue("Font", out var val)
+                   ? val?.ToString() ?? string.Empty
+                   : string.Empty;
             set
             {
-                if (MenuItemModel.Font == value)
+                if ((string)((ComponentModel)Model).Properties.GetValueOrDefault("Font", string.Empty) == value)
                     return;
-                MenuItemModel.Font = value;
+                ((ComponentModel)Model).Properties["Font"] = value;
                 OnPropertyChanged();
             }
         }
         public string Content
         {
-            get => MenuItemModel.Content;
+            get => ((ComponentModel)Model).Properties.TryGetValue("Content", out var val)
+                   ? val?.ToString() ?? string.Empty
+                   : string.Empty;
             set
             {
-                if (MenuItemModel.Content == value)
+                if ((string)((ComponentModel)Model).Properties.GetValueOrDefault("Content", string.Empty) == value)
                     return;
-                MenuItemModel.Content = value;
+                ((ComponentModel)Model).Properties["Content"] = value;
                 OnPropertyChanged();
             }
         }
         public string Color
         {
-            get => MenuItemModel.Color;
+            get => ((ComponentModel)Model).Properties.TryGetValue("Color", out var val)
+                   ? val?.ToString() ?? string.Empty
+                   : string.Empty;
             set
             {
-                if (MenuItemModel.Color == value)
+                if ((string)((ComponentModel)Model).Properties.GetValueOrDefault("Color", string.Empty) == value)
                     return;
-                MenuItemModel.Color = value;
+                ((ComponentModel)Model).Properties["Color"] = value;
                 OnPropertyChanged();
             }
         }
         public string HAlign
         {
-            get => MenuItemModel.HAlign;
+            get => ((ComponentModel)Model).Properties.TryGetValue("HAlign", out var val)
+                   ? val?.ToString() ?? string.Empty
+                   : string.Empty;
             set
             {
-                if (MenuItemModel.HAlign == value)
+                if ((string)((ComponentModel)Model).Properties.GetValueOrDefault("HAlign", string.Empty) == value)
                     return;
-                MenuItemModel.HAlign = value;
+                ((ComponentModel)Model).Properties["HAlign"] = value;
                 OnPropertyChanged();
             }
         }
         public string VAlign
         {
-            get => MenuItemModel.VAlign;
+            get => ((ComponentModel)Model).Properties.TryGetValue("VAlign", out var val)
+                   ? val?.ToString() ?? string.Empty
+                   : string.Empty;
             set
             {
-                if (MenuItemModel.VAlign == value)
+                if ((string)((ComponentModel)Model).Properties.GetValueOrDefault("VAlign", string.Empty) == value)
                     return;
-                MenuItemModel.VAlign = value;
+                ((ComponentModel)Model).Properties["VAlign"] = value;
                 OnPropertyChanged();
             }
         }
         public string State
         {
-            get => MenuItemModel.State;
+            get => ((ComponentModel)Model).Properties.TryGetValue("State", out var val)
+                   ? val?.ToString() ?? string.Empty
+                   : string.Empty;
             set
             {
-                if (MenuItemModel.State == value)
+                if ((string)((ComponentModel)Model).Properties.GetValueOrDefault("State", string.Empty) == value)
                     return;
-                MenuItemModel.State = value;
+                ((ComponentModel)Model).Properties["State"] = value;
                 OnPropertyChanged();
             }
         }
