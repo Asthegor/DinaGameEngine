@@ -1,11 +1,30 @@
 ﻿using DinaGameEngine.Models.Project;
 
+using System.Drawing;
 using System.Text.Json;
 
-namespace DinaGameEngine.Utils
+namespace DinaGameEngine.Models.Helpers
 {
-    public class ComponentPropertyConverter
+    public class ComponentPropertyHelper
     {
+        public static string GetStringProperty(ComponentModel component, string key)
+        {
+            if (!component.Properties.TryGetValue(key, out var value))
+                return string.Empty;
+            return value is JsonElement je
+                   ? je.GetString() ?? string.Empty
+                   : value?.ToString() ?? string.Empty;
+        }
+        public static (int? X, int? Y) GetPointProperty(ComponentModel component, string key)
+        {
+            if (!component.Properties.TryGetValue(key, out var value))
+                return (null, null);
+            if (value is Point pt)
+                return (pt.X, pt.Y);
+            if (value is JsonElement je)
+                return (je.GetProperty("X").GetInt32(), je.GetProperty("Y").GetInt32());
+            return (null, null);
+        }
         public static string GetReturnValueFrom<T>(T value)
         {
             if (value is int i)
@@ -24,6 +43,8 @@ namespace DinaGameEngine.Utils
             return value?.ToString() ?? string.Empty;
         }
         public static int GetIntProperty(ComponentModel source, string key, int defaultValue)
+            => GetIntProperty(source, key, (int?)defaultValue) ?? defaultValue;
+        public static int? GetIntProperty(ComponentModel source, string key, int? defaultValue = null)
         {
             if (!source.Properties.TryGetValue(key, out var value))
                 return defaultValue;

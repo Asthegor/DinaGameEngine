@@ -2,6 +2,7 @@
 using DinaGameEngine.ViewModels.Project.Add;
 
 using System.Windows;
+using System.Windows.Input;
 
 namespace DinaGameEngine.Views.Project.Add
 {
@@ -11,6 +12,7 @@ namespace DinaGameEngine.Views.Project.Add
         {
             InitializeComponent();
             DataContextChanged += OnDataContextChanged;
+            Loaded += OnLoaded;
         }
 
         private void OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
@@ -29,6 +31,11 @@ namespace DinaGameEngine.Views.Project.Add
         {
             if (DataContext is AddComponentViewModel vm)
                 vm.IsKeyFocused = false;
+        }
+        private void OnLoaded(object sender, RoutedEventArgs e)
+        {
+            Keyboard.Focus(KeyTextBox);
+            KeyTextBox.MoveFocus(new TraversalRequest(FocusNavigationDirection.First));
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using DinaGameEngine.Models.Project;
+﻿using DinaGameEngine.Models.Helpers;
+using DinaGameEngine.Models.Project;
 
 using System.Drawing;
 using System.Text.Json;
@@ -91,29 +92,12 @@ namespace DinaGameEngine.CodeGeneration.ComponentGenerators
         #region Utils
         protected static void AddVector2PropertyToLoad(ComponentModel component, string propertyName, SectionParser sectionParser, string componentFieldName, int level)
         {
-            (int? x, int? y) = GetPointProperty(component, propertyName);
+            (int? x, int? y) = ComponentPropertyHelper.GetPointProperty(component, propertyName);
             if (x == null || y == null)
                 return;
             sectionParser.InsertBeforeZone("COMPONENT_LOAD", [CodeBuilder.AddLine($"{componentFieldName}.{propertyName} = new Vector2({x}f, {y}f);", level)]);
         }
-        protected static string GetStringProperty(ComponentModel component, string key)
-        {
-            if (!component.Properties.TryGetValue(key, out var value))
-                return string.Empty;
-            return value is JsonElement je
-                   ? je.GetString() ?? string.Empty
-                   : value?.ToString() ?? string.Empty;
-        }
-        protected static (int? X, int? Y) GetPointProperty(ComponentModel component, string key)
-        {
-            if (!component.Properties.TryGetValue(key, out var value))
-                return (null, null);
-            if (value is Point pt)
-                return (pt.X, pt.Y);
-            if (value is JsonElement je)
-                return (je.GetProperty("X").GetInt32(), je.GetProperty("Y").GetInt32());
-            return (null, null);
-        }
+
         #endregion
     }
 }

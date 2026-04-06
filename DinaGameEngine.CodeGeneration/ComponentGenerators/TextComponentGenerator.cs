@@ -1,4 +1,5 @@
-﻿using DinaGameEngine.Models.Project;
+﻿using DinaGameEngine.Models.Helpers;
+using DinaGameEngine.Models.Project;
 
 using System.Drawing;
 using System.Text.Json;
@@ -25,9 +26,9 @@ namespace DinaGameEngine.CodeGeneration.ComponentGenerators
         }
         protected override void GenerateLoad(SectionParser sectionParser, ComponentModel component, int level)
         {
-            var font = GetStringProperty(component, "Font");
-            var content = GetStringProperty(component, "Content");
-            var colorKey = GetStringProperty(component, "Color");
+            var font = ComponentPropertyHelper.GetStringProperty(component, "Font");
+            var content = ComponentPropertyHelper.GetStringProperty(component, "Content");
+            var colorKey = ComponentPropertyHelper.GetStringProperty(component, "Color");
             sectionParser.InsertBeforeZone("COMPONENT_LOAD",
                 [
                     CodeBuilder.AddLine($"var {component.Key}Font = _fontManager.Load(FontKeys.{font});", level),
@@ -37,12 +38,12 @@ namespace DinaGameEngine.CodeGeneration.ComponentGenerators
             AddVector2PropertyToLoad(component, "Position", sectionParser, GetFieldName(component), level);
             AddVector2PropertyToLoad(component, "Dimensions", sectionParser, GetFieldName(component), level);
 
-            var visibleValue = GetStringProperty(component, "Visible");
+            var visibleValue = ComponentPropertyHelper.GetStringProperty(component, "Visible");
             if (!string.IsNullOrEmpty(visibleValue))
                 sectionParser.InsertBeforeZone("COMPONENT_LOAD", [CodeBuilder.AddLine($"{GetFieldName(component)}.Visible = {visibleValue.ToLower()};", level)]);
 
-            var hAlign = GetStringProperty(component, "HorizontalAlignment");
-            var vAlign = GetStringProperty(component, "VerticalAlignment");
+            var hAlign = ComponentPropertyHelper.GetStringProperty(component, "HorizontalAlignment");
+            var vAlign = ComponentPropertyHelper.GetStringProperty(component, "VerticalAlignment");
             if (!string.IsNullOrEmpty(hAlign) || !string.IsNullOrEmpty(vAlign))
             {
                 sectionParser.AddUsingIfMissing("DinaCSharp.Enums");
@@ -84,17 +85,17 @@ namespace DinaGameEngine.CodeGeneration.ComponentGenerators
         }
         protected override void RemoveLoad(SectionParser sectionParser, ComponentModel component, int level)
         {
-            var font = GetStringProperty(component, "Font");
-            var content = GetStringProperty(component, "Content");
-            var colorKey = GetStringProperty(component, "Color");
+            var font = ComponentPropertyHelper.GetStringProperty(component, "Font");
+            var content = ComponentPropertyHelper.GetStringProperty(component, "Content");
+            var colorKey = ComponentPropertyHelper.GetStringProperty(component, "Color");
             sectionParser.RemoveFromZone("COMPONENT_LOAD", line => line == CodeBuilder.AddLine($"var {component.Key}Font = _fontManager.Load(FontKeys.{font});", level));
             sectionParser.RemoveFromZone("COMPONENT_LOAD", line => line == CodeBuilder.AddLine($"{GetFieldName(component)} = new {ComponentType}({component.Key}Font, \"{content}\", PaletteColors.{colorKey});", level));
 
-            var (px, py) = GetPointProperty(component, "Position");
+            var (px, py) = ComponentPropertyHelper.GetPointProperty(component, "Position");
             if (px != null && py != null)
                 sectionParser.RemoveFromZone("COMPONENT_LOAD", CodeBuilder.AddLine($"{GetFieldName(component)}.Position = new Vector2({px}f, {py}f);", level));
 
-            var (dx, dy) = GetPointProperty(component, "Dimensions");
+            var (dx, dy) = ComponentPropertyHelper.GetPointProperty(component, "Dimensions");
             if (dx != null && dy != null)
                 sectionParser.RemoveFromZone("COMPONENT_LOAD", CodeBuilder.AddLine($"{GetFieldName(component)}.Dimensions = new Vector2({dx}f, {dy}f);", level));
 

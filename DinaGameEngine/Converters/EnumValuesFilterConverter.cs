@@ -8,9 +8,11 @@ namespace DinaGameEngine.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
+            var keepValues = parameter?.ToString()?.Split(',') ?? [];
             return ((IEnumerable)value)
                 .Cast<object>()
-                .Where(v => v.ToString() != "None" && v.ToString() != "Max")
+                .Where(v => v.ToString() != "Max" &&
+                            (v.ToString() != "None" || keepValues.Contains("None")))
                 .ToList();
         }
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

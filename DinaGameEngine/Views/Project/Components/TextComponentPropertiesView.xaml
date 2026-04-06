@@ -11,7 +11,6 @@
              xmlns:enums="clr-namespace:DinaGameEngine.Common.Enums;assembly=DinaGameEngine.Common"
              mc:Ignorable="d">
     <UserControl.Resources>
-        <converters:ColorModelToBrushConverter x:Key="ColorModelToBrushConverter"/>
         <converters:EnumValuesFilterConverter x:Key="EnumValuesFilterConverter"/>
         <ObjectDataProvider x:Key="HorizontalAlignmentValues"
                     MethodName="GetValues"
@@ -31,36 +30,18 @@
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <StackPanel Margin="0,8,0,0">
 
-            <TextBlock Text="{ext:Translate Key=Component_Font_Label}"
-                       Style="{DynamicResource FieldLabelStyle}"
-                       Margin="0,0,0,4"/>
-            <ComboBox ItemsSource="{Binding AvailableFonts}"
-                      SelectedItem="{Binding SelectedFont, Mode=TwoWay}"
-                      DisplayMemberPath="Key"
-                      Margin="0,0,0,8"/>
+            <shared:LabeledComboBox Label="{ext:Translate Key=Component_Font_Label}"
+                                    AvailableKeys="{Binding AvailableFonts}"
+                                    SelectedKey="{Binding SelectedFont, Mode=TwoWay}"
+                                    DisplayMemberPath="Key"/>
 
             <shared:LabeledTextBox Label="{ext:Translate Key=Component_Content_Label}"
                                    Text="{Binding Content, Mode=TwoWay}"/>
 
-            <TextBlock Text="{ext:Translate Key=Component_Color_Label}"
-                       Style="{DynamicResource FieldLabelStyle}"
-                       Margin="0,0,0,4"/>
-            <ComboBox ItemsSource="{Binding AvailableColors}"
-                      SelectedItem="{Binding SelectedColor, Mode=TwoWay}"
-                      Margin="0,0,0,8">
-                <ComboBox.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
-                            <Border Width="16" Height="16" Margin="0,0,8,0"
-                                    BorderBrush="Black" BorderThickness="1">
-                                <Rectangle Fill="{Binding Converter={StaticResource ColorModelToBrushConverter}}"/>
-                            </Border>
-                            <TextBlock Text="{Binding Key}" VerticalAlignment="Center"/>
-                        </StackPanel>
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
-            </ComboBox>
-
+            <shared:LabeledColorComboBox Label="{ext:Translate Key=Component_Color_Label}"
+                                         AvailableColors="{Binding AvailableColors}"
+                                         SelectedColor="{Binding SelectedColor, Mode=TwoWay}"/>
+            
             <comps:Vector2InputView Label="{ext:Translate Key=Component_Position_Label}"
                                     ValueX="{Binding PositionX, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                     ValueY="{Binding PositionY, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -76,28 +57,23 @@
             <shared:LabeledTextBox Label="{ext:Translate Key=Component_ZOrder_Label}"
                                    Text="{Binding ZOrder, Mode=TwoWay}"/>
 
-            <CheckBox  IsChecked="{Binding Visible}"
-                       Content="{ext:Translate Key=Component_Visible_Label}"/>
+            <shared:LabeledCheckBox Label="{ext:Translate Key=Component_Visible_Label}"
+                                    IsChecked="{Binding Visible}"/>
 
             <shared:LabeledTextBox Label="{ext:Translate Key=Component_Rotation_Label}"
                                    Text="{Binding Rotation, Mode=TwoWay}"/>
 
-            <TextBlock Text="{ext:Translate Key=Component_HorizontalAlignment_Label}"
-                       Style="{DynamicResource FieldLabelStyle}"
-                       Margin="0,0,0,4"/>
-            <ComboBox ItemsSource="{Binding Source={StaticResource HorizontalAlignmentValues}, 
-                                    Converter={StaticResource EnumValuesFilterConverter}}"
-                      SelectedItem="{Binding HorizontalAlignment, Mode=TwoWay}"
-                      Margin="0,0,4,8"/>
+            <shared:LabeledComboBox Label="{ext:Translate Key=Component_HorizontalAlignment_Label}"
+                                    AvailableKeys="{Binding Source={StaticResource HorizontalAlignmentValues}, 
+                                                    Converter={StaticResource EnumValuesFilterConverter}}"
+                                    SelectedKey="{Binding HorizontalAlignment, Mode=TwoWay}"
+                                    DisplayMemberPath=""/>
 
-            <TextBlock Text="{ext:Translate Key=Component_VerticalAlignment_Label}"
-                       Style="{DynamicResource FieldLabelStyle}"
-                       Margin="0,0,0,4"/>
-            <ComboBox ItemsSource="{Binding Source={StaticResource VerticalAlignmentValues}, 
-                                    Converter={StaticResource EnumValuesFilterConverter}}"
-                      SelectedItem="{Binding VerticalAlignment, Mode=TwoWay}"
-                      Margin="0,0,0,8"/>
-
+            <shared:LabeledComboBox Label="{ext:Translate Key=Component_VerticalAlignment_Label}"
+                                    AvailableKeys="{Binding Source={StaticResource VerticalAlignmentValues}, 
+                                                    Converter={StaticResource EnumValuesFilterConverter}}"
+                                    SelectedKey="{Binding VerticalAlignment, Mode=TwoWay}"
+                                    DisplayMemberPath=""/>
         </StackPanel>
     </ScrollViewer>
 </UserControl>

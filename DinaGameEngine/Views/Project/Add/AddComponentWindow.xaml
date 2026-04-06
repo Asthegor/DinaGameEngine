@@ -13,7 +13,8 @@
         Style="{StaticResource DinaWindowStyle}"
         TitleBarButtons="{x:Static enums:TitleBarButtons.CloseOnly}"
         WindowStartupLocation="CenterOwner"
-        FocusManager.FocusedElement="{Binding ElementName=KeyTextBox}">
+        >
+        <!--FocusManager.FocusedElement="{Binding ElementName=KeyTextBox}"-->
     <Window.Resources>
         <converters:StringToVisibilityConverter x:Key="StringToVisibilityConverter"/>
         <DataTemplate DataType="{x:Type vmAdd:AddTextComponentViewModel}">
@@ -31,34 +32,19 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Grid.Row="0" Margin="0,0,0,8"
-                   Text="{ext:Translate Key=Component_Key_Label}"
-                   Style="{DynamicResource FieldLabelStyle}"/>
+        <shared:ValidatedLabeledTextBox x:Name="KeyTextBox" Grid.Row="0"
+                                        Label="{ext:Translate Key=Component_Key_Label}"
+                                        Text="{Binding Key, UpdateSourceTrigger=PropertyChanged}"
+                                        ErrorMessage="{Binding KeyErrorMessage}"
+                                        IsKeyFocused="{Binding IsKeyFocused, Mode=TwoWay}"/>
 
-        <TextBox Grid.Row="1" Margin="0,0,0,4"
-                 Text="{Binding Key, UpdateSourceTrigger=PropertyChanged}"
-                 Style="{DynamicResource ModernTextBoxStyle}"
-                 GotFocus="KeyTextBox_GotFocus"
-                 LostFocus="KeyTextBox_LostFocus"
-                 x:Name="KeyTextBox"/>
-
-        <TextBlock Grid.Row="2"
-                   Text="{Binding KeyErrorMessage}"
-                   Foreground="OrangeRed"
-                   FontSize="11"
-                   Margin="0,0,0,8"
-                   Visibility="{Binding KeyErrorMessage, 
-                                Converter={StaticResource StringToVisibilityConverter}}"/>
-
-        <ContentControl Grid.Row="3"
+        <ContentControl Grid.Row="1"
                         Content="{Binding SpecificProperties}"
                         Margin="0,0,0,8"/>
 
-        <shared:ButtonBarView Grid.Row="4"
+        <shared:ButtonBarView Grid.Row="2"
                               DataContext="{Binding FooterButtons}"
                               Margin="0,4,0,0"/>
     </Grid>

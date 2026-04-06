@@ -1,8 +1,8 @@
 ﻿using DinaGameEngine.Commands;
 using DinaGameEngine.Common.Enums;
 using DinaGameEngine.Extensions;
+using DinaGameEngine.Models.Helpers;
 using DinaGameEngine.Models.Project;
-using DinaGameEngine.Utils;
 
 using System.Drawing;
 using System.Text.Json;
@@ -15,6 +15,13 @@ namespace DinaGameEngine.ViewModels.Project.Components
         private int? _itemSpacingY;
         private int _currentItemindex;
         private DinaDirection _direction;
+        private bool _visible = true;
+        private bool _iconVisible;
+        private IconMenuAlignment _iconAlignment;
+        private string? _iconLeftTexture;
+        private string? _iconRightTexture;
+        private int? _iconSpacingX;
+        private bool _iconResize;
         public MenuManagerComponentPropertiesViewModel(ComponentModel existingComponent)
             : base(existingComponent)
         {
@@ -28,26 +35,16 @@ namespace DinaGameEngine.ViewModels.Project.Components
         public override bool IsValid => true;
         protected override void LoadFrom(ComponentModel source)
         {
-            if (source.Properties.TryGetValue("ItemSpacing", out var itemSpacing))
-            {
-                if (itemSpacing is JsonElement pe)
-                {
-                    ItemSpacingX = pe.GetProperty("X").GetInt32();
-                    ItemSpacingY = pe.GetProperty("Y").GetInt32();
-                }
-                else if (itemSpacing is Point pt)
-                {
-                    ItemSpacingX = pt.X;
-                    ItemSpacingY = pt.Y;
-                }
-            }
-            else
-            {
-                ItemSpacingX = null;
-                ItemSpacingY = null;
-            }
-            CurrentItemIndex = ComponentPropertyConverter.GetIntProperty(source, "CurrentItemIndex", -1);
-            Direction = ComponentPropertyConverter.GetEnumProperty(source, "Direction", DinaDirection.Vertical);
+            (ItemSpacingX, ItemSpacingY) = ComponentPropertyHelper.GetPointProperty(source, "ItemSpacing");
+            CurrentItemIndex = ComponentPropertyHelper.GetIntProperty(source, "CurrentItemIndex", -1);
+            Direction = ComponentPropertyHelper.GetEnumProperty(source, "Direction", DinaDirection.Vertical);
+            Visible = ComponentPropertyHelper.GetBoolProperty(source, "Visible", true);
+            IconVisible = ComponentPropertyHelper.GetBoolProperty(source, "IconVisible", false);
+            IconAlignment = ComponentPropertyHelper.GetEnumProperty(source, "IconAlignment", IconMenuAlignment.None);
+            IconSpacingX = ComponentPropertyHelper.GetIntProperty(source, "IconSpacingX");
+            IconLeftTexture = ComponentPropertyHelper.GetStringProperty(source, "IconLeftTexture");
+            IconRightTexture = ComponentPropertyHelper.GetStringProperty(source, "IconRightTexture");
+            IconResize = ComponentPropertyHelper.GetBoolProperty(source, "IconResize", false);
         }
         public override void ApplyToModel()
         {
@@ -59,14 +56,49 @@ namespace DinaGameEngine.ViewModels.Project.Components
                 _component.Properties.Remove("ItemSpacing");
 
             if (CurrentItemIndex != -1)
-                _component.Properties["CurrentItemIndex"] = ComponentPropertyConverter.GetReturnValueFrom(CurrentItemIndex);
+                _component.Properties["CurrentItemIndex"] = ComponentPropertyHelper.GetReturnValueFrom(CurrentItemIndex);
             else
                 _component.Properties.Remove("CurrentItemIndex");
 
             if (Direction != DinaDirection.Vertical)
-                _component.Properties["Direction"] = ComponentPropertyConverter.GetReturnValueFrom(Direction);
+                _component.Properties["Direction"] = ComponentPropertyHelper.GetReturnValueFrom(Direction);
             else
                 _component.Properties.Remove("Direction");
+
+            if (!Visible)
+                _component.Properties["Visible"] = ComponentPropertyHelper.GetReturnValueFrom(Visible);
+            else
+                _component.Properties.Remove("Visible");
+
+            if (IconVisible)
+                _component.Properties["IconVisible"] = ComponentPropertyHelper.GetReturnValueFrom(IconVisible);
+            else
+                _component.Properties.Remove("IconVisible");
+
+            if (IconAlignment != IconMenuAlignment.None)
+                _component.Properties["IconAlignment"] = ComponentPropertyHelper.GetReturnValueFrom(IconAlignment);
+            else
+                _component.Properties.Remove("IconAlignment");
+
+            if (IconSpacingX.HasValue)
+                _component.Properties["IconSpacingX"] = ComponentPropertyHelper.GetReturnValueFrom(IconSpacingX);
+            else
+                _component.Properties.Remove("IconSpacingX");
+
+            if (!string.IsNullOrEmpty(IconLeftTexture))
+                _component.Properties["IconLeftTexture"] = ComponentPropertyHelper.GetReturnValueFrom(IconLeftTexture);
+            else
+                _component.Properties.Remove("IconLeftTexture");
+
+            if (!string.IsNullOrEmpty(IconRightTexture))
+                _component.Properties["IconRightTexture"] = ComponentPropertyHelper.GetReturnValueFrom(IconRightTexture);
+            else
+                _component.Properties.Remove("IconRightTexture");
+
+            if (IconResize)
+                _component.Properties["IconResize"] = ComponentPropertyHelper.GetReturnValueFrom(IconResize);
+            else
+                _component.Properties.Remove("IconResize");
         }
 
         #region Commandes
@@ -120,6 +152,70 @@ namespace DinaGameEngine.ViewModels.Project.Components
             set
             {
                 SetProperty(ref _direction, value);
+                NotifyChange();
+            }
+        }
+        public bool Visible
+        {
+            get => _visible;
+            set
+            {
+                SetProperty(ref _visible, value);
+                NotifyChange();
+            }
+        }
+        public IEnumerable<string> AvailableImages { get; } = [];
+        public bool IconVisible
+        {
+            get => _iconVisible;
+            set
+            {
+                SetProperty(ref _iconVisible, value);
+                NotifyChange();
+            }
+        }
+        public IconMenuAlignment IconAlignment
+        {
+            get => _iconAlignment;
+            set
+            {
+                SetProperty(ref _iconAlignment, value);
+                NotifyChange();
+            }
+        }
+        public int? IconSpacingX
+        {
+            get => _iconSpacingX;
+            set
+            {
+                SetProperty(ref _iconSpacingX, value);
+                NotifyChange();
+            }
+        }
+        public string? IconLeftTexture
+        {
+            get => _iconLeftTexture;
+            set
+            {
+                SetProperty(ref _iconLeftTexture, value);
+                NotifyChange();
+            }
+        }
+        public string? IconRightTexture
+        {
+            get => _iconRightTexture;
+            set
+            {
+                SetProperty(ref _iconRightTexture, value);
+                NotifyChange();
+            }
+        }
+        public bool IconResize
+        {
+            get => _iconResize;
+            set
+            {
+                SetProperty(ref _iconResize, value);
                 NotifyChange();
             }
         }

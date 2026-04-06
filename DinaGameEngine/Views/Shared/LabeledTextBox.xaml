@@ -12,6 +12,8 @@
                         RelativeSource={RelativeSource AncestorType=UserControl}}"
                  IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource AncestorType=UserControl}}"
                  Style="{DynamicResource ModernTextBoxStyle}"
+                 GotFocus="TextBox_GotFocus"
+                 LostFocus="TextBox_LostFocus"
                  Margin="0,0,0,8"/>
     </StackPanel>
 </UserControl>

@@ -1,4 +1,5 @@
-﻿using DinaGameEngine.Models.Project;
+﻿using DinaGameEngine.Models.Helpers;
+using DinaGameEngine.Models.Project;
 
 namespace DinaGameEngine.CodeGeneration.ComponentGenerators
 {
@@ -37,30 +38,63 @@ namespace DinaGameEngine.CodeGeneration.ComponentGenerators
         }
         protected override void GenerateLoad(SectionParser sectionParser, ComponentModel component, int level)
         {
-            sectionParser.InsertBeforeZone("COMPONENT_LOAD", [CodeBuilder.AddLine($"{GetFieldName(component)} = new {ComponentType}();", level)]);
+            var args = new List<string>();
+            var (sX, sY) = ComponentPropertyHelper.GetPointProperty(component, "ItemSpacing");
+            if (sX.HasValue || sY.HasValue)
+                args.Add($"itemspacing: new Vector2({sX ?? 0}f, {sY ?? 0}f)");
+
+            var currentIndex = ComponentPropertyHelper.GetIntProperty(component, "CurrentItemIndex", -1);
+            if (currentIndex != -1)
+                args.Add($"currentitemindex: {currentIndex}");
+
+            var direction = ComponentPropertyHelper.GetStringProperty(component, "Direction");
+            if (!string.IsNullOrEmpty(direction))
+                args.Add($"direction: MenuItemDirection.{direction}");
+
+            var constructor = $"{GetFieldName(component)} = new {ComponentType}({string.Join(", ", args)});";
+            sectionParser.InsertBeforeZone("COMPONENT_LOAD", [CodeBuilder.AddLine(constructor, level)]);
 
             foreach (var menuTitle in component.SubComponents.Where(c => c.Type == "MenuTitle"))
             {
                 var fontFieldName = $"_{component.Key}_{menuTitle.Key}Font";
                 var menuTitleFieldName = $"_{component.Key}_{menuTitle.Key}{menuTitle.Type}";
 
-                var titleLine = $"var {menuTitleFieldName} = {GetFieldName(component)}.AddTitle({fontFieldName}, {GetStringProperty(menuTitle, "Content")}, PaletteColors.{GetStringProperty(menuTitle, "Color")}";
+                var titleLine = $"var {menuTitleFieldName} = {GetFieldName(component)}.AddTitle({fontFieldName}, {ComponentPropertyHelper.GetStringProperty(menuTitle, "Content")}, PaletteColors.{ComponentPropertyHelper.GetStringProperty(menuTitle, "Color")}";
 
                 if (menuTitle.Properties.TryGetValue("ShadowColor", out var shadowColor) && menuTitle.Properties.TryGetValue("ShadowOffset", out var shadowOffset))
                 {
-                    var shadowColorValue = GetStringProperty(menuTitle, "ShadowColor");
-                    (int? offsetX, int? offsetY) = GetPointProperty(menuTitle, "ShadowOffset");
+                    var shadowColorValue = ComponentPropertyHelper.GetStringProperty(menuTitle, "ShadowColor");
+                    (int? offsetX, int? offsetY) = ComponentPropertyHelper.GetPointProperty(menuTitle, "ShadowOffset");
                     titleLine += $", PaletteColors.{shadowColorValue}, new Vector2({offsetX ?? 0}, {offsetY ?? 0})";
                 }
                 titleLine += ");";
 
                 sectionParser.InsertBeforeZone("COMPONENT_LOAD",
                     [
-                        CodeBuilder.AddLine($"var {fontFieldName} = _fontManager.Load(FontKeys.{GetStringProperty(menuTitle, "Font")});", level),
+                        CodeBuilder.AddLine($"var {fontFieldName} = _fontManager.Load(FontKeys.{ComponentPropertyHelper.GetStringProperty(menuTitle, "Font")});", level),
                         CodeBuilder.AddLine(titleLine, level)
                     ]);
                 AddVector2PropertyToLoad(menuTitle, "Position", sectionParser, menuTitleFieldName, level);
                 AddVector2PropertyToLoad(menuTitle, "Dimensions", sectionParser, menuTitleFieldName, level);
+
+                var hAlign = ComponentPropertyHelper.GetStringProperty(menuTitle, "HAlign");
+                var vAlign = ComponentPropertyHelper.GetStringProperty(menuTitle, "VAlign");
+                if (!string.IsNullOrEmpty(hAlign) || !string.IsNullOrEmpty(vAlign))
+                {
+                    sectionParser.AddUsingIfMissing("DinaCSharp.Enums");
+                    var h = string.IsNullOrEmpty(hAlign) ? "Left" : hAlign;
+                    var v = string.IsNullOrEmpty(vAlign) ? "Top" : vAlign;
+                    sectionParser.InsertBeforeZone("COMPONENT_LOAD", [CodeBuilder.AddLine($"{menuTitleFieldName}.SetAlignments(HorizontalAlignment.{h}, VerticalAlignment.{v});", level)]);
+                }
+
+                var zOrder = ComponentPropertyHelper.GetIntProperty(menuTitle, "ZOrder");
+                if (zOrder != 0)
+                    sectionParser.InsertBeforeZone("COMPONENT_LOAD", [CodeBuilder.AddLine($"{menuTitleFieldName}.ZOrder = {zOrder};", level)]);
+
+                var titleVisible = ComponentPropertyHelper.GetBoolProperty(menuTitle, "Visible", true);
+                if (!titleVisible)
+                    sectionParser.InsertBeforeZone("COMPONENT_LOAD", [CodeBuilder.AddLine($"{menuTitleFieldName}.Visible = {titleVisible};", level)]);
+
             }
 
 
@@ -70,11 +104,11 @@ namespace DinaGameEngine.CodeGeneration.ComponentGenerators
                 var menuItemFieldName = $"{component.Key}_{menuItem.Key}{menuItem.Type}";
                 sectionParser.InsertBeforeZone("COMPONENT_LOAD",
                     [
-                        CodeBuilder.AddLine($"var {fontFieldName} = _fontManager.Load(FontKeys.{GetStringProperty(menuItem, "Font")});", level),
-                        CodeBuilder.AddLine($"_{menuItemFieldName} = {GetFieldName(component)}.AddItem({fontFieldName}, \"{GetStringProperty(menuItem, "Content")}\", " +
-                                            $"PaletteColors.{GetStringProperty(menuItem, "Color")}, {menuItemFieldName}Selection, {menuItemFieldName}Deselection, {menuItemFieldName}Activation);", level)
+                        CodeBuilder.AddLine($"var {fontFieldName} = _fontManager.Load(FontKeys.{ComponentPropertyHelper.GetStringProperty(menuItem, "Font")});", level),
+                        CodeBuilder.AddLine($"_{menuItemFieldName} = {GetFieldName(component)}.AddItem({fontFieldName}, \"{ComponentPropertyHelper.GetStringProperty(menuItem, "Content")}\", " +
+                                            $"PaletteColors.{ComponentPropertyHelper.GetStringProperty(menuItem, "Color")}, {menuItemFieldName}Selection, {menuItemFieldName}Deselection, {menuItemFieldName}Activation);", level)
                     ]);
-                var stateValue = GetStringProperty(menuItem, "State");
+                var stateValue = ComponentPropertyHelper.GetStringProperty(menuItem, "State");
                 if (!string.IsNullOrEmpty(stateValue) && stateValue != "Enable")
                 {
                     sectionParser.AddUsingIfMissing("DinaCSharp.Enums");
@@ -84,6 +118,23 @@ namespace DinaGameEngine.CodeGeneration.ComponentGenerators
                 AddVector2PropertyToLoad(menuItem, "Position", sectionParser, $"_{menuItemFieldName}", level);
                 AddVector2PropertyToLoad(menuItem, "Dimensions", sectionParser, $"_{menuItemFieldName}", level);
 
+                var hAlign = ComponentPropertyHelper.GetStringProperty(menuItem, "HAlign");
+                var vAlign = ComponentPropertyHelper.GetStringProperty(menuItem, "VAlign");
+                if (!string.IsNullOrEmpty(hAlign) || !string.IsNullOrEmpty(vAlign))
+                {
+                    sectionParser.AddUsingIfMissing("DinaCSharp.Enums");
+                    var h = string.IsNullOrEmpty(hAlign) ? "Left" : hAlign;
+                    var v = string.IsNullOrEmpty(vAlign) ? "Top" : vAlign;
+                    sectionParser.InsertBeforeZone("COMPONENT_LOAD", [CodeBuilder.AddLine($"_{menuItemFieldName}.SetAlignments(HorizontalAlignment.{h}, VerticalAlignment.{v});", level)]);
+                }
+
+                var zOrder = ComponentPropertyHelper.GetIntProperty(menuItem, "ZOrder");
+                if (zOrder != 0)
+                    sectionParser.InsertBeforeZone("COMPONENT_LOAD", [CodeBuilder.AddLine($"_{menuItemFieldName}.ZOrder = {zOrder};", level)]);
+
+                var itemVisible = ComponentPropertyHelper.GetBoolProperty(menuItem, "Visible", true);
+                if (!itemVisible)
+                    sectionParser.InsertBeforeZone("COMPONENT_LOAD", [CodeBuilder.AddLine($"_{menuItemFieldName}.Visible = {itemVisible};", level)]);
             }
 
             sectionParser.InsertBeforeZone("COMPONENT_LOAD",
@@ -95,6 +146,39 @@ namespace DinaGameEngine.CodeGeneration.ComponentGenerators
                                                                      "(MenuAction.Cancel, PlayerInputKeys.Cancel));",
                                                                  level)
                                            ]);
+
+            var visible = ComponentPropertyHelper.GetBoolProperty(component, "Visible", true);
+            if (!visible)
+                sectionParser.InsertBeforeZone("COMPONENT_LOAD", [CodeBuilder.AddLine($"{GetFieldName(component)}.Visible = {visible};", level)]);
+
+            var iconAlignment = ComponentPropertyHelper.GetStringProperty(component, "IconAlignment");
+            if (!string.IsNullOrEmpty(iconAlignment) && iconAlignment != "None")
+            {
+                var argsSetIconItems = new List<string>();
+                
+                var iconLeftKey = ComponentPropertyHelper.GetStringProperty(component, "IconLeftTexture");
+                if (!string.IsNullOrEmpty (iconLeftKey))
+                    argsSetIconItems.Add($"iconLeftKey: {iconLeftKey}");
+
+                var iconRightKey = ComponentPropertyHelper.GetStringProperty(component, "IconRightTexture");
+                if (!string.IsNullOrEmpty (iconRightKey))
+                    argsSetIconItems.Add($"iconRightKey: {iconRightKey}");
+                
+                var (iconSpacingX, iconSpacingY) = ComponentPropertyHelper.GetPointProperty(component, "IconSpacing");
+                if (iconSpacingX.HasValue || iconSpacingY.HasValue)
+                    argsSetIconItems.Add($"iconSpacing: new Vector2({iconSpacingX ?? 0}f, {iconSpacingY ?? 0}f)");
+                
+                var iconResize = ComponentPropertyHelper.GetBoolProperty(component, "IconResize", false);
+                if (iconResize)
+                    argsSetIconItems.Add($"resize: {iconResize}");
+
+                var setIconItems = $"{GetFieldName(component)}.SetIconItems({string.Join(", ", args)});";
+                sectionParser.InsertBeforeZone("COMPONENT_LOAD", [CodeBuilder.AddLine(constructor, level)]);
+            }
+            var iconVisible = ComponentPropertyHelper.GetBoolProperty(component, "IconVisible", false);
+            if (iconVisible)
+                sectionParser.InsertBeforeZone("COMPONENT_LOAD", [CodeBuilder.AddLine($"{GetFieldName(component)}.IconsVisible = {iconVisible};", level)]);
+
         }
         protected override void GenerateReset(SectionParser sectionParser, ComponentModel component, int level)
         {

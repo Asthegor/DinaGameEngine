@@ -1,10 +1,9 @@
 ﻿using DinaGameEngine.Commands;
 using DinaGameEngine.Common.Enums;
+using DinaGameEngine.Models.Helpers;
 using DinaGameEngine.Models.Project;
-using DinaGameEngine.Utils;
 
 using System.Drawing;
-using System.Text.Json;
 
 namespace DinaGameEngine.ViewModels.Project.Components
 {
@@ -178,46 +177,12 @@ namespace DinaGameEngine.ViewModels.Project.Components
                    : DinaVerticalAlignment.Top;
             _state = source.Properties.TryGetValue("State", out var state) ? state?.ToString() ?? "Enable" : "Enable";
 
-            if (source.Properties.TryGetValue("Position", out var position))
-            {
-                if (position is JsonElement pe)
-                {
-                    PositionX = pe.GetProperty("X").GetInt32();
-                    PositionY = pe.GetProperty("Y").GetInt32();
-                }
-                else if (position is Point pt)
-                {
-                    PositionX = pt.X;
-                    PositionY = pt.Y;
-                }
-            }
-            else
-            {
-                PositionX = null;
-                PositionY = null;
-            }
 
-            if (source.Properties.TryGetValue("Dimensions", out var dimensions))
-            {
-                if (dimensions is JsonElement de)
-                {
-                    DimensionsX = de.GetProperty("X").GetInt32();
-                    DimensionsY = de.GetProperty("Y").GetInt32();
-                }
-                else if (dimensions is Point pt)
-                {
-                    DimensionsX = pt.X;
-                    DimensionsY = pt.Y;
-                }
-            }
-            else
-            {
-                DimensionsX = null;
-                DimensionsY = null;
-            }
+            (PositionX, PositionY) = ComponentPropertyHelper.GetPointProperty(source, "Position");
+            (DimensionsX, DimensionsY) = ComponentPropertyHelper.GetPointProperty(source, "Dimensions");
 
-            ZOrder = ComponentPropertyConverter.GetIntProperty(source, "ZOrder", 0);
-            Visible = ComponentPropertyConverter.GetBoolProperty(source, "Visible", true);
+            ZOrder = ComponentPropertyHelper.GetIntProperty(source, "ZOrder", 0);
+            Visible = ComponentPropertyHelper.GetBoolProperty(source, "Visible", true);
         }
 
         public override void ApplyToModel()
@@ -238,12 +203,12 @@ namespace DinaGameEngine.ViewModels.Project.Components
                 _component.Properties.Remove("Dimensions");
 
             if (ZOrder != 0)
-                _component.Properties["ZOrder"] = ComponentPropertyConverter.GetReturnValueFrom(ZOrder);
+                _component.Properties["ZOrder"] = ComponentPropertyHelper.GetReturnValueFrom(ZOrder);
             else
                 _component.Properties.Remove("ZOrder");
 
             if (!Visible)
-                _component.Properties["Visible"] = ComponentPropertyConverter.GetReturnValueFrom(Visible);
+                _component.Properties["Visible"] = ComponentPropertyHelper.GetReturnValueFrom(Visible);
             else
                 _component.Properties.Remove("Visible");
 

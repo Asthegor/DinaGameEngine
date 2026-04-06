@@ -1,7 +1,7 @@
 ﻿using DinaGameEngine.Commands;
 using DinaGameEngine.Common.Enums;
+using DinaGameEngine.Models.Helpers;
 using DinaGameEngine.Models.Project;
-using DinaGameEngine.Utils;
 
 using System.Drawing;
 using System.Text.Json;
@@ -90,11 +90,11 @@ namespace DinaGameEngine.ViewModels.Project.Components
                 DimensionsY = null;
             }
 
-            ZOrder = ComponentPropertyConverter.GetIntProperty(source, "ZOrder", 0);
-            Visible = ComponentPropertyConverter.GetBoolProperty(source, "Visible", true);
-            Rotation = ComponentPropertyConverter.GetFloatProperty(source, "Rotation", 0f);
-            HorizontalAlignment = ComponentPropertyConverter.GetEnumProperty(source, "HorizontalAlignment", DinaHorizontalAlignment.Left);
-            VerticalAlignment = ComponentPropertyConverter.GetEnumProperty(source, "VerticalAlignment", DinaVerticalAlignment.Top);
+            ZOrder = ComponentPropertyHelper.GetIntProperty(source, "ZOrder", 0);
+            Visible = ComponentPropertyHelper.GetBoolProperty(source, "Visible", true);
+            Rotation = ComponentPropertyHelper.GetFloatProperty(source, "Rotation", 0f);
+            HorizontalAlignment = ComponentPropertyHelper.GetEnumProperty(source, "HorizontalAlignment", DinaHorizontalAlignment.Left);
+            VerticalAlignment = ComponentPropertyHelper.GetEnumProperty(source, "VerticalAlignment", DinaVerticalAlignment.Top);
         }
         public override void ApplyToModel()
         {
@@ -113,27 +113,27 @@ namespace DinaGameEngine.ViewModels.Project.Components
                 _component.Properties.Remove("Dimensions");
 
             if (ZOrder != 0)
-                _component.Properties["ZOrder"] = ComponentPropertyConverter.GetReturnValueFrom(ZOrder);
+                _component.Properties["ZOrder"] = ComponentPropertyHelper.GetReturnValueFrom(ZOrder);
             else
                 _component.Properties.Remove("ZOrder");
 
             if (!Visible)
-                _component.Properties["Visible"] = ComponentPropertyConverter.GetReturnValueFrom(Visible);
+                _component.Properties["Visible"] = ComponentPropertyHelper.GetReturnValueFrom(Visible);
             else
                 _component.Properties.Remove("Visible");
 
             if (Rotation != 0f)
-                _component.Properties["Rotation"] = ComponentPropertyConverter.GetReturnValueFrom(Rotation);
+                _component.Properties["Rotation"] = ComponentPropertyHelper.GetReturnValueFrom(Rotation);
             else
                 _component.Properties.Remove("Rotation");
 
             if (HorizontalAlignment != DinaHorizontalAlignment.Left)
-                _component.Properties["HorizontalAlignment"] = ComponentPropertyConverter.GetReturnValueFrom(HorizontalAlignment);
+                _component.Properties["HorizontalAlignment"] = ComponentPropertyHelper.GetReturnValueFrom(HorizontalAlignment);
             else
                 _component.Properties.Remove("HorizontalAlignment");
 
             if (VerticalAlignment != DinaVerticalAlignment.Top)
-                _component.Properties["VerticalAlignment"] = ComponentPropertyConverter.GetReturnValueFrom(VerticalAlignment);
+                _component.Properties["VerticalAlignment"] = ComponentPropertyHelper.GetReturnValueFrom(VerticalAlignment);
             else
                 _component.Properties.Remove("VerticalAlignment");
         }

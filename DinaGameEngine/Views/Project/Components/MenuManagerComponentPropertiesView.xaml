@@ -20,45 +20,20 @@
                 <x:Type TypeName="enums:DinaDirection"/>
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
-
+        <ObjectDataProvider x:Key="IconAlignmentValues"
+                    MethodName="GetValues"
+                    ObjectType="{x:Type sys:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="enums:IconMenuAlignment"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
     </UserControl.Resources>
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <StackPanel Margin="0,8,0,0">
 
-            <TextBlock Text="{ext:Translate Key=Component_MenuManager_ItemSpacing_Label}"
-                       Style="{DynamicResource FieldLabelStyle}"
-                       Margin="0,0,0,4"/>
-            <Grid x:Name="GridItemSpacing">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
 
-                <TextBox Grid.Column="0"
-                         Text="{Binding ItemSpacingX, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                         Style="{DynamicResource ModernTextBoxStyle}"
-                         Margin="0,0,0,8"/>
-                <TextBox Grid.Column="1"
-                         Text="{Binding ItemSpacingY, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                         Style="{DynamicResource ModernTextBoxStyle}"
-                         Margin="0,0,0,8"/>
-                <Button Grid.Column="2"
-                        Margin="4,0,4,0"
-                        Content="{Binding ResetIcon}"
-                        FontFamily="Segoe Fluent Icons"
-                        FontSize="14"
-                        Command="{Binding ResetItemSpacingCommand}"
-                        Style="{DynamicResource GhostFooterButton}"
-                        ToolTip="{ext:Translate Key=Component_Reset_Tooltip}"
-                        Width="28" Height="28"
-                        BorderBrush="OrangeRed"
-                        Foreground="OrangeRed"
-                        Tag="#FFECB3"/>
-            </Grid>
-
-            <shared:LabeledTextBox Label="{ext:Translate Key=Component_MenuManager_CurrentItemIndex_Label}"
-                                   Text="{Binding CurrentItemIndex, Mode=TwoWay}"/>
+            <shared:LabeledCheckBox Label="{ext:Translate Key=Component_Visible_Label}"
+                                    IsChecked="{Binding Visible}"/>
 
             <TextBlock Text="{ext:Translate Key=Component_MenuManager_Direction_Label}"
                        Style="{DynamicResource FieldLabelStyle}"
@@ -68,7 +43,61 @@
                       SelectedItem="{Binding Direction, Mode=TwoWay}"
                       Margin="0,0,4,8"/>
 
+            <local:Vector2InputView Label="{ext:Translate Key=Component_MenuManager_ItemSpacing_Label}"
+                                    ValueX="{Binding ItemSpacingX, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    ValueY="{Binding ItemSpacingY, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    ResetIcon="{Binding ResetIcon}"
+                                    ResetCommand="{Binding ResetItemSpacingCommand}"/>
 
+            <shared:LabeledTextBox Label="{ext:Translate Key=Component_MenuManager_CurrentItemIndex_Label}"
+                                   Text="{Binding CurrentItemIndex, Mode=TwoWay}"/>
+
+            <Separator Margin="0,0,0,4"
+                       Height="4"/>
+
+            <shared:LabeledCheckBox Label="{ext:Translate Key=Component_MenuManager_IconVisible_Label}"
+                                    IsChecked="{Binding IconVisible}"/>
+
+            <TextBlock Text="{ext:Translate Key=Component_MenuManager_IconAlignment_Label}"
+                       Style="{DynamicResource FieldLabelStyle}"
+                       Margin="0,0,0,4"/>
+            <ComboBox ItemsSource="{Binding Source={StaticResource IconAlignmentValues}, 
+                                    Converter={StaticResource EnumValuesFilterConverter},
+                                    ConverterParameter=None}"
+                      SelectedItem="{Binding IconAlignment, Mode=TwoWay}"
+                      Margin="0,0,4,8"/>
+
+            <TextBlock Text="{ext:Translate Key=Component_MenuManager_IconLeft_Label}"
+                       Style="{DynamicResource FieldLabelStyle}"
+                       Margin="0,0,0,4"/>
+            <ComboBox ItemsSource="{Binding AvailableImages}"
+                      SelectedItem="{Binding IconLeftTexture, Mode=TwoWay}"
+                      Margin="0,0,0,8">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Key}" VerticalAlignment="Center"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+
+            <TextBlock Text="{ext:Translate Key=Component_MenuManager_IconRight_Label}"
+                       Style="{DynamicResource FieldLabelStyle}"
+                       Margin="0,0,0,4"/>
+            <ComboBox ItemsSource="{Binding AvailableImages}"
+                      SelectedItem="{Binding IconRightTexture, Mode=TwoWay}"
+                      Margin="0,0,0,8">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Key}" VerticalAlignment="Center"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+
+            <shared:LabeledTextBox Label="{ext:Translate Key=Component_MenuManager_IconSpacingX_Label}"
+                                   Text="{Binding IconSpacingX, Mode=TwoWay}"/>
+
+            <shared:LabeledCheckBox Label="{ext:Translate Key=Component_MenuManager_IconResize_Label}"
+                                    IsChecked="{Binding IconResize}"/>
         </StackPanel>
     </ScrollViewer>
 </UserControl>
