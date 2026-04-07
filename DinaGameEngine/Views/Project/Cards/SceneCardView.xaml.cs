@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace DinaGameEngine.Views.Project
+namespace DinaGameEngine.Views.Project.Cards
 {
     /// <summary>
     /// Interaction logic for SceneCardView.xaml

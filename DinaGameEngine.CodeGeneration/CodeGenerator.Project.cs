@@ -1,4 +1,6 @@
-﻿using DinaGameEngine.Models;
+﻿using DinaGameEngine.Abstractions;
+using DinaGameEngine.Common;
+using DinaGameEngine.Models;
 
 using System.Text;
 
@@ -171,8 +173,7 @@ namespace DinaGameEngine.CodeGeneration
 
             generatedFile.AppendLine(CodeBuilder.OpenBlock("private void RegisterScene()", 2));
             generatedFile.AppendLine(CodeBuilder.AddLine("// =[ZONE:REGISTER_SCENE]=", 3));
-            generatedFile.AppendLine(CodeBuilder.AddLine("_sceneManager.AddScene(SceneKeys.MainMenu, () => new MainMenuScene(_sceneManager));", 3));
-            generatedFile.AppendLine(CodeBuilder.AddLine("_sceneManager.AddScene(SceneKeys.OptionsMenu, () => new OptionsMenuScene(_sceneManager));", 3));
+            generatedFile.AppendLine(CodeBuilder.AddLine("_sceneManager.AddScene(SceneKeys.OptionsMenuScene, () => new OptionsMenuScene(_sceneManager));", 3));
             generatedFile.AppendLine(CodeBuilder.AddLine("// =[/ZONE:REGISTER_SCENE]=", 3));
             generatedFile.AppendLine(CodeBuilder.AddLine("RegisterAdditionalScenes();", 3));
             generatedFile.AppendLine(CodeBuilder.CloseBlock(2));
@@ -199,7 +200,6 @@ namespace DinaGameEngine.CodeGeneration
             {
                 "Microsoft.Xna.Framework",
                 $"{gameProjectModel.RootNamespace}.Core.Keys",
-                $"{gameProjectModel.RootNamespace}.Scenes",
             };
             foreach (var ns in usings)
                 generatedFile.AppendLine(CodeBuilder.AddUsing(ns));
@@ -218,17 +218,37 @@ namespace DinaGameEngine.CodeGeneration
             generatedFile.AppendLine(CodeBuilder.AddEmptyLine());
             generatedFile.AppendLine(CodeBuilder.CloseBlock(2));
 
+            generatedFile.AppendLine(CodeBuilder.AddLine("partial Color BackgroundColor => Color.Black;", 2));
+            generatedFile.AppendLine(CodeBuilder.AddEmptyLine());
+
             generatedFile.AppendLine(CodeBuilder.AddPartialMethod("void OnSetStartupScene()", 2));
-            generatedFile.AppendLine(CodeBuilder.AddLine("_sceneManager.SetCurrentScene(SceneKeys.MainMenu);", 3));
+            generatedFile.AppendLine(CodeBuilder.AddLine("_sceneManager.SetCurrentScene(SceneKeys.MainMenuScene);", 3));
             generatedFile.AppendLine(CodeBuilder.CloseBlock(2));
 
-            generatedFile.AppendLine(CodeBuilder.AddLine("partial Color BackgroundColor => Color.Black;", 2));
 
             generatedFile.AppendLine(CodeBuilder.CloseBlock(1));
             generatedFile.AppendLine(CodeBuilder.CloseBlock(0));
 
             _fileService.WriteAllText(projectUserFilePath, generatedFile.ToString());
             _logService.Info($"Fichier '{gameProjectModel.ProjectName}.cs' généré.");
+        }
+
+        public void UpdateStartupScene(GameProjectModel gameProjectModel)
+        {
+            var projectUserFilePath = _fileService.Combine(gameProjectModel.RootPath, gameProjectModel.ProjectName, $"{gameProjectModel.ProjectName}.cs");
+            var sectionParser = CreateSectionParserFor(projectUserFilePath);
+
+            var startupScene = gameProjectModel.Scenes.FirstOrDefault(s => s.IsStartup);
+            if ( startupScene == null )
+            {
+                _logService.Error("Aucune scène n'a été définie comme scène par défaut.");
+                _dialogService.ShowError(LocalizationManager.GetTranslation("DefaultSceneMissing_Title"),
+                                         LocalizationManager.GetTranslation("DefaultSceneMissing_Message"));
+                return;
+            }
+            sectionParser.UpdateStartupScene("_sceneManager.SetCurrentScene(", startupScene!.Key);
+            _fileService.WriteAllText(projectUserFilePath, sectionParser.GetContent());
+            _logService.Info($"Fichier '{gameProjectModel.ProjectName}.cs' mis à jour avec la scène de départ.");
         }
     }
 }

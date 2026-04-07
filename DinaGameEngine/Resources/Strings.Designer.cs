@@ -440,6 +440,24 @@ namespace DinaGameEngine.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Aucune scène par défaut n&apos;a été définie..
+        /// </summary>
+        public static string DefaultSceneMissing_Message {
+            get {
+                return ResourceManager.GetString("DefaultSceneMissing_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Scène par défaut manquante.
+        /// </summary>
+        public static string DefaultSceneMissing_Title {
+            get {
+                return ResourceManager.GetString("DefaultSceneMissing_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ajouter.
         /// </summary>
         public static string Dialog_Add {
@@ -1012,6 +1030,24 @@ namespace DinaGameEngine.Resources {
         public static string NewProject_Title {
             get {
                 return ResourceManager.GetString("NewProject_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to définir démarrage.
+        /// </summary>
+        public static string SceneCard_SetStartupBadge {
+            get {
+                return ResourceManager.GetString("SceneCard_SetStartupBadge", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to démarrage.
+        /// </summary>
+        public static string SceneCard_StartupBadge {
+            get {
+                return ResourceManager.GetString("SceneCard_StartupBadge", resourceCulture);
             }
         }
         

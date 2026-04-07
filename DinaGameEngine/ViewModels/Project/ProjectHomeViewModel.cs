@@ -25,6 +25,15 @@ namespace DinaGameEngine.ViewModels.Project
                 if (e.PropertyName == nameof(ButtonBarViewModel.IsCollapsed))
                     OnPropertyChanged(nameof(CollapsedIcon));
             };
+            foreach(var viewModel in Items)
+                ((SceneCardViewModel)viewModel).StartupChangeRequested += OnStartupChangeRequested;
+            Items.CollectionChanged += (s, e) =>
+            {
+                if (e.NewItems == null)
+                    return;
+                foreach (SceneCardViewModel vm in e.NewItems.Cast<SceneCardViewModel>())
+                    vm.StartupChangeRequested += OnStartupChangeRequested;
+            };
         }
 
         public event EventHandler<ProjectView>? EditorRequested;
@@ -56,6 +65,18 @@ namespace DinaGameEngine.ViewModels.Project
                 LabelWeight = TextWeight.Normal,
                 IconWeight = TextWeight.Normal,
             };
+        }
+        public event EventHandler? StartupSceneChangeRequested;
+        private void OnStartupChangeRequested(object? sender, EventArgs e)
+        {
+            if (sender is not SceneCardViewModel newStartup)
+                return;
+
+            foreach (SceneCardViewModel vm in Items.Cast<SceneCardViewModel>())
+                vm.IsStartup = false;
+
+            newStartup.IsStartup = true;
+            StartupSceneChangeRequested?.Invoke(this, EventArgs.Empty);
         }
     }
 }

@@ -7,7 +7,7 @@
 
         private readonly List<string> _lines = [.. fileContent.Split(["\r\n", "\n"], StringSplitOptions.None)];
 
-        public void InsertBeforeZone(string zoneName, IEnumerable<string> lines, bool checkExistingLines = false)
+        public void InsertIntoZone(string zoneName, IEnumerable<string> lines, bool checkExistingLines = false)
         {
             var indexZoneClose = FindIndexZone(ZONE_CLOSE, zoneName);
             if (indexZoneClose < 0)
@@ -36,7 +36,7 @@
                 if (_lines[i].Contains($"{namespaceName};"))
                     return;
             }
-            InsertBeforeZone("USINGS", [$"using {namespaceName};"]);
+            InsertIntoZone("USINGS", [$"using {namespaceName};"]);
         }
         public void RemoveFromZone(string zoneName, string identifier) => RemoveFromZone(zoneName, line => line.Contains(identifier));
         public void RemoveFromZone(string zoneName, Func<string, bool> predicate)
@@ -153,6 +153,67 @@
             }
 
             _lines.RemoveRange(indexStartFunction, indexEndFunction - indexStartFunction + 1);
+        }
+        public void WriteInDelimitedPartialFunction(string functionSignature, IEnumerable<string> lines)
+        {
+            var indexStartZone = FindIndexZone(ZONE_OPEN, "PARTIAL_METHODS");
+            var indexEndZone = FindIndexZone(ZONE_CLOSE, "PARTIAL_METHODS");
+
+            var indexFunction = -1;
+            for (int i = indexStartZone; i < indexEndZone; i++)
+            {
+                if (_lines[i].Contains(functionSignature))
+                {
+                    indexFunction = i;
+                    break;
+                }
+            }
+            if (indexFunction < 0)
+                return;
+
+            // Trouver l'accolade ouvrante
+            var indexOpen = -1;
+            for (int i = indexFunction; i < indexEndZone; i++)
+            {
+                if (_lines[i].Contains('{'))
+                {
+                    indexOpen = i;
+                    break;
+                }
+            }
+            if (indexOpen < 0)
+                return;
+
+            // Trouver la ligne return et insérer avant
+            for (int i = indexOpen + 1; i < indexEndZone; i++)
+            {
+                if (_lines[i].Contains("return"))
+                {
+                    _lines.InsertRange(i, lines);
+                    return;
+                }
+            }
+        }
+
+        public void UpdateStartupScene(string ligneSignature, string sceneKey)
+        {
+            var index = 0;
+            var startupLine = string.Empty;
+            for(index = 0; index < _lines.Count;index++)
+            {
+                if (_lines.Contains("_sceneManager.SetCurrentScene("))
+                {
+                    startupLine = _lines[index];
+                    break;
+                }
+            }
+            if (string.IsNullOrEmpty(startupLine))
+                return;
+
+            var indexStartCurrentStartupScene = startupLine.IndexOf('(');
+            var indexEndCurrentStartupScene = startupLine.IndexOf(')');
+            var currentStartupScene = startupLine.Substring(indexStartCurrentStartupScene, indexEndCurrentStartupScene - indexStartCurrentStartupScene);
+            _lines[index] = startupLine.Replace(currentStartupScene, sceneKey);
         }
     }
 }

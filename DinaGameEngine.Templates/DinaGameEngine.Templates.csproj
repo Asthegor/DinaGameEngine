@@ -55,6 +55,7 @@
     <EmbeddedResource Remove="GameProject\Core\Keys\FontKeys.cs" />
     <EmbeddedResource Remove="GameProject\Core\Keys\PaletteColors.cs" />
     <EmbeddedResource Remove="GameProject\Core\Keys\SceneKeys.cs" />
+    <EmbeddedResource Remove="GameProject\Scenes\MainMenuScene.cs" />
     <EmbeddedResource Remove="GameProject\__GameProjectName__\__GameProjectName__.cs" />
     <EmbeddedResource Include="GameTemplateMarkers.json" />
   </ItemGroup>

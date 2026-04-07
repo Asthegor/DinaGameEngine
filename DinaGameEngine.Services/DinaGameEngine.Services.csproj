@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DinaGameEngine.Abstractions\DinaGameEngine.Abstractions.csproj" />
+    <ProjectReference Include="..\DinaGameEngine.CodeGeneration\DinaGameEngine.CodeGeneration.csproj" />
     <ProjectReference Include="..\DinaGameEngine.Models\DinaGameEngine.Models.csproj" />
   </ItemGroup>
 

@@ -9,12 +9,20 @@ using System.Diagnostics;
 
 namespace DinaGameEngine.Services
 {
-    public class ProjectService(IFileService fileService, ILogService logService, ITemplateExtractor templateExtractor, ICodeGenerator codeGenerator) : IProjectService
+    public partial class ProjectService : IProjectService
     {
-        private readonly IFileService _fileService = fileService;
-        private readonly ILogService _logService = logService;
-        private readonly ITemplateExtractor _templateExtractor = templateExtractor;
-        private readonly ICodeGenerator _codeGenerator = codeGenerator;
+        private readonly IFileService _fileService;
+        private readonly ILogService _logService;
+        private readonly ITemplateExtractor _templateExtractor;
+        private readonly ICodeGenerator _codeGenerator;
+
+        public ProjectService(IFileService fileService, ILogService logService, ITemplateExtractor templateExtractor, ICodeGenerator codeGenerator)
+        {
+            _fileService = fileService;
+            _logService = logService;
+            _templateExtractor = templateExtractor;
+            _codeGenerator = codeGenerator;
+        }
 
         public GameProjectModel? OpenProject(string projectPath)
         {
@@ -90,35 +98,28 @@ namespace DinaGameEngine.Services
                 RootPath = projectFolder,
                 RootNamespace = rootNamespaceMarker.Value
             };
+
+            // Ajout des polices par défaut
+            AddFontDefaults(gameProjectModel);
+
+            // Ajout des informations des scènes préchargées (Menu principal et Options)
+            AddMainMenuDefaults(gameProjectModel);
+            //AddOptionsMenuDefaults(gameProjectModel);
+
+            // Ajout de la scène GameScene vide.
             gameProjectModel.Scenes.Add(new SceneModel { Name = "Game", Class = "GameScene", Key = "GameScene" });
 
-            #region Ajout des couleurs pré-définies
-            gameProjectModel.Colors.Add(new ColorModel { Key = "MainMenu_Title",                    R = 255, G = 165, B = 000, A = 255 });
-            gameProjectModel.Colors.Add(new ColorModel { Key = "MainMenu_Title_Shadow",             R = 169, G = 169, B = 169, A = 255 });
-            gameProjectModel.Colors.Add(new ColorModel { Key = "MainMenu_MenuItem_Disabled",        R = 169, G = 169, B = 169, A = 255 });
-            gameProjectModel.Colors.Add(new ColorModel { Key = "MainMenu_MenuItem",                 R = 255, G = 255, B = 255, A = 255 });
-            gameProjectModel.Colors.Add(new ColorModel { Key = "MainMenu_MenuItem_Hovered",         R = 255, G = 255, B = 000, A = 255 });
-            gameProjectModel.Colors.Add(new ColorModel { Key = "Options_Title",                     R = 255, G = 165, B = 000, A = 255 });
-            gameProjectModel.Colors.Add(new ColorModel { Key = "Options_Title_Shadow",              R = 169, G = 169, B = 169, A = 255 });
-            gameProjectModel.Colors.Add(new ColorModel { Key = "Options_Category",                  R = 211, G = 211, B = 211, A = 255 });
-            gameProjectModel.Colors.Add(new ColorModel { Key = "Options_Label",                     R = 255, G = 255, B = 255, A = 255 });
-            gameProjectModel.Colors.Add(new ColorModel { Key = "Options_Button_Text",               R = 255, G = 255, B = 255, A = 255 });
-            gameProjectModel.Colors.Add(new ColorModel { Key = "Options_Button_Background",         R = 063, G = 063, B = 063, A = 063 });
-            gameProjectModel.Colors.Add(new ColorModel { Key = "Options_Button_Border",             R = 255, G = 255, B = 255, A = 255 });
-            gameProjectModel.Colors.Add(new ColorModel { Key = "Options_Button_Back_Border",        R = 255, G = 255, B = 255, A = 255 });
-            gameProjectModel.Colors.Add(new ColorModel { Key = "Options_Button_Back_Background",    R = 063, G = 063, B = 063, A = 063 });
-            gameProjectModel.Colors.Add(new ColorModel { Key = "Options_Button_Back_Hovered",       R = 255, G = 255, B = 000, A = 255 });
-            gameProjectModel.Colors.Add(new ColorModel { Key = "Options_Button_Reset_Border",       R = 139, G = 000, B = 000, A = 255 });
-            gameProjectModel.Colors.Add(new ColorModel { Key = "Options_Button_Reset_Background",   R = 063, G = 000, B = 000, A = 063 });
-            gameProjectModel.Colors.Add(new ColorModel { Key = "Options_Button_Reset_Hovered",      R = 255, G = 165, B = 000, A = 255 });
-            #endregion
-
-            gameProjectModel.Fonts.Add(new FontModel { Key = "Default", Size = 12, Spacing = 0, Style = SpriteFontStyle.Regular, TtfRelativePath= "../TTF_Files/Roboto-Regular.ttf" });
-
+            // Écriture des fichiers sur le disque.
             _codeGenerator.GenerateAllFiles(gameProjectModel);
 
+            // Mise à jour du fichier dina.project.json
             UpdateJsonProjectFile(gameProjectModel);
 
+            // Mise à jour des UserFiles
+            UpdateGameProjectUserFile(gameProjectModel);
+            UpdateMainMenuUserFile(gameProjectModel);
+
+            // Mise à jour des projets récents
             UpdateRecentProjects(gameProjectModel);
 
             _logService.Info($"Projet '{gameProjectModel.SolutionName}' finalisé avec succès.");
@@ -202,5 +203,6 @@ namespace DinaGameEngine.Services
             gameProjectModel.Scenes.Remove(sceneModel);
             UpdateJsonProjectFile(gameProjectModel);
         }
+
     }
 }

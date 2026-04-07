@@ -22,7 +22,7 @@ namespace DinaGameEngine.CodeGeneration
         {
             var designerFilePath = _fileService.Combine(gameProjectModel.RootPath, "Core", "Keys", "FontKeys.Designer.cs");
             var sectionParser = CreateSectionParserFor(designerFilePath);
-            sectionParser.InsertBeforeZone("FONT_KEYS",
+            sectionParser.InsertIntoZone("FONT_KEYS",
                 [CodeBuilder.AddLine($"public static readonly Key<FontTag> {model.Key} = Key<FontTag>.FromString(\"{model.Key}\");", level: 2)],
                 checkExistingLines: true);
             _fileService.WriteAllText(designerFilePath, sectionParser.GetContent());
@@ -137,7 +137,7 @@ namespace DinaGameEngine.CodeGeneration
             var fileFullName = _fileService.Combine(gameProjectModel.RootPath, "Fonts", "FontContent", fontPath, $"{model.Key}.spritefont");
 
             var adjustedSize = GetSizeForResolution(fontPath, model.Size);
-            var spritefontContent = string.Format(CodeBuilder.SpritefontContent(), model.TtfRelativePath, adjustedSize, model.Spacing, model.Style);
+            var spritefontContent = string.Format(CodeBuilder.SpritefontContent(), model.TtfRelativePath, adjustedSize.ToString("0.00"), model.Spacing, model.Style);
 
             _fileService.WriteAllText(fileFullName, spritefontContent);
 

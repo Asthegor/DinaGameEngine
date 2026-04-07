@@ -188,7 +188,7 @@ namespace DinaGameEngine.CodeGeneration
             var projectDesignerFilePath = _fileService.Combine(gameProjectModel.RootPath, gameProjectModel.ProjectName, $"{gameProjectModel.ProjectName}.Designer.cs");
             var sectionParserProjectDesignerFile = CreateSectionParserFor(projectDesignerFilePath);
             sectionParserProjectDesignerFile.AddUsingIfMissing($"{gameProjectModel.RootNamespace}.Scenes");
-            sectionParserProjectDesignerFile.InsertBeforeZone("REGISTER_SCENE", [CodeBuilder.AddLine($"_sceneManager.AddScene(SceneKeys.{scene.Key}, () => new {scene.Class}(_sceneManager));", level: 3)]);
+            sectionParserProjectDesignerFile.InsertIntoZone("REGISTER_SCENE", [CodeBuilder.AddLine($"_sceneManager.AddScene(SceneKeys.{scene.Key}, () => new {scene.Class}(_sceneManager));", level: 3)]);
             _fileService.WriteAllText(projectDesignerFilePath, sectionParserProjectDesignerFile.GetContent());
         }
         private void UpdateSceneKeys(GameProjectModel gameProjectModel, SceneModel scene)
@@ -196,7 +196,7 @@ namespace DinaGameEngine.CodeGeneration
             var sceneKeysFilePath = _fileService.Combine(gameProjectModel.RootPath, "Core", "Keys", "SceneKeys.Designer.cs");
             var sectionParserSceneKeys = CreateSectionParserFor(sceneKeysFilePath);
 
-            sectionParserSceneKeys.InsertBeforeZone("SCENE_KEYS",
+            sectionParserSceneKeys.InsertIntoZone("SCENE_KEYS",
                                                     [CodeBuilder.AddLine($"public static readonly Key<SceneTag> {scene.Key} = Key<SceneTag>.FromString(\"{scene.Name}\");", level: 2)],
                                                     checkExistingLines: true);
             _fileService.WriteAllText(sceneKeysFilePath, sectionParserSceneKeys.GetContent());
@@ -296,6 +296,18 @@ namespace DinaGameEngine.CodeGeneration
             _fileService.WriteAllText(filePath, generatedFile.ToString());
             _logService.Info($"Fichier 'SceneKeys.cs' généré.");
         }
+        public void WriteInPartialFunction(GameProjectModel gameProjectModel, SceneModel sceneModel, string functionSignature, IEnumerable<string> lines)
+        {
+            var userFilePath = _fileService.Combine(gameProjectModel.RootPath, "Scenes", $"{sceneModel.Class}.cs");
+            var sectionParser = CreateSectionParserFor(userFilePath);
+            sectionParser.WriteInDelimitedPartialFunction(functionSignature, lines);
+            _fileService.WriteAllText(userFilePath, sectionParser.GetContent());
+        }
+        public void DefineStartupScene(GameProjectModel gameProjectModel, SceneModel sceneModel)
+        {
+            var userFilePath = _fileService.Combine(gameProjectModel.RootPath, gameProjectModel.ProjectName, $"{gameProjectModel.ProjectName}.cs");
+            var sectionParser = CreateSectionParserFor(userFilePath);
 
+        }
     }
 }

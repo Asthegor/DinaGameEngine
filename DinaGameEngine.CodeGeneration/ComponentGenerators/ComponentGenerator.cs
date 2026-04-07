@@ -25,7 +25,7 @@ namespace DinaGameEngine.CodeGeneration.ComponentGenerators
         protected virtual void GenerateUsing(SectionParser sectionParser, string rootNamespace) { }
         protected virtual void GenerateField(SectionParser sectionParser, ComponentModel component, int level)
         {
-            sectionParser.InsertBeforeZone("FIELDS", [CodeBuilder.AddLine($"private {ComponentType} {GetFieldName(component)};", level)]);
+            sectionParser.InsertIntoZone("FIELDS", [CodeBuilder.AddLine($"private {ComponentType} {GetFieldName(component)};", level)]);
         }
         protected virtual void GenerateLoad(SectionParser sectionParser, ComponentModel component, int level) { }
         protected virtual void GenerateReset(SectionParser sectionParser, ComponentModel component, int level) { }
@@ -44,7 +44,7 @@ namespace DinaGameEngine.CodeGeneration.ComponentGenerators
         protected virtual void GenerateUserFileUsings(SectionParser sectionParser, ComponentModel component) { }
         protected virtual void GenerateUserFileCommentField(SectionParser sectionParser, ComponentModel component, int level)
         {
-            sectionParser.InsertBeforeZone("AVAILABLE_FIELDS", [CodeBuilder.AddLine($"// [{ComponentType}] {GetFieldName(component)}", level)], true);
+            sectionParser.InsertIntoZone("AVAILABLE_FIELDS", [CodeBuilder.AddLine($"// [{ComponentType}] {GetFieldName(component)}", level)], true);
         }
         protected virtual void GenerateUserFilePartialFunctions(SectionParser sectionParser, ComponentModel component, int level) { }
         #endregion
@@ -95,7 +95,7 @@ namespace DinaGameEngine.CodeGeneration.ComponentGenerators
             (int? x, int? y) = ComponentPropertyHelper.GetPointProperty(component, propertyName);
             if (x == null || y == null)
                 return;
-            sectionParser.InsertBeforeZone("COMPONENT_LOAD", [CodeBuilder.AddLine($"{componentFieldName}.{propertyName} = new Vector2({x}f, {y}f);", level)]);
+            sectionParser.InsertIntoZone("COMPONENT_LOAD", [CodeBuilder.AddLine($"{componentFieldName}.{propertyName} = new Vector2({x}f, {y}f);", level)]);
         }
 
         #endregion

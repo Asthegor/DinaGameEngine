@@ -487,4 +487,16 @@ Please remove it manually.</value>
   <data name="MenuManager_Items_Header" xml:space="preserve">
     <value>Items</value>
   </data>
+  <data name="DefaultSceneMissing_Title" xml:space="preserve">
+    <value>Default scene missing</value>
+  </data>
+  <data name="DefaultSceneMissing_Message" xml:space="preserve">
+    <value>No default scene has been set.</value>
+  </data>
+  <data name="SceneCard_StartupBadge" xml:space="preserve">
+    <value>startup</value>
+  </data>
+  <data name="SceneCard_SetStartupBadge" xml:space="preserve">
+    <value>set as startup</value>
+  </data>
 </root>

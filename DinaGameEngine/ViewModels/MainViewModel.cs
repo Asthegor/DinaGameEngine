@@ -198,6 +198,7 @@ namespace DinaGameEngine.ViewModels
             projectHomeViewModel.ItemOpenRequested += OnSceneOpenRequested;
             projectHomeViewModel.ItemDeleteRequested += OnSceneDeleteRequested;
             projectHomeViewModel.EditorRequested += OnEditorRequested;
+            projectHomeViewModel.StartupSceneChangeRequested += (_, _) => _projectService.UpdateJsonProjectFile(_gameProjectModel);
             CurrentViewModel = projectHomeViewModel;
             var title = _gameProjectModel.SolutionName;
             var windowMenuItemViewModel = new WindowMenuItemViewModel(title: title,

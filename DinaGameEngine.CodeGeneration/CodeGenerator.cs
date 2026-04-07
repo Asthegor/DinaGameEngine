@@ -27,6 +27,9 @@ namespace DinaGameEngine.CodeGeneration
             GenerateFontKeys(gameProjectModel);
             #endregion
 
+            foreach (var font in gameProjectModel.Fonts)
+                AddFont(gameProjectModel, font);
+
             foreach (var scene in gameProjectModel.Scenes)
                 GenerateNewScene(gameProjectModel, scene);
         }

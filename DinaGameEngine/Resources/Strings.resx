@@ -487,4 +487,16 @@ Pensez à le supprimer manuellement.</value>
   <data name="MenuManager_Items_Header" xml:space="preserve">
     <value>Items</value>
   </data>
+  <data name="DefaultSceneMissing_Title" xml:space="preserve">
+    <value>Scène par défaut manquante</value>
+  </data>
+  <data name="DefaultSceneMissing_Message" xml:space="preserve">
+    <value>Aucune scène par défaut n'a été définie.</value>
+  </data>
+  <data name="SceneCard_StartupBadge" xml:space="preserve">
+    <value>démarrage</value>
+  </data>
+  <data name="SceneCard_SetStartupBadge" xml:space="preserve">
+    <value>définir démarrage</value>
+  </data>
 </root>

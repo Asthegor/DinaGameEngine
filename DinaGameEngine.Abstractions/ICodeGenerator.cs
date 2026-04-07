@@ -17,6 +17,7 @@ namespace DinaGameEngine.Abstractions
         void RemoveFont(GameProjectModel gameProjectModel, FontModel fontModel);
         void AddComponent(GameProjectModel gameProjectModel, SceneModel sceneModel, ComponentModel component);
         void RemoveComponent(GameProjectModel gameProjectModel, SceneModel sceneModel, ComponentModel component, bool showWarning = true);
-
+        void UpdateStartupScene(GameProjectModel gameProjectModel);
+        void WriteInPartialFunction(GameProjectModel gameProjectModel, SceneModel sceneModel, string functionSignature, IEnumerable<string> lines);
     }
 }
