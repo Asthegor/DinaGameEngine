@@ -42,7 +42,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Strings.resx</DependentUpon>
     </Compile>
-    <Compile Update="Views\Project\Add\AddMenuItemComponentView.xaml.cs">
+    <Compile Update="Views\Project\Add\AddMenuManagerSubComponentView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\Project\Add\AddTextComponentView.xaml.cs">

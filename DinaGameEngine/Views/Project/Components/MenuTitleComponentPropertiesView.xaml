@@ -1,0 +1,76 @@
+﻿<UserControl x:Class="DinaGameEngine.Views.Project.Components.MenuTitleComponentPropertiesView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:shared="clr-namespace:DinaGameEngine.Views.Shared"
+             xmlns:ext="clr-namespace:DinaGameEngine.Extensions"
+             xmlns:converters="clr-namespace:DinaGameEngine.Converters"
+             xmlns:comps="clr-namespace:DinaGameEngine.Views.Project.Components"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:enums="clr-namespace:DinaGameEngine.Common.Enums;assembly=DinaGameEngine.Common"
+             mc:Ignorable="d">
+    <UserControl.Resources>
+        <converters:ColorModelToBrushConverter x:Key="ColorModelToBrushConverter"/>
+        <converters:EnumValuesFilterConverter x:Key="EnumValuesFilterConverter"/>
+        <ObjectDataProvider x:Key="HorizontalAlignmentValues"
+                    MethodName="GetValues"
+                    ObjectType="{x:Type sys:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="enums:DinaHorizontalAlignment"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <ObjectDataProvider x:Key="VerticalAlignmentValues"
+                    MethodName="GetValues"
+                    ObjectType="{x:Type sys:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="enums:DinaVerticalAlignment"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+    </UserControl.Resources>
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="0,8,0,0">
+
+            <shared:LabeledComboBox Label="{ext:Translate Key=Component_Font_Label}"
+                                    AvailableKeys="{Binding AvailableFonts}"
+                                    SelectedKey="{Binding SelectedFont, Mode=TwoWay}"
+                                    DisplayMemberPath="Key"/>
+
+            <shared:LabeledTextBox Label="{ext:Translate Key=Component_Content_Label}"
+                                   Text="{Binding Content, Mode=TwoWay}"/>
+
+            <shared:LabeledColorComboBox Label="{ext:Translate Key=Component_Color_Label}"
+                                         AvailableColors="{Binding AvailableColors}"
+                                         SelectedColor="{Binding SelectedColor, Mode=TwoWay}"/>
+
+            <comps:Vector2InputView Label="{ext:Translate Key=Component_Position_Label}"
+                                    ValueX="{Binding PositionX, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    ValueY="{Binding PositionY, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    ResetIcon="{Binding ResetIcon}"
+                                    ResetCommand="{Binding ResetPositionCommand}"/>
+
+            <comps:Vector2InputView Label="{ext:Translate Key=Component_Dimensions_Label}"
+                                    ValueX="{Binding DimensionsX, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    ValueY="{Binding DimensionsY, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    ResetIcon="{Binding ResetIcon}"
+                                    ResetCommand="{Binding ResetDimensionsCommand}"/>
+
+            <shared:LabeledTextBox Label="{ext:Translate Key=Component_ZOrder_Label}"
+                                   Text="{Binding ZOrder, Mode=TwoWay}"/>
+
+            <shared:LabeledCheckBox Label="{ext:Translate Key=Component_Visible_Label}"
+                                    IsChecked="{Binding Visible}"/>
+
+            <shared:LabeledComboBox Label="{ext:Translate Key=Component_HorizontalAlignment_Label}"
+                                    AvailableKeys="{Binding Source={StaticResource HorizontalAlignmentValues},
+                                                    Converter={StaticResource EnumValuesFilterConverter}}"
+                                    SelectedKey="{Binding HAlign, Mode=TwoWay}"/>
+
+            <shared:LabeledComboBox Label="{ext:Translate Key=Component_VerticalAlignment_Label}"
+                                    AvailableKeys="{Binding Source={StaticResource VerticalAlignmentValues},
+                                                    Converter={StaticResource EnumValuesFilterConverter}}"
+                                    SelectedKey="{Binding VAlign, Mode=TwoWay}"/>
+
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

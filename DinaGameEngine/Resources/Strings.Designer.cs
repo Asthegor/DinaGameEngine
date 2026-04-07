@@ -872,6 +872,24 @@ namespace DinaGameEngine.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Items.
+        /// </summary>
+        public static string MenuManager_Items_Header {
+            get {
+                return ResourceManager.GetString("MenuManager_Items_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Titres.
+        /// </summary>
+        public static string MenuManager_Titles_Header {
+            get {
+                return ResourceManager.GetString("MenuManager_Titles_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sons/SFX.
         /// </summary>
         public static string Nav_Audio {

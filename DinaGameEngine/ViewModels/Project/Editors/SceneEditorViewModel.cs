@@ -50,10 +50,17 @@ namespace DinaGameEngine.ViewModels.Project.Editors
                 var vm = new ComponentViewModel(component, propertiesVm);
                 vm.ItemSelected += OnComponentSelected;
                 vm.ItemDeleted += OnComponentDeleted;
-                vm.BeforeMenuItemRemoved += OnMenuItemBeforeChanged;
-                vm.AfterMenuItemRemoved += OnMenuItemChanged;
+
+                vm.BeforeMenuTitleRemoved += OnMenuSubBeforeChanged;
+                vm.AfterMenuTitleRemoved += OnMenuSubChanged;
+                vm.AddMenuTitleRequested += OnAddMenuTitleRequested;
+                vm.MenuTitleSelected += OnMenuTitleSelected;
+
+                vm.BeforeMenuItemRemoved += OnMenuSubBeforeChanged;
+                vm.AfterMenuItemRemoved += OnMenuSubChanged;
                 vm.AddMenuItemRequested += OnAddMenuItemRequested;
                 vm.MenuItemSelected += OnMenuItemSelected;
+
                 Components.Add(vm);
             }
 
@@ -89,12 +96,16 @@ namespace DinaGameEngine.ViewModels.Project.Editors
         {
             if (sender is not ComponentViewModel vm)
                 return;
-            // On désactive tous les MenuItems
+            // On désactive tous les MenuTitles et MenuItems
             foreach(var c in Components)
             {
+                foreach (var menuTitle in c.MenuTitles)
+                    menuTitle.IsSelected = false;
+
                 foreach (var menuItem in c.MenuItems)
                     menuItem.IsSelected = false;
             }
+
             var previous = Components.FirstOrDefault(c => c.IsSelected);
             if (previous != null)
             {
@@ -172,8 +183,14 @@ namespace DinaGameEngine.ViewModels.Project.Editors
                 var vm = new ComponentViewModel(newComponent, propertiesVm);
                 vm.ItemSelected += OnComponentSelected;
                 vm.ItemDeleted += OnComponentDeleted;
-                vm.BeforeMenuItemRemoved += OnMenuItemBeforeChanged;
-                vm.AfterMenuItemRemoved += OnMenuItemChanged;
+                
+                vm.BeforeMenuTitleRemoved += OnMenuSubBeforeChanged;
+                vm.AfterMenuTitleRemoved += OnMenuSubChanged;
+                vm.AddMenuTitleRequested += OnAddMenuTitleRequested;
+                vm.MenuTitleSelected += OnMenuTitleSelected;
+
+                vm.BeforeMenuItemRemoved += OnMenuSubBeforeChanged;
+                vm.AfterMenuItemRemoved += OnMenuSubChanged;
                 vm.AddMenuItemRequested += OnAddMenuItemRequested;
                 vm.MenuItemSelected += OnMenuItemSelected;
                 Components.Add(vm);
@@ -182,13 +199,13 @@ namespace DinaGameEngine.ViewModels.Project.Editors
                 OnPropertyChanged(nameof(FilteredComponents));
             }
         }
-        private void OnMenuItemBeforeChanged(object? sender, EventArgs e)
+        private void OnMenuSubBeforeChanged(object? sender, EventArgs e)
         {
             if (sender is not ComponentModel component)
                 return;
             _codeGenerator.RemoveComponent(_gameProjectModel, _sceneModel, component, showWarning: false);
         }
-        private void OnMenuItemChanged(object? sender, EventArgs e)
+        private void OnMenuSubChanged(object? sender, EventArgs e)
         {
             if (sender is not ComponentModel component)
                 return;
@@ -198,11 +215,91 @@ namespace DinaGameEngine.ViewModels.Project.Editors
             var componentVm = Components.FirstOrDefault(c => c.Model == component);
             componentVm?.NotifyKeyChanged();
         }
-        private void OnMenuItemAdded(object? sender, EventArgs e)
+
+
+        private void OnAddMenuTitleRequested(object? sender, EventArgs e)
         {
-            OnMenuItemBeforeChanged(sender, e);
-            OnMenuItemChanged(sender, e);
+            if (sender is not ComponentModel component)
+                return;
+
+            var vm = Components.FirstOrDefault(c => c.Model == component);
+            if (vm == null)
+                return;
+
+            var existingKeys = component.SubComponents.Select(c => c.Key).ToList();
+            var addComponentViewModel = new AddComponentViewModel(existingKeys, "AddComponent_MenuTitle_Title");
+
+            var addVm = _addComponentViewModelFactory.Create("MenuTitle", _gameProjectModel,
+                                                             addComponentViewModel.ConfirmCommand.RaiseCanExecuteChanged);
+            addComponentViewModel.SpecificProperties = addVm;
+            if (addVm != null)
+                addComponentViewModel.RegisterValidator(() => addVm.IsValid);
+
+            bool confirmed = false;
+            addComponentViewModel.ComponentConfirmed += (s, result) => confirmed = result;
+
+            var window = new AddComponentWindow { DataContext = addComponentViewModel };
+            window.ShowDialog();
+
+            if (!confirmed)
+                return;
+
+            OnMenuSubBeforeChanged(sender, e);
+
+            var componentModel = new ComponentModel
+            {
+                Key = addComponentViewModel.Key,
+                Type = "MenuTitle"
+            };
+            addVm?.ApplyToModel(componentModel);
+
+            component.SubComponents.Add(componentModel);
+            vm.AddMenuTitle(new MenuTitleViewModel(componentModel));
+
+            OnMenuSubChanged(sender, e);
         }
+        private void OnMenuTitleSelected(object? sender, EventArgs e)
+        {
+            if (sender is not MenuTitleViewModel menuTitleVm)
+                return;
+
+            foreach (var c in Components)
+            {
+                foreach (var menuTitle in c.MenuTitles)
+                    menuTitle.IsSelected = false;
+
+                foreach (var menuItem in c.MenuItems)
+                    menuItem.IsSelected = false;
+            }
+
+
+            // Désélectionner le composant parent
+            var parentVm = Components.FirstOrDefault(c => c.IsSelected);
+            if (parentVm != null)
+            {
+                parentVm.IsSelected = false;
+                if (parentVm.PropertiesViewModel != null)
+                    parentVm.PropertiesViewModel.Applied -= OnComponentApplied;
+            }
+
+            menuTitleVm.IsSelected = true;
+
+            // Afficher les propriétés du MenuItem
+            var menuTitlePropertiesVm = _propertiesViewModelFactory.Create("MenuTitle", (ComponentModel)menuTitleVm.Model, _gameProjectModel);
+            if (menuTitlePropertiesVm != null)
+                menuTitlePropertiesVm.Applied += OnMenuTitleApplied;
+            SelectedComponentViewModel = menuTitlePropertiesVm;
+        }
+        private void OnMenuTitleApplied(object? sender, ComponentModel oldSnapshot)
+        {
+            _projectService.UpdateJsonProjectFile(_gameProjectModel);
+
+            var parentVm = Components.FirstOrDefault(c => c.MenuTitles.Any(m => m.Model == SelectedComponentViewModel?.Component));
+            var menuItemVm = parentVm?.MenuTitles.FirstOrDefault(m => m.Model == SelectedComponentViewModel?.Component);
+            menuItemVm?.NotifyChanged();
+        }
+
+
         private void OnAddMenuItemRequested(object? sender, EventArgs e)
         {
             if (sender is not ComponentModel component)
@@ -230,7 +327,7 @@ namespace DinaGameEngine.ViewModels.Project.Editors
             if (!confirmed)
                 return;
 
-            OnMenuItemBeforeChanged(sender, e);
+            OnMenuSubBeforeChanged(sender, e);
 
             var menuItemModel = new ComponentModel
             {
@@ -242,13 +339,21 @@ namespace DinaGameEngine.ViewModels.Project.Editors
             component.SubComponents.Add(menuItemModel);
             vm.AddMenuItem(new MenuItemViewModel(menuItemModel));
 
-            OnMenuItemChanged(sender, e);
+            OnMenuSubChanged(sender, e);
         }
-
         private void OnMenuItemSelected(object? sender, EventArgs e)
         {
             if (sender is not MenuItemViewModel menuItemVm)
                 return;
+
+            foreach (var c in Components)
+            {
+                foreach (var menuTitle in c.MenuTitles)
+                    menuTitle.IsSelected = false;
+
+                foreach (var menuItem in c.MenuItems)
+                    menuItem.IsSelected = false;
+            }
 
             // Désélectionner le composant parent
             var parentVm = Components.FirstOrDefault(c => c.IsSelected);
@@ -259,10 +364,13 @@ namespace DinaGameEngine.ViewModels.Project.Editors
                     parentVm.PropertiesViewModel.Applied -= OnComponentApplied;
             }
 
+            menuItemVm.IsSelected = true;
+
             // Afficher les propriétés du MenuItem
             var menuItemPropertiesVm = _propertiesViewModelFactory.Create("MenuItem", (ComponentModel)menuItemVm.Model, _gameProjectModel);
             if (menuItemPropertiesVm != null)
                 menuItemPropertiesVm.Applied += OnMenuItemApplied;
+            
             SelectedComponentViewModel = menuItemPropertiesVm;
         }
         private void OnMenuItemApplied(object? sender, ComponentModel oldSnapshot)

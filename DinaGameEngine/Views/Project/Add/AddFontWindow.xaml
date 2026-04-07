@@ -21,16 +21,7 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-
+        <StackPanel Grid.Row="0">
             <shared:ValidatedLabeledTextBox Grid.Row="0" x:Name="KeyTextBox"
                                             Label="{ext:Translate Key=AddColor_Key_Label}"
                                             Text="{Binding Key, UpdateSourceTrigger=PropertyChanged}"
@@ -79,7 +70,7 @@
                                    Label="{ext:Translate Key=AddFont_Spacing_Label}"
                                    Text="{Binding Spacing, UpdateSourceTrigger=PropertyChanged}"/>
 
-        </Grid>
+        </StackPanel>
 
         <shared:ButtonBarView Grid.Row="1" 
                               DataContext="{Binding FooterButtons}" 

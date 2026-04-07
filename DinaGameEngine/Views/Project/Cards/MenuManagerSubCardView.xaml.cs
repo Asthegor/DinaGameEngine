@@ -3,11 +3,11 @@
 namespace DinaGameEngine.Views.Project.Cards
 {
     /// <summary>
-    /// Interaction logic for MenuItemCardView.xaml
+    /// Interaction logic for MenuManagerSubCardView.xaml
     /// </summary>
-    public partial class MenuItemCardView : UserControl
+    public partial class MenuManagerSubCardView : UserControl
     {
-        public MenuItemCardView()
+        public MenuManagerSubCardView()
         {
             InitializeComponent();
         }

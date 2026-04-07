@@ -481,4 +481,10 @@ Please remove it manually.</value>
   <data name="Component_State_Label" xml:space="preserve">
     <value>State</value>
   </data>
+  <data name="MenuManager_Titles_Header" xml:space="preserve">
+    <value>Titles</value>
+  </data>
+  <data name="MenuManager_Items_Header" xml:space="preserve">
+    <value>Items</value>
+  </data>
 </root>

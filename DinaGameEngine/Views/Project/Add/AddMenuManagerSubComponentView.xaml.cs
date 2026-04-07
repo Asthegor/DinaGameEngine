@@ -5,9 +5,9 @@ namespace DinaGameEngine.Views.Project.Add
     /// <summary>
     /// Interaction logic for TextComponentView.xaml
     /// </summary>
-    public partial class AddMenuItemComponentView : UserControl
+    public partial class AddMenuManagerSubComponentView : UserControl
     {
-        public AddMenuItemComponentView()
+        public AddMenuManagerSubComponentView()
         {
             InitializeComponent();
         }

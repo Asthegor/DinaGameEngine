@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DinaGameEngine.Views.Project.Cards"
+             xmlns:shared="clr-namespace:DinaGameEngine.Views.Shared"
              xmlns:conv="clr-namespace:DinaGameEngine.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
@@ -74,24 +75,45 @@
             </Grid>
         </Border>
 
-        <StackPanel Visibility="{Binding IsExpanded, Converter={StaticResource BoolToVisibility}}">
-            <ItemsControl ItemsSource="{Binding MenuItems}">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <local:MenuItemCardView/>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
+        <StackPanel x:Name="SubItems" Visibility="{Binding IsExpanded, Converter={StaticResource BoolToVisibility}}">
 
-            <Button HorizontalAlignment="Left"
-                    Margin="24,2,0,2"
-                    Content="{Binding AddIcon}"
-                    FontFamily="Segoe Fluent Icons"
-                    FontSize="14"
-                    Command="{Binding AddItemCommand}"
-                    Style="{DynamicResource GhostFooterButton}"
-                    Width="28" Height="28"
-                    Visibility="{Binding HasItems, Converter={StaticResource BoolToVisibility}}"/>
+            <!-- Header Titres -->
+            <shared:ExpandedListHeader Margin="24,0,0,0"
+                                       Header="{Binding TitlesHeader}"
+                                       ToggleExpandCommand="{Binding ToggleTitlesExpandCommand}"
+                                       AddCommand="{Binding AddTitleCommand}"/>
+
+            <!-- Liste Titres -->
+            <StackPanel Visibility="{Binding IsTitlesExpanded, Converter={StaticResource BoolToVisibility}}">
+                <ItemsControl ItemsSource="{Binding MenuTitles}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <local:MenuManagerSubCardView/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+
+            <Separator Margin="24,2,4,2"/>
+
+            <!-- Header Items -->
+            <shared:ExpandedListHeader Margin="24,0,0,0"
+                                       Header="{Binding ItemsHeader}"
+                                       ToggleExpandCommand="{Binding ToggleItemsExpandCommand}"
+                                       AddCommand="{Binding AddItemCommand}"/>
+
+            <!-- Liste Items -->
+            <StackPanel Visibility="{Binding IsItemsExpanded, Converter={StaticResource BoolToVisibility}}">
+                <ItemsControl ItemsSource="{Binding MenuItems}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <local:MenuManagerSubCardView/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+
         </StackPanel>
+        
     </StackPanel>
 </UserControl>

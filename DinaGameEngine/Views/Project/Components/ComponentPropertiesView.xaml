@@ -15,6 +15,9 @@
         <DataTemplate DataType="{x:Type vmComps:MenuManagerComponentPropertiesViewModel}">
             <comps:MenuManagerComponentPropertiesView/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type vmComps:MenuTitleComponentPropertiesViewModel}">
+            <comps:MenuTitleComponentPropertiesView/>
+        </DataTemplate>
         <DataTemplate DataType="{x:Type vmComps:MenuItemComponentPropertiesViewModel}">
             <comps:MenuItemComponentPropertiesView/>
         </DataTemplate>

@@ -23,8 +23,11 @@
         <DataTemplate DataType="{x:Type vmAdd:AddMenuManagerComponentViewModel}">
             <add:AddMenuManagerComponentView/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type vmAdd:AddMenuTitleComponentViewModel}">
+            <add:AddMenuManagerSubComponentView/>
+        </DataTemplate>
         <DataTemplate DataType="{x:Type vmAdd:AddMenuItemComponentViewModel}">
-            <add:AddMenuItemComponentView/>
+            <add:AddMenuManagerSubComponentView/>
         </DataTemplate>
     </Window.Resources>
     <Grid Margin="16">
