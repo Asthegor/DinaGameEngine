@@ -35,8 +35,7 @@ namespace DinaGameEngine.ViewModels.Project.Add
             set
             {
                 SetProperty(ref _key, value);
-                if (!IsKeyFocused)
-                    ValidateKey();
+                ValidateKey();
                 AddCommand.RaiseCanExecuteChanged();
             }
         }
@@ -54,12 +53,7 @@ namespace DinaGameEngine.ViewModels.Project.Add
         public bool IsKeyFocused
         {
             get => _isKeyFocused;
-            set
-            {
-                SetProperty(ref _isKeyFocused, value);
-                if (!value)
-                    ValidateKey();
-            }
+            set => SetProperty(ref _isKeyFocused, value);
         }
 
         public IEnumerable<NamedItem<T>> NamedItems { get; protected set; } = [];

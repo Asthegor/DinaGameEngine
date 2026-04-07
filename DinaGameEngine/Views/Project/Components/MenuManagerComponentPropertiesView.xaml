@@ -35,13 +35,10 @@
             <shared:LabeledCheckBox Label="{ext:Translate Key=Component_Visible_Label}"
                                     IsChecked="{Binding Visible}"/>
 
-            <TextBlock Text="{ext:Translate Key=Component_MenuManager_Direction_Label}"
-                       Style="{DynamicResource FieldLabelStyle}"
-                       Margin="0,0,0,4"/>
-            <ComboBox ItemsSource="{Binding Source={StaticResource DirectionValues}, 
-                                    Converter={StaticResource EnumValuesFilterConverter}}"
-                      SelectedItem="{Binding Direction, Mode=TwoWay}"
-                      Margin="0,0,4,8"/>
+            <shared:LabeledComboBox Label="{ext:Translate Key=Component_MenuManager_Direction_Label}"
+                                    AvailableKeys="{Binding Source={StaticResource DirectionValues}, 
+                                                    Converter={StaticResource EnumValuesFilterConverter}}"
+                                    SelectedKey="{Binding Direction, Mode=TwoWay}"/>
 
             <local:Vector2InputView Label="{ext:Translate Key=Component_MenuManager_ItemSpacing_Label}"
                                     ValueX="{Binding ItemSpacingX, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -58,40 +55,18 @@
             <shared:LabeledCheckBox Label="{ext:Translate Key=Component_MenuManager_IconVisible_Label}"
                                     IsChecked="{Binding IconVisible}"/>
 
-            <TextBlock Text="{ext:Translate Key=Component_MenuManager_IconAlignment_Label}"
-                       Style="{DynamicResource FieldLabelStyle}"
-                       Margin="0,0,0,4"/>
-            <ComboBox ItemsSource="{Binding Source={StaticResource IconAlignmentValues}, 
-                                    Converter={StaticResource EnumValuesFilterConverter},
-                                    ConverterParameter=None}"
-                      SelectedItem="{Binding IconAlignment, Mode=TwoWay}"
-                      Margin="0,0,4,8"/>
+            <shared:LabeledComboBox Label="{ext:Translate Key=Component_MenuManager_IconAlignment_Label}"
+                                    AvailableKeys="{Binding Source={StaticResource IconAlignmentValues}, 
+                                                    Converter={StaticResource EnumValuesFilterConverter}}"
+                                    SelectedKey="{Binding IconAlignment, Mode=TwoWay}"/>
 
-            <TextBlock Text="{ext:Translate Key=Component_MenuManager_IconLeft_Label}"
-                       Style="{DynamicResource FieldLabelStyle}"
-                       Margin="0,0,0,4"/>
-            <ComboBox ItemsSource="{Binding AvailableImages}"
-                      SelectedItem="{Binding IconLeftTexture, Mode=TwoWay}"
-                      Margin="0,0,0,8">
-                <ComboBox.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding Key}" VerticalAlignment="Center"/>
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
-            </ComboBox>
+            <shared:LabeledComboBox Label="{ext:Translate Key=Component_MenuManager_IconLeft_Label}"
+                                    AvailableKeys="{Binding AvailableImages}"
+                                    SelectedKey="{Binding IconLeftTexture, Mode=TwoWay}"/>
 
-            <TextBlock Text="{ext:Translate Key=Component_MenuManager_IconRight_Label}"
-                       Style="{DynamicResource FieldLabelStyle}"
-                       Margin="0,0,0,4"/>
-            <ComboBox ItemsSource="{Binding AvailableImages}"
-                      SelectedItem="{Binding IconRightTexture, Mode=TwoWay}"
-                      Margin="0,0,0,8">
-                <ComboBox.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding Key}" VerticalAlignment="Center"/>
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
-            </ComboBox>
+            <shared:LabeledComboBox Label="{ext:Translate Key=Component_MenuManager_IconRight_Label}"
+                                    AvailableKeys="{Binding AvailableImages}"
+                                    SelectedKey="{Binding IconRightTexture, Mode=TwoWay}"/>
 
             <shared:LabeledTextBox Label="{ext:Translate Key=Component_MenuManager_IconSpacingX_Label}"
                                    Text="{Binding IconSpacingX, Mode=TwoWay}"/>

@@ -21,38 +21,19 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0">
 
-            <TextBlock Grid.Row="0" Margin="0,0,0,8"
-                       Text="{ext:Translate Key=AddColor_Key_Label}"
-                       Style="{DynamicResource FieldLabelStyle}"/>
+            <shared:ValidatedLabeledTextBox x:Name="KeyTextBox"
+                                            Label="{ext:Translate Key=AddColor_Key_Label}"
+                                            Text="{Binding Key, UpdateSourceTrigger=PropertyChanged}"
+                                            ErrorMessage="{Binding KeyErrorMessage}"
+                                            IsKeyFocused="{Binding IsKeyFocused, Mode=TwoWay}"/>
 
-            <TextBox Grid.Row="1" Margin="0,0,0,8" 
-                     Text="{Binding Key, UpdateSourceTrigger=PropertyChanged}"
-                     Style="{DynamicResource ModernTextBoxStyle}"
-                     GotFocus="KeyTextBox_GotFocus"
-                     LostFocus="KeyTextBox_LostFocus"
-                     x:Name="KeyTextBox"/>
-
-            <TextBlock Grid.Row="2" 
-                       Text="{Binding KeyErrorMessage}"
-                       Foreground="OrangeRed"
-                       FontSize="11"
-                       Margin="0,0,0,8"
-                       Visibility="{Binding KeyErrorMessage, Converter={StaticResource StringToVisibilityConverter}}"/>
-
-            <comps:ColorPickerView Grid.Row="3" 
-                                   Label="{ext:Translate Key=AddColor_ColorPicker_Label}"
+            <comps:ColorPickerView Label="{ext:Translate Key=AddColor_ColorPicker_Label}"
                                    SelectedColor="{Binding PreviewColor, Mode=TwoWay}"
                                    SelectedNamedColor="{Binding SelectedNamedItem, Mode=TwoWay}"
                                    NamedColors="{Binding NamedItems, Mode=OneWay}"/>
-        </Grid>
+        </StackPanel>
 
         <shared:ButtonBarView Grid.Row="1" 
                               DataContext="{Binding FooterButtons}" 

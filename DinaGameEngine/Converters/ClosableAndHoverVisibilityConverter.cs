@@ -12,7 +12,9 @@ namespace DinaGameEngine.Converters
             var isMouseOver = values[1] is bool a && a;
             if (!isClosable)
                 return Visibility.Collapsed;
-            return isClosable && isMouseOver ? Visibility.Visible : Visibility.Hidden;
+            if (isClosable)
+                return Visibility.Visible;
+            return isMouseOver ? Visibility.Visible : Visibility.Hidden;
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)

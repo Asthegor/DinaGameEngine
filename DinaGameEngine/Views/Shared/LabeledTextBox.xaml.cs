@@ -19,7 +19,7 @@ namespace DinaGameEngine.Views.Shared
         }
         public static readonly DependencyProperty IsKeyFocusedProperty =
             DependencyProperty.Register(nameof(IsKeyFocused), typeof(bool), typeof(LabeledTextBox),
-                new PropertyMetadata(false));
+                new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
         public string Label
         {
             get => (string)GetValue(LabelProperty);
@@ -33,7 +33,8 @@ namespace DinaGameEngine.Views.Shared
             set => SetValue(TextProperty, value);
         }
         public static readonly DependencyProperty TextProperty =
-            DependencyProperty.Register(nameof(Text), typeof(string), typeof(LabeledTextBox), new PropertyMetadata(string.Empty));
+            DependencyProperty.Register(nameof(Text), typeof(string), typeof(LabeledTextBox),
+                new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
         public bool IsReadOnly
         {

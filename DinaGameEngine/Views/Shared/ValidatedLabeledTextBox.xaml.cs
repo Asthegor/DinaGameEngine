@@ -43,7 +43,9 @@ namespace DinaGameEngine.Views.Shared
             set => SetValue(TextProperty, value);
         }
         public static readonly DependencyProperty TextProperty =
-            DependencyProperty.Register(nameof(Text), typeof(string), typeof(ValidatedLabeledTextBox), new PropertyMetadata(string.Empty));
+            DependencyProperty.Register(nameof(Text), typeof(string), typeof(ValidatedLabeledTextBox),
+                new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+
 
         public bool IsReadOnly
         {

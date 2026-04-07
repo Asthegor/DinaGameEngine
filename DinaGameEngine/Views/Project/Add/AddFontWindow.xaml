@@ -29,37 +29,19 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            
-            <TextBlock Grid.Row="0" Margin="0,0,0,8"
-                       Text="{ext:Translate Key=AddFont_Key_Label}"
-                       Style="{DynamicResource FieldLabelStyle}"/>
+            <shared:ValidatedLabeledTextBox Grid.Row="0" x:Name="KeyTextBox"
+                                            Label="{ext:Translate Key=AddColor_Key_Label}"
+                                            Text="{Binding Key, UpdateSourceTrigger=PropertyChanged}"
+                                            ErrorMessage="{Binding KeyErrorMessage}"
+                                            IsKeyFocused="{Binding IsKeyFocused, Mode=TwoWay}"/>
 
-            <TextBox Grid.Row="1" Margin="0,0,0,8" 
-                     Text="{Binding Key, UpdateSourceTrigger=PropertyChanged}"
-                     Style="{DynamicResource ModernTextBoxStyle}"
-                     GotFocus="KeyTextBox_GotFocus"
-                     LostFocus="KeyTextBox_LostFocus"
-                     x:Name="KeyTextBox"/>
-
-            <TextBlock Grid.Row="2" 
-                       Text="{Binding KeyErrorMessage}"
-                       Foreground="OrangeRed"
-                       FontSize="11"
-                       Margin="0,0,0,8"
-                       Visibility="{Binding KeyErrorMessage, Converter={StaticResource StringToVisibilityConverter}}"/>
-
-            <TextBlock Grid.Row="3" Margin="0,0,0,8"
+            <TextBlock Grid.Row="1" Margin="0,0,0,8"
                        Text="{ext:Translate Key=AddFont_TtfFile_Label}"
                        Style="{DynamicResource FieldLabelStyle}"/>
             
-            <Grid Grid.Row="4" Margin="0,0,0,8">
+            <Grid Grid.Row="2" Margin="0,0,0,8">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
@@ -84,30 +66,18 @@
 
             </Grid>
 
-            <TextBlock Grid.Row="5" Margin="0,0,0,8"
-                       Text="{ext:Translate Key=AddFont_Size_Label}"
-                       Style="{DynamicResource FieldLabelStyle}"/>
+            <shared:LabeledTextBox Grid.Row="3"
+                                   Label="{ext:Translate Key=AddFont_Size_Label}"
+                                   Text="{Binding Size, UpdateSourceTrigger=PropertyChanged}"/>
 
-            <TextBox Grid.Row="6" Margin="0,0,0,8" 
-                     Text="{Binding Size, UpdateSourceTrigger=PropertyChanged}"
-                     Style="{DynamicResource ModernTextBoxStyle}"/>
+            <shared:LabeledComboBox Grid.Row="4"
+                                    Label="{ext:Translate Key=AddFont_Style_Label}"
+                                    AvailableKeys="{Binding AvailableStyles}"
+                                    SelectedKey="{Binding Style, Mode=TwoWay}"/>
 
-            <TextBlock Grid.Row="7" Margin="0,0,0,8"
-                       Text="{ext:Translate Key=AddFont_Style_Label}"
-                       Style="{DynamicResource FieldLabelStyle}"/>
-
-            <ComboBox Grid.Row="8"
-                      ItemsSource="{Binding AvailableStyles}"
-                      SelectedItem="{Binding Style, Mode=TwoWay}"
-                      Margin="0,0,0,8"/>
-
-            <TextBlock Grid.Row="9" Margin="0,0,0,8"
-                       Text="{ext:Translate Key=AddFont_Spacing_Label}"
-                       Style="{DynamicResource FieldLabelStyle}"/>
-
-            <TextBox Grid.Row="10" Margin="0,0,0,8" 
-                     Text="{Binding Spacing, UpdateSourceTrigger=PropertyChanged}"
-                     Style="{DynamicResource ModernTextBoxStyle}"/>
+            <shared:LabeledTextBox Grid.Row="5"
+                                   Label="{ext:Translate Key=AddFont_Spacing_Label}"
+                                   Text="{Binding Spacing, UpdateSourceTrigger=PropertyChanged}"/>
 
         </Grid>
 
