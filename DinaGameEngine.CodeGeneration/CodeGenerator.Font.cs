@@ -1,6 +1,7 @@
 ﻿using DinaGameEngine.Models;
 using DinaGameEngine.Models.Project;
 
+using System.Globalization;
 using System.Text;
 
 
@@ -137,7 +138,7 @@ namespace DinaGameEngine.CodeGeneration
             var fileFullName = _fileService.Combine(gameProjectModel.RootPath, "Fonts", "FontContent", fontPath, $"{model.Key}.spritefont");
 
             var adjustedSize = GetSizeForResolution(fontPath, model.Size);
-            var spritefontContent = string.Format(CodeBuilder.SpritefontContent(), model.TtfRelativePath, adjustedSize.ToString("0.00"), model.Spacing, model.Style);
+            var spritefontContent = string.Format(CodeBuilder.SpritefontContent(), model.TtfRelativePath, adjustedSize.ToString("0.00", CultureInfo.InvariantCulture), model.Spacing, model.Style);
 
             _fileService.WriteAllText(fileFullName, spritefontContent);
 

@@ -86,47 +86,51 @@
         </member>
         <member name="T:DinaCSharp.Core.Group">
             <summary>
-            Représente un groupe d'éléments, gérant leur affichage, visibilité, couleur et interactions.
+            Représente un groupe d'éléments gérant leur affichage, leur visibilité, leur couleur et leurs interactions.
+            Les éléments sont automatiquement triés par ordre d'affichage (Z-order) lors de chaque ajout.
             </summary>
         </member>
         <member name="M:DinaCSharp.Core.Group.#ctor(Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,System.Int32)">
             <summary>
-            Initialise une nouvelle instance de la classe Group avec les propriétés spécifiées.
+            Initialise un groupe vide.
             </summary>
-            <param name="position">Position initiale du groupe. Par défaut, (0,0).</param>
-            <param name="dimensions">Dimensions initiales du groupe. Par défaut, (0,0).</param>
-            <param name="zorder">Ordre d'affichage initial du groupe. Par défaut, 0.</param>
+            <param name="position">Position initiale du groupe. Par défaut, (0, 0).</param>
+            <param name="dimensions">Dimensions initiales du groupe. Par défaut, (0, 0).</param>
+            <param name="zorder">Ordre d'affichage initial. Par défaut, 0.</param>
+            <exception cref="T:System.InvalidOperationException">
+            Levée si le service <c>Texture1px</c> n'est pas enregistré dans le <see cref="T:DinaCSharp.Services.ServiceLocator"/>.
+            </exception>
         </member>
         <member name="M:DinaCSharp.Core.Group.#ctor(DinaCSharp.Core.Group,System.Boolean)">
             <summary>
-            Initialise une nouvelle instance de la classe Group en copiant les éléments d'un autre groupe.
+            Initialise un groupe en copiant les éléments d'un groupe source.
             </summary>
-            <param name="group">Groupe source à copier.</param>
+            <param name="source">Groupe source à copier.</param>
             <param name="duplicate">
-            Indique si les éléments doivent être dupliqués. 
-            Si false, les éléments sont simplement référencés.
+            Si <c>true</c>, chaque élément est dupliqué via son constructeur de copie.
+            Si <c>false</c>, les références sont partagées entre les deux groupes.
             </param>
-            <exception cref="T:System.ArgumentNullException">Lance une exception si le groupe fourni est null.</exception>
-        </member>
-        <member name="P:DinaCSharp.Core.Group.Current">
-            <summary>
-            Obtient l'élément actuel lors de l'énumération du groupe.
-            </summary>
+            <exception cref="T:System.ArgumentNullException">Levée si <paramref name="source"/> est <c>null</c>.</exception>
+            <exception cref="T:System.InvalidOperationException">
+            Levée si un élément ne possède pas de constructeur de copie, ou si le service <c>Texture1px</c>
+            n'est pas enregistré dans le <see cref="T:DinaCSharp.Services.ServiceLocator"/>.
+            </exception>
         </member>
         <member name="P:DinaCSharp.Core.Group.Rectangle">
             <summary>
-            Obtient le rectangle représentant la position et les dimensions du groupe.
+            Rectangle représentant la position et les dimensions du groupe dans l'espace 2D.
+            Mis à jour automatiquement lors des changements de <see cref="P:DinaCSharp.Core.Group.Position"/> et <see cref="P:DinaCSharp.Core.Group.Dimensions"/>.
             </summary>
         </member>
-        <member name="M:DinaCSharp.Core.Group.Add(DinaCSharp.Interfaces.IElement)">
+        <member name="P:DinaCSharp.Core.Group.Count">
             <summary>
-            Ajoute un élément au groupe.
+            Nombre d'éléments dans le groupe.
             </summary>
-            <param name="element">Élément à ajouter.</param>
         </member>
         <member name="P:DinaCSharp.Core.Group.Position">
             <summary>
-            Obtient ou définit la position du groupe. La modification de la position déplace également ses éléments.
+            Obtient ou définit la position du groupe.
+            Déplacer le groupe déplace également tous ses éléments et son titre.
             </summary>
         </member>
         <member name="P:DinaCSharp.Core.Group.Dimensions">
@@ -136,177 +140,515 @@
         </member>
         <member name="P:DinaCSharp.Core.Group.Visible">
             <summary>
-            Obtient ou définit la visibilité du groupe et de ses éléments.
+            Obtient ou définit la visibilité du groupe.
+            Propager la valeur à tous les éléments implémentant <see cref="T:DinaCSharp.Core.Interfaces.IVisible"/>.
             </summary>
         </member>
         <member name="P:DinaCSharp.Core.Group.Color">
             <summary>
-            Obtient ou définit la couleur du groupe et de ses éléments.
+            Obtient ou définit la couleur du groupe.
+            Propage la valeur à tous les éléments implémentant <see cref="T:DinaCSharp.Core.Interfaces.IColor"/>.
+            </summary>
+        </member>
+        <member name="P:DinaCSharp.Core.Group.HasFrame">
+            <summary>
+            Active ou désactive l'affichage d'un cadre autour du groupe.
+            </summary>
+        </member>
+        <member name="P:DinaCSharp.Core.Group.FrameColor">
+            <summary>
+            Couleur du cadre affiché lorsque <see cref="P:DinaCSharp.Core.Group.HasFrame"/> est activé.
+            </summary>
+        </member>
+        <member name="P:DinaCSharp.Core.Group.FrameThickness">
+            <summary>
+            Épaisseur du trait du cadre en pixels.
+            </summary>
+        </member>
+        <member name="P:DinaCSharp.Core.Group.FramePadding">
+            <summary>
+            Espacement en pixels entre les éléments du groupe et le cadre.
+            </summary>
+        </member>
+        <member name="M:DinaCSharp.Core.Group.Add(DinaCSharp.Core.Interfaces.IElement)">
+            <summary>
+            Ajoute un élément au groupe.
+            Si l'élément implémente <see cref="T:DinaCSharp.Core.Interfaces.IDimensions"/>, les dimensions du groupe sont recalculées.
+            Les éléments sont ensuite triés par Z-order.
+            </summary>
+            <param name="element">Élément à ajouter.</param>
+        </member>
+        <member name="M:DinaCSharp.Core.Group.SortElements">
+            <summary>
+            Trie les éléments du groupe par ordre d'affichage (Z-order) croissant.
             </summary>
         </member>
         <member name="M:DinaCSharp.Core.Group.IsClicked">
             <summary>
-            Vérifie si un élément du groupe est cliqué.
+            Vérifie si au moins un élément du groupe a été cliqué (clic gauche ou droit).
             </summary>
-            <returns>True si un élément est cliqué, sinon false.</returns>
+            <returns><c>true</c> si au moins un élément cliquable est cliqué, <c>false</c> sinon.</returns>
         </member>
         <member name="M:DinaCSharp.Core.Group.IsLeftClicked">
             <summary>
-            Vérifie si un élément du groupe est cliqué avec le clic gauche de la souris.
+            Vérifie si au moins un élément du groupe a été cliqué avec le bouton gauche de la souris.
             </summary>
-            <returns>True si un élément est cliqué avec le clic gauche de la souris, sinon false.</returns>
+            <returns><c>true</c> si au moins un élément cliquable est cliqué avec le bouton gauche, <c>false</c> sinon.</returns>
         </member>
         <member name="M:DinaCSharp.Core.Group.IsRightClicked">
             <summary>
-            Vérifie si un élément du groupe est cliqué avec le clic droit de la souris.
+            Vérifie si au moins un élément du groupe a été cliqué avec le bouton droit de la souris.
             </summary>
-            <returns>True si un élément est cliqué avec le clic droit de la souris, sinon false.</returns>
+            <returns><c>true</c> si au moins un élément cliquable est cliqué avec le bouton droit, <c>false</c> sinon.</returns>
         </member>
         <member name="M:DinaCSharp.Core.Group.IsHovered">
             <summary>
-            Vérifie si un élément du groupe est cliqué.
+            Indique si la souris survole actuellement la zone du groupe.
+            Mis à jour à chaque appel à <see cref="M:DinaCSharp.Core.Group.Update(Microsoft.Xna.Framework.GameTime)"/>.
             </summary>
-            <returns>True si un élément est cliqué, sinon false.</returns>
+            <returns><c>true</c> si la souris est dans les limites du groupe, <c>false</c> sinon.</returns>
         </member>
-        <member name="M:DinaCSharp.Core.Group.Count">
+        <member name="M:DinaCSharp.Core.Group.LeftClick">
             <summary>
-            Obtient le nombre d'éléments dans le groupe.
+            Simule un clic gauche sur le groupe et le propage à tous les éléments implémentant <see cref="T:DinaCSharp.Core.Interfaces.IClickable"/>.
             </summary>
-            <returns>Nombre d'éléments.</returns>
         </member>
-        <member name="M:DinaCSharp.Core.Group.MoveNext">
+        <member name="M:DinaCSharp.Core.Group.RightClick">
             <summary>
-            Passe à l'élément suivant lors de l'énumération.
+            Simule un clic droit sur le groupe et le propage à tous les éléments implémentant <see cref="T:DinaCSharp.Core.Interfaces.IClickable"/>.
             </summary>
-            <returns>True si un élément suivant existe, sinon false.</returns>
         </member>
-        <member name="M:DinaCSharp.Core.Group.Reset">
+        <member name="M:DinaCSharp.Core.Group.Collide(DinaCSharp.Core.Interfaces.ICollide)">
             <summary>
-            Réinitialise l'énumération du groupe.
+            Vérifie si le groupe entre en collision avec un autre élément.
             </summary>
+            <param name="item">Élément à tester pour la collision.</param>
+            <returns><c>true</c> si les rectangles se chevauchent, <c>false</c> sinon ou si <paramref name="item"/> est <c>null</c>.</returns>
+        </member>
+        <member name="M:DinaCSharp.Core.Group.AddTitle(Microsoft.Xna.Framework.Graphics.SpriteFont,System.String,Microsoft.Xna.Framework.Color,System.Nullable{Microsoft.Xna.Framework.Color},System.Nullable{System.Int32},System.Nullable{System.Int32},System.Nullable{Microsoft.Xna.Framework.Color},System.Nullable{Microsoft.Xna.Framework.Vector2},System.Int32)">
+            <summary>
+            Crée et ajoute un titre textuel au groupe, positionné à cheval sur le bord supérieur du cadre.
+            Active automatiquement l'affichage du cadre (<see cref="P:DinaCSharp.Core.Group.HasFrame"/>).
+            </summary>
+            <param name="font">Police du titre.</param>
+            <param name="text">Contenu du titre.</param>
+            <param name="textcolor">Couleur du texte du titre.</param>
+            <param name="framecolor">Couleur du cadre. Par défaut, gris semi-transparent.</param>
+            <param name="framepadding">Espacement entre les éléments et le cadre. Par défaut, 8 px (au minimum la moitié de l'interligne).</param>
+            <param name="framethickness">Épaisseur du cadre. Par défaut, 2 px.</param>
+            <param name="shadowcolor">Couleur de l'ombre du titre (facultatif). Nécessite <paramref name="shadowoffset"/>.</param>
+            <param name="shadowoffset">Décalage de l'ombre du titre (facultatif). Nécessite <paramref name="shadowcolor"/>.</param>
+            <param name="zorder">Ordre de superposition du titre. Par défaut, 0.</param>
+            <returns>L'élément titre créé.</returns>
+            <exception cref="T:System.ArgumentNullException">Levée si <paramref name="font"/> est <c>null</c>.</exception>
+        </member>
+        <member name="M:DinaCSharp.Core.Group.AddTitle(DinaCSharp.Core.Interfaces.IDrawingElement,System.Nullable{Microsoft.Xna.Framework.Color},System.Nullable{System.Int32},System.Nullable{System.Int32})">
+            <summary>
+            Ajoute un élément titre déjà instancié au groupe, positionné à cheval sur le bord supérieur du cadre.
+            Active automatiquement l'affichage du cadre (<see cref="P:DinaCSharp.Core.Group.HasFrame"/>).
+            </summary>
+            <param name="title">Élément titre à utiliser.</param>
+            <param name="framecolor">Couleur du cadre. Par défaut, gris semi-transparent.</param>
+            <param name="framepadding">Espacement entre les éléments et le cadre. Par défaut, 8 px.</param>
+            <param name="framethickness">Épaisseur du cadre. Par défaut, 2 px.</param>
+            <returns>L'élément titre fourni.</returns>
+            <exception cref="T:System.ArgumentNullException">Levée si <paramref name="title"/> est <c>null</c>.</exception>
+        </member>
+        <member name="M:DinaCSharp.Core.Group.AddFrame(Microsoft.Xna.Framework.Color,System.Int32,System.Int32)">
+            <summary>
+            Active et configure le cadre du groupe sans ajouter de titre.
+            </summary>
+            <param name="framecolor">Couleur du cadre.</param>
+            <param name="framepadding">Espacement entre les éléments et le cadre en pixels.</param>
+            <param name="framethickness">Épaisseur du trait du cadre en pixels.</param>
+        </member>
+        <member name="M:DinaCSharp.Core.Group.Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch)">
+            <summary>
+            Dessine le cadre, le titre puis tous les éléments visibles du groupe.
+            </summary>
+            <param name="spritebatch">Instance de <see cref="T:Microsoft.Xna.Framework.Graphics.SpriteBatch"/> utilisée pour le rendu.</param>
+        </member>
+        <member name="M:DinaCSharp.Core.Group.Update(Microsoft.Xna.Framework.GameTime)">
+            <summary>
+            Met à jour l'état du survol et propage la mise à jour à tous les éléments implémentant <see cref="T:DinaCSharp.Core.Interfaces.IUpdate"/>.
+            </summary>
+            <param name="gametime">Temps de jeu courant.</param>
+        </member>
+        <member name="M:DinaCSharp.Core.Group.CalculateBounds">
+            <summary>
+            Calcule le plus petit rectangle aligné sur les axes qui englobe tous les éléments du groupe.
+            </summary>
+            <remarks>
+            Utile pour la mise en page, la détection de collisions ou le rendu du cadre.
+            </remarks>
+            <returns>
+            Un <see cref="P:DinaCSharp.Core.Group.Rectangle"/> englobant tous les éléments,
+            ou <see cref="P:Microsoft.Xna.Framework.Rectangle.Empty"/> si le groupe est vide.
+            </returns>
         </member>
         <member name="M:DinaCSharp.Core.Group.GetEnumerator">
             <summary>
             Retourne un énumérateur pour parcourir les éléments du groupe.
             </summary>
         </member>
-        <member name="M:DinaCSharp.Core.Group.Collide(DinaCSharp.Interfaces.ICollide)">
+        <member name="M:DinaCSharp.Core.Group.System#Collections#IEnumerable#GetEnumerator">
             <summary>
-            Vérifie si le groupe entre en collision avec un autre élément.
-            </summary>
-            <param name="item">Élément à tester pour la collision.</param>
-            <returns>True si une collision est détectée, sinon false.</returns>
-        </member>
-        <member name="P:DinaCSharp.Core.Group.HasFrame">
-            <summary>
-            Active ou désactive l’affichage d’un cadre autour du groupe.
-            </summary>
-        </member>
-        <member name="P:DinaCSharp.Core.Group.FrameColor">
-            <summary>
-            Couleur du cadre ou du fond si <see cref="P:DinaCSharp.Core.Group.HasFrame"/> est activé.
-            </summary>
-        </member>
-        <member name="P:DinaCSharp.Core.Group.FrameThickness">
-            <summary>
-            Épaisseur du cadre.
-            </summary>
-        </member>
-        <member name="P:DinaCSharp.Core.Group.FramePadding">
-            <summary>
-            Espacement supplémentaire appliqué autour des éléments
-            lorsque le cadre est dessiné.
-            </summary>
-        </member>
-        <member name="M:DinaCSharp.Core.Group.AddTitle(Microsoft.Xna.Framework.Graphics.SpriteFont,System.String,Microsoft.Xna.Framework.Color,System.Nullable{Microsoft.Xna.Framework.Color},System.Nullable{System.Int32},System.Nullable{System.Int32},System.Nullable{Microsoft.Xna.Framework.Color},System.Nullable{Microsoft.Xna.Framework.Vector2},System.Int32)">
-            <summary>
-            Ajoute un titre au groupe.
-            </summary>
-            <param name="font">Police du titre.</param>
-            <param name="text">Texte du titre.</param>
-            
-            <param name="textcolor">Couleur du titre.</param>
-            <param name="shadowcolor">Couleur de l'ombre (facultatif).</param>
-            <param name="shadowoffset">Décalage de l'ombre (facultatif).</param>
-            <param name="framecolor">Couleur du cadre (facultatif).</param>
-            <param name="framepadding">Espacement supplémentaire appliqué autour des éléments.</param>
-            <param name="framethickness">Épaisseur du cadre.</param>
-            <param name="zorder">Ordre de superposition du titre (facultatif).</param>
-            <returns>L'élément titre ajouté.</returns>
-        </member>
-        <member name="M:DinaCSharp.Core.Group.AddTitle(DinaCSharp.Interfaces.IDrawingElement,System.Nullable{Microsoft.Xna.Framework.Color},System.Nullable{System.Int32},System.Nullable{System.Int32})">
-            <summary>
-            Ajoute un titre à partir d'un élément déjà créé.
-            </summary>
-            <param name="title">L'élément titre à ajouter.</param>
-            <param name="framecolor">Couleur du cadre (facultatif).</param>
-            <param name="framepadding">Espacement supplémentaire appliqué autour des éléments.</param>
-            <param name="framethickness">Épaisseur du cadre.</param>
-            <returns>L'élément titre ajouté.</returns>
-        </member>
-        <member name="M:DinaCSharp.Core.Group.AddFrame(Microsoft.Xna.Framework.Color,System.Int32,System.Int32)">
-            <summary>
-            Permet d'ajouter un cadre au groupe.
-            </summary>
-            <param name="framecolor">Couleur du cadre.</param>
-            <param name="framepadding">Espacement supplémentaire appliqué autour des éléments.</param>
-            <param name="framethickness">Épaisseur du cadre.</param>
-        </member>
-        <member name="M:DinaCSharp.Core.Group.Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch)">
-            <summary>
-            Dessine les éléments du groupe.
-            </summary>
-            <param name="spritebatch">Objet SpriteBatch utilisé pour le rendu.</param>
-        </member>
-        <member name="M:DinaCSharp.Core.Group.CalculateBounds">
-            <summary>
-            Calcule le plus petit rectangle aligné sur les axes qui contient complètement tous les éléments du groupe.
-            </summary>
-            <remarks>
-            Utile pour déterminer l'étendue spatiale globale du groupe, notamment pour la mise en page, 
-            la détection de collisions ou le rendu. Le rectangle retourné est le rectangle minimal 
-            qui englobe les dimensions de chaque élément présent dans le groupe.
-            </remarks>
-            <returns>
-            Un <see cref="P:DinaCSharp.Core.Group.Rectangle"/> représentant la zone englobante de tous les éléments. 
-            Retourne <see cref="P:Microsoft.Xna.Framework.Rectangle.Empty"/> si le groupe ne contient aucun élément.
-            </returns>
-        </member>
-        <member name="M:DinaCSharp.Core.Group.SortElements">
-            <summary>
-            Trie les éléments du groupe par ordre d'affichage (Z-order).
-            </summary>
-        </member>
-        <member name="M:DinaCSharp.Core.Group.UpdateDimensions">
-            <summary>
-            Met à jour les dimensions du groupe en fonction de ses éléments.
-            </summary>
-        </member>
-        <member name="M:DinaCSharp.Core.Group.Update(Microsoft.Xna.Framework.GameTime)">
-            <summary>
-            Met à jour les éléments du groupe.
-            </summary>
-            <param name="gametime">Temps de jeu actuel.</param>
-        </member>
-        <member name="M:DinaCSharp.Core.Group.LeftClick">
-            <summary>
-            Simule un clic gauche sur le Group et le transmet à tous les éléments qu'il contient.
-            </summary>
-        </member>
-        <member name="M:DinaCSharp.Core.Group.RightClick">
-            <summary>
-            Simule un clic droit sur le Group et le transmet à tous les éléments qu'il contient
+            Implémentation non générique de <see cref="T:System.Collections.IEnumerable"/>, requise par l'interface.
             </summary>
         </member>
         <member name="M:DinaCSharp.Core.Group.Dispose">
             <summary>
-            Libère les ressources utilisées par le groupe et désabonne tous les événements.
+            Libère les ressources du groupe et de tous ses éléments.
             </summary>
         </member>
         <member name="M:DinaCSharp.Core.Group.Dispose(System.Boolean)">
             <summary>
-            Libère les ressources managées et non managées.
+            Libère les ressources managées : dispose chaque élément et vide la collection.
             </summary>
+        </member>
+        <member name="M:DinaCSharp.Core.Group.UpdateDimensions">
+            <summary>
+            Recalcule les dimensions du groupe pour englober l'ensemble de ses éléments.
+            Appelé automatiquement lors de l'ajout d'un élément implémentant <see cref="T:DinaCSharp.Core.Interfaces.IDimensions"/>.
+            </summary>
+        </member>
+        <member name="M:DinaCSharp.Core.Group.PositionTitle">
+            <summary>
+            Positionne le titre à cheval sur le bord supérieur du cadre et met à jour <see cref="F:DinaCSharp.Core.Group._titleRect"/>.
+            </summary>
+        </member>
+        <member name="M:DinaCSharp.Core.Group.DisposeTitle">
+            <summary>
+            Libère le titre courant s'il implémente <see cref="T:System.IDisposable"/>, puis le supprime.
+            </summary>
+        </member>
+        <member name="T:DinaCSharp.Core.Interfaces.IClickable">
+            <summary>
+            Defines methods for querying and performing click actions on a control or UI element.
+            </summary>
+            <remarks>Implement this interface to provide standardized click interaction capabilities for custom
+            controls or UI elements. Methods allow checking the current click state and simulating left or right mouse
+            button clicks. Thread safety and input handling behavior depend on the implementing class.</remarks>
+        </member>
+        <member name="M:DinaCSharp.Core.Interfaces.IClickable.IsClicked">
+            <summary>
+            Determines whether the associated control or element has been clicked.
+            </summary>
+            <returns>true if the control or element is currently in a clicked state; otherwise, false.</returns>
+        </member>
+        <member name="M:DinaCSharp.Core.Interfaces.IClickable.IsLeftClicked">
+            <summary>
+            Determines whether the left mouse button is currently pressed.
+            </summary>
+            <returns>true if the left mouse button is pressed; otherwise, false.</returns>
+        </member>
+        <member name="M:DinaCSharp.Core.Interfaces.IClickable.IsRightClicked">
+            <summary>
+            Determines whether the right mouse button is currently pressed.
+            </summary>
+            <returns>true if the right mouse button is pressed; otherwise, false.</returns>
+        </member>
+        <member name="M:DinaCSharp.Core.Interfaces.IClickable.LeftClick">
+            <summary>
+            Performs a left mouse button click at the current location.
+            </summary>
+        </member>
+        <member name="M:DinaCSharp.Core.Interfaces.IClickable.RightClick">
+            <summary>
+            Performs a right-click action at the current location or on the associated UI element.
+            </summary>
+        </member>
+        <member name="T:DinaCSharp.Core.Interfaces.IClickable`1">
+            <summary>
+            
+            </summary>
+            <typeparam name="TEventArgs"></typeparam>
+        </member>
+        <member name="E:DinaCSharp.Core.Interfaces.IClickable`1.OnClicked">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:DinaCSharp.Core.Interfaces.ICollide">
+            <summary>
+            Defines members for objects that support collision detection and provide position and size information.
+            </summary>
+            <remarks>Implement this interface to enable collision detection between objects in a two-dimensional
+            space. Inherits position and dimension properties from IPosition and IDimensions.</remarks>
+        </member>
+        <member name="M:DinaCSharp.Core.Interfaces.ICollide.Collide(DinaCSharp.Core.Interfaces.ICollide)">
+            <summary>
+            Determines whether this object collides with the specified item.
+            </summary>
+            <param name="item">The object to check for a collision with this instance. Cannot be null.</param>
+            <returns>true if a collision is detected; otherwise, false.</returns>
+        </member>
+        <member name="P:DinaCSharp.Core.Interfaces.ICollide.Rectangle">
+            <summary>
+            Gets the bounding rectangle that defines the position and size of the object.
+            </summary>
+        </member>
+        <member name="T:DinaCSharp.Core.Interfaces.IColor">
+            <summary>
+            Represents an object that has an associated color.
+            </summary>
+        </member>
+        <member name="P:DinaCSharp.Core.Interfaces.IColor.Color">
+            <summary>
+            Gets or sets the color associated with this instance.
+            </summary>
+        </member>
+        <member name="T:DinaCSharp.Core.Interfaces.ICopyable`1">
+            <summary>
+            Defines a method that creates a copy of the current object.
+            </summary>
+            <remarks>Implement this interface to provide a strongly typed copy operation for objects. The returned
+            copy should be independent of the original object, unless otherwise specified by the implementation.</remarks>
+            <typeparam name="T">The type of object that is returned by the copy operation.</typeparam>
+        </member>
+        <member name="M:DinaCSharp.Core.Interfaces.ICopyable`1.Copy">
+            <summary>
+            Creates a copy of the current instance.
+            </summary>
+            <remarks>The returned copy is typically a deep copy, but the exact semantics depend on the
+            implementation in the derived class. Callers should refer to the specific implementation for details on what
+            is copied.</remarks>
+            <returns>A new instance of type T that is a copy of the current object.</returns>
+        </member>
+        <member name="T:DinaCSharp.Core.Interfaces.IDimensions">
+            <summary>
+            Represents an object that exposes its width and height as a two-dimensional vector.
+            </summary>
+            <remarks>Implementations typically use the X and Y components of the vector to represent width and
+            height, respectively. The interface does not specify units; consumers should refer to the implementing type's
+            documentation for details.</remarks>
+        </member>
+        <member name="P:DinaCSharp.Core.Interfaces.IDimensions.Dimensions">
+            <summary>
+            Gets or sets the width and height of the object as a two-dimensional vector.
+            </summary>
+        </member>
+        <member name="T:DinaCSharp.Core.Interfaces.IDraw">
+            <summary>
+            Defines a contract for drawable objects that can render themselves using a specified sprite batch.
+            </summary>
+        </member>
+        <member name="M:DinaCSharp.Core.Interfaces.IDraw.Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch)">
+            <summary>
+            Draws the object using the specified sprite batch.
+            </summary>
+            <param name="spritebatch">The sprite batch used to render the object. Cannot be null.</param>
+        </member>
+        <member name="T:DinaCSharp.Core.Interfaces.IDrawingElement">
+            <summary>
+            Represents a drawable element within a drawing or graphics context.
+            </summary>
+            <remarks>Implementations of this interface support both general element behavior and drawing
+            operations by combining the contracts of IElement and IDraw. This interface is typically used as a base for
+            graphical components that can be rendered on a surface.</remarks>
+        </member>
+        <member name="T:DinaCSharp.Core.Interfaces.IElement">
+            <summary>
+            Represents a visual element that provides position, dimensions, and z-order information.
+            </summary>
+            <remarks>Implementations of this interface combine positional, sizing, and stacking order
+            capabilities. This interface is typically used as a base for UI or graphical elements that require layout and
+            rendering information.</remarks>
+        </member>
+        <member name="T:DinaCSharp.Core.Interfaces.IFlip">
+            <summary>
+            Gets or sets the horizontal and vertical flip factors applied to the object.
+            </summary>
+            <remarks>A value of (1, 1) indicates no flip. Negative values invert the corresponding axis. This
+            property is typically used to mirror or reverse the object's orientation along the X or Y axis.</remarks>
+        </member>
+        <member name="P:DinaCSharp.Core.Interfaces.IFlip.Flip">
+            <summary>
+            Gets or sets the horizontal and vertical flip factors applied to the object.
+            </summary>
+            <remarks>A value of (1, 1) indicates no flip. Negative values invert the corresponding axis.
+            This property is typically used to mirror or reverse the object's orientation along the X or Y
+            axis.</remarks>
+        </member>
+        <member name="T:DinaCSharp.Core.Interfaces.IFullGameObject">
+            <summary>
+            Defines the contract for a complete game object that supports loading, resetting, updating, and drawing
+            operations.
+            </summary>
+            <remarks>Implement this interface to represent a game object that participates fully in the game loop
+            lifecycle. This includes resource loading, state resetting, per-frame updates, and rendering. The interface
+            combines the behaviors of ILoad, IReset, IUpdate, and IDraw for convenience and consistency.</remarks>
+        </member>
+        <member name="T:DinaCSharp.Core.Interfaces.IGameObject">
+            <summary>
+            Defines the contract for a game object that supports update and draw operations.
+            </summary>
+            <remarks>Implement this interface to represent entities within a game that require regular updates and
+            rendering. Inheriting from both IUpdate and IDraw ensures that the object can participate in the game loop for
+            logic updates and visual output.</remarks>
+        </member>
+        <member name="T:DinaCSharp.Core.Interfaces.IHovered">
+            <summary>
+            Defines a contract for determining whether an object is currently in a hovered state.
+            </summary>
+        </member>
+        <member name="M:DinaCSharp.Core.Interfaces.IHovered.IsHovered">
+            <summary>
+            Determines whether the current element is being hovered over by the user.
+            </summary>
+            <returns>true if the element is currently hovered; otherwise, false.</returns>
+        </member>
+        <member name="T:DinaCSharp.Core.Interfaces.ILoad">
+            <summary>
+            Defines a contract for loading resources or data associated with the implementing class.
+            </summary>
+            <remarks>Implementing types must provide the logic for loading the relevant resource or data. The
+            specific loading behavior is determined by the implementation.</remarks>
+        </member>
+        <member name="M:DinaCSharp.Core.Interfaces.ILoad.Load">
+            <summary>
+            Loads the resource or data associated with the implementing class.
+            </summary>
+            <remarks>This method must be implemented by derived classes to define how the resource or data
+            is loaded. The specific behavior depends on the implementation.</remarks>
+        </member>
+        <member name="T:DinaCSharp.Core.Interfaces.ILoadingScreen">
+            <summary>
+            Gets or sets the message displayed on the loading screen.
+            </summary>
+        </member>
+        <member name="P:DinaCSharp.Core.Interfaces.ILoadingScreen.Message">
+            <summary>
+            Gets or sets the message content associated with this instance.
+            </summary>
+        </member>
+        <member name="T:DinaCSharp.Core.Interfaces.IPosition">
+            <summary>
+            Represents an object that has a position in two-dimensional space.
+            </summary>
+        </member>
+        <member name="P:DinaCSharp.Core.Interfaces.IPosition.Position">
+            <summary>
+            Gets or sets the position of the object in two-dimensional space.
+            </summary>
+        </member>
+        <member name="T:DinaCSharp.Core.Interfaces.IReset">
+            <summary>
+            Defines a method that resets the state of an object to its initial configuration.
+            </summary>
+            <remarks>Implement this interface to provide a standardized way to reinitialize objects for reuse. The
+            specific behavior of the reset operation depends on the implementing type.</remarks>
+        </member>
+        <member name="M:DinaCSharp.Core.Interfaces.IReset.Reset">
+            <summary>
+            Resets the state of the object to its initial configuration.
+            </summary>
+            <remarks>Call this method to reinitialize the object so that it can be reused as if newly
+            created. The specific effects of this operation depend on the implementation.</remarks>
+        </member>
+        <member name="T:DinaCSharp.Core.Interfaces.IResource">
+            <summary>
+            Defines methods for managing named resources within a collection.
+            </summary>
+            <remarks>Implementations of this interface allow adding, retrieving, and removing resources by name.
+            Resource names must be unique within the collection. This interface is typically used to provide flexible
+            storage and retrieval of resources of varying types.</remarks>
+        </member>
+        <member name="M:DinaCSharp.Core.Interfaces.IResource.AddResource``1(System.String,``0)">
+            <summary>
+            Adds a resource with the specified name and value to the collection.
+            </summary>
+            <typeparam name="T">The type of the resource to add.</typeparam>
+            <param name="resourceName">The name that uniquely identifies the resource. Cannot be null or empty.</param>
+            <param name="resource">The resource value to add.</param>
+            <returns>true if the resource was added successfully; otherwise, false.</returns>
+        </member>
+        <member name="M:DinaCSharp.Core.Interfaces.IResource.GetResource``1(System.String)">
+            <summary>
+            Retrieves a resource of the specified type by its name.
+            </summary>
+            <typeparam name="T">The type of the resource to retrieve.</typeparam>
+            <param name="resourceName">The name of the resource to retrieve. Cannot be null or empty.</param>
+            <returns>The resource of type T if found; otherwise, null.</returns>
+        </member>
+        <member name="M:DinaCSharp.Core.Interfaces.IResource.RemoveResource(System.String)">
+            <summary>
+            Removes the resource with the specified name from the collection.
+            </summary>
+            <param name="resourceName">The name of the resource to remove. Cannot be null or empty.</param>
+        </member>
+        <member name="T:DinaCSharp.Core.Interfaces.IText">
+            <summary>
+            Defines an interface for text elements that provide position, dimensions, and alignment capabilities, as well as
+            access to the rendered text size.
+            </summary>
+            <remarks>Implementations of this interface allow querying the rendered size of text and adjusting its
+            alignment within a layout. This interface extends both IPosition and IDimensions, ensuring that position and
+            size information is available alongside text-specific features.</remarks>
+        </member>
+        <member name="P:DinaCSharp.Core.Interfaces.IText.TextDimensions">
+            <summary>
+            Gets the width and height, in device-independent units, of the rendered text content.
+            </summary>
+        </member>
+        <member name="M:DinaCSharp.Core.Interfaces.IText.SetAlignments(DinaCSharp.Enums.HorizontalAlignment,DinaCSharp.Enums.VerticalAlignment)">
+            <summary>
+            Sets the horizontal and vertical alignment for the content.
+            </summary>
+            <param name="horizontalAlignment">The horizontal alignment to apply. Must be a valid value of the HorizontalAlignment enumeration.</param>
+            <param name="verticalAlignment">The vertical alignment to apply. Must be a valid value of the VerticalAlignment enumeration.</param>
+        </member>
+        <member name="T:DinaCSharp.Core.Interfaces.IUIStateful">
+            <summary>
+            Represents a UI component that exposes its current state for reading and updating.
+            </summary>
+            <remarks>Implement this interface to provide access to the UI state in components that support
+            stateful interactions. The UI state can be used to track and manage the current visual or logical state of the
+            component.</remarks>
+        </member>
+        <member name="P:DinaCSharp.Core.Interfaces.IUIStateful.UIState">
+            <summary>
+            Gets or sets the current user interface state.
+            </summary>
+        </member>
+        <member name="T:DinaCSharp.Core.Interfaces.IUpdate">
+            <summary>
+            Defines a contract for updating the state of a game component based on the elapsed game time.
+            </summary>
+            <remarks>Implement this interface to provide custom update logic that executes during each game update
+            cycle. The update method is typically called once per frame by the game loop.</remarks>
+        </member>
+        <member name="M:DinaCSharp.Core.Interfaces.IUpdate.Update(Microsoft.Xna.Framework.GameTime)">
+            <summary>
+            Updates the state of the game component based on the elapsed game time.
+            </summary>
+            <remarks>Override this method to implement logic that should be executed on each game update
+            cycle. This method is typically called once per frame.</remarks>
+            <param name="gametime">An object that provides a snapshot of timing values, including the elapsed game time since the last update.</param>
+        </member>
+        <member name="T:DinaCSharp.Core.Interfaces.IVisible">
+            <summary>
+            Gets or sets a value indicating whether the element is visible.
+            </summary>
+        </member>
+        <member name="P:DinaCSharp.Core.Interfaces.IVisible.Visible">
+            <summary>
+            Gets or sets a value indicating whether the element is visible.
+            </summary>
+        </member>
+        <member name="T:DinaCSharp.Core.Interfaces.IZOrder">
+            <summary>
+            Gets or sets the drawing order of the element relative to other elements.
+            </summary>
+            <remarks>Elements with higher Z-order values are rendered above those with lower values. This property
+            determines the visual stacking order when multiple elements overlap.</remarks>
+        </member>
+        <member name="P:DinaCSharp.Core.Interfaces.IZOrder.ZOrder">
+            <summary>
+            Gets or sets the drawing order of the element relative to other elements.
+            </summary>
+            <remarks>Elements with higher Z-order values are rendered above those with lower values. This
+            property determines the visual stacking order when multiple elements overlap.</remarks>
         </member>
         <member name="T:DinaCSharp.Enums.HorizontalAlignment">
             <summary>
@@ -384,122 +726,6 @@
             <summary>
             Définit les états possibles d'un élément de l'interface utilisateur.
             Valeurs : Normal, Hovered, Pressed, Locked
-            </summary>
-        </member>
-        <member name="T:DinaCSharp.Interfaces.IFullGameObject">
-            <summary>
-            Définit un objet de jeu complet comprenant le chargement, la réinitialisation, la mise à jour et l'affichage.
-            </summary>
-        </member>
-        <member name="T:DinaCSharp.Interfaces.IGameObject">
-            <summary>
-            Définit un objet de jeu comprenant la mise à jour et l'affichage'.
-            </summary>
-        </member>
-        <member name="T:DinaCSharp.Interfaces.IDrawingElement">
-            <summary>
-            Représente un élément ayant une position, des dimensions et un ordre Z et pouvant se dessiner.
-            </summary>
-        </member>
-        <member name="T:DinaCSharp.Interfaces.IElement">
-            <summary>
-            Représente un élément ayant une position, des dimensions et un ordre Z.
-            </summary>
-        </member>
-        <member name="T:DinaCSharp.Interfaces.IZOrder">
-            <summary>
-            Définit une propriété pour gérer l'ordre d'affichage (Z-order).
-            </summary>
-        </member>
-        <member name="T:DinaCSharp.Interfaces.ILoad">
-            <summary>
-            Définit une méthode pour charger des ressources ou des données.
-            </summary>
-        </member>
-        <member name="T:DinaCSharp.Interfaces.IUpdate">
-            <summary>
-            Définit une méthode pour mettre à jour l'état d'un objet.
-            </summary>
-        </member>
-        <member name="T:DinaCSharp.Interfaces.IDraw">
-            <summary>
-            Définit une méthode pour dessiner un objet.
-            </summary>
-        </member>
-        <member name="T:DinaCSharp.Interfaces.IReset">
-            <summary>
-            Définit une méthode pour réinitialiser un objet à son état initial.
-            </summary>
-        </member>
-        <member name="T:DinaCSharp.Interfaces.IPosition">
-            <summary>
-            Définit une propriété pour la position d'un objet.
-            </summary>
-        </member>
-        <member name="T:DinaCSharp.Interfaces.IDimensions">
-            <summary>
-            Définit une propriété pour les dimensions d'un objet.
-            </summary>
-        </member>
-        <member name="T:DinaCSharp.Interfaces.IResource">
-            <summary>
-            Définit un gestionnaire de ressources capable d'ajouter, d'obtenir et de supprimer des ressources.
-            </summary>
-        </member>
-        <member name="T:DinaCSharp.Interfaces.IColor">
-            <summary>
-            Définit une propriété pour la couleur d'un objet.
-            </summary>
-        </member>
-        <member name="T:DinaCSharp.Interfaces.IVisible">
-            <summary>
-            Définit une propriété pour gérer la visibilité d'un objet.
-            </summary>
-        </member>
-        <member name="T:DinaCSharp.Interfaces.ICollide">
-            <summary>
-            Définit une méthode pour tester les collisions et obtenir un rectangle de collision.
-            </summary>
-        </member>
-        <member name="T:DinaCSharp.Interfaces.IFlip">
-            <summary>
-            Définit une propriété pour gérer le retournement d'un objet (flip horizontal ou vertical).
-            </summary>
-        </member>
-        <member name="T:DinaCSharp.Interfaces.IEventArgs">
-            <summary>
-            Définit une interface de base pour les arguments d'événements personnalisés.
-            </summary>
-        </member>
-        <member name="T:DinaCSharp.Interfaces.IClickable`1">
-            <summary>
-            Définit une interface pour un objet cliquable avec des arguments d'événement personnalisés.
-            </summary>
-        </member>
-        <member name="T:DinaCSharp.Interfaces.IClickable">
-            <summary>
-            Définit une méthode pour vérifier si un objet est cliqué.
-            </summary>
-        </member>
-        <member name="T:DinaCSharp.Interfaces.IText">
-            <summary>
-            Définit une interface pour un objet textuel ayant des dimensions spécifiques.
-            </summary>
-        </member>
-        <member name="T:DinaCSharp.Interfaces.ILoadingScreen">
-            <summary>
-            Définit une interface pour un écran de chargement avec progression et texte.
-            </summary>
-        </member>
-        <member name="T:DinaCSharp.Interfaces.ICopyable`1">
-            <summary>
-            Définit une méthode pour effectuer une copie d'un objet.
-            </summary>
-            <typeparam name="T">Class de l'objet à copier.</typeparam>
-        </member>
-        <member name="T:DinaCSharp.Interfaces.IUIStateful">
-            <summary>
-            Définit une propriété pour verrouiller ou déverrouiller un objet.
             </summary>
         </member>
         <member name="T:DinaCSharp.Events.ButtonEventArgs">
@@ -1015,7 +1241,7 @@
             </summary>
             <param name="spritebatch">Objet SpriteBatch utilisé pour dessiner l'animation.</param>
         </member>
-        <member name="M:DinaCSharp.Graphics.Animation.Collide(DinaCSharp.Interfaces.ICollide)">
+        <member name="M:DinaCSharp.Graphics.Animation.Collide(DinaCSharp.Core.Interfaces.ICollide)">
             <summary>
             Vérifie si l'animation entre en collision avec un autre objet.
             </summary>
@@ -1350,7 +1576,7 @@
             <param name="position">Position initiale du rectangle de collision.</param>
             <param name="dimensions">Dimensions initiales du rectangle de collision.</param>
         </member>
-        <member name="M:DinaCSharp.Graphics.CollideBox.Collide(DinaCSharp.Interfaces.ICollide)">
+        <member name="M:DinaCSharp.Graphics.CollideBox.Collide(DinaCSharp.Core.Interfaces.ICollide)">
             <summary>
             Vérifie si le rectangle de collision actuel intersecte un autre élément de type ICollide.
             </summary>
@@ -1581,7 +1807,7 @@
             Représente une boîte de liste graphique permettant d'afficher une collection d'éléments avec des fonctionnalités de sélection et de mise à jour.
             </summary>
         </member>
-        <member name="M:DinaCSharp.Graphics.ListBox.#ctor(System.Collections.Generic.IReadOnlyList{DinaCSharp.Interfaces.IElement},Microsoft.Xna.Framework.Vector2,System.Int32)">
+        <member name="M:DinaCSharp.Graphics.ListBox.#ctor(System.Collections.Generic.IReadOnlyList{DinaCSharp.Core.Interfaces.IElement},Microsoft.Xna.Framework.Vector2,System.Int32)">
             <summary>
             Initialise une nouvelle instance de la classe ListBox avec les éléments spécifiés.
             </summary>
@@ -1636,13 +1862,13 @@
             </summary>
             <param name="spritebatch">L'objet SpriteBatch utilisé pour dessiner les éléments.</param>
         </member>
-        <member name="M:DinaCSharp.Graphics.ListBox.AddElement(DinaCSharp.Interfaces.IElement)">
+        <member name="M:DinaCSharp.Graphics.ListBox.AddElement(DinaCSharp.Core.Interfaces.IElement)">
             <summary>
             Ajoute un nouvel élément à la boîte de liste.
             </summary>
             <param name="element">Élément à ajouter à la boîte de liste.</param>
         </member>
-        <member name="M:DinaCSharp.Graphics.ListBox.RemoveElement(DinaCSharp.Interfaces.IElement)">
+        <member name="M:DinaCSharp.Graphics.ListBox.RemoveElement(DinaCSharp.Core.Interfaces.IElement)">
             <summary>
             Supprime un élément spécifique de la boîte de liste.
             </summary>
@@ -2216,108 +2442,88 @@
         </member>
         <member name="T:DinaCSharp.Graphics.ShadowText">
             <summary>
-            Représente un texte avec une ombre, permettant de gérer la couleur, la position, l'alignement et les effets de temporisation.
+            Représente un texte avec une ombre portée.
+            Hérite de <see cref="T:DinaCSharp.Graphics.Text"/> pour le texte principal et maintient
+            une instance <see cref="T:DinaCSharp.Graphics.Text"/> interne pour l'ombre.
             </summary>
         </member>
         <member name="M:DinaCSharp.Graphics.ShadowText.#ctor(Microsoft.Xna.Framework.Graphics.SpriteFont,System.String,Microsoft.Xna.Framework.Color,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Color,Microsoft.Xna.Framework.Vector2,DinaCSharp.Enums.HorizontalAlignment,DinaCSharp.Enums.VerticalAlignment,System.Int32)">
             <summary>
-            Initialise une nouvelle instance de la classe ShadowText avec les paramètres spécifiés.
+            Initialise un <see cref="T:DinaCSharp.Graphics.ShadowText"/>.
             </summary>
-            <param name="font">La police de caractères à utiliser pour le texte.</param>
-            <param name="content">Le contenu du texte.</param>
-            <param name="color">La couleur du texte.</param>
-            <param name="position">La position du texte.</param>
-            <param name="shadowcolor">La couleur de l'ombre du texte.</param>
-            <param name="offset">L'offset de l'ombre par rapport au texte.</param>
-            <param name="halign">L'alignement horizontal du texte. Par défaut, HorizontalAlignment.Center.</param>
-            <param name="valign">L'alignement vertical du texte. Par défaut, VerticalAlignment.Middle.</param>
-            <param name="zorder">L'ordre de superposition du texte. Par défaut, 0.</param>
-        </member>
-        <member name="P:DinaCSharp.Graphics.ShadowText.Color">
-            <summary>
-            Obtient ou définit la couleur du texte.
-            </summary>
+            <param name="font">Police de caractères.</param>
+            <param name="content">Contenu textuel.</param>
+            <param name="color">Couleur du texte principal.</param>
+            <param name="position">Position du texte principal à l'écran.</param>
+            <param name="shadowColor">Couleur de l'ombre.</param>
+            <param name="offset">Décalage de l'ombre par rapport au texte.</param>
+            <param name="halign">Alignement horizontal (défaut : Left).</param>
+            <param name="valign">Alignement vertical (défaut : Top).</param>
+            <param name="zorder">Ordre de superposition (défaut : 0). L'ombre est toujours à <c>zorder - 1</c>.</param>
         </member>
         <member name="P:DinaCSharp.Graphics.ShadowText.ShadowColor">
-            <summary>
-            Obtient ou définit la couleur de l'ombre du texte.
-            </summary>
-        </member>
-        <member name="M:DinaCSharp.Graphics.ShadowText.SetTimers(System.Single,System.Single,System.Int32)">
-            <summary>
-            Définit les minuteries pour le texte et son ombre.
-            </summary>
-            <param name="waitTime">Le temps d'attente avant d'afficher le texte.</param>
-            <param name="displayTime">Le temps d'affichage du texte.</param>
-            <param name="nbLoops">Le nombre de boucles pour l'affichage du texte.</param>
-        </member>
-        <member name="P:DinaCSharp.Graphics.ShadowText.Content">
-            <summary>
-            Obtient ou définit le contenu du texte.
-            </summary>
-        </member>
-        <member name="M:DinaCSharp.Graphics.ShadowText.Update(Microsoft.Xna.Framework.GameTime)">
-            <summary>
-            Met à jour l'état du texte et de son ombre.
-            </summary>
-            <param name="gametime">Le temps écoulé depuis le dernier appel.</param>
-        </member>
-        <member name="M:DinaCSharp.Graphics.ShadowText.Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch)">
-            <summary>
-            Dessine le texte et son ombre sur l'écran.
-            </summary>
-            <param name="spritebatch">Le SpriteBatch utilisé pour dessiner le texte.</param>
-        </member>
-        <member name="P:DinaCSharp.Graphics.ShadowText.Position">
-            <summary>
-            Obtient ou définit la position du texte et de son ombre.
-            </summary>
-        </member>
-        <member name="P:DinaCSharp.Graphics.ShadowText.Dimensions">
-            <summary>
-            Obtient ou définit les dimensions du texte et de son ombre.
-            </summary>
+            <summary>Couleur de l'ombre.</summary>
         </member>
         <member name="P:DinaCSharp.Graphics.ShadowText.Offset">
             <summary>
-            Obtient ou définit l'offset de l'ombre par rapport au texte.
+            Décalage de l'ombre par rapport au texte principal.
+            La position de l'ombre est resynchronisée immédiatement après modification.
+            </summary>
+        </member>
+        <member name="P:DinaCSharp.Graphics.ShadowText.VisualDimensions">
+            <summary>
+            Encombrement visuel total, c'est-à-dire les dimensions du texte augmentées du décalage de l'ombre.
+            Utile pour les calculs de mise en page qui doivent tenir compte de l'ombre.
             </summary>
         </member>
         <member name="P:DinaCSharp.Graphics.ShadowText.ZOrder">
             <summary>
-            Obtient ou définit l'ordre de superposition du texte et de son ombre.
+            Ordre de superposition du texte principal.
+            L'ombre est automatiquement placée à <c>ZOrder - 1</c>.
             </summary>
+        </member>
+        <member name="P:DinaCSharp.Graphics.ShadowText.Content">
+            <summary>Le contenu du texte et de son ombre.</summary>
         </member>
         <member name="P:DinaCSharp.Graphics.ShadowText.Visible">
-            <summary>
-            Obtient ou définit la visibilité du texte et de son ombre.
-            </summary>
-        </member>
-        <member name="P:DinaCSharp.Graphics.ShadowText.TextDimensions">
-            <summary>
-            Obtient les dimensions du texte sans prendre en compte l'ombre.
-            </summary>
+            <summary>Indique si le texte et son ombre sont visibles.</summary>
         </member>
         <member name="P:DinaCSharp.Graphics.ShadowText.Font">
+            <summary>La police du texte et de son ombre.</summary>
+        </member>
+        <member name="P:DinaCSharp.Graphics.ShadowText.Position">
             <summary>
-            La police du texte avec une ombre.
+            La position du texte principal à l'écran.
+            La position de l'ombre est recalculée automatiquement en appliquant <see cref="P:DinaCSharp.Graphics.ShadowText.Offset"/>.
             </summary>
+        </member>
+        <member name="P:DinaCSharp.Graphics.ShadowText.Dimensions">
+            <summary>Dimensions du conteneur du texte et de son ombre.</summary>
+        </member>
+        <member name="M:DinaCSharp.Graphics.ShadowText.Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch)">
+            <summary>Dessine l'ombre puis le texte principal.</summary>
+        </member>
+        <member name="M:DinaCSharp.Graphics.ShadowText.Update(Microsoft.Xna.Framework.GameTime)">
+            <summary>Met à jour l'état de l'ombre puis du texte principal en fonction du temps écoulé.</summary>
+        </member>
+        <member name="M:DinaCSharp.Graphics.ShadowText.SetTimers(System.Single,System.Single,System.Int32)">
+            <summary>Configure les temporisations d'affichage du texte et de son ombre.</summary>
+            <param name="waitTime">Délai avant affichage (s). ≤ 0 : aucun délai.</param>
+            <param name="displayTime">Durée d'affichage (s). ≤ 0 : illimité.</param>
+            <param name="nbLoops">Nombre de cycles. -1 : infini.</param>
+        </member>
+        <member name="M:DinaCSharp.Graphics.ShadowText.SetAlignments(DinaCSharp.Enums.HorizontalAlignment,DinaCSharp.Enums.VerticalAlignment)">
+            <summary>Définit les alignements horizontal et vertical du texte et de son ombre.</summary>
+            <param name="horizontalAlignment">L'alignement horizontal du texte.</param>
+            <param name="verticalAlignment">L'alignement vertical du texte.</param>
         </member>
         <member name="M:DinaCSharp.Graphics.ShadowText.Copy">
             <summary>
-            Crée une copie de l'objet ShadowText avec les mêmes valeurs.
-            </summary>
-            <returns>Une nouvelle instance de ShadowText.</returns>
-        </member>
-        <member name="M:DinaCSharp.Graphics.ShadowText.Dispose">
-            <summary>
-            Libère les ressources utilisées par le ShadowText.
+            Crée une copie complète de l'instance, état des timers inclus.
             </summary>
         </member>
         <member name="M:DinaCSharp.Graphics.ShadowText.Dispose(System.Boolean)">
-            <summary>
-            Désabonne tous les événements.
-            </summary>
+            <summary>Libère les ressources de l'ombre, puis délègue au parent.</summary>
         </member>
         <member name="T:DinaCSharp.Graphics.Slider">
             <summary>
@@ -2489,7 +2695,7 @@
             </summary>
             <param name="spritebatch">Le SpriteBatch utilisé pour dessiner le sprite.</param>
         </member>
-        <member name="M:DinaCSharp.Graphics.Sprite.Collide(DinaCSharp.Interfaces.ICollide)">
+        <member name="M:DinaCSharp.Graphics.Sprite.Collide(DinaCSharp.Core.Interfaces.ICollide)">
             <summary>
             Vérifie si le sprite entre en collision avec un autre objet ICollide.
             </summary>
@@ -2504,119 +2710,163 @@
         </member>
         <member name="T:DinaCSharp.Graphics.Text">
             <summary>
-            Représente un texte à afficher avec des options de temporisation et d'alignement.
+            Représente un texte à afficher avec des options de temporisation, d'alignement et de retour à la ligne.
+            </summary>
+        </member>
+        <member name="F:DinaCSharp.Graphics.Text._cachedTranslation">
+            <summary>
+            Cache de la traduction de <see cref="F:DinaCSharp.Graphics.Text._content"/>.
+            Mis à jour dans <see cref="M:DinaCSharp.Graphics.Text.RefreshContent"/> — jamais recalculé à chaque frame.
+            </summary>
+        </member>
+        <member name="F:DinaCSharp.Graphics.Text.Timer">
+            <summary>
+            État complet du timer d'affichage.
+            Étant une struct, son assignation produit une copie profonde — simplifie <see cref="M:DinaCSharp.Graphics.Text.Copy"/>.
             </summary>
         </member>
         <member name="P:DinaCSharp.Graphics.Text.Content">
-            <summary>
-            Le contenu du texte.
-            </summary>
+            <summary>Le contenu du texte.</summary>
         </member>
         <member name="P:DinaCSharp.Graphics.Text.Color">
-            <summary>
-            La couleur du texte.
-            </summary>
+            <summary>La couleur du texte.</summary>
         </member>
         <member name="P:DinaCSharp.Graphics.Text.Visible">
-            <summary>
-            Indique si le texte est visible.
-            </summary>
+            <summary>Indique si le texte est visible.</summary>
         </member>
         <member name="P:DinaCSharp.Graphics.Text.Position">
-            <summary>
-            La position du texte sur l'écran.
-            </summary>
+            <summary>La position du texte sur l'écran.</summary>
         </member>
         <member name="P:DinaCSharp.Graphics.Text.Dimensions">
-            <summary>
-            Les dimensions du texte.
-            </summary>
+            <summary>Dimensions du conteneur de texte.</summary>
         </member>
         <member name="P:DinaCSharp.Graphics.Text.Font">
-            <summary>
-            La police du texte.
-            </summary>
+            <summary>La police du texte.</summary>
         </member>
         <member name="P:DinaCSharp.Graphics.Text.Rotation">
-            <summary>
-            Angle du texte en radians.
-            </summary>
+            <summary>Angle de rotation du texte en radians.</summary>
+        </member>
+        <member name="P:DinaCSharp.Graphics.Text.Wrap">
+            <summary>Active ou désactive le retour automatique à la ligne.</summary>
+        </member>
+        <member name="P:DinaCSharp.Graphics.Text.TextDimensions">
+            <summary>Dimensions réelles du texte rendu (indépendantes du conteneur).</summary>
+        </member>
+        <member name="E:DinaCSharp.Graphics.Text.OnHovered">
+            <summary>Déclenché chaque frame où la souris survole la zone du texte.</summary>
         </member>
         <member name="M:DinaCSharp.Graphics.Text.#ctor(Microsoft.Xna.Framework.Graphics.SpriteFont,System.String)">
             <summary>
-            Initialise une nouvelle instance de la classe Text.
+            Initialise un texte blanc, positionné à l'origine, aligné en haut à gauche.
             </summary>
-            <param name="font">La police utilisée pour afficher le texte.</param>
-            <param name="content">Le contenu du texte.</param>
         </member>
         <member name="M:DinaCSharp.Graphics.Text.#ctor(Microsoft.Xna.Framework.Graphics.SpriteFont,System.String,Microsoft.Xna.Framework.Color,Microsoft.Xna.Framework.Vector2,DinaCSharp.Enums.HorizontalAlignment,DinaCSharp.Enums.VerticalAlignment,System.Int32)">
             <summary>
-            Initialise une nouvelle instance de la classe Text.
+            Initialise un texte avec tous les paramètres.
             </summary>
-            <param name="font">La police utilisée pour afficher le texte.</param>
-            <param name="content">Le contenu du texte.</param>
-            <param name="color">La couleur du texte.</param>
-            <param name="position">La position du texte sur l'écran (optionnel).</param>
-            <param name="horizontalalignment">L'alignement horizontal du texte (optionnel).</param>
-            <param name="verticalalignment">L'alignement vertical du texte (optionnel).</param>
-            <param name="zorder">L'ordre de superposition du texte (optionnel).</param>
+            <param name="font">Police de caractères.</param>
+            <param name="content">Contenu textuel.</param>
+            <param name="color">Couleur du texte.</param>
+            <param name="position">Position à l'écran.</param>
+            <param name="horizontalalignment">Alignement horizontal (défaut : Left).</param>
+            <param name="verticalalignment">Alignement vertical (défaut : Top).</param>
+            <param name="zorder">Ordre de superposition (défaut : 0).</param>
         </member>
         <member name="M:DinaCSharp.Graphics.Text.SetTimers(System.Single,System.Single,System.Int32)">
             <summary>
-            Définit les temporisations d'attente, d'affichage et le nombre de boucles du texte.
+            Configure les temporisations d'affichage du texte.
             </summary>
-            <param name="waitTime">Temps d'attente avant l'affichage du texte.</param>
-            <param name="displayTime">Temps d'affichage du texte.</param>
-            <param name="nbLoops">Nombre de boucles d'affichage.</param>
-        </member>
-        <member name="P:DinaCSharp.Graphics.Text.TextDimensions">
-            <summary>
-            Obtient les dimensions du texte à partir de la police et du contenu.
-            </summary>
-        </member>
-        <member name="P:DinaCSharp.Graphics.Text.Wrap">
-            <summary>
-            Permet d'indiquer si on veut ou non que le texte revienne automatiquement à la ligne.
-            </summary>
-        </member>
-        <member name="E:DinaCSharp.Graphics.Text.OnHovered">
-            <summary>
-            Déclenche les événements lorsque le panneau est survolé.
-            </summary>
+            <param name="waitTime">Délai avant affichage (s). ≤ 0 : aucun délai.</param>
+            <param name="displayTime">Durée d'affichage (s). ≤ 0 : illimité.</param>
+            <param name="nbLoops">Nombre de cycles. -1 : infini.</param>
         </member>
         <member name="M:DinaCSharp.Graphics.Text.SetAlignments(DinaCSharp.Enums.HorizontalAlignment,DinaCSharp.Enums.VerticalAlignment)">
-            <summary>
-            Définit les alignements horizontal et vertical du texte.
-            </summary>
-            <param name="horizontalAlignment">L'alignement horizontal du texte.</param>
-            <param name="verticalAlignment">L'alignement vertical du texte.</param>
+            <summary>Définit les alignements horizontal et vertical du texte.</summary>
         </member>
         <member name="M:DinaCSharp.Graphics.Text.Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch)">
-            <summary>
-            Dessine le texte à l'écran.
-            </summary>
-            <param name="spritebatch">L'instance de SpriteBatch utilisée pour dessiner le texte.</param>
+            <summary>Dessine le texte à l'écran.</summary>
         </member>
         <member name="M:DinaCSharp.Graphics.Text.Update(Microsoft.Xna.Framework.GameTime)">
-            <summary>
-            Met à jour l'état du texte en fonction du temps écoulé.
-            </summary>
-            <param name="gametime">Temps écoulé depuis la dernière mise à jour.</param>
+            <summary>Met à jour l'état du texte en fonction du temps écoulé.</summary>
         </member>
         <member name="M:DinaCSharp.Graphics.Text.Copy">
             <summary>
-            Crée une copie de l'objet actuel.
+            Crée une copie complète de l'instance, état des timers inclus.
             </summary>
-            <returns>Une nouvelle instance de Text avec les mêmes propriétés.</returns>
         </member>
         <member name="M:DinaCSharp.Graphics.Text.Dispose">
-            <summary>
-            Libère les ressources utilisées par le Text.
-            </summary>
+            <summary>Libère les ressources de l'instance.</summary>
         </member>
         <member name="M:DinaCSharp.Graphics.Text.Dispose(System.Boolean)">
+            <summary>Désabonne tous les gestionnaires d'événements.</summary>
+        </member>
+        <member name="M:DinaCSharp.Graphics.Text.RefreshContent">
             <summary>
-            Désabonne tous les événements.
+            Rafraîchit le cache de traduction et recalcule le wrapping.
+            Appelé à chaque changement de contenu, de police ou de dimensions — jamais en cours de rendu.
+            </summary>
+        </member>
+        <member name="M:DinaCSharp.Graphics.Text.UpdateDisplayPosition">
+            <summary>
+            Calcule la position d'affichage en appliquant les décalages d'alignement.
+            </summary>
+        </member>
+        <member name="M:DinaCSharp.Graphics.Text.WrapText">
+            <summary>
+            Découpe le texte en lignes pour respecter la largeur du conteneur.
+            Utilise <see cref="T:System.Text.StringBuilder"/> pour éviter les allocations de chaînes intermédiaires.
+            </summary>
+        </member>
+        <member name="M:DinaCSharp.Graphics.Text.CheckHover">
+            <summary>
+            Vérifie si la souris survole la zone du texte et déclenche <see cref="E:DinaCSharp.Graphics.Text.OnHovered"/> si c'est le cas.
+            </summary>
+        </member>
+        <member name="T:DinaCSharp.Graphics.TextTimer">
+            <summary>
+            Encapsule la logique de temporisation d'affichage d'un texte.
+            Gère les phases d'attente, d'affichage et les cycles de répétition.
+            </summary>
+            <remarks>
+            Struct à valeur sémantique : l'assignation (<c>timer = other</c>) produit
+            une copie complète de l'état, ce qui simplifie la copie dans <see cref="M:DinaCSharp.Graphics.Text.Copy"/>.
+            </remarks>
+        </member>
+        <member name="M:DinaCSharp.Graphics.TextTimer.#ctor">
+            <summary>
+            Initialise un timer en mode "affiché en permanence" (aucune temporisation).
+            </summary>
+        </member>
+        <member name="P:DinaCSharp.Graphics.TextTimer.IsDisplayed">
+            <summary>
+            Indique si le texte doit actuellement être rendu à l'écran.
+            </summary>
+        </member>
+        <member name="M:DinaCSharp.Graphics.TextTimer.Configure(System.Single,System.Single,System.Int32)">
+            <summary>
+            Configure les paramètres de temporisation et réinitialise l'état.
+            </summary>
+            <param name="waitTime">
+              Délai (s) avant affichage. -1 ou ≤ 0 : aucun délai, affichage immédiat.
+              0 : texte masqué dès le départ, sans délai ni affichage.
+            </param>
+            <param name="displayTime">
+              Durée (s) d'affichage. -1 ou ≤ 0 : affichage indéfini.
+              0 : texte masqué immédiatement.
+            </param>
+            <param name="nbLoops">
+              Nombre de cycles. -1 : répétition infinie. 0 : pas de répétition.
+            </param>
+        </member>
+        <member name="M:DinaCSharp.Graphics.TextTimer.Reset">
+            <summary>
+            Remet à zéro les accumulateurs sans toucher à la configuration ni à la machine d'état.
+            Utilisé lors d'un changement de visibilité externe.
+            </summary>
+        </member>
+        <member name="M:DinaCSharp.Graphics.TextTimer.Update(System.Single)">
+            <summary>
+            Avance le timer d'une durée <paramref name="dt"/> (en secondes).
             </summary>
         </member>
         <member name="T:DinaCSharp.Inputs.ControllerKey">
@@ -3995,7 +4245,7 @@
             <param name="zorder">Ordre de superposition du titre.</param>
             <returns>L'élément titre ajouté.</returns>
         </member>
-        <member name="M:DinaCSharp.Services.Menus.MenuManager.AddTitle(DinaCSharp.Interfaces.IText)">
+        <member name="M:DinaCSharp.Services.Menus.MenuManager.AddTitle(DinaCSharp.Core.Interfaces.IText)">
             <summary>
             Ajoute un titre à partir d'un élément déjà créé.
             </summary>
@@ -4013,6 +4263,16 @@
             Modifie la police des titres.
             </summary>
             <param name="font">La police à utiliser.</param>
+        </member>
+        <member name="M:DinaCSharp.Services.Menus.MenuManager.SetIconItems(DinaCSharp.Services.Key{DinaCSharp.Resources.ResourceTag},DinaCSharp.Services.Key{DinaCSharp.Resources.ResourceTag},DinaCSharp.Enums.IconMenuAlignment,Microsoft.Xna.Framework.Vector2,System.Boolean)">
+            <summary>
+            Définit les icônes du menu, incluant leur alignement et leur espacement.
+            </summary>
+            <param name="iconLeftKey">Clé de l'icône gauche dans le ResourceManager.</param>
+            <param name="iconRightKey">Clé de l'icône droite dans le ResourceManager.</param>
+            <param name="iconAlignment">Alignement des icônes.</param>
+            <param name="iconSpacing">Espacement entre les icônes.</param>
+            <param name="resize">Indique si les icônes doivent être redimensionnées.</param>
         </member>
         <member name="M:DinaCSharp.Services.Menus.MenuManager.SetIconItems(Microsoft.Xna.Framework.Graphics.Texture2D,Microsoft.Xna.Framework.Graphics.Texture2D,DinaCSharp.Enums.IconMenuAlignment,Microsoft.Xna.Framework.Vector2,System.Boolean)">
             <summary>

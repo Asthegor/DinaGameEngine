@@ -48,7 +48,7 @@ namespace DinaGameEngine.ViewModels.Startup
                                                         canExecute: _ => Markers.Any() && Markers.All(m => !m.IsEmpty));
             OpenProjectCommand = new RelayCommand(_ => OpenProject());
             GoToMarkerValidationCommand = new RelayCommand(execute: _ => GoToMarkerValidation(),
-                                                           canExecute: _ => !string.IsNullOrEmpty(NewProjectName) && _fileService.DirectoryExists(NewProjectParentFolder));
+                                                           canExecute: _ => !string.IsNullOrWhiteSpace(NewProjectName) && _fileService.DirectoryExists(NewProjectParentFolder));
             GoToNewProjectCommand = new RelayCommand(_ => GoToNewProject());
 
             SelectProjectCommand = new RelayCommand(obj => SelectProject(obj));
@@ -388,6 +388,7 @@ namespace DinaGameEngine.ViewModels.Startup
             {
                 SetProperty(ref _newProjectName, value);
                 OnPropertyChanged(nameof(NewProjectFolderPreview));
+                GoToMarkerValidationCommand.RaiseCanExecuteChanged();
             }
         }
         public string NewProjectParentFolder
@@ -397,6 +398,7 @@ namespace DinaGameEngine.ViewModels.Startup
             {
                 SetProperty(ref _newProjectParentFolder, value);
                 OnPropertyChanged(nameof(NewProjectFolderPreview));
+                GoToMarkerValidationCommand.RaiseCanExecuteChanged();
             }
         }
         public string NewProjectFolderPreview => _fileService.Combine(NewProjectParentFolder, NewProjectName, NewProjectName.Replace(" ", ""));
@@ -423,6 +425,14 @@ namespace DinaGameEngine.ViewModels.Startup
         public RelayCommand GoToMarkerValidationCommand { get; }
         private void GoToMarkerValidation()
         {
+            var projectFolder = _fileService.Combine(NewProjectParentFolder, NewProjectName);
+            if (_fileService.DirectoryExists(projectFolder))
+            {
+                _dialogService.ShowError(
+                    LocalizationManager.GetTranslation("NewProject_Error_Title"),
+                    LocalizationManager.GetTranslation("NewProject_FolderAlreadyExists", NewProjectName));
+                return;
+            }
             var newProjectModel = new NewProjectModel
             {
                 Name = NewProjectName,

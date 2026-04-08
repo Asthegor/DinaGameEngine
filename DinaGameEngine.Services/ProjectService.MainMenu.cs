@@ -36,6 +36,9 @@ namespace DinaGameEngine.Services
             menuTitle.Properties["Color"] = "MainMenu_Title";
             menuTitle.Properties["ShadowColor"] = "MainMenu_Title_Shadow";
             menuTitle.Properties["ShadowOffset"] = new Point(3, 3);
+            menuTitle.Properties["Position"] = new Point(604, 90);
+            menuTitle.Properties["Dimensions"] = new Point(711, 200);
+
 
             menuManager.SubComponents.Add(menuTitle);
             #endregion
@@ -48,6 +51,8 @@ namespace DinaGameEngine.Services
             menuItemContinue.Properties["HAlign"] = DinaHorizontalAlignment.Center.ToString();
             menuItemContinue.Properties["VAlign"] = DinaVerticalAlignment.Center.ToString();
             menuItemContinue.Properties["State"] = DinaState.Disable.ToString();
+            menuItemContinue.Properties["Position"] = new Point(786, 511);
+            menuItemContinue.Properties["Dimensions"] = new Point(348, 106);
             menuManager.SubComponents.Add(menuItemContinue);
 
             var menuItemPlay = new ComponentModel { Type = "MenuItem", Key = "Play" };
@@ -56,6 +61,8 @@ namespace DinaGameEngine.Services
             menuItemPlay.Properties["Color"] = "MainMenu_MenuItem";
             menuItemPlay.Properties["HAlign"] = DinaHorizontalAlignment.Center.ToString();
             menuItemPlay.Properties["VAlign"] = DinaVerticalAlignment.Center.ToString();
+            menuItemPlay.Properties["Position"] = new Point(786, 622);
+            menuItemPlay.Properties["Dimensions"] = new Point(348, 106);
             menuManager.SubComponents.Add(menuItemPlay);
 
             var menuItemOptions = new ComponentModel { Type = "MenuItem", Key = "Options" };
@@ -64,6 +71,8 @@ namespace DinaGameEngine.Services
             menuItemOptions.Properties["Color"] = "MainMenu_MenuItem";
             menuItemOptions.Properties["HAlign"] = DinaHorizontalAlignment.Center.ToString();
             menuItemOptions.Properties["VAlign"] = DinaVerticalAlignment.Center.ToString();
+            menuItemOptions.Properties["Position"] = new Point(786, 733);
+            menuItemOptions.Properties["Dimensions"] = new Point(348, 106);
             menuManager.SubComponents.Add(menuItemOptions);
 
             var menuItemQuit = new ComponentModel { Type = "MenuItem", Key = "Quit" };
@@ -72,6 +81,8 @@ namespace DinaGameEngine.Services
             menuItemQuit.Properties["Color"] = "MainMenu_MenuItem";
             menuItemQuit.Properties["HAlign"] = DinaHorizontalAlignment.Center.ToString();
             menuItemQuit.Properties["VAlign"] = DinaVerticalAlignment.Center.ToString();
+            menuItemQuit.Properties["Position"] = new Point(786, 844);
+            menuItemQuit.Properties["Dimensions"] = new Point(348, 106);
             menuManager.SubComponents.Add(menuItemQuit);
             #endregion
 

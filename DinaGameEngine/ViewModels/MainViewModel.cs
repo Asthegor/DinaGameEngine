@@ -143,11 +143,11 @@ namespace DinaGameEngine.ViewModels
         }
         private void AddNewImage()
         {
-            throw new NotImplementedException();
+            _dialogService.ShowInfo(LocalizationManager.GetTranslation("Dialog_ToBeDevelop_Title"), LocalizationManager.GetTranslation("Dialog_ToBeDevelop_Message"));
         }
         private void AddNewSound()
         {
-            throw new NotImplementedException();
+            _dialogService.ShowInfo(LocalizationManager.GetTranslation("Dialog_ToBeDevelop_Title"), LocalizationManager.GetTranslation("Dialog_ToBeDevelop_Message"));
         }
         private void AddNewFont()
         {
@@ -157,15 +157,15 @@ namespace DinaGameEngine.ViewModels
         }
         private void ShowTransitions()
         {
-            throw new NotImplementedException();
+            _dialogService.ShowInfo(LocalizationManager.GetTranslation("Dialog_ToBeDevelop_Title"), LocalizationManager.GetTranslation("Dialog_ToBeDevelop_Message"));
         }
         private void ShowNews()
         {
-            throw new NotImplementedException();
+            _dialogService.ShowInfo(LocalizationManager.GetTranslation("Dialog_ToBeDevelop_Title"), LocalizationManager.GetTranslation("Dialog_ToBeDevelop_Message"));
         }
         private void ShowAbout()
         {
-            throw new NotImplementedException();
+            _dialogService.ShowInfo(LocalizationManager.GetTranslation("Dialog_ToBeDevelop_Title"), LocalizationManager.GetTranslation("Dialog_ToBeDevelop_Message"));
         }
         private void AddNewColor()
         {

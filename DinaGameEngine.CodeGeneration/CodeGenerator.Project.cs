@@ -173,7 +173,6 @@ namespace DinaGameEngine.CodeGeneration
 
             generatedFile.AppendLine(CodeBuilder.OpenBlock("private void RegisterScene()", 2));
             generatedFile.AppendLine(CodeBuilder.AddLine("// =[ZONE:REGISTER_SCENE]=", 3));
-            generatedFile.AppendLine(CodeBuilder.AddLine("_sceneManager.AddScene(SceneKeys.OptionsMenuScene, () => new OptionsMenuScene(_sceneManager));", 3));
             generatedFile.AppendLine(CodeBuilder.AddLine("// =[/ZONE:REGISTER_SCENE]=", 3));
             generatedFile.AppendLine(CodeBuilder.AddLine("RegisterAdditionalScenes();", 3));
             generatedFile.AppendLine(CodeBuilder.CloseBlock(2));

@@ -1,7 +1,7 @@
 ﻿using DinaCSharp.Core;
+using DinaCSharp.Core.Interfaces;
 using DinaCSharp.Enums;
 using DinaCSharp.Graphics;
-using DinaCSharp.Interfaces;
 using DinaCSharp.Services;
 using DinaCSharp.Services.Audio;
 using DinaCSharp.Services.Fonts;
@@ -353,7 +353,7 @@ namespace __RootNamespace__.Scenes
         private void SaveAndGotoMainMenu(Button button)
         {
             SaveConfig();
-            SetCurrentScene(SceneKeys.MainMenu);
+            SetCurrentScene(SceneKeys.MainMenuScene);
         }
 
         private void ResetModifications(Button button)

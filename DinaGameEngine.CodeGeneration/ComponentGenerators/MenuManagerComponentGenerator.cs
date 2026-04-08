@@ -56,7 +56,7 @@ namespace DinaGameEngine.CodeGeneration.ComponentGenerators
 
             foreach (var menuTitle in component.SubComponents.Where(c => c.Type == "MenuTitle"))
             {
-                sectionParser.AddUsingIfMissing("DinaCSharp.Interfaces");
+                sectionParser.AddUsingIfMissing("DinaCSharp.Core.Interfaces");
 
                 var fontFieldName = $"_{component.Key}_{menuTitle.Key}Font";
                 var menuTitleFieldName = $"_{component.Key}_{menuTitle.Key}{menuTitle.Type}";

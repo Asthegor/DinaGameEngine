@@ -7,7 +7,11 @@ namespace DinaGameEngine.Services
     {
         private void AddOptionsMenuDefaults(GameProjectModel gameProjectModel)
         {
+#if DEBUG // TODO: à retirer une fois avoir terminé les contrôles Slider, CheckBox, ListBox, Button, Group, ShadowText
+            gameProjectModel.Scenes.Add(new SceneModel { Name = "Options", Class = "OptionsMenuScene", Key = "OptionsMenuScene", ToBeIncluded = false });
+#else
             gameProjectModel.Scenes.Add(new SceneModel { Name = "Options", Class = "OptionsMenuScene", Key = "OptionsMenuScene" });
+#endif
 
             gameProjectModel.Colors.Add(new ColorModel { Key = "Options_Title", R = 255, G = 165, B = 000, A = 255 });
             gameProjectModel.Colors.Add(new ColorModel { Key = "Options_Title_Shadow", R = 169, G = 169, B = 169, A = 255 });

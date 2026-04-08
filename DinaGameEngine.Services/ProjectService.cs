@@ -104,7 +104,7 @@ namespace DinaGameEngine.Services
 
             // Ajout des informations des scènes préchargées (Menu principal et Options)
             AddMainMenuDefaults(gameProjectModel);
-            //AddOptionsMenuDefaults(gameProjectModel);
+            AddOptionsMenuDefaults(gameProjectModel);
 
             // Ajout de la scène GameScene vide.
             gameProjectModel.Scenes.Add(new SceneModel { Name = "Game", Class = "GameScene", Key = "GameScene" });

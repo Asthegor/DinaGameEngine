@@ -521,6 +521,24 @@ namespace DinaGameEngine.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cette fonctionnalité est en cours de développement ou le sera sous peu..
+        /// </summary>
+        public static string Dialog_ToBeDevelop_Message {
+            get {
+                return ResourceManager.GetString("Dialog_ToBeDevelop_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to En développement.
+        /// </summary>
+        public static string Dialog_ToBeDevelop_Title {
+            get {
+                return ResourceManager.GetString("Dialog_ToBeDevelop_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Oui.
         /// </summary>
         public static string Dialog_Yes {
@@ -985,6 +1003,24 @@ namespace DinaGameEngine.Resources {
         public static string NewProject_Cancel {
             get {
                 return ResourceManager.GetString("NewProject_Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Nouveau projet - Erreur.
+        /// </summary>
+        public static string NewProject_Error_Title {
+            get {
+                return ResourceManager.GetString("NewProject_Error_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Le dossier &apos;{0}&apos; existe déjà..
+        /// </summary>
+        public static string NewProject_FolderAlreadyExists {
+            get {
+                return ResourceManager.GetString("NewProject_FolderAlreadyExists", resourceCulture);
             }
         }
         

@@ -499,4 +499,16 @@ Pensez à le supprimer manuellement.</value>
   <data name="SceneCard_SetStartupBadge" xml:space="preserve">
     <value>définir démarrage</value>
   </data>
+  <data name="NewProject_Error_Title" xml:space="preserve">
+    <value>Nouveau projet - Erreur</value>
+  </data>
+  <data name="NewProject_FolderAlreadyExists" xml:space="preserve">
+    <value>Le dossier '{0}' existe déjà.</value>
+  </data>
+  <data name="Dialog_ToBeDevelop_Title" xml:space="preserve">
+    <value>En développement</value>
+  </data>
+  <data name="Dialog_ToBeDevelop_Message" xml:space="preserve">
+    <value>Cette fonctionnalité est en cours de développement ou le sera sous peu.</value>
+  </data>
 </root>
