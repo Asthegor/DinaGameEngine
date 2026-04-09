@@ -1,144 +1,205 @@
+<div align="center">
+
+<img src="Logo_128x128.png" alt="Dina Game Engine Logo" width="128"/>
+
 # Dina Game Engine
 
-![Version](https://img.shields.io/github/v/tag/Asthegor/DinaGameEngine?label=version)
-![License](https://img.shields.io/badge/license-MIT-blue)
-![Platform](https://img.shields.io/badge/platform-Windows-lightgrey)
-![.NET](https://img.shields.io/badge/.NET-10-purple)
-![MonoGame](https://img.shields.io/badge/MonoGame-3.8-red)
+**A visual 2D game editor for C# developers — powered by MonoGame and DinaCSharp**
 
-A visual WPF editor for creating 2D games with [MonoGame](https://monogame.net/) and the [DinaCSharp](https://dinacsharp.lacombedominique.com) framework.
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![.NET](https://img.shields.io/badge/.NET-10.0-512BD4)](https://dotnet.microsoft.com/)
+[![MonoGame](https://img.shields.io/badge/MonoGame-3.8.4-E73C00)](https://www.monogame.net/)
+[![Version](https://img.shields.io/github/v/tag/Asthegor/DinaGameEngine?label=version)](https://github.com/Asthegor/DinaGameEngine/releases)
 
-> **Dina Game Engine does not lock you in.** Every generated project is a standard Visual Studio C# solution — fully editable, fully yours.
+</div>
 
 ---
 
 ## What is Dina Game Engine?
 
-Dina Game Engine is a desktop editor that generates complete, ready-to-compile Visual Studio solutions for 2D MonoGame games. It handles the boilerplate — project structure, scene scaffolding, component registration, asset pipelines — so you can focus on your game.
+Dina Game Engine is a WPF-based visual editor that lets you create and manage 2D games built on [MonoGame](https://www.monogame.net/) and the [DinaCSharp](https://dinacsharp.lacombedominique.com) framework.
 
-The editor targets developers who want a head start without losing control. Generated code follows a clean partial-class pattern: engine-managed files (`*.Designer.cs`) coexist with user files where you write your own logic, and the two never conflict.
+The goal is simple: **get a fully functional game project up and running in seconds**, without manually setting up solutions, projects, or boilerplate code. The engine generates clean, readable C# code that you can open, understand, and extend in Visual Studio — no black boxes, no locked files.
 
----
-
-## Features
-
-### Project Wizard
-- Create a new game project from a single dialog
-- Generates a full 6-project Visual Studio solution automatically
-- Configures DinaCSharp as a DLL reference — no source dependency
-- Supports multilingual projects from the start (14 languages available)
-
-### Recent Projects Panel
-- Grouped history (today, yesterday, this week, older…)
-- Pin/unpin projects for quick access
-- Right-click context menu to remove or unpin entries
-
-### Scene Management
-- Add and organize scenes visually
-- Define the startup scene with a clear badge indicator
-- Each scene generates its own `Designer.cs` (engine-managed) and `.cs` (user-managed) partial class pair
-
-### Color System
-- Named color palette per project (`PaletteColors` class)
-- Visual color picker with RGBA sliders
-- Full C# code generation — add a color in the editor, use it in code instantly
-
-### Font Management
-- Add TrueType fonts to your project
-- Automatic SpriteFont generation at 5 resolutions (720p → 2160p) with proportional scaling
-- `FontKeys` class generated for type-safe references in code
-
-### Component System
-The editor supports adding components to scenes with live property editing and immediate code generation.
-
-**Text component**
-- Font, content, color selection
-- Position, alignment, z-order, visibility
-- Full Designer.cs generation (field, load, update, draw)
-
-**MenuManager component**
-- Complete menu system with items and titles
-- Per-item properties: font, content, color, alignment, z-order, visibility, icon support
-- Hierarchical display in the properties panel (collapsible groups)
-- Partial methods generated for selection/deselection callbacks
-
-### Code Generation
-- Surgical file modification via zone markers for project-level files — scene Designer files are fully regenerated to guarantee ordering consistency
-- Partial class system separates generated code from user code cleanly
-- Strategy pattern (`IComponentGenerator`) makes adding new component types straightforward
-- `SectionParser` ensures safe, idempotent updates to generated files
+> Dina Game Engine is designed for **C# developers new to MonoGame** who want a solid starting point without spending hours on project configuration.
 
 ---
 
-## Generated Project Structure
+## ✨ Features
 
-Each project Dina creates is a standard Visual Studio solution:
+- **One-click project creation** — generates a complete, ready-to-run Visual Studio solution built on MonoGame and DinaCSharp
+- **Automatic code generation** — `Designer.cs` files managed by the engine, `.cs` files yours to edit
+- **Built-in main menu and options screen** — functional from day one
+- **Automatic DinaCSharp integration** — the engine handles the framework dependency for you
+- **Localization support** — multi-language projects out of the box (14 languages)
+- **Recent projects list** — with pinning, grouping by date, and context menu
+- **Partial class architecture** — engine code and user code clearly separated, never overwritten
+
+---
+
+## 🎬 See it in action
+
+> From zero to a running game in seconds.
+
+![Dina Game Engine Demo](demo.gif)
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- [Visual Studio 2022](https://visualstudio.microsoft.com/) or later
+- [.NET 10 SDK](https://dotnet.microsoft.com/download)
+- [MonoGame extension for Visual Studio](https://docs.monogame.net/articles/getting_started/1_setting_up_your_development_environment_windows.html)
+
+### Installation
+
+1. Download the latest release from [GitHub Releases](https://github.com/Asthegor/DinaGameEngine/releases)
+2. Extract the archive and run `DinaGameEngine.exe`
+3. Create your first project — the editor handles the rest
+
+---
+
+## 🗂️ Generated Project Structure
+
+Every project Dina creates is a standard, fully buildable Visual Studio solution:
 
 ```
 MyGame/
 ├── MyGame.sln
-├── DinaCSharp.dll
-├── DinaCSharp.xml
-├── Core/               # Keys, enums, shared constants
-├── Fonts/              # SpriteFont definitions (5 resolutions)
-├── Audio/              # Audio assets
-├── Assets/             # Textures and sprites
-├── Scenes/             # Scene classes (Designer.cs + user .cs)
-└── MyGame/             # Main game project
+├── DinaCSharp.dll          ← framework, bundled automatically
+├── DinaCSharp.xml          ← IntelliSense documentation
+├── Core/                   ← keys, enums, palette colors, shared constants
+├── Fonts/                  ← SpriteFont definitions (5 resolutions)
+├── Audio/                  ← audio assets
+├── Assets/                 ← textures and sprites
+├── Scenes/                 ← scene classes (Designer.cs + user .cs pairs)
+└── MyGame/                 ← main game entry point
 ```
 
-User-editable partial methods are scaffolded and ready:
+The partial class pattern keeps generated code and your code cleanly separated:
 
 ```csharp
-// MyScene.cs  — yours to edit
-partial void OnLoad() { }
-partial void OnUpdate(GameTime gameTime) { }
-partial void OnDraw(SpriteBatch spriteBatch) { }
+// MyScene.Designer.cs — managed by the engine, never edit manually
+// MyScene.cs          — yours entirely, never overwritten
+
+partial void OnLoad()                          { }
+partial void OnUpdate(GameTime gameTime)       { }
+partial void OnDraw(SpriteBatch spriteBatch)   { }
 ```
 
 ---
 
-## Requirements
+## 🧩 Components
 
-- Windows 10 or later
-- [.NET 10 Runtime](https://dotnet.microsoft.com/download/dotnet/10.0)
-- [Visual Studio 2022](https://visualstudio.microsoft.com/) (to open and build generated projects)
-- [MonoGame 3.8](https://monogame.net/download/) (Content Pipeline tools)
+Components are added to scenes through the editor. Each one generates the corresponding C# code immediately.
+
+### Text
+
+Display static or dynamic text in a scene.
+
+| Property | Description |
+|---|---|
+| Font | Chosen from the project's font library |
+| Content | The text string (localization key or literal) |
+| Color | Named color from the project palette |
+| Position | World position (X, Y) |
+| Dimensions | Optional bounding box |
+| Alignment | Horizontal and vertical |
+| Z-Order | Rendering layer |
+| Visibility | Show/hide at load |
+
+### MenuManager
+
+A full-featured interactive menu system.
+
+**Menu-level properties:** item spacing, direction (vertical/horizontal), action key bindings, icon support (left/right icons with alignment and spacing).
+
+**Titles** — decorative header text above the menu:
+
+| Property | Description |
+|---|---|
+| Font, Content, Color | Standard text appearance |
+| Position | Explicit position or centered via `CenterTitles` |
+| Shadow | Optional drop shadow with separate color and offset |
+| Z-Order, Visibility | Rendering control |
+
+**Items** — interactive menu entries:
+
+| Property | Description |
+|---|---|
+| Font, Content, Color | Standard text appearance |
+| State | `Enable` / `Disable` |
+| Position, Dimensions | Layout control |
+| Z-Order, Visibility | Rendering control |
+
+For each item, the engine generates three partial callback methods ready to implement:
+
+```csharp
+// MyScene.cs
+partial MenuItem OnMyMenuItemSelection(MenuItem item)   { return item; }
+partial MenuItem OnMyMenuItemDeselection(MenuItem item) { return item; }
+partial MenuItem OnMyMenuItemActivation(MenuItem item)  { return item; }
+```
 
 ---
 
-## Installation
+## 🎨 Color System
 
-A first release is coming. In the meantime, clone the repository and build from source in Visual Studio 2022.
-
----
-
-## Related Project
-
-**DinaCSharp** is the MonoGame-based framework that powers the generated games.
-It is developed in parallel and distributed as a DLL bundled with the editor.
-
-- Site: [dinacsharp.lacombedominique.com](https://dinacsharp.lacombedominique.com)
+Colors are defined once in the editor as a named palette (`PaletteColors` class) and referenced by key throughout the project. Changing a color in the editor updates every component that uses it.
 
 ---
 
-## Roadmap
+## 🔤 Font Management
+
+Add a TrueType font to the project and the engine automatically generates SpriteFont definitions at five resolutions (proportionally scaled from 720p to 2160p). All fonts are accessible in code via the generated `FontKeys` class.
+
+---
+
+## 🏗️ Architecture
+
+### Code generation
+
+The engine uses a **strategy pattern** (`IComponentGenerator` / `ComponentGeneratorRegistry`) to handle each component type independently. Adding support for a new component type requires implementing a single interface — nothing else changes.
+
+File modifications use a **zone marker system** (`SectionParser`) that surgically inserts and removes code within named regions, making updates safe and idempotent.
+
+Scene `Designer.cs` files are fully regenerated on each change to guarantee that field declarations, load calls, update calls, and draw calls always appear in the correct order.
+
+### Partial class system
+
+| File | Owner | Rule |
+|---|---|---|
+| `MyScene.Designer.cs` | Engine | Regenerated automatically — never edit |
+| `MyScene.cs` | Developer | Never touched by the engine |
+
+### Dependency injection
+
+Manual constructor injection throughout — no third-party DI framework.
+
+---
+
+## 🗺️ Roadmap
 
 - [ ] Image component
-- [ ] Sound component
+- [ ] Sound component  
 - [ ] Transition system
-- [ ] GitHub wiki (documentation)
-- [ ] Additional built-in component types
+- [ ] Additional component types
+- [ ] GitHub wiki
 
 ---
 
-## License
+## 📄 License
 
 MIT — see [LICENSE](LICENSE) for details.
 
 ---
 
-## Author
+## 👤 Author
 
-Dominique Lacombe — solo developer, Montreal.
-Coding since age 9. Building tools I wish had existed when I started making games.
+**Dominique Lacombe** — solo developer, Montreal.  
+Coding since age 9. Building tools I wish had existed when I started.
+
+- Site: [lacombedominique.com](https://lacombedominique.com)
+- DinaCSharp: [dinacsharp.lacombedominique.com](https://dinacsharp.lacombedominique.com)
