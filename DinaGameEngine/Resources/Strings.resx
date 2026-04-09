@@ -529,4 +529,13 @@ Pensez à le supprimer manuellement.</value>
   <data name="Component_MenuManager_IconResize_Label" xml:space="preserve">
     <value>Redimensionnement automatique des icônes</value>
   </data>
+  <data name="Component_WithShadow_Label" xml:space="preserve">
+    <value>Avec ombrage</value>
+  </data>
+  <data name="Component_ShadowColor_Label" xml:space="preserve">
+    <value>Couleur de l'ombrage</value>
+  </data>
+  <data name="Component_ShadowOffset_Label" xml:space="preserve">
+    <value>Décalage de l'ombrage</value>
+  </data>
 </root>

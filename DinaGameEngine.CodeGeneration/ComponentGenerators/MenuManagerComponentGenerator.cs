@@ -63,7 +63,8 @@ namespace DinaGameEngine.CodeGeneration.ComponentGenerators
 
                 var titleLine = $"{menuTitleFieldName} = {GetFieldName(component)}.AddTitle(font: {fontFieldName}, text: \"{ComponentPropertyHelper.GetStringProperty(menuTitle, "Content")}\", color: PaletteColors.{ComponentPropertyHelper.GetStringProperty(menuTitle, "Color")}";
 
-                if (menuTitle.Properties.TryGetValue("ShadowColor", out var shadowColor) && menuTitle.Properties.TryGetValue("ShadowOffset", out var shadowOffset))
+                var withShadow = ComponentPropertyHelper.GetBoolProperty(menuTitle, "WithShadow", false);
+                if (withShadow)
                 {
                     var shadowColorValue = ComponentPropertyHelper.GetStringProperty(menuTitle, "ShadowColor");
                     (int? offsetX, int? offsetY) = ComponentPropertyHelper.GetPointProperty(menuTitle, "ShadowOffset");
@@ -176,8 +177,8 @@ namespace DinaGameEngine.CodeGeneration.ComponentGenerators
                 if (iconResize)
                     argsSetIconItems.Add($"resize: {iconResize}");
 
-                var setIconItems = $"{GetFieldName(component)}.SetIconItems({string.Join(", ", args)});";
-                sectionParser.InsertIntoZone("COMPONENT_LOAD", [CodeBuilder.AddLine(constructor, level)]);
+                var setIconItems = $"{GetFieldName(component)}.SetIconItems({string.Join(", ", argsSetIconItems)});";
+                sectionParser.InsertIntoZone("COMPONENT_LOAD", [CodeBuilder.AddLine(setIconItems, level)]);
             }
             var iconVisible = ComponentPropertyHelper.GetBoolProperty(component, "IconVisible", false);
             if (iconVisible)

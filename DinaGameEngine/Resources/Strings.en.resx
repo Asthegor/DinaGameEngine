@@ -529,4 +529,13 @@ Please remove it manually.</value>
   <data name="Component_MenuManager_IconResize_Label" xml:space="preserve">
     <value>Automatic icon resizing</value>
   </data>
+  <data name="Component_WithShadow_Label" xml:space="preserve">
+    <value>With shadow</value>
+  </data>
+  <data name="Component_ShadowColor_Label" xml:space="preserve">
+    <value>Shadow color</value>
+  </data>
+  <data name="Component_ShadowOffset_Label" xml:space="preserve">
+    <value>Shadow offset</value>
+  </data>
 </root>

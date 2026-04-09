@@ -413,6 +413,24 @@ namespace DinaGameEngine.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Couleur de l&apos;ombrage.
+        /// </summary>
+        public static string Component_ShadowColor_Label {
+            get {
+                return ResourceManager.GetString("Component_ShadowColor_Label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Décalage de l&apos;ombrage.
+        /// </summary>
+        public static string Component_ShadowOffset_Label {
+            get {
+                return ResourceManager.GetString("Component_ShadowOffset_Label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to État.
         /// </summary>
         public static string Component_State_Label {
@@ -436,6 +454,15 @@ namespace DinaGameEngine.Resources {
         public static string Component_Visible_Label {
             get {
                 return ResourceManager.GetString("Component_Visible_Label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Avec ombrage.
+        /// </summary>
+        public static string Component_WithShadow_Label {
+            get {
+                return ResourceManager.GetString("Component_WithShadow_Label", resourceCulture);
             }
         }
         

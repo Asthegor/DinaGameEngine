@@ -71,6 +71,22 @@
                                                     Converter={StaticResource EnumValuesFilterConverter}}"
                                     SelectedKey="{Binding VAlign, Mode=TwoWay}"/>
 
+            <shared:LabeledCheckBox Label="{ext:Translate Key=Component_WithShadow_Label}"
+                                    IsChecked="{Binding WithShadow}"/>
+
+            <shared:LabeledColorComboBox Label="{ext:Translate Key=Component_ShadowColor_Label}"
+                                         AvailableColors="{Binding AvailableColors}"
+                                         SelectedColor="{Binding SelectedShadowColor, Mode=TwoWay}"
+                                         Visibility="{Binding WithShadow, Converter={StaticResource BoolToVisibility}}"/>
+
+            <comps:Vector2InputView Label="{ext:Translate Key=Component_ShadowOffset_Label}"
+                                    ValueX="{Binding ShadowOffsetX, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    ValueY="{Binding ShadowOffsetY, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    ResetIcon="{Binding ResetIcon}"
+                                    ResetCommand="{Binding ResetShadowOffsetCommand}"
+                                    Visibility="{Binding WithShadow, Converter={StaticResource BoolToVisibility}}"/>
+
+
         </StackPanel>
     </ScrollViewer>
 </UserControl>

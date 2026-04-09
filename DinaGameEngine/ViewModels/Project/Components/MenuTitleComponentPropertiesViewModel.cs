@@ -20,6 +20,10 @@ namespace DinaGameEngine.ViewModels.Project.Components
         private bool _visible = true;
         private DinaHorizontalAlignment _hAlign = DinaHorizontalAlignment.Left;
         private DinaVerticalAlignment _vAlign = DinaVerticalAlignment.Top;
+        private bool _withShadow = false;
+        private string _shadowColor = string.Empty;
+        private int? _shadowOffsetX;
+        private int? _shadowOffsetY;
 
         public MenuTitleComponentPropertiesViewModel(IEnumerable<FontModel> availableFonts,
                                                     IEnumerable<ColorModel> availableColors,
@@ -30,6 +34,7 @@ namespace DinaGameEngine.ViewModels.Project.Components
 
             ResetPositionCommand = new RelayCommand(ResetPosition);
             ResetDimensionsCommand = new RelayCommand(ResetDimensions);
+            ResetShadowOffsetCommand = new RelayCommand(ResetShadowOffset);
 
             LoadFrom(component);
             NotifyChange(false);
@@ -134,7 +139,6 @@ namespace DinaGameEngine.ViewModels.Project.Components
                 NotifyChange();
             }
         }
-
         public DinaHorizontalAlignment HAlign
         {
             get => _hAlign;
@@ -153,6 +157,48 @@ namespace DinaGameEngine.ViewModels.Project.Components
                 NotifyChange();
             }
         }
+        public bool WithShadow
+        {
+            get => _withShadow;
+            set
+            {
+                SetProperty(ref _withShadow, value);
+                NotifyChange();
+            }
+        }
+        public ColorModel? SelectedShadowColor
+        {
+            get => AvailableColors.FirstOrDefault(c => c.Key == _shadowColor);
+            set
+            {
+                _shadowColor = value?.Key ?? string.Empty;
+                OnPropertyChanged();
+                NotifyChange();
+            }
+        }
+        public int? ShadowOffsetX
+        {
+            get => _shadowOffsetX;
+            set
+            {
+                if (_shadowOffsetX == null && value != null && ShadowOffsetY == null)
+                    _shadowOffsetY = 0;
+                SetProperty(ref _shadowOffsetX, value);
+                NotifyChange();
+            }
+        }
+        public int? ShadowOffsetY
+        {
+            get => _shadowOffsetY;
+            set
+            {
+                if (_shadowOffsetY == null && value != null && ShadowOffsetX == null)
+                    _shadowOffsetX = 0;
+                SetProperty(ref _shadowOffsetY, value);
+                NotifyChange();
+            }
+        }
+
 
         protected override void LoadFrom(ComponentModel source)
         {
@@ -172,6 +218,10 @@ namespace DinaGameEngine.ViewModels.Project.Components
 
             ZOrder = ComponentPropertyHelper.GetIntProperty(source, "ZOrder", 0);
             Visible = ComponentPropertyHelper.GetBoolProperty(source, "Visible", true);
+
+            WithShadow = ComponentPropertyHelper.GetBoolProperty(source, "WithShadow", false);
+            _shadowColor = source.Properties.TryGetValue("ShadowColor", out var shadowColor) ? shadowColor?.ToString() ?? string.Empty : string.Empty;
+            (ShadowOffsetX, ShadowOffsetY) = ComponentPropertyHelper.GetPointProperty(source, "ShadowOffset");
         }
 
         public override void ApplyToModel()
@@ -210,6 +260,21 @@ namespace DinaGameEngine.ViewModels.Project.Components
                 _component.Properties["VAlign"] = VAlign.ToString();
             else
                 _component.Properties.Remove("VAlign");
+
+
+            if (WithShadow)
+            {
+                _component.Properties["WithShadow"] = ComponentPropertyHelper.GetReturnValueFrom(WithShadow);
+                _component.Properties["ShadowColor"] = _shadowColor;
+                if (ShadowOffsetX.HasValue || ShadowOffsetY.HasValue)
+                    _component.Properties["ShadowOffset"] = new Point(ShadowOffsetX ?? 0, ShadowOffsetY ?? 0);
+            }
+            else
+            {
+                _component.Properties.Remove("WithShadow");
+                _component.Properties.Remove("ShadowColor");
+                _component.Properties.Remove("ShadowOffset");
+            }
         }
 
         public RelayCommand ResetPositionCommand { get; }
@@ -225,5 +290,11 @@ namespace DinaGameEngine.ViewModels.Project.Components
             DimensionsY = null;
         }
 
+        public RelayCommand ResetShadowOffsetCommand { get; }
+        private void ResetShadowOffset()
+        {
+            ShadowOffsetX = null;
+            ShadowOffsetY = null;
+        }
     }
 }
