@@ -238,16 +238,25 @@ namespace DinaGameEngine.CodeGeneration
             var sectionParser = CreateSectionParserFor(projectUserFilePath);
 
             var startupScene = gameProjectModel.Scenes.FirstOrDefault(s => s.IsStartup);
-            if ( startupScene == null )
+            if (startupScene == null && gameProjectModel.Scenes.Count > 0)
             {
                 _logService.Error("Aucune scène n'a été définie comme scène par défaut.");
                 _dialogService.ShowError(LocalizationManager.GetTranslation("DefaultSceneMissing_Title"),
                                          LocalizationManager.GetTranslation("DefaultSceneMissing_Message"));
                 return;
             }
-            sectionParser.UpdateStartupScene("_sceneManager.SetCurrentScene(", startupScene!.Key);
+            sectionParser.UpdateStartupScene(startupScene!.Key);
             _fileService.WriteAllText(projectUserFilePath, sectionParser.GetContent());
             _logService.Info($"Fichier '{gameProjectModel.ProjectName}.cs' mis à jour avec la scène de départ.");
+        }
+        public void RemoveStartupScene(GameProjectModel gameProjectModel)
+        {
+            var projectUserFilePath = _fileService.Combine(gameProjectModel.RootPath, gameProjectModel.ProjectName, $"{gameProjectModel.ProjectName}.cs");
+            var sectionParser = CreateSectionParserFor(projectUserFilePath);
+
+            sectionParser.RemoveStartupScene();
+            _fileService.WriteAllText(projectUserFilePath, sectionParser.GetContent());
+            _logService.Info($"Fichier '{gameProjectModel.ProjectName}.cs' mis à jour (suppression de la scène de départ).");
         }
     }
 }

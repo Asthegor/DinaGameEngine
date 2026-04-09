@@ -323,6 +323,60 @@ namespace DinaGameEngine.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Alignement des icônes.
+        /// </summary>
+        public static string Component_MenuManager_IconAlignment_Label {
+            get {
+                return ResourceManager.GetString("Component_MenuManager_IconAlignment_Label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Icône gauche.
+        /// </summary>
+        public static string Component_MenuManager_IconLeft_Label {
+            get {
+                return ResourceManager.GetString("Component_MenuManager_IconLeft_Label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Redimensionnement automatique des icônes.
+        /// </summary>
+        public static string Component_MenuManager_IconResize_Label {
+            get {
+                return ResourceManager.GetString("Component_MenuManager_IconResize_Label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Icône droite.
+        /// </summary>
+        public static string Component_MenuManager_IconRight_Label {
+            get {
+                return ResourceManager.GetString("Component_MenuManager_IconRight_Label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Espacement des icônes.
+        /// </summary>
+        public static string Component_MenuManager_IconSpacingX_Label {
+            get {
+                return ResourceManager.GetString("Component_MenuManager_IconSpacingX_Label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Icônes visibles.
+        /// </summary>
+        public static string Component_MenuManager_IconVisible_Label {
+            get {
+                return ResourceManager.GetString("Component_MenuManager_IconVisible_Label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Espacement entre les items.
         /// </summary>
         public static string Component_MenuManager_ItemSpacing_Label {
@@ -557,7 +611,7 @@ namespace DinaGameEngine.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Le fichier &apos;{0}&apos; n&apos;existe pas dans le répertoire sélectionné..
+        ///   Looks up a localized string similar to Le projet &apos;{0}&apos; n&apos;existe plus..
         /// </summary>
         public static string Error_OpenProject {
             get {

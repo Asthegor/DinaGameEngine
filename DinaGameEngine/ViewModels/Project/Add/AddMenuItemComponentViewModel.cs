@@ -3,15 +3,10 @@
 namespace DinaGameEngine.ViewModels.Project.Add
 {
 
-    public class AddMenuItemComponentViewModel : AddMenuManagerSubViewModel
+    public class AddMenuItemComponentViewModel(IEnumerable<FontModel> availableFonts, IEnumerable<ColorModel> availableColors, Action? onValidityChanged = null) : AddMenuManagerSubViewModel(availableFonts, availableColors, onValidityChanged)
     {
         private static int _nbMenuItems;
 
-        public AddMenuItemComponentViewModel(IEnumerable<FontModel> availableFonts, IEnumerable<ColorModel> availableColors, Action? onValidityChanged = null) : base(availableFonts, availableColors, onValidityChanged)
-        {
-            CurrentIndex = _nbMenuItems++;
-        }
-
-        public int CurrentIndex { get; }
+        public int CurrentIndex { get; } = _nbMenuItems++;
     }
 }

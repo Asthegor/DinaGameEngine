@@ -22,7 +22,7 @@ using System.Linq;
 
 namespace __RootNamespace__.Scenes
 {
-    public class OptionsMenuScene(SceneManager sceneManager) : Scene(sceneManager)
+    public class OptionsScene(SceneManager sceneManager) : Scene(sceneManager)
     {
         private ScreenManager _screenManager;
         private SoundManager _soundManager;
@@ -353,7 +353,7 @@ namespace __RootNamespace__.Scenes
         private void SaveAndGotoMainMenu(Button button)
         {
             SaveConfig();
-            SetCurrentScene(SceneKeys.MainMenuScene);
+            SetCurrentScene(SceneKeys.MainMenu);
         }
 
         private void ResetModifications(Button button)

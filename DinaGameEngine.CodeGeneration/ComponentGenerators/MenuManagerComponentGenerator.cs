@@ -61,7 +61,7 @@ namespace DinaGameEngine.CodeGeneration.ComponentGenerators
                 var fontFieldName = $"_{component.Key}_{menuTitle.Key}Font";
                 var menuTitleFieldName = $"_{component.Key}_{menuTitle.Key}{menuTitle.Type}";
 
-                var titleLine = $"var {menuTitleFieldName} = {GetFieldName(component)}.AddTitle(font: {fontFieldName}, text: \"{ComponentPropertyHelper.GetStringProperty(menuTitle, "Content")}\", color: PaletteColors.{ComponentPropertyHelper.GetStringProperty(menuTitle, "Color")}";
+                var titleLine = $"{menuTitleFieldName} = {GetFieldName(component)}.AddTitle(font: {fontFieldName}, text: \"{ComponentPropertyHelper.GetStringProperty(menuTitle, "Content")}\", color: PaletteColors.{ComponentPropertyHelper.GetStringProperty(menuTitle, "Color")}";
 
                 if (menuTitle.Properties.TryGetValue("ShadowColor", out var shadowColor) && menuTitle.Properties.TryGetValue("ShadowOffset", out var shadowOffset))
                 {

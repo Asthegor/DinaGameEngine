@@ -16,5 +16,6 @@
         void CreateResxFile(string path, string namespaceName, string className);
         void CreateResxDesignerFile(string path, string namespaceName, string className);
         string GetFileName(string path);
+        string GetDirectoryName(string path);
     }
 }

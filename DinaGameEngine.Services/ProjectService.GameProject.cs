@@ -4,9 +4,12 @@ namespace DinaGameEngine.Services
 {
     public partial class ProjectService
     {
-        private void UpdateGameProjectUserFile(GameProjectModel gameProjectModel)
+        public void UpdateGameProjectUserFile(GameProjectModel gameProjectModel)
         {
-            _codeGenerator.UpdateStartupScene(gameProjectModel);
+            if (gameProjectModel.Scenes.Count > 0)
+                _codeGenerator.UpdateStartupScene(gameProjectModel);
+            else
+                _codeGenerator.RemoveStartupScene(gameProjectModel);
         }
     }
 }

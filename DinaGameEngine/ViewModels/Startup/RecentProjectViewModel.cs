@@ -11,13 +11,15 @@ namespace DinaGameEngine.ViewModels.Startup
         private readonly RecentProjectModel _model;
         private readonly IFileService _fileService;
         private readonly IProjectService _projectService;
+        private readonly IDialogService _dialogService;
         private bool _isSelected;
 
-        public RecentProjectViewModel(RecentProjectModel model, IFileService fileService, IProjectService projectService)
+        public RecentProjectViewModel(RecentProjectModel model, IFileService fileService, IProjectService projectService, IDialogService dialogService)
         {
             _model = model;
             _fileService = fileService;
             _projectService = projectService;
+            _dialogService = dialogService;
 
             PinProjectCommand = new RelayCommand(ExecutePinProject);
             OpenProjectCommand = new RelayCommand(ExecuteOpenProject);
@@ -106,9 +108,13 @@ namespace DinaGameEngine.ViewModels.Startup
         public RelayCommand OpenProjectCommand { get; }
         private void ExecuteOpenProject()
         {
-            var project = _projectService.OpenProject(_model.ProjectFolderPath);
+            var project = _projectService.OpenProject(_model.SolutionFolderPath);
             if (project == null)
+            {
+                _dialogService.ShowError(LocalizationManager.GetTranslation("Dialog_OpenProject"),
+                                         LocalizationManager.GetTranslation("Error_OpenProject", _model.Name));
                 return;
+            }
             ProjectOpened?.Invoke(this, new ProjectOpenedEventArgs(project));
         }
         public RelayCommand RemoveFromListCommand { get; }

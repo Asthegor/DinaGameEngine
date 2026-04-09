@@ -15,7 +15,7 @@
     <Compile Remove="GameProject\Core\Keys\SceneKeys.cs" />
     <Compile Remove="GameProject\Core\Keys\ServiceKeys.cs" />
     <Compile Remove="GameProject\Scenes\MainMenuScene.cs" />
-    <Compile Remove="GameProject\Scenes\OptionsMenuScene.cs" />
+    <Compile Remove="GameProject\Scenes\OptionsScene.cs" />
     <Compile Remove="GameProject\__GameProjectName__\Program.cs" />
     <Compile Remove="GameProject\__GameProjectName__\__GameProjectName__.cs" />
   </ItemGroup>

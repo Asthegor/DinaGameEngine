@@ -127,7 +127,7 @@
     <value>An error occurred while creating the new project.</value>
   </data>
   <data name="Error_OpenProject" xml:space="preserve">
-    <value>The file '{0}' does not exist in the selected directory.</value>
+    <value>The project '{0}' do not exist.</value>
   </data>
   <data name="Markers_LabelHeader" xml:space="preserve">
     <value>Label</value>
@@ -510,5 +510,23 @@ Please remove it manually.</value>
   </data>
   <data name="Dialog_ToBeDevelop_Message" xml:space="preserve">
     <value>This feature is currently under development or will be soon.</value>
+  </data>
+  <data name="Component_MenuManager_IconVisible_Label" xml:space="preserve">
+    <value>Icons visible</value>
+  </data>
+  <data name="Component_MenuManager_IconAlignment_Label" xml:space="preserve">
+    <value>Icon alignment</value>
+  </data>
+  <data name="Component_MenuManager_IconLeft_Label" xml:space="preserve">
+    <value>Left icon</value>
+  </data>
+  <data name="Component_MenuManager_IconRight_Label" xml:space="preserve">
+    <value>Right icon</value>
+  </data>
+  <data name="Component_MenuManager_IconSpacingX_Label" xml:space="preserve">
+    <value>Icon spacing</value>
+  </data>
+  <data name="Component_MenuManager_IconResize_Label" xml:space="preserve">
+    <value>Automatic icon resizing</value>
   </data>
 </root>

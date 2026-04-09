@@ -307,11 +307,12 @@ namespace DinaGameEngine.CodeGeneration
             sectionParser.WriteInDelimitedPartialFunction(functionSignature, lines);
             _fileService.WriteAllText(userFilePath, sectionParser.GetContent());
         }
-        public void DefineStartupScene(GameProjectModel gameProjectModel, SceneModel sceneModel)
+        public void RegenerateSceneDesigner(GameProjectModel gameProjectModel, SceneModel scene)
         {
-            var userFilePath = _fileService.Combine(gameProjectModel.RootPath, gameProjectModel.ProjectName, $"{gameProjectModel.ProjectName}.cs");
-            var sectionParser = CreateSectionParserFor(userFilePath);
+            GenerateSceneDesigner(gameProjectModel, scene);
 
+            foreach (var component in scene.Components)
+                AddComponent(gameProjectModel, scene, component);
         }
     }
 }

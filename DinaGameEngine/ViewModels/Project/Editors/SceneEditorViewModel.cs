@@ -147,6 +147,8 @@ namespace DinaGameEngine.ViewModels.Project.Editors
             _codeGenerator.AddComponent(_gameProjectModel, _sceneModel, vm.Component);
             _projectService.UpdateJsonProjectFile(_gameProjectModel);
 
+            _codeGenerator.RegenerateSceneDesigner(_gameProjectModel, _sceneModel);
+
             var componentVm = Components.FirstOrDefault(c => c.Model == vm.Component);
             componentVm?.NotifyKeyChanged();
         }
@@ -297,6 +299,7 @@ namespace DinaGameEngine.ViewModels.Project.Editors
             var parentVm = Components.FirstOrDefault(c => c.MenuTitles.Any(m => m.Model == SelectedComponentViewModel?.Component));
             var menuItemVm = parentVm?.MenuTitles.FirstOrDefault(m => m.Model == SelectedComponentViewModel?.Component);
             menuItemVm?.NotifyChanged();
+            _codeGenerator.RegenerateSceneDesigner(_gameProjectModel, _sceneModel);
         }
 
 
@@ -380,6 +383,7 @@ namespace DinaGameEngine.ViewModels.Project.Editors
             var parentVm = Components.FirstOrDefault(c => c.MenuItems.Any(m => m.Model == SelectedComponentViewModel?.Component));
             var menuItemVm = parentVm?.MenuItems.FirstOrDefault(m => m.Model == SelectedComponentViewModel?.Component);
             menuItemVm?.NotifyChanged();
+            _codeGenerator.RegenerateSceneDesigner(_gameProjectModel, _sceneModel);
         }
     }
 }

@@ -9,23 +9,20 @@ using System.Diagnostics;
 
 namespace DinaGameEngine.Services
 {
-    public partial class ProjectService : IProjectService
+    public partial class ProjectService(IFileService fileService, ILogService logService, ITemplateExtractor templateExtractor, ICodeGenerator codeGenerator) : IProjectService
     {
-        private readonly IFileService _fileService;
-        private readonly ILogService _logService;
-        private readonly ITemplateExtractor _templateExtractor;
-        private readonly ICodeGenerator _codeGenerator;
-
-        public ProjectService(IFileService fileService, ILogService logService, ITemplateExtractor templateExtractor, ICodeGenerator codeGenerator)
-        {
-            _fileService = fileService;
-            _logService = logService;
-            _templateExtractor = templateExtractor;
-            _codeGenerator = codeGenerator;
-        }
+        private readonly IFileService _fileService = fileService;
+        private readonly ILogService _logService = logService;
+        private readonly ITemplateExtractor _templateExtractor = templateExtractor;
+        private readonly ICodeGenerator _codeGenerator = codeGenerator;
 
         public GameProjectModel? OpenProject(string projectPath)
         {
+            if (!_fileService.DirectoryExists(projectPath))
+            {
+                _logService.Warning($"Répertoire '{projectPath}' inexistant.");
+                return null;
+            }
             var filename = _fileService.Combine(projectPath, ProjectStructure.ProjectFileName);
             if (!_fileService.FileExists(filename))
             {
@@ -50,6 +47,22 @@ namespace DinaGameEngine.Services
             }
 
             gameProjectModel.LastOpenedAt = DateTime.Now;
+
+            // On vérifie qu'il n'y a qu'une seule scène de démarrage.
+            var startupScenes = gameProjectModel.Scenes.Where(s => s.IsStartup).ToList();
+            if (startupScenes.Count > 1)
+            {
+                // La première scène est la scène de démarrage
+                foreach (var scene in startupScenes.Skip(1))
+                    scene.IsStartup = false;
+            }
+            else if (startupScenes.Count == 0 && gameProjectModel.Scenes.Count > 0)
+            {
+                // Si aucune scène n'a été définie comme scène de démarrage,
+                // la première scène devient la scène de démarrage
+                gameProjectModel.Scenes.First(s => s.Id != Guid.Empty).IsStartup = true;
+            }
+            UpdateGameProjectUserFile(gameProjectModel);
 
             UpdateJsonProjectFile(gameProjectModel);
 
@@ -107,7 +120,7 @@ namespace DinaGameEngine.Services
             AddOptionsMenuDefaults(gameProjectModel);
 
             // Ajout de la scène GameScene vide.
-            gameProjectModel.Scenes.Add(new SceneModel { Name = "Game", Class = "GameScene", Key = "GameScene" });
+            gameProjectModel.Scenes.Add(new SceneModel { Name = "Game", Class = "GameScene", Key = "Game" });
 
             // Écriture des fichiers sur le disque.
             _codeGenerator.GenerateAllFiles(gameProjectModel);

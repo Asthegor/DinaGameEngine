@@ -6,16 +6,10 @@ using System.Text;
 
 namespace DinaGameEngine.ViewModels.Project.Add
 {
-    public class AddMenuTitleComponentViewModel : AddMenuManagerSubViewModel
+    public class AddMenuTitleComponentViewModel(IEnumerable<FontModel> availableFonts, IEnumerable<ColorModel> availableColors, Action? onValidityChanged = null) : AddMenuManagerSubViewModel(availableFonts, availableColors, onValidityChanged)
     {
         private static int _nbMenuTitles;
 
-        public AddMenuTitleComponentViewModel(IEnumerable<FontModel> availableFonts, IEnumerable<ColorModel> availableColors, Action? onValidityChanged = null)
-            : base(availableFonts, availableColors, onValidityChanged)
-        {
-            CurrentIndex = _nbMenuTitles++;
-        }
-
-        public int CurrentIndex { get; }
+        public int CurrentIndex { get; } = _nbMenuTitles++;
     }
 }

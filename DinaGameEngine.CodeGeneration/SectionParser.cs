@@ -195,13 +195,57 @@
             }
         }
 
-        public void UpdateStartupScene(string ligneSignature, string sceneKey)
+        public void UpdateStartupScene(string sceneKey)
         {
             var index = 0;
             var startupLine = string.Empty;
             for(index = 0; index < _lines.Count;index++)
             {
-                if (_lines.Contains("_sceneManager.SetCurrentScene("))
+                if (_lines[index].Contains("_sceneManager.SetCurrentScene("))
+                {
+                    startupLine = _lines[index];
+                    break;
+                }
+            }
+            if (string.IsNullOrEmpty(startupLine))
+            {
+                // La ligne n'existe pas, on doit la créer
+                var indexOnSetStartupScene = _lines.FindIndex(line => line.Contains("partial void OnSetStartupScene()"));
+                if (indexOnSetStartupScene < 0)
+                    return;
+
+                if (!_lines[indexOnSetStartupScene].EndsWith('}'))
+                {
+                    if (!_lines[indexOnSetStartupScene].EndsWith('{'))
+                        indexOnSetStartupScene++;
+                    _lines.Insert(indexOnSetStartupScene + 1, CodeBuilder.AddLine($"_sceneManager.SetCurrentScene(SceneKeys.{sceneKey});", 3));
+                }
+                else
+                {
+                    // On supprime '}'
+                    _lines[indexOnSetStartupScene] = _lines[indexOnSetStartupScene][..^1];
+                    // On rajoute d'abord le '}' puis l'appel de SetCurrentScene
+                    // Cela permet de les avoir dans l'ordre dans _lines car Insert insère à la position exacte.
+                    _lines.Insert(indexOnSetStartupScene + 1, CodeBuilder.CloseBlock(2));
+                    _lines.Insert(indexOnSetStartupScene + 1, CodeBuilder.AddLine($"_sceneManager.SetCurrentScene(SceneKeys.{sceneKey});", 3));
+                }
+            }
+            else
+            {
+                var indexStartCurrentStartupScene = startupLine.IndexOf('(') + 1;
+                var indexEndCurrentStartupScene = startupLine.IndexOf(')');
+                var currentStartupScene = startupLine[indexStartCurrentStartupScene..indexEndCurrentStartupScene];
+
+                _lines[index] = startupLine.Replace(currentStartupScene, $"SceneKeys.{sceneKey}");
+            }
+        }
+        public void RemoveStartupScene()
+        {
+            var startupLine = string.Empty;
+            int index;
+            for (index = 0; index < _lines.Count; index++)
+            {
+                if (_lines[index].Contains("_sceneManager.SetCurrentScene("))
                 {
                     startupLine = _lines[index];
                     break;
@@ -210,10 +254,7 @@
             if (string.IsNullOrEmpty(startupLine))
                 return;
 
-            var indexStartCurrentStartupScene = startupLine.IndexOf('(');
-            var indexEndCurrentStartupScene = startupLine.IndexOf(')');
-            var currentStartupScene = startupLine.Substring(indexStartCurrentStartupScene, indexEndCurrentStartupScene - indexStartCurrentStartupScene);
-            _lines[index] = startupLine.Replace(currentStartupScene, sceneKey);
+            _lines.RemoveAt(index);
         }
     }
 }

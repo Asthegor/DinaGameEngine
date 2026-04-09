@@ -23,7 +23,7 @@
         <Grid Background="Transparent">
             <Grid.InputBindings>
                 <MouseBinding MouseAction="LeftDoubleClick"
-                          Command="{Binding OpenProjectCommand}"/>
+                              Command="{Binding OpenProjectCommand}"/>
                 <MouseBinding MouseAction="LeftClick" 
                               Command="{Binding DataContext.SelectProjectCommand, RelativeSource={RelativeSource AncestorType=views:StartupWindow}}"
                               CommandParameter="{Binding}"/>

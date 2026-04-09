@@ -127,7 +127,7 @@
     <value>Une erreur est survenue lors de la création du nouveau projet.</value>
   </data>
   <data name="Error_OpenProject" xml:space="preserve">
-    <value>Le fichier '{0}' n'existe pas dans le répertoire sélectionné.</value>
+    <value>Le projet '{0}' n'existe plus.</value>
   </data>
   <data name="Markers_LabelHeader" xml:space="preserve">
     <value>Libellé</value>
@@ -510,5 +510,23 @@ Pensez à le supprimer manuellement.</value>
   </data>
   <data name="Dialog_ToBeDevelop_Message" xml:space="preserve">
     <value>Cette fonctionnalité est en cours de développement ou le sera sous peu.</value>
+  </data>
+  <data name="Component_MenuManager_IconVisible_Label" xml:space="preserve">
+    <value>Icônes visibles</value>
+  </data>
+  <data name="Component_MenuManager_IconAlignment_Label" xml:space="preserve">
+    <value>Alignement des icônes</value>
+  </data>
+  <data name="Component_MenuManager_IconLeft_Label" xml:space="preserve">
+    <value>Icône gauche</value>
+  </data>
+  <data name="Component_MenuManager_IconRight_Label" xml:space="preserve">
+    <value>Icône droite</value>
+  </data>
+  <data name="Component_MenuManager_IconSpacingX_Label" xml:space="preserve">
+    <value>Espacement des icônes</value>
+  </data>
+  <data name="Component_MenuManager_IconResize_Label" xml:space="preserve">
+    <value>Redimensionnement automatique des icônes</value>
   </data>
 </root>

@@ -18,6 +18,8 @@ namespace DinaGameEngine.Abstractions
         void AddComponent(GameProjectModel gameProjectModel, SceneModel sceneModel, ComponentModel component);
         void RemoveComponent(GameProjectModel gameProjectModel, SceneModel sceneModel, ComponentModel component, bool showWarning = true);
         void UpdateStartupScene(GameProjectModel gameProjectModel);
+        void RemoveStartupScene(GameProjectModel gameProjectModel);
         void WriteInPartialFunction(GameProjectModel gameProjectModel, SceneModel sceneModel, string functionSignature, IEnumerable<string> lines);
+        void RegenerateSceneDesigner(GameProjectModel gameProjectModel, SceneModel scene);
     }
 }

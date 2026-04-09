@@ -30,7 +30,7 @@ namespace DinaGameEngine.Services
         public void CopyFile(string source, string destination) => File.Copy(source, destination);
         public IEnumerable<string> GetFiles(string path, string searchPattern, bool recursive = false) => Directory.GetFiles(path, searchPattern, recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly);
         public string GetFileName(string path) => Path.GetFileName(path);
-
+        public string GetDirectoryName(string path) => Path.GetDirectoryName(path)!;
         public string Combine(params string[] paths) => Path.Combine(paths);
 
         public void CreateResxFile(string path, string namespaceName, string className)

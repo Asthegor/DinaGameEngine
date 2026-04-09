@@ -9,7 +9,7 @@ namespace DinaGameEngine.Services
 {
     public partial class ProjectService
     {
-        private void AddMainMenuDefaults(GameProjectModel gameProjectModel)
+        private static void AddMainMenuDefaults(GameProjectModel gameProjectModel)
         {
             #region Polices
             gameProjectModel.Fonts.Add(new FontModel { Key = "MainMenu_Title", Size = 128, Spacing = 0, Style = SpriteFontStyle.Regular, TtfRelativePath = "../TTF_Files/Roboto-Regular.ttf" });
@@ -24,10 +24,10 @@ namespace DinaGameEngine.Services
             gameProjectModel.Colors.Add(new ColorModel { Key = "MainMenu_MenuItem_Hovered", R = 255, G = 255, B = 000, A = 255 });
             #endregion
 
-            var mainMenuScene = new SceneModel { Name = "MainMenu", Class = "MainMenuScene", Key = "MainMenuScene", IsStartup = true };
+            var mainMenuScene = new SceneModel { Name = "Main Menu", Class = "MainMenuScene", Key = "MainMenu", IsStartup = true };
 
             #region MenuManager
-            var menuManager = new ComponentModel { Type = "MenuManager", Key = "MainMenu" };
+            var menuManager = new ComponentModel { Type = "MenuManager", Key = "Main" };
 
             #region Titles
             var menuTitle = new ComponentModel { Type = "MenuTitle", Key = "MainTitle" };

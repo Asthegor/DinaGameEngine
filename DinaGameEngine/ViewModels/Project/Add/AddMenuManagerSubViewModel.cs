@@ -4,22 +4,15 @@ using DinaGameEngine.Models.Project;
 
 namespace DinaGameEngine.ViewModels.Project.Add
 {
-    public class AddMenuManagerSubViewModel : ObservableObject, IAddComponentSpecificViewModel
+    public class AddMenuManagerSubViewModel(IEnumerable<FontModel> availableFonts, IEnumerable<ColorModel> availableColors, Action? onValidityChanged = null) : ObservableObject, IAddComponentSpecificViewModel
     {
         private FontModel? _selectedFont;
         private string _content = string.Empty;
         private ColorModel? _selectedColor;
-        private readonly Action? _onValidityChanged;
+        private readonly Action? _onValidityChanged = onValidityChanged;
 
-        public AddMenuManagerSubViewModel(IEnumerable<FontModel> availableFonts, IEnumerable<ColorModel> availableColors, Action? onValidityChanged = null)
-        {
-            _onValidityChanged = onValidityChanged;
-            AvailableFonts = [.. availableFonts];
-            AvailableColors = [.. availableColors];
-        }
-
-        public IEnumerable<FontModel> AvailableFonts { get; }
-        public IEnumerable<ColorModel> AvailableColors { get; }
+        public IEnumerable<FontModel> AvailableFonts { get; } = [.. availableFonts];
+        public IEnumerable<ColorModel> AvailableColors { get; } = [.. availableColors];
 
         public FontModel? SelectedFont
         {

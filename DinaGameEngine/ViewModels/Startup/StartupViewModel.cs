@@ -138,7 +138,7 @@ namespace DinaGameEngine.ViewModels.Startup
         private void SelectProject(object? obj)
         {
             if (obj is RecentProjectViewModel recentProjectViewModel)
-                SelectedProject = recentProjectViewModel;
+                SelectedProject = SelectedProject == recentProjectViewModel ? null : recentProjectViewModel;
         }
         private void LoadRecentProjects()
         {
@@ -222,7 +222,7 @@ namespace DinaGameEngine.ViewModels.Startup
         }
         private RecentProjectViewModel CreateRecentProjectViewModel(RecentProjectModel model)
         {
-            var vm = new RecentProjectViewModel(model, _fileService, _projectService);
+            var vm = new RecentProjectViewModel(model, _fileService, _projectService, _dialogService);
             vm.PinChanged += OnPinChanged;
             vm.ProjectOpened += OnProjectOpened;
             vm.ProjectRemoved += OnProjectRemoved;
@@ -371,8 +371,8 @@ namespace DinaGameEngine.ViewModels.Startup
             if (gameProjectModel == null)
             {
                 _dialogService.ShowError(LocalizationManager.GetTranslation("Dialog_OpenProject"),
-                    LocalizationManager.GetTranslation("Error_OpenProject", ProjectStructure.ProjectFileName));
-                return; // Le dossier sélectionné ne contient pas de dichier 
+                    LocalizationManager.GetTranslation("Error_OpenProject", _fileService.GetFileName(solutionFolderPath)));
+                return; // Le dossier sélectionné ne contient pas de fichier 
             }
 
             _logService.Info($"Ouverture du projet '{gameProjectModel.SolutionName}' réussie");

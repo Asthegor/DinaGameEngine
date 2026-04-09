@@ -32,7 +32,7 @@
             <Separator/>
             <MenuItem Header="{ext:Translate Key=MainMenu_File_CloseView}"
                       Command="{Binding MainMenuFileCloseViewCommand}"
-                      IsEnabled="{Binding HasMultipleViews}"
+                      IsEnabled="{Binding IsCurrentWindowClosable}"
                       InputGestureText="Ctrl+W"
                       IsCheckable="False"/>
             <MenuItem Header="{ext:Translate Key=MainMenu_File_CloseAllViews}"

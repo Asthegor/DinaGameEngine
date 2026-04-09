@@ -64,7 +64,11 @@ namespace DinaGameEngine.ViewModels
             MainMenuHelpShowNewsCommand = new RelayCommand(_ => ShowNews());
             MainMenuHelpShowAboutCommand = new RelayCommand(_ => ShowAbout());
 
-            OpenWindows.CollectionChanged += (s, e) => OnPropertyChanged(nameof(HasMultipleViews));
+            OpenWindows.CollectionChanged += (s, e) =>
+            {
+                OnPropertyChanged(nameof(HasMultipleViews));
+                OnPropertyChanged(nameof(IsCurrentWindowClosable));
+            };
 
             if (string.IsNullOrEmpty(_gameProjectModel.DefaultLanguage) || !LanguageDefinitions.Languages.Any(l => l.Code == _gameProjectModel.DefaultLanguage))
             {
@@ -89,6 +93,7 @@ namespace DinaGameEngine.ViewModels
 
                 foreach (var item in OpenWindows)
                     item.IsActive = item.ViewModel == _currentViewModel;
+                OnPropertyChanged(nameof(IsCurrentWindowClosable));
             }
         }
         private void NewProject()
@@ -104,7 +109,7 @@ namespace DinaGameEngine.ViewModels
             if (gameProjectModel == null)
             {
                 _dialogService.ShowError(LocalizationManager.GetTranslation("Dialog_OpenProject"),
-                                         LocalizationManager.GetTranslation("Error_OpenProject", ProjectStructure.ProjectFileName));
+                                         LocalizationManager.GetTranslation("Error_OpenProject", _fileService.GetDirectoryName(path)));
                 return;
             }
             NavigationRequested?.Invoke(this, new NavigationRequestedEventArgs(NavigationRequest.OpenProject, gameProjectModel));
@@ -190,6 +195,7 @@ namespace DinaGameEngine.ViewModels
         public RelayCommand MainMenuHelpShowNewsCommand { get; }
         public RelayCommand MainMenuHelpShowAboutCommand { get; }
         public bool HasMultipleViews => OpenWindows.Count >= 2;
+        public bool IsCurrentWindowClosable => OpenWindows.FirstOrDefault(w => w.ViewModel == CurrentViewModel)?.IsClosable ?? false;
         public string WindowTitle => $"Dina Game Engine - {_gameProjectModel.SolutionName}";
 
         private void LoadScenes()
@@ -198,7 +204,8 @@ namespace DinaGameEngine.ViewModels
             projectHomeViewModel.ItemOpenRequested += OnSceneOpenRequested;
             projectHomeViewModel.ItemDeleteRequested += OnSceneDeleteRequested;
             projectHomeViewModel.EditorRequested += OnEditorRequested;
-            projectHomeViewModel.StartupSceneChangeRequested += (_, _) => _projectService.UpdateJsonProjectFile(_gameProjectModel);
+            projectHomeViewModel.StartupSceneChangeRequested += OnStartupSceneChangeRequested;
+
             CurrentViewModel = projectHomeViewModel;
             var title = _gameProjectModel.SolutionName;
             var windowMenuItemViewModel = new WindowMenuItemViewModel(title: title,
@@ -208,6 +215,12 @@ namespace DinaGameEngine.ViewModels
                                                                       isClosable: false);
             if (OpenWindows.FirstOrDefault(w => w?.Title == title && w.ViewModel == projectHomeViewModel, null) == null)
                 OpenWindows.Add(windowMenuItemViewModel);
+        }
+
+        private void OnStartupSceneChangeRequested(object? sender, EventArgs e)
+        {
+            _projectService.UpdateGameProjectUserFile(_gameProjectModel);
+            _projectService.UpdateJsonProjectFile(_gameProjectModel);
         }
 
         private void OnEditorRequested(object? sender, ProjectView view)
@@ -289,6 +302,13 @@ namespace DinaGameEngine.ViewModels
                     _projectService.RemoveSceneFromProject(_gameProjectModel, sceneModel);
 
                     OpenWindows.Select(w => w.ViewModel).OfType<ProjectHomeViewModel>().FirstOrDefault()?.RemoveItem(sceneModel);
+
+                    // On force la première scène à être la scène de démarrage
+                    var startupScene = _gameProjectModel.Scenes.Where(s => s.IsStartup == true);
+                    if (_gameProjectModel.Scenes.Count > 0 && startupScene == null)
+                        _gameProjectModel.Scenes.First(s => s.Id != Guid.Empty).IsStartup = true;
+                    _projectService.UpdateGameProjectUserFile(_gameProjectModel);
+                    _projectService.UpdateJsonProjectFile(_gameProjectModel);
                 }
             }
         }
@@ -298,7 +318,7 @@ namespace DinaGameEngine.ViewModels
 
         private void CloseView(object viewModel)
         {
-            var viewToClose = OpenWindows.FirstOrDefault(w => w.ViewModel == viewModel);
+            var viewToClose = OpenWindows.FirstOrDefault(w => w.ViewModel == viewModel && w.IsClosable);
             if (viewToClose != null)
             {
                 OpenWindows.Remove(viewToClose);
@@ -313,7 +333,7 @@ namespace DinaGameEngine.ViewModels
         }
         private void CloseAllViews()
         {
-            var toRemove = OpenWindows.Skip(1).ToList();
+            var toRemove = OpenWindows.Where(w => w.IsClosable);
             foreach (var item in toRemove)
                 OpenWindows.Remove(item);
         }

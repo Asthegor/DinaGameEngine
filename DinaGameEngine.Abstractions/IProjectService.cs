@@ -11,5 +11,6 @@ namespace DinaGameEngine.Abstractions
 
         public void UpdateJsonProjectFile(GameProjectModel gameModelProject);
         public void RemoveSceneFromProject(GameProjectModel gameProjectModel, SceneModel sceneModel);
+        public void UpdateGameProjectUserFile(GameProjectModel gameProjectModel);
     }
 }

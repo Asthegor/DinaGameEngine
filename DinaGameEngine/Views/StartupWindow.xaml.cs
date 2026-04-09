@@ -1,6 +1,9 @@
 ﻿using DinaGameEngine.Themes;
 using DinaGameEngine.ViewModels.Startup;
 
+using System.Windows;
+using System.Windows.Input;
+
 namespace DinaGameEngine.Views
 {
     /// <summary>
