@@ -1,0 +1,41 @@
+﻿<UserControl x:Class="DinaGameEngine.Views.Project.Add.AddShadowTextComponentView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:shared="clr-namespace:DinaGameEngine.Views.Shared"
+             xmlns:ext="clr-namespace:DinaGameEngine.Extensions"
+             xmlns:comps="clr-namespace:DinaGameEngine.Views.Project.Components"
+             xmlns:converters="clr-namespace:DinaGameEngine.Converters"
+             mc:Ignorable="d">
+    <UserControl.Resources>
+        <converters:ColorModelToBrushConverter x:Key="ColorModelToBrushConverter"/>
+    </UserControl.Resources>
+    <StackPanel Margin="0,8,0,0">
+
+        <TextBlock Text="{ext:Translate Key=Component_Font_Label}"
+                   Style="{DynamicResource FieldLabelStyle}"
+                   Margin="0,0,0,4"/>
+        <ComboBox ItemsSource="{Binding AvailableFonts}"
+                  SelectedItem="{Binding SelectedFont, Mode=TwoWay}"
+                  DisplayMemberPath="Key"
+                  Margin="0,0,0,8"/>
+
+        <shared:LabeledTextBox Label="{ext:Translate Key=Component_Content_Label}"
+                               Text="{Binding Content, Mode=TwoWay}"/>
+
+        <shared:LabeledColorComboBox Label="{ext:Translate Key=Component_Color_Label}"
+                                     AvailableColors="{Binding AvailableColors}"
+                                     SelectedColor="{Binding SelectedColor, Mode=TwoWay}"/>
+
+        <shared:LabeledColorComboBox Label="{ext:Translate Key=Component_ShadowColor_Label}"
+                                     AvailableColors="{Binding AvailableColors}"
+                                     SelectedColor="{Binding SelectedShadowColor, Mode=TwoWay}"/>
+
+        <comps:Vector2InputView Label="{ext:Translate Key=Component_ShadowOffset_Label}"
+                                ValueX="{Binding ShadowOffsetX, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                ValueY="{Binding ShadowOffsetY, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                ResetIcon="{Binding ResetIcon}"
+                                ResetCommand="{Binding ResetShadowOffsetCommand}"/>
+    </StackPanel>
+</UserControl>

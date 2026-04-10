@@ -14,7 +14,7 @@ namespace DinaGameEngine.ViewModels.Project.Add
                 ComponentTypes.MenuManager => new AddMenuManagerComponentViewModel(),
                 ComponentTypes.MenuItem => new AddMenuItemComponentViewModel(gameProjectModel.Fonts, gameProjectModel.Colors, onValidityChanged),
                 ComponentTypes.MenuTitle => new AddMenuTitleComponentViewModel(gameProjectModel.Fonts, gameProjectModel.Colors, onValidityChanged),
-                ComponentTypes.ShadowText => new AddShadowTextViewModel(gameProjectModel.Fonts, gameProjectModel.Colors, onValidityChanged),
+                ComponentTypes.ShadowText => new AddShadowTextComponentViewModel(gameProjectModel.Fonts, gameProjectModel.Colors, onValidityChanged),
                 _ => null
             };
         }

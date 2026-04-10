@@ -2,11 +2,12 @@
 using DinaGameEngine.Common;
 using DinaGameEngine.Models.Project;
 
-using System.Windows;
+using System.Drawing;
+
 
 namespace DinaGameEngine.ViewModels.Project.Add
 {
-    public class AddShadowTextViewModel(IEnumerable<FontModel> availableFonts, IEnumerable<ColorModel> availableColors, Action? onValidityChanged = null)
+    public class AddShadowTextComponentViewModel(IEnumerable<FontModel> availableFonts, IEnumerable<ColorModel> availableColors, Action? onValidityChanged = null)
         : ObservableObject, IAddComponentSpecificViewModel
     {
         private FontModel? _selectedFont;

@@ -90,7 +90,7 @@ namespace DinaGameEngine.CodeGeneration.ComponentGenerators
             var shadowColorKey = ComponentPropertyHelper.GetStringProperty(component, "ShadowColor");
             (int? shadowOffsetX, int? shadowOffsetY) = ComponentPropertyHelper.GetPointProperty(component, "ShadowOffset");
             sectionParser.RemoveFromZone("COMPONENT_LOAD", line => line == CodeBuilder.AddLine($"var {component.Key}Font = _fontManager.Load(FontKeys.{font});", level));
-            sectionParser.RemoveFromZone("COMPONENT_LOAD", line => line == CodeBuilder.AddLine($"{GetFieldName(component)} = new {ComponentType}({component.Key}Font, \"{content}\", PaletteColors.{colorKey}, PaletteColors.{shadowColorKey}, new Vector2({shadowOffsetX}, {shadowOffsetY})));", level));
+            sectionParser.RemoveFromZone("COMPONENT_LOAD", line => line == CodeBuilder.AddLine($"{GetFieldName(component)} = new {ComponentType}({component.Key}Font, \"{content}\", PaletteColors.{colorKey}, PaletteColors.{shadowColorKey}, new Vector2({shadowOffsetX}, {shadowOffsetY}));", level));
 
             var (px, py) = ComponentPropertyHelper.GetPointProperty(component, "Position");
             if (px != null && py != null)

@@ -12,34 +12,16 @@
     </UserControl.Resources>
     <StackPanel Margin="0,8,0,0">
 
-        <TextBlock Text="{ext:Translate Key=Component_Font_Label}"
-                   Style="{DynamicResource FieldLabelStyle}"
-                   Margin="0,0,0,4"/>
-        <ComboBox ItemsSource="{Binding AvailableFonts}"
-                  SelectedItem="{Binding SelectedFont, Mode=TwoWay}"
-                  DisplayMemberPath="Key"
-                  Margin="0,0,0,8"/>
+        <shared:LabeledComboBox Label="{ext:Translate Key=Component_Font_Label}"
+                                AvailableKeys="{Binding AvailableFonts}"
+                                SelectedKey="{Binding SelectedFont, Mode=TwoWay}"
+                                DisplayMemberPath="Key"/>
 
         <shared:LabeledTextBox Label="{ext:Translate Key=Component_Content_Label}"
                                Text="{Binding Content, Mode=TwoWay}"/>
 
-        <TextBlock Text="{ext:Translate Key=Component_Color_Label}"
-                   Style="{DynamicResource FieldLabelStyle}"
-                   Margin="0,0,0,4"/>
-        <ComboBox ItemsSource="{Binding AvailableColors}"
-                  SelectedItem="{Binding SelectedColor, Mode=TwoWay}"
-                  Margin="0,0,0,8">
-            <ComboBox.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
-                        <Border Width="16" Height="16" Margin="0,0,8,0"
-                                BorderBrush="Black" BorderThickness="1">
-                            <Rectangle Fill="{Binding Converter={StaticResource ColorModelToBrushConverter}}"/>
-                        </Border>
-                        <TextBlock Text="{Binding Key}" VerticalAlignment="Center"/>
-                    </StackPanel>
-                </DataTemplate>
-            </ComboBox.ItemTemplate>
-        </ComboBox>
+        <shared:LabeledColorComboBox Label="{ext:Translate Key=Component_Color_Label}"
+                                     AvailableColors="{Binding AvailableColors}"
+                                     SelectedColor="{Binding SelectedColor, Mode=TwoWay}"/>
     </StackPanel>
 </UserControl>

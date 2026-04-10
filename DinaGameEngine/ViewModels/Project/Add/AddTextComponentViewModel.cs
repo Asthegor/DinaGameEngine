@@ -4,7 +4,8 @@ using DinaGameEngine.Models.Project;
 
 namespace DinaGameEngine.ViewModels.Project.Add
 {
-    public class AddTextComponentViewModel(IEnumerable<FontModel> availableFonts, IEnumerable<ColorModel> availableColors, Action? onValidityChanged = null) : ObservableObject, IAddComponentSpecificViewModel
+    public class AddTextComponentViewModel(IEnumerable<FontModel> availableFonts, IEnumerable<ColorModel> availableColors, Action? onValidityChanged = null)
+        : ObservableObject, IAddComponentSpecificViewModel
     {
         private FontModel? _selectedFont;
         private string _content = string.Empty;
