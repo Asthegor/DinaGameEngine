@@ -1,15 +1,14 @@
-﻿<UserControl x:Class="DinaGameEngine.Views.Project.Components.MenuItemComponentPropertiesView"
+﻿<UserControl x:Class="DinaGameEngine.Views.Project.Components.ShadowTextComponentPropertiesView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:shared="clr-namespace:DinaGameEngine.Views.Shared"
              xmlns:ext="clr-namespace:DinaGameEngine.Extensions"
              xmlns:converters="clr-namespace:DinaGameEngine.Converters"
              xmlns:comps="clr-namespace:DinaGameEngine.Views.Project.Components"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
-             xmlns:enums="clr-namespace:DinaGameEngine.Common.Enums;assembly=DinaGameEngine.Common"
-             mc:Ignorable="d">
+             xmlns:enums="clr-namespace:DinaGameEngine.Common.Enums;assembly=DinaGameEngine.Common">
     <UserControl.Resources>
         <converters:ColorModelToBrushConverter x:Key="ColorModelToBrushConverter"/>
         <converters:EnumValuesFilterConverter x:Key="EnumValuesFilterConverter"/>
@@ -71,9 +70,17 @@
                                                     Converter={StaticResource EnumValuesFilterConverter}}"
                                     SelectedKey="{Binding VerticalAlignment, Mode=TwoWay}"/>
 
-            <shared:LabeledComboBox Label="{ext:Translate Key=Component_State_Label}"
-                                    AvailableKeys="{Binding AvailableStates}"
-                                    SelectedKey="{Binding State, Mode=TwoWay}"/>
+            <shared:LabeledColorComboBox Label="{ext:Translate Key=Component_ShadowColor_Label}"
+                                         AvailableColors="{Binding AvailableColors}"
+                                         SelectedColor="{Binding SelectedShadowColor, Mode=TwoWay}"/>
+
+            <comps:Vector2InputView Label="{ext:Translate Key=Component_ShadowOffset_Label}"
+                                    ValueX="{Binding ShadowOffsetX, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    ValueY="{Binding ShadowOffsetY, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    ResetIcon="{Binding ResetIcon}"
+                                    ResetCommand="{Binding ResetShadowOffsetCommand}"/>
+
+
         </StackPanel>
     </ScrollViewer>
 </UserControl>

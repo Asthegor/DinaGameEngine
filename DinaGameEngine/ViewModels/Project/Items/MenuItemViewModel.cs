@@ -46,29 +46,29 @@ namespace DinaGameEngine.ViewModels.Project.Items
                 OnPropertyChanged();
             }
         }
-        public string HAlign
+        public string HorizontalAlignment
         {
-            get => ((ComponentModel)Model).Properties.TryGetValue("HAlign", out var val)
+            get => ((ComponentModel)Model).Properties.TryGetValue("HorizontalAlignment", out var val)
                    ? val?.ToString() ?? string.Empty
                    : string.Empty;
             set
             {
-                if ((string)((ComponentModel)Model).Properties.GetValueOrDefault("HAlign", string.Empty) == value)
+                if ((string)((ComponentModel)Model).Properties.GetValueOrDefault("HorizontalAlignment", string.Empty) == value)
                     return;
-                ((ComponentModel)Model).Properties["HAlign"] = value;
+                ((ComponentModel)Model).Properties["HorizontalAlignment"] = value;
                 OnPropertyChanged();
             }
         }
-        public string VAlign
+        public string VerticalAlignment
         {
-            get => ((ComponentModel)Model).Properties.TryGetValue("VAlign", out var val)
+            get => ((ComponentModel)Model).Properties.TryGetValue("VerticalAlignment", out var val)
                    ? val?.ToString() ?? string.Empty
                    : string.Empty;
             set
             {
-                if ((string)((ComponentModel)Model).Properties.GetValueOrDefault("VAlign", string.Empty) == value)
+                if ((string)((ComponentModel)Model).Properties.GetValueOrDefault("VerticalAlignment", string.Empty) == value)
                     return;
-                ((ComponentModel)Model).Properties["VAlign"] = value;
+                ((ComponentModel)Model).Properties["VerticalAlignment"] = value;
                 OnPropertyChanged();
             }
         }

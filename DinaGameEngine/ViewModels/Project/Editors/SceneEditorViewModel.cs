@@ -81,7 +81,7 @@ namespace DinaGameEngine.ViewModels.Project.Editors
         public IEnumerable<ComponentViewModel> FilteredComponents =>
             Components.Where(c => string.IsNullOrEmpty(FilterText)
                                || c.Key.Contains(FilterText)
-                               || c.Type.Contains(FilterText));
+                               || c.Type.ToString().Contains(FilterText));
 
         public IEnumerable<IComponentGenerator> AvailableGenerators => _componentGeneratorRegistry.GetAllComponents();
         public static string AddIcon => DinaIcon.Add.ToGlyph();
@@ -231,7 +231,7 @@ namespace DinaGameEngine.ViewModels.Project.Editors
             var existingKeys = component.SubComponents.Select(c => c.Key).ToList();
             var addComponentViewModel = new AddComponentViewModel(existingKeys, "AddComponent_MenuTitle_Title");
 
-            var addVm = _addComponentViewModelFactory.Create("MenuTitle", _gameProjectModel,
+            var addVm = _addComponentViewModelFactory.Create(ComponentTypes.MenuTitle, _gameProjectModel,
                                                              addComponentViewModel.ConfirmCommand.RaiseCanExecuteChanged);
             addComponentViewModel.SpecificProperties = addVm;
             if (addVm != null)
@@ -251,7 +251,7 @@ namespace DinaGameEngine.ViewModels.Project.Editors
             var componentModel = new ComponentModel
             {
                 Key = addComponentViewModel.Key,
-                Type = "MenuTitle"
+                Type = ComponentTypes.MenuTitle
             };
             addVm?.ApplyToModel(componentModel);
 
@@ -287,7 +287,7 @@ namespace DinaGameEngine.ViewModels.Project.Editors
             menuTitleVm.IsSelected = true;
 
             // Afficher les propriétés du MenuItem
-            var menuTitlePropertiesVm = _propertiesViewModelFactory.Create("MenuTitle", (ComponentModel)menuTitleVm.Model, _gameProjectModel);
+            var menuTitlePropertiesVm = _propertiesViewModelFactory.Create(ComponentTypes.MenuTitle, (ComponentModel)menuTitleVm.Model, _gameProjectModel);
             if (menuTitlePropertiesVm != null)
                 menuTitlePropertiesVm.Applied += OnMenuTitleApplied;
             SelectedComponentViewModel = menuTitlePropertiesVm;
@@ -315,7 +315,7 @@ namespace DinaGameEngine.ViewModels.Project.Editors
             var existingKeys = component.SubComponents.Select(c => c.Key).ToList();
             var addComponentViewModel = new AddComponentViewModel(existingKeys, "AddComponent_MenuItem_Title");
 
-            var addVm = _addComponentViewModelFactory.Create("MenuItem", _gameProjectModel,
+            var addVm = _addComponentViewModelFactory.Create(ComponentTypes.MenuItem, _gameProjectModel,
                                                              addComponentViewModel.ConfirmCommand.RaiseCanExecuteChanged);
             addComponentViewModel.SpecificProperties = addVm;
             if (addVm != null)
@@ -335,7 +335,7 @@ namespace DinaGameEngine.ViewModels.Project.Editors
             var menuItemModel = new ComponentModel
             {
                 Key = addComponentViewModel.Key,
-                Type = "MenuItem"
+                Type = ComponentTypes.MenuItem
             };
             addVm?.ApplyToModel(menuItemModel);
 
@@ -370,7 +370,7 @@ namespace DinaGameEngine.ViewModels.Project.Editors
             menuItemVm.IsSelected = true;
 
             // Afficher les propriétés du MenuItem
-            var menuItemPropertiesVm = _propertiesViewModelFactory.Create("MenuItem", (ComponentModel)menuItemVm.Model, _gameProjectModel);
+            var menuItemPropertiesVm = _propertiesViewModelFactory.Create(ComponentTypes.MenuItem, (ComponentModel)menuItemVm.Model, _gameProjectModel);
             if (menuItemPropertiesVm != null)
                 menuItemPropertiesVm.Applied += OnMenuItemApplied;
             

@@ -1,4 +1,5 @@
 ﻿using DinaGameEngine.Abstractions;
+using DinaGameEngine.Common;
 using DinaGameEngine.Models;
 
 namespace DinaGameEngine.ViewModels.Project.Add
@@ -9,10 +10,11 @@ namespace DinaGameEngine.ViewModels.Project.Add
         {
             return componentType switch
             {
-                "Text" => new AddTextComponentViewModel(gameProjectModel.Fonts, gameProjectModel.Colors, onValidityChanged),
-                "MenuManager" => new AddMenuManagerComponentViewModel(),
-                "MenuItem" => new AddMenuItemComponentViewModel(gameProjectModel.Fonts, gameProjectModel.Colors, onValidityChanged),
-                "MenuTitle" => new AddMenuTitleComponentViewModel(gameProjectModel.Fonts, gameProjectModel.Colors, onValidityChanged),
+                ComponentTypes.Text => new AddTextComponentViewModel(gameProjectModel.Fonts, gameProjectModel.Colors, onValidityChanged),
+                ComponentTypes.MenuManager => new AddMenuManagerComponentViewModel(),
+                ComponentTypes.MenuItem => new AddMenuItemComponentViewModel(gameProjectModel.Fonts, gameProjectModel.Colors, onValidityChanged),
+                ComponentTypes.MenuTitle => new AddMenuTitleComponentViewModel(gameProjectModel.Fonts, gameProjectModel.Colors, onValidityChanged),
+                ComponentTypes.ShadowText => new AddShadowTextViewModel(gameProjectModel.Fonts, gameProjectModel.Colors, onValidityChanged),
                 _ => null
             };
         }

@@ -1,11 +1,12 @@
-﻿using DinaGameEngine.Models.Helpers;
+﻿using DinaGameEngine.Common;
+using DinaGameEngine.Models.Helpers;
 using DinaGameEngine.Models.Project;
 
 namespace DinaGameEngine.CodeGeneration.ComponentGenerators
 {
     public class MenuManagerComponentGenerator : ComponentGenerator, IComponentGenerator
     {
-        public override string ComponentType => "MenuManager";
+        public override string ComponentType => ComponentTypes.MenuManager;
 
         protected override void GenerateUsing(SectionParser sectionParser, string rootNamespace)
         {
@@ -22,14 +23,14 @@ namespace DinaGameEngine.CodeGeneration.ComponentGenerators
                                checkExistingLines: true);
             base.GenerateField(sectionParser, component, level);
 
-            foreach (var subComponent in component.SubComponents.Where(c => c.Type == "MenuTitle"))
+            foreach (var subComponent in component.SubComponents.Where(c => c.Type == ComponentTypes.MenuTitle))
             {
                 sectionParser.InsertIntoZone("FIELDS",
                                    [CodeBuilder.AddLine($"private IText _{component.Key}_{subComponent.Key}{subComponent.Type};", level)],
                                    checkExistingLines: true);
             }
 
-            foreach (var subComponent in component.SubComponents.Where(c => c.Type == "MenuItem"))
+            foreach (var subComponent in component.SubComponents.Where(c => c.Type == ComponentTypes.MenuItem))
             {
                 sectionParser.InsertIntoZone("FIELDS",
                                    [CodeBuilder.AddLine($"private {subComponent.Type} _{component.Key}_{subComponent.Key}{subComponent.Type};", level)],
@@ -54,7 +55,7 @@ namespace DinaGameEngine.CodeGeneration.ComponentGenerators
             var constructor = $"{GetFieldName(component)} = new {ComponentType}({string.Join(", ", args)});";
             sectionParser.InsertIntoZone("COMPONENT_LOAD", [CodeBuilder.AddLine(constructor, level)]);
 
-            foreach (var menuTitle in component.SubComponents.Where(c => c.Type == "MenuTitle"))
+            foreach (var menuTitle in component.SubComponents.Where(c => c.Type == ComponentTypes.MenuTitle))
             {
                 sectionParser.AddUsingIfMissing("DinaCSharp.Core.Interfaces");
 
@@ -81,13 +82,13 @@ namespace DinaGameEngine.CodeGeneration.ComponentGenerators
                 AddVector2PropertyToLoad(menuTitle, "Dimensions", sectionParser, menuTitleFieldName, level);
 
                 /*
-                var hAlign = ComponentPropertyHelper.GetStringProperty(menuTitle, "HAlign");
-                var vAlign = ComponentPropertyHelper.GetStringProperty(menuTitle, "VAlign");
-                if (!string.IsNullOrEmpty(hAlign) || !string.IsNullOrEmpty(vAlign))
+                var horizontalAlignment = ComponentPropertyHelper.GetStringProperty(menuTitle, "HorizontalAlignment");
+                var verticalAlignment = ComponentPropertyHelper.GetStringProperty(menuTitle, "VerticalAlignment");
+                if (!string.IsNullOrEmpty(horizontalAlignment) || !string.IsNullOrEmpty(verticalAlignment))
                 {
                     sectionParser.AddUsingIfMissing("DinaCSharp.Enums");
-                    var h = string.IsNullOrEmpty(hAlign) ? "Left" : hAlign;
-                    var v = string.IsNullOrEmpty(vAlign) ? "Top" : vAlign;
+                    var h = string.IsNullOrEmpty(horizontalAlignment) ? "Left" : horizontalAlignment;
+                    var v = string.IsNullOrEmpty(verticalAlignment) ? "Top" : verticalAlignment;
                     sectionParser.InsertIntoZone("COMPONENT_LOAD", [CodeBuilder.AddLine($"{menuTitleFieldName}.SetAlignments(HorizontalAlignment.{h}, VerticalAlignment.{v});", level)]);
                 }
                 */
@@ -102,7 +103,7 @@ namespace DinaGameEngine.CodeGeneration.ComponentGenerators
             }
 
 
-            foreach (var menuItem in component.SubComponents.Where(c => c.Type == "MenuItem"))
+            foreach (var menuItem in component.SubComponents.Where(c => c.Type == ComponentTypes.MenuItem))
             {
                 var fontFieldName = $"_{component.Key}_{menuItem.Key}Font";
                 var menuItemFieldName = $"{component.Key}_{menuItem.Key}{menuItem.Type}";
@@ -123,13 +124,13 @@ namespace DinaGameEngine.CodeGeneration.ComponentGenerators
                 AddVector2PropertyToLoad(menuItem, "Dimensions", sectionParser, $"_{menuItemFieldName}", level);
 
                 /*
-                var hAlign = ComponentPropertyHelper.GetStringProperty(menuItem, "HAlign");
-                var vAlign = ComponentPropertyHelper.GetStringProperty(menuItem, "VAlign");
-                if (!string.IsNullOrEmpty(hAlign) || !string.IsNullOrEmpty(vAlign))
+                var horizontalAlignment = ComponentPropertyHelper.GetStringProperty(menuItem, "HorizontalAlignment");
+                var verticalAlignment = ComponentPropertyHelper.GetStringProperty(menuItem, "VerticalAlignment");
+                if (!string.IsNullOrEmpty(horizontalAlignment) || !string.IsNullOrEmpty(verticalAlignment))
                 {
                     sectionParser.AddUsingIfMissing("DinaCSharp.Enums");
-                    var h = string.IsNullOrEmpty(hAlign) ? "Left" : hAlign;
-                    var v = string.IsNullOrEmpty(vAlign) ? "Top" : vAlign;
+                    var h = string.IsNullOrEmpty(horizontalAlignment) ? "Left" : horizontalAlignment;
+                    var v = string.IsNullOrEmpty(verticalAlignment) ? "Top" : verticalAlignment;
                     sectionParser.InsertIntoZone("COMPONENT_LOAD", [CodeBuilder.AddLine($"_{menuItemFieldName}.SetAlignments(HorizontalAlignment.{h}, VerticalAlignment.{v});", level)]);
                 }
                 */
@@ -199,7 +200,7 @@ namespace DinaGameEngine.CodeGeneration.ComponentGenerators
         }
         protected override void GeneratePartialFunctions(SectionParser sectionParser, ComponentModel component, int level)
         {
-            foreach (var menuItem in component.SubComponents.Where(c => c.Type == "MenuItem"))
+            foreach (var menuItem in component.SubComponents.Where(c => c.Type == ComponentTypes.MenuItem))
             {
                 var menuItemFieldName = $"{component.Key}_{menuItem.Key}{menuItem.Type}";
                 sectionParser.InsertIntoZone("PARTIAL_METHODS",
@@ -227,7 +228,7 @@ namespace DinaGameEngine.CodeGeneration.ComponentGenerators
         }
         protected override void GenerateUserFilePartialFunctions(SectionParser sectionParser, ComponentModel component, int level)
         {
-            foreach (var menuItem in component.SubComponents.Where(c => c.Type == "MenuItem"))
+            foreach (var menuItem in component.SubComponents.Where(c => c.Type == ComponentTypes.MenuItem))
             {
                 var menuItemFieldName = $"{component.Key}_{menuItem.Key}{menuItem.Type}";
 
@@ -268,14 +269,14 @@ namespace DinaGameEngine.CodeGeneration.ComponentGenerators
                 sectionParser.RemoveField("_fontManager");
             fields.Add("_fontManager");
 
-            foreach (var subComponent in component.SubComponents.Where(c => c.Type == "MenuTitle"))
+            foreach (var subComponent in component.SubComponents.Where(c => c.Type == ComponentTypes.MenuTitle))
             {
                 var menuItemFieldName = $"_{component.Key}_{subComponent.Key}{subComponent.Type}";
                 sectionParser.RemoveField(menuItemFieldName);
                 sectionParser.RemoveFromZone("FIELDS", line => line == CodeBuilder.AddLine($"private IText {menuItemFieldName};", level));
                 fields.Add(menuItemFieldName);
             }
-            foreach (var subComponent in component.SubComponents.Where(c => c.Type == "MenuItem"))
+            foreach (var subComponent in component.SubComponents.Where(c => c.Type == ComponentTypes.MenuItem))
             {
                 var menuItemFieldName = $"_{component.Key}_{subComponent.Key}{subComponent.Type}";
                 sectionParser.RemoveField(menuItemFieldName);
@@ -308,7 +309,7 @@ namespace DinaGameEngine.CodeGeneration.ComponentGenerators
         }
         protected override void RemovePartialFunctions(SectionParser sectionParser, ComponentModel component, int level)
         {
-            foreach (var menuItem in component.SubComponents.Where(c => c.Type == "MenuItem"))
+            foreach (var menuItem in component.SubComponents.Where(c => c.Type == ComponentTypes.MenuItem))
             {
                 var menuItemFieldName = $"{component.Key}_{menuItem.Key}{menuItem.Type}";
                 sectionParser.RemoveFromZone("PARTIAL_METHODS", $"{menuItem.Type} {menuItemFieldName}Selection");
@@ -326,7 +327,7 @@ namespace DinaGameEngine.CodeGeneration.ComponentGenerators
         }
         protected override void RemoveUserFilePartialFunctions(SectionParser sectionParser, ComponentModel component)
         {
-            foreach (var menuItem in component.SubComponents.Where(c => c.Type == "MenuItem"))
+            foreach (var menuItem in component.SubComponents.Where(c => c.Type == ComponentTypes.MenuItem))
             {
                 var menuItemFieldName = $"{component.Key}_{menuItem.Key}{menuItem.Type}";
                 sectionParser.RemovePartialFunction($"MenuItem {menuItemFieldName}Selection");

@@ -1,8 +1,6 @@
-﻿using DinaGameEngine.Models.Helpers;
+﻿using DinaGameEngine.Common.Enums;
+using DinaGameEngine.Models.Helpers;
 using DinaGameEngine.Models.Project;
-
-using System.Drawing;
-using System.Text.Json;
 
 namespace DinaGameEngine.CodeGeneration.ComponentGenerators
 {

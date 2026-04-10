@@ -4,10 +4,9 @@ using DinaGameEngine.Models.Project;
 
 namespace DinaGameEngine.CodeGeneration.ComponentGenerators
 {
-    public class TextComponentGenerator : ComponentGenerator, IComponentGenerator
+    public class ShadowTextComponentGenerator : ComponentGenerator, IComponentGenerator
     {
-        public override string ComponentType => ComponentTypes.Text;
-
+        public override string ComponentType => ComponentTypes.ShadowText;
 
         protected override void GenerateUsing(SectionParser sectionParser, string rootnamespace)
         {
@@ -27,10 +26,12 @@ namespace DinaGameEngine.CodeGeneration.ComponentGenerators
             var font = ComponentPropertyHelper.GetStringProperty(component, "Font");
             var content = ComponentPropertyHelper.GetStringProperty(component, "Content");
             var colorKey = ComponentPropertyHelper.GetStringProperty(component, "Color");
+            var shadowColorKey = ComponentPropertyHelper.GetStringProperty(component, "ShadowColor");
+            (int? shadowOffsetX, int? shadowOffsetY) = ComponentPropertyHelper.GetPointProperty(component, "ShadowOffset");
             sectionParser.InsertIntoZone("COMPONENT_LOAD",
                 [
                     CodeBuilder.AddLine($"var {component.Key}Font = _fontManager.Load(FontKeys.{font});", level),
-                    CodeBuilder.AddLine($"{GetFieldName(component)} = new {ComponentType}({component.Key}Font, \"{content}\", PaletteColors.{colorKey});", level)
+                    CodeBuilder.AddLine($"{GetFieldName(component)} = new {ComponentType}({component.Key}Font, \"{content}\", PaletteColors.{colorKey}, PaletteColors.{shadowColorKey}, new Vector2({shadowOffsetX}, {shadowOffsetY}));", level)
                 ]);
 
             AddVector2PropertyToLoad(component, "Position", sectionParser, GetFieldName(component), level);
@@ -51,7 +52,7 @@ namespace DinaGameEngine.CodeGeneration.ComponentGenerators
             }
 
             var excludedKeys = new[] { "Font", "Content", "Color", "Position", "Dimensions", "Visible",
-                                       "HorizontalAlignment", "VerticalAlignment" };
+                                       "HorizontalAlignment", "VerticalAlignment", "ShadowColor", "ShadowOffset" };
             foreach (var property in component.Properties)
             {
                 if (!excludedKeys.Contains(property.Key))
@@ -86,8 +87,10 @@ namespace DinaGameEngine.CodeGeneration.ComponentGenerators
             var font = ComponentPropertyHelper.GetStringProperty(component, "Font");
             var content = ComponentPropertyHelper.GetStringProperty(component, "Content");
             var colorKey = ComponentPropertyHelper.GetStringProperty(component, "Color");
+            var shadowColorKey = ComponentPropertyHelper.GetStringProperty(component, "ShadowColor");
+            (int? shadowOffsetX, int? shadowOffsetY) = ComponentPropertyHelper.GetPointProperty(component, "ShadowOffset");
             sectionParser.RemoveFromZone("COMPONENT_LOAD", line => line == CodeBuilder.AddLine($"var {component.Key}Font = _fontManager.Load(FontKeys.{font});", level));
-            sectionParser.RemoveFromZone("COMPONENT_LOAD", line => line == CodeBuilder.AddLine($"{GetFieldName(component)} = new {ComponentType}({component.Key}Font, \"{content}\", PaletteColors.{colorKey});", level));
+            sectionParser.RemoveFromZone("COMPONENT_LOAD", line => line == CodeBuilder.AddLine($"{GetFieldName(component)} = new {ComponentType}({component.Key}Font, \"{content}\", PaletteColors.{colorKey}, PaletteColors.{shadowColorKey}, new Vector2({shadowOffsetX}, {shadowOffsetY})));", level));
 
             var (px, py) = ComponentPropertyHelper.GetPointProperty(component, "Position");
             if (px != null && py != null)
@@ -97,7 +100,7 @@ namespace DinaGameEngine.CodeGeneration.ComponentGenerators
             if (dx != null && dy != null)
                 sectionParser.RemoveFromZone("COMPONENT_LOAD", CodeBuilder.AddLine($"{GetFieldName(component)}.Dimensions = new Vector2({dx}f, {dy}f);", level));
 
-            var excludedKeys = new[] { "Font", "Content", "Color", "Position", "Dimensions" };
+            var excludedKeys = new[] { "Font", "Content", "Color", "Position", "Dimensions", "ShadowColor", "ShadowOffset" };
             foreach (var property in component.Properties)
             {
                 if (!excludedKeys.Contains(property.Key))

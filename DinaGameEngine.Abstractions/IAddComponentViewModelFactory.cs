@@ -1,4 +1,5 @@
-﻿using DinaGameEngine.Models;
+﻿using DinaGameEngine.Common.Enums;
+using DinaGameEngine.Models;
 
 namespace DinaGameEngine.Abstractions
 {

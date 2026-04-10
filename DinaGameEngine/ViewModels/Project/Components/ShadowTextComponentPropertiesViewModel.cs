@@ -3,11 +3,11 @@ using DinaGameEngine.Common.Enums;
 using DinaGameEngine.Models.Helpers;
 using DinaGameEngine.Models.Project;
 
-using System.Drawing;
+using System.Windows;
 
 namespace DinaGameEngine.ViewModels.Project.Components
 {
-    public class MenuItemComponentPropertiesViewModel : ComponentPropertiesViewModel
+    public class ShadowTextComponentPropertiesViewModel : ComponentPropertiesViewModel
     {
         private string _font = string.Empty;
         private string _content = string.Empty;
@@ -20,17 +20,19 @@ namespace DinaGameEngine.ViewModels.Project.Components
         private bool _visible = true;
         private DinaHorizontalAlignment _horizontalAlignment = DinaHorizontalAlignment.Left;
         private DinaVerticalAlignment _verticalAlignment = DinaVerticalAlignment.Top;
-        private string _state = "Enable";
+        private string _shadowColor = string.Empty;
+        private int? _shadowOffsetX;
+        private int? _shadowOffsetY;
 
-        public MenuItemComponentPropertiesViewModel(IEnumerable<FontModel> availableFonts,
-                                                    IEnumerable<ColorModel> availableColors,
-                                                    ComponentModel component) : base(component)
+        public ShadowTextComponentPropertiesViewModel(IEnumerable<FontModel> availableFonts, IEnumerable<ColorModel> availableColors, ComponentModel component)
+            : base(component)
         {
             AvailableFonts = availableFonts;
             AvailableColors = availableColors;
 
             ResetPositionCommand = new RelayCommand(ResetPosition);
             ResetDimensionsCommand = new RelayCommand(ResetDimensions);
+            ResetShadowOffsetCommand = new RelayCommand(ResetShadowOffset);
 
             LoadFrom(component);
             NotifyChange(false);
@@ -38,11 +40,10 @@ namespace DinaGameEngine.ViewModels.Project.Components
 
         public IEnumerable<FontModel> AvailableFonts { get; }
         public IEnumerable<ColorModel> AvailableColors { get; }
-        public IEnumerable<string> AvailableStates { get; } = ["Enable", "Disable"];
         public IEnumerable<DinaHorizontalAlignment> AvailableHAlignments { get; } = Enum.GetValues<DinaHorizontalAlignment>();
         public IEnumerable<DinaVerticalAlignment> AvailableVAlignments { get; } = Enum.GetValues<DinaVerticalAlignment>();
 
-        public override bool IsValid => SelectedFont != null && SelectedColor != null;
+        public override bool IsValid => SelectedFont != null && SelectedColor != null && SelectedShadowColor != null;
 
         public FontModel? SelectedFont
         {
@@ -135,7 +136,6 @@ namespace DinaGameEngine.ViewModels.Project.Components
                 NotifyChange();
             }
         }
-
         public DinaHorizontalAlignment HorizontalAlignment
         {
             get => _horizontalAlignment;
@@ -154,15 +154,39 @@ namespace DinaGameEngine.ViewModels.Project.Components
                 NotifyChange();
             }
         }
-        public string State
+        public ColorModel? SelectedShadowColor
         {
-            get => _state;
+            get => AvailableColors.FirstOrDefault(c => c.Key == _shadowColor);
             set
             {
-                SetProperty(ref _state, value);
+                _shadowColor = value?.Key ?? string.Empty;
+                OnPropertyChanged();
                 NotifyChange();
             }
         }
+        public int? ShadowOffsetX
+        {
+            get => _shadowOffsetX;
+            set
+            {
+                if (_shadowOffsetX == null && value != null && ShadowOffsetY == null)
+                    _shadowOffsetY = 0;
+                SetProperty(ref _shadowOffsetX, value);
+                NotifyChange();
+            }
+        }
+        public int? ShadowOffsetY
+        {
+            get => _shadowOffsetY;
+            set
+            {
+                if (_shadowOffsetY == null && value != null && ShadowOffsetX == null)
+                    _shadowOffsetX = 0;
+                SetProperty(ref _shadowOffsetY, value);
+                NotifyChange();
+            }
+        }
+
 
         protected override void LoadFrom(ComponentModel source)
         {
@@ -171,7 +195,6 @@ namespace DinaGameEngine.ViewModels.Project.Components
             _color = source.Properties.TryGetValue("Color", out var color) ? color?.ToString() ?? string.Empty : string.Empty;
             HorizontalAlignment = ComponentPropertyHelper.GetEnumProperty(source, "HorizontalAlignment", DinaHorizontalAlignment.Left);
             VerticalAlignment = ComponentPropertyHelper.GetEnumProperty(source, "VerticalAlignment", DinaVerticalAlignment.Top);
-            _state = source.Properties.TryGetValue("State", out var state) ? state?.ToString() ?? "Enable" : "Enable";
 
 
             (PositionX, PositionY) = ComponentPropertyHelper.GetPointProperty(source, "Position");
@@ -179,6 +202,9 @@ namespace DinaGameEngine.ViewModels.Project.Components
 
             ZOrder = ComponentPropertyHelper.GetIntProperty(source, "ZOrder", 0);
             Visible = ComponentPropertyHelper.GetBoolProperty(source, "Visible", true);
+
+            _shadowColor = source.Properties.TryGetValue("ShadowColor", out var shadowColor) ? shadowColor?.ToString() ?? string.Empty : string.Empty;
+            (ShadowOffsetX, ShadowOffsetY) = ComponentPropertyHelper.GetPointProperty(source, "ShadowOffset");
         }
 
         public override void ApplyToModel()
@@ -218,10 +244,12 @@ namespace DinaGameEngine.ViewModels.Project.Components
             else
                 _component.Properties.Remove("VerticalAlignment");
 
-            if (State != "Enable")
-                _component.Properties["State"] = State;
+            _component.Properties["ShadowColor"] = _shadowColor;
+
+            if (ShadowOffsetX.HasValue || ShadowOffsetY.HasValue)
+                _component.Properties["ShadowOffset"] = new Point(ShadowOffsetX ?? 0, ShadowOffsetY ?? 0);
             else
-                _component.Properties.Remove("State");
+                _component.Properties.Remove("ShadowOffset");
         }
 
         public RelayCommand ResetPositionCommand { get; }
@@ -235,6 +263,13 @@ namespace DinaGameEngine.ViewModels.Project.Components
         {
             DimensionsX = null;
             DimensionsY = null;
+        }
+
+        public RelayCommand ResetShadowOffsetCommand { get; }
+        private void ResetShadowOffset()
+        {
+            ShadowOffsetX = null;
+            ShadowOffsetY = null;
         }
 
     }

@@ -21,6 +21,9 @@
         <DataTemplate DataType="{x:Type vmComps:MenuItemComponentPropertiesViewModel}">
             <comps:MenuItemComponentPropertiesView/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type vmComps:ShadowTextComponentPropertiesViewModel}">
+            <comps:ShadowTextComponentPropertiesView/>
+        </DataTemplate>
     </UserControl.Resources>
     <Grid Margin="8">
         <Grid.RowDefinitions>

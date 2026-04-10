@@ -64,12 +64,12 @@
             <shared:LabeledComboBox Label="{ext:Translate Key=Component_HorizontalAlignment_Label}"
                                     AvailableKeys="{Binding Source={StaticResource HorizontalAlignmentValues},
                                                     Converter={StaticResource EnumValuesFilterConverter}}"
-                                    SelectedKey="{Binding HAlign, Mode=TwoWay}"/>
+                                    SelectedKey="{Binding HorizontalAlignment, Mode=TwoWay}"/>
 
             <shared:LabeledComboBox Label="{ext:Translate Key=Component_VerticalAlignment_Label}"
                                     AvailableKeys="{Binding Source={StaticResource VerticalAlignmentValues},
                                                     Converter={StaticResource EnumValuesFilterConverter}}"
-                                    SelectedKey="{Binding VAlign, Mode=TwoWay}"/>
+                                    SelectedKey="{Binding VerticalAlignment, Mode=TwoWay}"/>
 
             <shared:LabeledCheckBox Label="{ext:Translate Key=Component_WithShadow_Label}"
                                     IsChecked="{Binding WithShadow}"/>

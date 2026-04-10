@@ -26,7 +26,7 @@ namespace DinaGameEngine.ViewModels.Project.Items
             ToggleItemsExpandCommand = new RelayCommand(ToggleItemsExpand);
 
             MenuTitles = [];
-            foreach (var menuTitle in model.SubComponents.Where(c => c.Type == "MenuTitle"))
+            foreach (var menuTitle in model.SubComponents.Where(c => c.Type == ComponentTypes.MenuTitle))
             {
                 var menuTitleViewModel = new MenuTitleViewModel(menuTitle);
                 menuTitleViewModel.ItemSelected += OnMenuTitleSelected;
@@ -35,7 +35,7 @@ namespace DinaGameEngine.ViewModels.Project.Items
             }
 
             MenuItems = [];
-            foreach (var menuItem in model.SubComponents.Where(c => c.Type == "MenuItem"))
+            foreach (var menuItem in model.SubComponents.Where(c => c.Type == ComponentTypes.MenuItem))
             {
                 var menuItemViewModel = new MenuItemViewModel(menuItem);
                 menuItemViewModel.ItemSelected += OnMenuItemSelected;
@@ -53,7 +53,7 @@ namespace DinaGameEngine.ViewModels.Project.Items
         public string ExpandIcon => IsExpanded ? DinaIcon.ChevronUp.ToGlyph() : DinaIcon.ChevronDown.ToGlyph();
         public ComponentPropertiesViewModel? PropertiesViewModel { get; }
 
-        public bool HasItems => Type == "MenuManager";
+        public bool HasItems => Type == ComponentTypes.MenuManager;
         public bool IsExpanded
         {
             get => _isExpanded;

@@ -1,4 +1,6 @@
-﻿namespace DinaGameEngine.CodeGeneration
+﻿using DinaGameEngine.Common.Enums;
+
+namespace DinaGameEngine.CodeGeneration
 {
     public interface IComponentGeneratorRegistry
     {

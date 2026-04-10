@@ -55,6 +55,9 @@
         <DataTemplate DataType="{x:Type vmComps:MenuItemComponentPropertiesViewModel}">
             <comps:ComponentPropertiesView/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type vmComps:ShadowTextComponentPropertiesViewModel}">
+            <comps:ComponentPropertiesView/>
+        </DataTemplate>
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
     </Window.Resources>
     <local:DinaWindow.InputBindings>

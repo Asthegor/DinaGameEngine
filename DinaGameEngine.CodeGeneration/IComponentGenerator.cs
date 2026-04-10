@@ -1,4 +1,5 @@
-﻿using DinaGameEngine.Models.Project;
+﻿using DinaGameEngine.Common.Enums;
+using DinaGameEngine.Models.Project;
 
 namespace DinaGameEngine.CodeGeneration
 {

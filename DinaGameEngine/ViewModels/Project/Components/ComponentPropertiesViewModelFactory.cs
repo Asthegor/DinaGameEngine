@@ -1,7 +1,8 @@
-﻿using DinaGameEngine.Interfaces;
+﻿using DinaGameEngine.Common;
+using DinaGameEngine.Common.Enums;
+using DinaGameEngine.Interfaces;
 using DinaGameEngine.Models;
 using DinaGameEngine.Models.Project;
-using DinaGameEngine.ViewModels.Project.Add;
 
 namespace DinaGameEngine.ViewModels.Project.Components
 {
@@ -11,10 +12,11 @@ namespace DinaGameEngine.ViewModels.Project.Components
         {
             return componentType switch
             {
-                "Text" => new TextComponentPropertiesViewModel(gameProjectModel.Fonts, gameProjectModel.Colors, component),
-                "MenuManager" => new MenuManagerComponentPropertiesViewModel(component),
-                "MenuItem" => new MenuItemComponentPropertiesViewModel(gameProjectModel.Fonts, gameProjectModel.Colors, component),
-                "MenuTitle" => new MenuTitleComponentPropertiesViewModel(gameProjectModel.Fonts, gameProjectModel.Colors, component),
+                ComponentTypes.Text => new TextComponentPropertiesViewModel(gameProjectModel.Fonts, gameProjectModel.Colors, component),
+                ComponentTypes.MenuManager => new MenuManagerComponentPropertiesViewModel(component),
+                ComponentTypes.MenuItem => new MenuItemComponentPropertiesViewModel(gameProjectModel.Fonts, gameProjectModel.Colors, component),
+                ComponentTypes.MenuTitle => new MenuTitleComponentPropertiesViewModel(gameProjectModel.Fonts, gameProjectModel.Colors, component),
+                ComponentTypes.ShadowText => new ShadowTextComponentPropertiesViewModel(gameProjectModel.Fonts, gameProjectModel.Colors, component),
                 _ => null
             };
         }
