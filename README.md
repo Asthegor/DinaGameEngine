@@ -67,13 +67,11 @@ Every project Dina creates is a standard, fully buildable Visual Studio solution
 
 ```
 MyGame/
-├── MyGame.sln
+├── MyGame.slnx
 ├── DinaCSharp.dll          ← framework, bundled automatically
 ├── DinaCSharp.xml          ← IntelliSense documentation
-├── Core/                   ← keys, enums, palette colors, shared constants
-├── Fonts/                  ← SpriteFont definitions (5 resolutions)
-├── Audio/                  ← audio assets
-├── Assets/                 ← textures and sprites
+├── MyGame.Core/            ← keys, enums, palette colors, shared constants
+├── Assets/                 ← textures, sprites, sounds, etc.
 ├── Scenes/                 ← scene classes (Designer.cs + user .cs pairs)
 └── MyGame/                 ← main game entry point
 ```
@@ -82,7 +80,7 @@ The partial class pattern keeps generated code and your code cleanly separated:
 
 ```csharp
 // MyScene.Designer.cs — managed by the engine, never edit manually
-// MyScene.cs          — yours entirely, never overwritten
+// MyScene.cs          — yours entirely, never overwritten (except for the activation function of MenuItems)
 
 partial void OnLoad()                          { }
 partial void OnUpdate(GameTime gameTime)       { }
