@@ -71,8 +71,8 @@ MyGame/
 ├── DinaCSharp.dll          ← framework, bundled automatically
 ├── DinaCSharp.xml          ← IntelliSense documentation
 ├── MyGame.Core/            ← keys, enums, palette colors, shared constants
-├── Assets/                 ← textures, sprites, sounds, etc.
-├── Scenes/                 ← scene classes (Designer.cs + user .cs pairs)
+├── MyGame.Assets/          ← textures, sprites, sounds, etc.
+├── MyGame.Scenes/          ← scene classes (Designer.cs + user .cs pairs)
 └── MyGame/                 ← main game entry point
 ```
 
