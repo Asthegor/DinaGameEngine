@@ -7,25 +7,23 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="GameProject\Core\Datas\ConfigData.cs" />
-    <Compile Remove="GameProject\Core\Keys\FontKeys.cs" />
-    <Compile Remove="GameProject\Core\Keys\PaletteColors.cs" />
-    <Compile Remove="GameProject\Core\Keys\PlayerInputKeys.cs" />
-    <Compile Remove="GameProject\Core\Keys\ResolutionKeys.cs" />
-    <Compile Remove="GameProject\Core\Keys\SceneKeys.cs" />
-    <Compile Remove="GameProject\Core\Keys\ServiceKeys.cs" />
-    <Compile Remove="GameProject\Scenes\MainMenuScene.cs" />
-    <Compile Remove="GameProject\Scenes\OptionsScene.cs" />
+    <Compile Remove="GameProject\__GameProjectName__.Core\Datas\ConfigData.cs" />
+    <Compile Remove="GameProject\__GameProjectName__.Core\Keys\FontKeys.cs" />
+    <Compile Remove="GameProject\__GameProjectName__.Core\Keys\PaletteColors.cs" />
+    <Compile Remove="GameProject\__GameProjectName__.Core\Keys\PlayerInputKeys.cs" />
+    <Compile Remove="GameProject\__GameProjectName__.Core\Keys\ResolutionKeys.cs" />
+    <Compile Remove="GameProject\__GameProjectName__.Core\Keys\SceneKeys.cs" />
+    <Compile Remove="GameProject\__GameProjectName__.Core\Keys\ServiceKeys.cs" />
+    <Compile Remove="GameProject\__GameProjectName__.Scenes\MainMenuScene.cs" />
+    <Compile Remove="GameProject\__GameProjectName__.Scenes\OptionsScene.cs" />
     <Compile Remove="GameProject\__GameProjectName__\Program.cs" />
     <Compile Remove="GameProject\__GameProjectName__\__GameProjectName__.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <None Remove="GameProject\.config\dotnet-tools.json" />
-    <None Remove="GameProject\Assets\AssetsContent\AssetsContent.mgcb" />
-    <None Remove="GameProject\Audio\AudioContent\AudioContent.mgcb" />
+    <None Remove="GameProject\__GameProjectName__.Assets\AssetsContent\AssetsContent.mgcb" />
     <None Remove="GameProject\Directory.Build.props" />
-    <None Remove="GameProject\Fonts\FontContent\FontContent.mgcb" />
     <None Remove="GameProject\__GameProjectName__\app.manifest" />
     <None Remove="GameProject\__GameProjectName__\Icon.bmp" />
     <None Remove="GameProject\__GameProjectName__\Icon.ico" />
@@ -34,28 +32,19 @@
 
   <ItemGroup>
     <EmbeddedResource Include="GameProject\**\*" />
-    <Compile Remove="GameProject\Core\Resources\**" />
-    <Compile Remove="GameProject\Fonts\FontContent\_1080p\**" />
-    <Compile Remove="GameProject\Fonts\FontContent\_1440p\**" />
-    <Compile Remove="GameProject\Fonts\FontContent\_2160p\**" />
-    <Compile Remove="GameProject\Fonts\FontContent\_720p\**" />
-    <Compile Remove="GameProject\Fonts\FontContent\_900p\**" />
-    <EmbeddedResource Remove="GameProject\Core\Resources\**" />
-    <EmbeddedResource Remove="GameProject\Fonts\FontContent\_1080p\**" />
-    <EmbeddedResource Remove="GameProject\Fonts\FontContent\_1440p\**" />
-    <EmbeddedResource Remove="GameProject\Fonts\FontContent\_2160p\**" />
-    <EmbeddedResource Remove="GameProject\Fonts\FontContent\_720p\**" />
-    <EmbeddedResource Remove="GameProject\Fonts\FontContent\_900p\**" />
-    <None Remove="GameProject\Core\Resources\**" />
-    <None Remove="GameProject\Fonts\FontContent\_1080p\**" />
-    <None Remove="GameProject\Fonts\FontContent\_1440p\**" />
-    <None Remove="GameProject\Fonts\FontContent\_2160p\**" />
-    <None Remove="GameProject\Fonts\FontContent\_720p\**" />
-    <None Remove="GameProject\Fonts\FontContent\_900p\**" />
-    <EmbeddedResource Remove="GameProject\Core\Keys\FontKeys.cs" />
-    <EmbeddedResource Remove="GameProject\Core\Keys\PaletteColors.cs" />
-    <EmbeddedResource Remove="GameProject\Core\Keys\SceneKeys.cs" />
-    <EmbeddedResource Remove="GameProject\Scenes\MainMenuScene.cs" />
+    <Compile Remove="GameProject\Audio\**" />
+    <Compile Remove="GameProject\__GameProjectName__.Core\Resources\**" />
+    <Compile Remove="GameProject\Fonts\**" />
+    <EmbeddedResource Remove="GameProject\Audio\**" />
+    <EmbeddedResource Remove="GameProject\__GameProjectName__.Core\Resources\**" />
+    <EmbeddedResource Remove="GameProject\Fonts\**" />
+    <None Remove="GameProject\Audio\**" />
+    <None Remove="GameProject\__GameProjectName__.Core\Resources\**" />
+    <None Remove="GameProject\Fonts\**" />
+    <EmbeddedResource Remove="GameProject\__GameProjectName__.Core\Keys\FontKeys.cs" />
+    <EmbeddedResource Remove="GameProject\__GameProjectName__.Core\Keys\PaletteColors.cs" />
+    <EmbeddedResource Remove="GameProject\__GameProjectName__.Core\Keys\SceneKeys.cs" />
+    <EmbeddedResource Remove="GameProject\__GameProjectName__.Scenes\MainMenuScene.cs" />
     <EmbeddedResource Remove="GameProject\__GameProjectName__\__GameProjectName__.cs" />
     <EmbeddedResource Include="GameTemplateMarkers.json" />
   </ItemGroup>
@@ -63,10 +52,6 @@
   <ItemGroup>
     <ProjectReference Include="..\DinaGameEngine.Abstractions\DinaGameEngine.Abstractions.csproj" />
     <ProjectReference Include="..\DinaGameEngine.Models\DinaGameEngine.Models.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="GameProject\Fonts\FontContent\TTF_Files\" />
   </ItemGroup>
 
 </Project>

@@ -10,21 +10,15 @@ namespace DinaGameEngine.ViewModels.Project.Items
 
         public string Font
         {
-            get => ((ComponentModel)Model).Properties.TryGetValue("Font", out var val)
-                   ? val?.ToString() ?? string.Empty
-                   : string.Empty;
+            get => GetPropertyValue("Font");
         }
         public string Content
         {
-            get => ((ComponentModel)Model).Properties.TryGetValue("Content", out var val)
-                   ? val?.ToString() ?? string.Empty
-                   : string.Empty;
+            get => GetPropertyValue("Content");
         }
         public string Color
         {
-            get => ((ComponentModel)Model).Properties.TryGetValue("Color", out var val)
-                   ? val?.ToString() ?? string.Empty
-                   : string.Empty;
+            get => GetPropertyValue("Color");
         }
 
         public void NotifyChanged()

@@ -1,4 +1,4 @@
-﻿using DinaGameEngine.Common.Enums;
+﻿using DinaGameEngine.Abstractions;
 using DinaGameEngine.Models.Project;
 
 namespace DinaGameEngine.CodeGeneration
@@ -9,7 +9,7 @@ namespace DinaGameEngine.CodeGeneration
         public string GetFieldName(ComponentModel component);
         public void AddToDesigner(SectionParser sectionParser, ComponentModel component, string rootNamespace);
         public IEnumerable<string> RemoveFromDesigner(SectionParser sectionParser, ComponentModel component);
-        public void AddToUserFile(SectionParser sectionParser, ComponentModel component);
+        public void AddToUserFile(SectionParser sectionParser, ComponentModel component, string rootNamespace, IDialogService dialogService);
         public void RemoveFromUserFile(SectionParser sectionParser, ComponentModel component);
     }
 }

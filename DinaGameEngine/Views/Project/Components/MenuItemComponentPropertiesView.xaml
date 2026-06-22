@@ -74,6 +74,9 @@
             <shared:LabeledComboBox Label="{ext:Translate Key=Component_State_Label}"
                                     AvailableKeys="{Binding AvailableStates}"
                                     SelectedKey="{Binding State, Mode=TwoWay}"/>
+            
+            <shared:LabeledMultilineTextBox Label="{ext:Translate Key=MenuItem_Action_Label}"
+                                            Text="{Binding Action, Mode=TwoWay}"/>
         </StackPanel>
     </ScrollViewer>
 </UserControl>

@@ -73,6 +73,17 @@
 
             <shared:LabeledCheckBox Label="{ext:Translate Key=Component_MenuManager_IconResize_Label}"
                                     IsChecked="{Binding IconResize}"/>
+
+            <shared:LabeledCheckBox Label="{ext:Translate Key=Component_MenuManager_UseSharedSelectionDeselection_Label}"
+                                    IsChecked="{Binding UseSharedSelectionDeselection}"/>
+            <StackPanel Visibility="{Binding UseSharedSelectionDeselection, Converter={StaticResource BoolToVisibility}}">
+                <shared:LabeledColorComboBox Label="{ext:Translate Key=Component_MenuManager_SelectionColor_Label}"
+                                             AvailableColors="{Binding AvailableColors}"
+                                             SelectedColor="{Binding SelectionColor}"/>
+                <shared:LabeledColorComboBox Label="{ext:Translate Key=Component_MenuManager_DeselectionColor_Label}"
+                                             AvailableColors="{Binding AvailableColors}"
+                                             SelectedColor="{Binding DeselectionColor}"/>
+            </StackPanel>
         </StackPanel>
     </ScrollViewer>
 </UserControl>

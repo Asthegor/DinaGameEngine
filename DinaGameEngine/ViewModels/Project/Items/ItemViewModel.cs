@@ -62,5 +62,20 @@ namespace DinaGameEngine.ViewModels.Project.Items
             get => _isSelected;
             set => SetProperty(ref _isSelected, value);
         }
+
+        protected string GetPropertyValue(string name)
+        {
+            return ((ComponentModel)Model).Properties.TryGetValue(name, out var val)
+                   ? val?.ToString() ?? string.Empty
+                   : string.Empty;
+        }
+        protected void SetPropertyValue(string name, string value)
+        {
+            if (GetPropertyValue(name) == value)
+                return;
+            ((ComponentModel)Model).Properties[name] = value;
+            OnPropertyChanged();
+        }
+
     }
 }

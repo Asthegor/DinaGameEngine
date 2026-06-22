@@ -29,12 +29,16 @@ namespace DinaGameEngine.Services
 
             #region MenuManager
             var menuManager = new ComponentModel { Type = ComponentTypes.MenuManager, Key = "Main" };
+            menuManager.Properties["UseSharedSelectionDeselection"] = true;
+            menuManager.Properties["SelectionColor"] = "MainMenu_MenuItem_Hovered";
+            menuManager.Properties["DeselectionColor"] = "MainMenu_MenuItem";
 
             #region Titles
             var menuTitle = new ComponentModel { Type = ComponentTypes.MenuTitle, Key = "MainTitle" };
             menuTitle.Properties["Font"] = "MainMenu_Title";
             menuTitle.Properties["Content"] = "GAME_TITLE";
             menuTitle.Properties["Color"] = "MainMenu_Title";
+            menuTitle.Properties["WithShadow"] = true;
             menuTitle.Properties["ShadowColor"] = "MainMenu_Title_Shadow";
             menuTitle.Properties["ShadowOffset"] = new Point(3, 3);
             menuTitle.Properties["Position"] = new Point(604, 90);
@@ -96,13 +100,13 @@ namespace DinaGameEngine.Services
 
         private void UpdateMainMenuUserFile(GameProjectModel gameProjectModel)
         {
-            var mainMenuScene = gameProjectModel.Scenes.FirstOrDefault(s => s.Key == "MainMenuScene");
+            var mainMenuScene = gameProjectModel.Scenes.FirstOrDefault(s => s.Key == "MainMenu");
             if (mainMenuScene == null)
             {
                 _logService.Warning($"Scène 'MainMenuScene' non présente.");
                 return;
             }
-            var menuManager = mainMenuScene.Components.FirstOrDefault(c => c.Key == "MainMenu");
+            var menuManager = mainMenuScene.Components.FirstOrDefault(c => c.Key == "Main");
             if (menuManager == null)
             {
                 _logService.Warning($"Composant 'MainMenu' non présent dans la scène '{mainMenuScene.Key}'.");
@@ -111,15 +115,17 @@ namespace DinaGameEngine.Services
 
             var menuItems = menuManager.SubComponents.Where(c => c.Type == ComponentTypes.MenuItem).ToList();
 
+
+
             foreach (var menuItem in menuItems)
             {
                 var menuItemFieldName = $"MainMenu_{menuItem.Key}MenuItem";
 
-                _codeGenerator.WriteInPartialFunction(gameProjectModel, mainMenuScene,
-                    $"{menuItemFieldName}Selection", [CodeBuilder.AddLine($"menuItem.Color = PaletteColors.MainMenu_MenuItem_Hovered;", 3)]);
+                //_codeGenerator.WriteInPartialFunction(gameProjectModel, mainMenuScene,
+                //    $"{menuItemFieldName}Selection", [CodeBuilder.AddLine($"menuItem.Color = PaletteColors.MainMenu_MenuItem_Hovered;", 3)]);
 
-                _codeGenerator.WriteInPartialFunction(gameProjectModel, mainMenuScene,
-                    $"{menuItemFieldName}Deselection", [CodeBuilder.AddLine($"menuItem.Color = PaletteColors.MainMenu_MenuItem;", 3)]);
+                //_codeGenerator.WriteInPartialFunction(gameProjectModel, mainMenuScene,
+                //    $"{menuItemFieldName}Deselection", [CodeBuilder.AddLine($"menuItem.Color = PaletteColors.MainMenu_MenuItem;", 3)]);
 
                 switch (menuItem.Key)
                 {

@@ -182,7 +182,13 @@ namespace DinaGameEngine.Templates
         {
             if (string.IsNullOrEmpty(path))
                 return string.Empty;
-            return Path.Combine(path.Split('.'));
+            var splitPath = path.Split('.');
+            if (splitPath.Length > 1 && splitPath[0] == "__GameProjectName__")
+            {
+                splitPath[1] = $"__GameProjectName__.{splitPath[1]}";
+                splitPath = splitPath[1..];
+            }    
+            return Path.Combine(splitPath);
         }
 
         private static FileInfoModel GetFileInfo(string resourceName, string rootPath, Dictionary<string, string> dict)
@@ -199,6 +205,11 @@ namespace DinaGameEngine.Templates
             {
                 var pathWithFileNameWithoutExtension = ExtractFromRight(resourceName, ".", out var extension);
                 pathWithPoint = ExtractFromRight(pathWithFileNameWithoutExtension, ".", out var filenameWithoutExtension).TrimEnd('.');
+                if (extension == "csproj" && !resourceName.Contains("__GameProjectName__.__GameProjectName__."))
+                {
+                    pathWithPoint = ExtractFromRight(pathWithPoint, ".", out var complementFilename);
+                    filenameWithoutExtension = $"{complementFilename}.{filenameWithoutExtension}";
+                }
                 filename = $"{filenameWithoutExtension}.{extension}";
             }
             var pathWithMarkers = pathWithPoint.StartsWith(".config") ? pathWithPoint : BuildPathFromDot(pathWithPoint);

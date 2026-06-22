@@ -57,7 +57,7 @@ namespace DinaGameEngine.ViewModels.Project.Editors
             bool fontConfirmed = false;
 
             var existingKeys = _gameProjectModel.Fonts.Where(c => c.Id != fontModel?.Id).Select(c => c.Key).ToList();
-            var addFontViewModel = new AddFontViewModel(existingKeys, _gameProjectModel.RootPath, _fileService, _dialogService, fontModel);
+            var addFontViewModel = new AddFontViewModel(existingKeys, _gameProjectModel, _fileService, _dialogService, fontModel);
             addFontViewModel.ItemConfirmed += (s, result) => fontConfirmed = result;
 
             var addFontWindow = new AddFontWindow { DataContext = addFontViewModel };

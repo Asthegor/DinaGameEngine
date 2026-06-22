@@ -314,6 +314,15 @@ namespace DinaGameEngine.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Couleur standard.
+        /// </summary>
+        public static string Component_MenuManager_DeselectionColor_Label {
+            get {
+                return ResourceManager.GetString("Component_MenuManager_DeselectionColor_Label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sens d&apos;affichage des items.
         /// </summary>
         public static string Component_MenuManager_Direction_Label {
@@ -382,6 +391,24 @@ namespace DinaGameEngine.Resources {
         public static string Component_MenuManager_ItemSpacing_Label {
             get {
                 return ResourceManager.GetString("Component_MenuManager_ItemSpacing_Label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Couleur de sélection.
+        /// </summary>
+        public static string Component_MenuManager_SelectionColor_Label {
+            get {
+                return ResourceManager.GetString("Component_MenuManager_SelectionColor_Label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sélection/Désélection partagées.
+        /// </summary>
+        public static string Component_MenuManager_UseSharedSelectionDeselection_Label {
+            get {
+                return ResourceManager.GetString("Component_MenuManager_UseSharedSelectionDeselection_Label", resourceCulture);
             }
         }
         
@@ -1147,6 +1174,30 @@ namespace DinaGameEngine.Resources {
         public static string NewProject_Title {
             get {
                 return ResourceManager.GetString("NewProject_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Le contenu suivant a été défini dans l&apos;éditeur pour les fonctions d&apos;activation suivantes :
+        ///{0}
+        ///
+        ///Le code précédent de chaque fonction a été conservé en commentaire juste au-dessus du nouveau code. Cela inclut toute modification effectuée manuellement dans le fichier, en dehors de l&apos;éditeur. Si une nouvelle modification est effectuée (depuis l&apos;éditeur ou directement dans le fichier), cette sauvegarde sera remplacée par la plus récente.
+        ///
+        ///Attention !
+        ///Un seul niveau d&apos;historique est conservé !.
+        /// </summary>
+        public static string PartialMethod_Activation_Message {
+            get {
+                return ResourceManager.GetString("PartialMethod_Activation_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fonctions partielles modifiées.
+        /// </summary>
+        public static string PartialMethod_Activation_Title {
+            get {
+                return ResourceManager.GetString("PartialMethod_Activation_Title", resourceCulture);
             }
         }
         

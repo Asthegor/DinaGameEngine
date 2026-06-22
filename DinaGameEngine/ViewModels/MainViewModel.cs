@@ -290,9 +290,9 @@ namespace DinaGameEngine.ViewModels
                 if (result == DialogResult.Yes)
                 {
                     // Suppression des fichiers
-                    var sceneDesignerFile = _fileService.Combine(_gameProjectModel.RootPath, "Scenes", $"{sceneModel.Class}.Designer.cs");
+                    var sceneDesignerFile = _fileService.Combine(_gameProjectModel.RootPath, $"{_gameProjectModel.ProjectName}.Scenes", $"{sceneModel.Class}.Designer.cs");
                     _fileService.DeleteFile(sceneDesignerFile);
-                    var sceneUserFile = _fileService.Combine(_gameProjectModel.RootPath, "Scenes", $"{sceneModel.Class}.cs");
+                    var sceneUserFile = _fileService.Combine(_gameProjectModel.RootPath, $"{_gameProjectModel.ProjectName}.Scenes", $"{sceneModel.Class}.cs");
                     _fileService.DeleteFile(sceneUserFile);
 
                     // Suppression de la scène dans SceneKey + GameProject.Designer

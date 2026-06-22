@@ -5,8 +5,6 @@ using DinaGameEngine.Extensions;
 using DinaGameEngine.Models.Project;
 using DinaGameEngine.ViewModels.Shared;
 
-using System.Text.Json;
-
 namespace DinaGameEngine.ViewModels.Project.Components
 {
     public abstract class ComponentPropertiesViewModel : ObservableObject

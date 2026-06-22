@@ -1,5 +1,4 @@
-﻿using DinaGameEngine.Abstractions;
-using DinaGameEngine.Common;
+﻿using DinaGameEngine.Common;
 using DinaGameEngine.Models;
 
 using System.Text;
@@ -121,7 +120,7 @@ namespace DinaGameEngine.CodeGeneration
             generatedFile.AppendLine(CodeBuilder.CloseBlock(2));
 
             generatedFile.AppendLine(CodeBuilder.OpenBlock("private void InitializeFontManager()", 2));
-            generatedFile.AppendLine(CodeBuilder.AddLine("var fontManager = FontManager.Initialize(Services, \"FontContent\",", 3));
+            generatedFile.AppendLine(CodeBuilder.AddLine("var fontManager = FontManager.Initialize(Services, \"AssetsContent\",", 3));
             generatedFile.AppendLine(CodeBuilder.AddLine("[", 4));
             generatedFile.AppendLine(CodeBuilder.AddLine("new ResolutionFontInfo(ResolutionKeys.R720p, new Point(1280, 720), \"_720p\"),", 5));
             generatedFile.AppendLine(CodeBuilder.AddLine("new ResolutionFontInfo(ResolutionKeys.R900p, new Point(1600, 900), \"_900p\"),", 5));

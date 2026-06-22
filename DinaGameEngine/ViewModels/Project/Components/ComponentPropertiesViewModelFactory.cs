@@ -13,7 +13,7 @@ namespace DinaGameEngine.ViewModels.Project.Components
             return componentType switch
             {
                 ComponentTypes.Text => new TextComponentPropertiesViewModel(gameProjectModel.Fonts, gameProjectModel.Colors, component),
-                ComponentTypes.MenuManager => new MenuManagerComponentPropertiesViewModel(component),
+                ComponentTypes.MenuManager => new MenuManagerComponentPropertiesViewModel(component, gameProjectModel.Colors),
                 ComponentTypes.MenuItem => new MenuItemComponentPropertiesViewModel(gameProjectModel.Fonts, gameProjectModel.Colors, component),
                 ComponentTypes.MenuTitle => new MenuTitleComponentPropertiesViewModel(gameProjectModel.Fonts, gameProjectModel.Colors, component),
                 ComponentTypes.ShadowText => new ShadowTextComponentPropertiesViewModel(gameProjectModel.Fonts, gameProjectModel.Colors, component),

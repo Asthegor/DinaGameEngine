@@ -75,14 +75,14 @@ namespace DinaGameEngine.CodeGeneration
                 _logService.Warning($"Générateur du componsant '{component.Type}' non trouvé.");
                 return;
             }
-            var designerFilePath = _fileService.Combine(gameProjectModel.RootPath, "Scenes", $"{sceneModel.Class}.Designer.cs");
+            var designerFilePath = _fileService.Combine(gameProjectModel.RootPath, $"{gameProjectModel.ProjectName}.Scenes", $"{sceneModel.Class}.Designer.cs");
             var sectionParser = CreateSectionParserFor(designerFilePath);
             generator.AddToDesigner(sectionParser, component, gameProjectModel.RootNamespace);
             _fileService.WriteAllText(designerFilePath, sectionParser.GetContent());
 
-            var userFilePath = _fileService.Combine(gameProjectModel.RootPath, "Scenes", $"{sceneModel.Class}.cs");
+            var userFilePath = _fileService.Combine(gameProjectModel.RootPath, $"{gameProjectModel.ProjectName}.Scenes", $"{sceneModel.Class}.cs");
             sectionParser = CreateSectionParserFor(userFilePath);
-            generator.AddToUserFile(sectionParser, component);
+            generator.AddToUserFile(sectionParser, component, gameProjectModel.RootNamespace, _dialogService);
             _fileService.WriteAllText(userFilePath, sectionParser.GetContent());
         }
 
@@ -94,13 +94,13 @@ namespace DinaGameEngine.CodeGeneration
                 _logService.Warning($"Générateur du composant '{component.Type}' non trouvé.");
                 return;
             }
-            var designerFilePath = _fileService.Combine(gameProjectModel.RootPath, "Scenes", $"{sceneModel.Class}.Designer.cs");
+            var designerFilePath = _fileService.Combine(gameProjectModel.RootPath, $"{gameProjectModel.ProjectName}.Scenes", $"{sceneModel.Class}.Designer.cs");
             var sectionParserDesigner = CreateSectionParserFor(designerFilePath);
             // Suppression dans le Designer
             var removedFields = generator.RemoveFromDesigner(sectionParserDesigner, component);
             _fileService.WriteAllText(designerFilePath, sectionParserDesigner.GetContent());
 
-            var userFilePath = _fileService.Combine(gameProjectModel.RootPath, "Scenes", $"{sceneModel.Class}.cs");
+            var userFilePath = _fileService.Combine(gameProjectModel.RootPath, $"{gameProjectModel.ProjectName}.Scenes", $"{sceneModel.Class}.cs");
             var sectionParserUser = CreateSectionParserFor(userFilePath);
 
             generator.RemoveFromUserFile(sectionParserUser, component);

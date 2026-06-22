@@ -154,8 +154,11 @@
 
             _lines.RemoveRange(indexStartFunction, indexEndFunction - indexStartFunction + 1);
         }
-        public void WriteInDelimitedPartialFunction(string functionSignature, IEnumerable<string> lines)
+        private bool TryFindPartialFunctionBodyBounds(string functionSignature, out int indexBodyStart, out int indexReturn)
         {
+            indexBodyStart = -1;
+            indexReturn = -1;
+
             var indexStartZone = FindIndexZone(ZONE_OPEN, "PARTIAL_METHODS");
             var indexEndZone = FindIndexZone(ZONE_CLOSE, "PARTIAL_METHODS");
 
@@ -169,7 +172,7 @@
                 }
             }
             if (indexFunction < 0)
-                return;
+                return false;
 
             // Trouver l'accolade ouvrante
             var indexOpen = -1;
@@ -182,19 +185,122 @@
                 }
             }
             if (indexOpen < 0)
-                return;
+                return false;
 
-            // Trouver la ligne return et insérer avant
+            // Trouver la ligne return
             for (int i = indexOpen + 1; i < indexEndZone; i++)
             {
                 if (_lines[i].Contains("return"))
                 {
-                    _lines.InsertRange(i, lines);
-                    return;
+                    indexBodyStart = indexOpen + 1;
+                    indexReturn = i;
+                    return true;
                 }
             }
+
+            return false;
         }
 
+        public void WriteInDelimitedPartialFunction(string functionSignature, IEnumerable<string> lines)
+        {
+            if (!TryFindPartialFunctionBodyBounds(functionSignature, out _, out var indexReturn))
+                return;
+
+            _lines.InsertRange(indexReturn, lines);
+        }
+
+        public bool IsPartialFunctionBodyEqual(string functionSignature, string action, string marker)
+        {
+            if (!TryFindPartialFunctionBodyBounds(functionSignature, out var indexBodyStart, out var indexReturn))
+                return false;
+
+            var currentBodyLines = _lines.GetRange(indexBodyStart, indexReturn - indexBodyStart);
+
+            var (histOpen, histClose) = FindLocalZone(indexBodyStart, indexReturn, marker);
+            if (histOpen >= 0 && histClose >= 0)
+            {
+                currentBodyLines.RemoveRange(histOpen - indexBodyStart, histClose - histOpen + 1);
+            }
+
+            var currentBody = NormalizeBody(currentBodyLines);
+
+            var actionLines = action.Replace("\r\n", "\n").Split('\n');
+            var normalizedAction = NormalizeBody(actionLines);
+
+            return string.Equals(currentBody, normalizedAction, StringComparison.Ordinal);
+        }
+
+        private static string NormalizeBody(IEnumerable<string> lines)
+        {
+            var trimmedLines = lines.Select(l => l.Trim()).ToList();
+
+            var start = 0;
+            while (start < trimmedLines.Count && trimmedLines[start].Length == 0)
+                start++;
+
+            var end = trimmedLines.Count - 1;
+            while (end >= start && trimmedLines[end].Length == 0)
+                end--;
+
+            if (start > end)
+                return string.Empty;
+
+            return string.Join("\n", trimmedLines.GetRange(start, end - start + 1));
+        }
+        private (int indexOpen, int indexClose) FindLocalZone(int searchStart, int searchEnd, string zoneName)
+        {
+            var openTemplate = string.Format(ZONE_OPEN, zoneName);
+            var closeTemplate = string.Format(ZONE_CLOSE, zoneName);
+
+            var indexOpen = -1;
+            var indexClose = -1;
+            for (int i = searchStart; i < searchEnd; i++)
+            {
+                if (indexOpen < 0 && _lines[i].TrimStart() == openTemplate)
+                {
+                    indexOpen = i;
+                }
+                else if (indexOpen >= 0 && _lines[i].TrimStart() == closeTemplate)
+                {
+                    indexClose = i;
+                    break;
+                }
+            }
+            return (indexOpen, indexClose);
+        }
+
+        public bool CommentAndReplacePartialFunctionBody(string functionSignature, IEnumerable<string> newLines, string marker)
+        {
+            if (!TryFindPartialFunctionBodyBounds(functionSignature, out var indexBodyStart, out var indexReturn))
+                return false;
+
+            var (indexHistOpen, indexHistClose) = FindLocalZone(indexBodyStart, indexReturn, marker);
+            if (indexHistOpen >= 0 && indexHistClose >= 0)
+            {
+                _lines.RemoveRange(indexHistOpen, indexHistClose - indexHistOpen + 1);
+
+                if (!TryFindPartialFunctionBodyBounds(functionSignature, out indexBodyStart, out indexReturn))
+                    return false;
+            }
+
+            var hasContentToComment = _lines.Skip(indexBodyStart).Take(indexReturn - indexBodyStart).Any(l => !string.IsNullOrWhiteSpace(l));
+            if (hasContentToComment)
+            {
+                var indentation = _lines[indexReturn][..(_lines[indexReturn].Length - _lines[indexReturn].TrimStart().Length)];
+
+                _lines.Insert(indexBodyStart, $"{indentation}{string.Format(ZONE_OPEN, marker)}");
+                indexReturn++;
+
+                for (int i = indexBodyStart + 1; i < indexReturn; i++)
+                    _lines[i] = $"{indentation}// {_lines[i].TrimStart()}";
+
+                _lines.Insert(indexReturn, $"{indentation}{string.Format(ZONE_CLOSE, marker)}");
+                _lines.Insert(indexReturn + 1, string.Empty);
+            }
+
+            WriteInDelimitedPartialFunction(functionSignature, newLines);
+            return true;
+        }
         public void UpdateStartupScene(string sceneKey)
         {
             var index = 0;
@@ -256,5 +362,6 @@
 
             _lines.RemoveAt(index);
         }
+
     }
 }

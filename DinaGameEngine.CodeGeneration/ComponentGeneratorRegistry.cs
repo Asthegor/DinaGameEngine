@@ -1,4 +1,5 @@
-﻿using DinaGameEngine.Common;
+﻿using DinaGameEngine.Abstractions;
+using DinaGameEngine.Common;
 using DinaGameEngine.Common.Enums;
 
 namespace DinaGameEngine.CodeGeneration

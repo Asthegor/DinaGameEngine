@@ -3,9 +3,7 @@
   <File Path="Directory.Build.props" />
   </Folder>
   <Project DefaultStartup="true" Path="__GameProjectName__/__GameProjectName__.csproj" />
-  <Project Path="Audio/Audio.csproj" />
-  <Project Path="Assets/Assets.csproj" />
-  <Project Path="Core/Core.csproj" />
-  <Project Path="Fonts/Fonts.csproj" />
-  <Project Path="Scenes/Scenes.csproj" />
+  <Project Path="__GameProjectName__.Assets/__GameProjectName__.Assets.csproj" />
+  <Project Path="__GameProjectName__.Core/__GameProjectName__.Core.csproj" />
+  <Project Path="__GameProjectName__.Scenes/__GameProjectName__.Scenes.csproj" />
 </Solution>

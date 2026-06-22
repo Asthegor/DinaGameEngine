@@ -2,6 +2,7 @@
 using DinaGameEngine.Commands;
 using DinaGameEngine.Common;
 using DinaGameEngine.Common.Enums;
+using DinaGameEngine.Models;
 using DinaGameEngine.Models.Project;
 
 namespace DinaGameEngine.ViewModels.Project.Add
@@ -16,13 +17,13 @@ namespace DinaGameEngine.ViewModels.Project.Add
         private readonly IDialogService _dialogService;
         private readonly string _ttfFolder;
 
-        public AddFontViewModel(IEnumerable<string> existingKeys, string rootPath, IFileService fileService, IDialogService dialogService, FontModel? fontModel = null)
+        public AddFontViewModel(IEnumerable<string> existingKeys, GameProjectModel gameProjectModel, IFileService fileService, IDialogService dialogService, FontModel? fontModel = null)
             : base(existingKeys, "AddFont_Title", fontModel != null)
         {
-            _rootPath = rootPath;
+            _rootPath = gameProjectModel.RootPath;
             _fileService = fileService;
             _dialogService = dialogService;
-            _ttfFolder = _fileService.Combine(_rootPath, "Fonts", "FontContent", "TTF_Files");
+            _ttfFolder = _fileService.Combine(_rootPath, $"{gameProjectModel.ProjectName}.Assets", "AssetsContent", "TTF_Files");
 
             AvailableStyles = [.. Enum.GetValues<SpriteFontStyle>()];
 

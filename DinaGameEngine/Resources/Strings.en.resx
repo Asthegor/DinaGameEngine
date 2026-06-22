@@ -538,4 +538,25 @@ Please remove it manually.</value>
   <data name="Component_ShadowOffset_Label" xml:space="preserve">
     <value>Shadow offset</value>
   </data>
+  <data name="Component_MenuManager_UseSharedSelectionDeselection_Label" xml:space="preserve">
+    <value>Shared Selection/Deselection</value>
+  </data>
+  <data name="Component_MenuManager_SelectionColor_Label" xml:space="preserve">
+    <value>Selection color</value>
+  </data>
+  <data name="Component_MenuManager_DeselectionColor_Label" xml:space="preserve">
+    <value>Standard color</value>
+  </data>
+  <data name="PartialMethod_Activation_Title" xml:space="preserve">
+    <value>Partial functions modified</value>
+  </data>
+  <data name="PartialMethod_Activation_Message" xml:space="preserve">
+    <value>The following content has been defined in the editor for the following activation functions:
+{0}
+
+The old code for each function has been preserved as a comment directly above the new code. This includes any changes made manually in the file, outside of the editor. If a new change is made (either from the editor or directly in the file), this saved version will be replaced by the most recent one.
+
+Warning!
+Only one level of history is retained!</value>
+  </data>
 </root>

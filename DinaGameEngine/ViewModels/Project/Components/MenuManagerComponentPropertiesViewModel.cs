@@ -5,7 +5,6 @@ using DinaGameEngine.Models.Helpers;
 using DinaGameEngine.Models.Project;
 
 using System.Drawing;
-using System.Text.Json;
 
 namespace DinaGameEngine.ViewModels.Project.Components
 {
@@ -22,17 +21,23 @@ namespace DinaGameEngine.ViewModels.Project.Components
         private string? _iconRightTexture;
         private int? _iconSpacingX;
         private bool _iconResize;
-        public MenuManagerComponentPropertiesViewModel(ComponentModel existingComponent)
+        private bool _useSharedSelectionDeselection;
+        private ColorModel? _selectionColor;
+        private ColorModel? _deselectionColor;
+
+        public MenuManagerComponentPropertiesViewModel(ComponentModel existingComponent, IEnumerable<ColorModel> availableColors)
             : base(existingComponent)
         {
             ResetItemSpacingCommand = new RelayCommand(ResetItemSpacing);
             ResetCancellationCommand = new RelayCommand(ResetCancellation);
 
+            AvailableColors = availableColors;
+
             LoadFrom(existingComponent);
             NotifyChange(false);
         }
         public static string DeleteIcon => DinaIcon.Delete.ToGlyph();
-        public override bool IsValid => true;
+        public override bool IsValid => !UseSharedSelectionDeselection || (SelectionColor != null && DeselectionColor != null);
         protected override void LoadFrom(ComponentModel source)
         {
             (ItemSpacingX, ItemSpacingY) = ComponentPropertyHelper.GetPointProperty(source, "ItemSpacing");
@@ -45,6 +50,9 @@ namespace DinaGameEngine.ViewModels.Project.Components
             IconLeftTexture = ComponentPropertyHelper.GetStringProperty(source, "IconLeftTexture");
             IconRightTexture = ComponentPropertyHelper.GetStringProperty(source, "IconRightTexture");
             IconResize = ComponentPropertyHelper.GetBoolProperty(source, "IconResize", false);
+            UseSharedSelectionDeselection = ComponentPropertyHelper.GetBoolProperty(source, "UseSharedSelectionDeselection", false);
+            SelectionColor = AvailableColors.FirstOrDefault(c => c.Key == ComponentPropertyHelper.GetStringProperty(source, "SelectionColor"));
+            DeselectionColor = AvailableColors.FirstOrDefault(c => c.Key == ComponentPropertyHelper.GetStringProperty(source, "DeselectionColor"));
         }
         public override void ApplyToModel()
         {
@@ -99,6 +107,18 @@ namespace DinaGameEngine.ViewModels.Project.Components
                 _component.Properties["IconResize"] = ComponentPropertyHelper.GetReturnValueFrom(IconResize);
             else
                 _component.Properties.Remove("IconResize");
+
+            _component.Properties["UseSharedSelectionDeselection"] = UseSharedSelectionDeselection;
+            if (UseSharedSelectionDeselection && !string.IsNullOrEmpty(SelectionColor?.Key) && !string.IsNullOrEmpty(DeselectionColor?.Key))
+            {
+                _component.Properties["SelectionColor"] = SelectionColor!.Key;
+                _component.Properties["DeselectionColor"] = DeselectionColor!.Key;
+            }
+            else
+            {
+                _component.Properties.Remove("SelectionColor");
+                _component.Properties.Remove("DeselectionColor");
+            }
         }
 
         #region Commandes
@@ -115,6 +135,7 @@ namespace DinaGameEngine.ViewModels.Project.Components
         #endregion
 
         #region Propriétés
+        public IEnumerable<ColorModel> AvailableColors { get; }
         public int? ItemSpacingX
         {
             get => _itemSpacingX;
@@ -219,6 +240,34 @@ namespace DinaGameEngine.ViewModels.Project.Components
                 NotifyChange();
             }
         }
+        public bool UseSharedSelectionDeselection
+        {
+            get => _useSharedSelectionDeselection;
+            set
+            {
+                SetProperty(ref _useSharedSelectionDeselection, value);
+                NotifyChange();
+            }
+        }
+        public ColorModel? SelectionColor
+        {
+            get => _selectionColor;
+            set
+            {
+                SetProperty(ref _selectionColor, value);
+                NotifyChange();
+            }
+        }
+        public ColorModel? DeselectionColor
+        {
+            get => _deselectionColor;
+            set
+            {
+                SetProperty(ref _deselectionColor, value);
+                NotifyChange();
+            }
+        }
+
         #endregion
     }
 }

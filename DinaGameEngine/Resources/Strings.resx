@@ -538,4 +538,25 @@ Pensez à le supprimer manuellement.</value>
   <data name="Component_ShadowOffset_Label" xml:space="preserve">
     <value>Décalage de l'ombrage</value>
   </data>
+  <data name="Component_MenuManager_UseSharedSelectionDeselection_Label" xml:space="preserve">
+    <value>Sélection/Désélection partagées</value>
+  </data>
+  <data name="Component_MenuManager_SelectionColor_Label" xml:space="preserve">
+    <value>Couleur de sélection</value>
+  </data>
+  <data name="Component_MenuManager_DeselectionColor_Label" xml:space="preserve">
+    <value>Couleur standard</value>
+  </data>
+  <data name="PartialMethod_Activation_Title" xml:space="preserve">
+    <value>Fonctions partielles modifiées</value>
+  </data>
+  <data name="PartialMethod_Activation_Message" xml:space="preserve">
+    <value>Le contenu suivant a été défini dans l'éditeur pour les fonctions d'activation suivantes :
+{0}
+
+Le code précédent de chaque fonction a été conservé en commentaire juste au-dessus du nouveau code. Cela inclut toute modification effectuée manuellement dans le fichier, en dehors de l'éditeur. Si une nouvelle modification est effectuée (depuis l'éditeur ou directement dans le fichier), cette sauvegarde sera remplacée par la plus récente.
+
+Attention !
+Un seul niveau d'historique est conservé !</value>
+  </data>
 </root>

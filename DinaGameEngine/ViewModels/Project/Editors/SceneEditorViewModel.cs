@@ -216,6 +216,7 @@ namespace DinaGameEngine.ViewModels.Project.Editors
 
             var componentVm = Components.FirstOrDefault(c => c.Model == component);
             componentVm?.NotifyKeyChanged();
+            componentVm?.PropertiesViewModel?.TakeSnapshot();
         }
 
 

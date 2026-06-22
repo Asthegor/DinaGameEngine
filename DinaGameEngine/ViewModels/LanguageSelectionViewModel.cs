@@ -61,7 +61,7 @@ namespace DinaGameEngine.ViewModels
             _gameProjectModel.DefaultLanguage = selectedLanguageCode;
             _gameProjectModel.Languages.Add(selectedLanguageCode);
 
-            var resourcesPath = _fileService.Combine(_gameProjectModel.RootPath, "Core", "Resources");
+            var resourcesPath = _fileService.Combine(_gameProjectModel.RootPath, $"{_gameProjectModel.ProjectName}.Core", "Resources");
             _fileService.CreateDirectory(resourcesPath);
 
             var namespaceName = "Core.Resources";

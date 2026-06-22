@@ -1,4 +1,5 @@
-﻿using DinaGameEngine.Common.Enums;
+﻿using DinaGameEngine.Abstractions;
+using DinaGameEngine.Common.Enums;
 using DinaGameEngine.Models.Helpers;
 using DinaGameEngine.Models.Project;
 
@@ -32,19 +33,19 @@ namespace DinaGameEngine.CodeGeneration.ComponentGenerators
         protected virtual void GeneratePartialFunctions(SectionParser sectionParser, ComponentModel component, int level) { }
         #endregion
 
-        public virtual void AddToUserFile(SectionParser sectionParser, ComponentModel component)
+        public virtual void AddToUserFile(SectionParser sectionParser, ComponentModel component, string rootNamespace, IDialogService dialogService)
         {
-            GenerateUserFileUsings(sectionParser, component);
+            GenerateUserFileUsings(sectionParser, component, rootNamespace);
             GenerateUserFileCommentField(sectionParser, component, level: 1);
-            GenerateUserFilePartialFunctions(sectionParser, component, level: 2);
+            GenerateUserFilePartialFunctions(sectionParser, component, level: 2, dialogService);
         }
         #region Générations pour UserFile
-        protected virtual void GenerateUserFileUsings(SectionParser sectionParser, ComponentModel component) { }
+        protected virtual void GenerateUserFileUsings(SectionParser sectionParser, ComponentModel component, string rootNamespace) { }
         protected virtual void GenerateUserFileCommentField(SectionParser sectionParser, ComponentModel component, int level)
         {
             sectionParser.InsertIntoZone("AVAILABLE_FIELDS", [CodeBuilder.AddLine($"// [{ComponentType}] {GetFieldName(component)}", level)], true);
         }
-        protected virtual void GenerateUserFilePartialFunctions(SectionParser sectionParser, ComponentModel component, int level) { }
+        protected virtual void GenerateUserFilePartialFunctions(SectionParser sectionParser, ComponentModel component, int level, IDialogService dialogservice) { }
         #endregion
 
 
