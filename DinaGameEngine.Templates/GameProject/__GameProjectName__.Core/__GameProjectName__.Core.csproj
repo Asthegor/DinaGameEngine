@@ -14,4 +14,16 @@
       <HintPath>..\DinaCSharp.dll</HintPath>
     </Reference>
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\LocalizationStrings.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>LocalizationStrings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+
+    <Compile Update="Resources\LocalizationStrings.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>LocalizationStrings.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
 </Project>

@@ -292,10 +292,22 @@
                 indexReturn++;
 
                 for (int i = indexBodyStart + 1; i < indexReturn; i++)
+                {
+                    if (string.IsNullOrWhiteSpace(_lines[i]))
+                        continue;
                     _lines[i] = $"{indentation}// {_lines[i].TrimStart()}";
+                }
 
                 _lines.Insert(indexReturn, $"{indentation}{string.Format(ZONE_CLOSE, marker)}");
                 _lines.Insert(indexReturn + 1, string.Empty);
+            }
+            else
+            {
+                for(int i = indexReturn - 1; i >= indexBodyStart; i--)
+                {
+                    if (string.IsNullOrWhiteSpace(_lines[i]))
+                        _lines.RemoveAt(i);
+                }
             }
 
             WriteInDelimitedPartialFunction(functionSignature, newLines);

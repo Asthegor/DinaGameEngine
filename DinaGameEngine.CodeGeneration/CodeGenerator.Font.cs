@@ -77,41 +77,6 @@ namespace DinaGameEngine.CodeGeneration
             _fileService.WriteAllText(filePath, generatedFile.ToString());
             _logService.Info($"Fichier 'FontKeys.Designer.cs' généré.");
         }
-        //private void GenerateFontKeysUserFile(GameProjectModel gameProjectModel)
-        //{
-        //    var filePath = _fileService.Combine(gameProjectModel.RootPath, "Core", "Keys", "FontKeys.cs");
-        //    if (_fileService.FileExists(filePath))
-        //    {
-        //        _logService.Warning($"Fichier '{filePath}' déjà existant.");
-        //        return;
-        //    }
-
-        //    var generatedFile = new StringBuilder();
-
-        //    //Using
-        //    generatedFile.AppendLine(CodeBuilder.AddUsing("DinaCSharp.Services"));
-        //    generatedFile.AppendLine(CodeBuilder.AddUsing("DinaCSharp.Services.Fonts"));
-        //    generatedFile.AppendLine(CodeBuilder.AddEmptyLine());
-        //    // Namespace
-        //    generatedFile.AppendLine(CodeBuilder.OpenBlock($"namespace {gameProjectModel.RootNamespace}.Core.Keys", 0));
-
-        //    // Classe
-        //    generatedFile.AppendLine(CodeBuilder.OpenBlock($"public partial class FontKeys", 1));
-
-        //    generatedFile.AppendLine(CodeBuilder.AddEmptyLine());
-        //    generatedFile.AppendLine(CodeBuilder.AddLine("", 2));
-
-
-        //    // Fermeture de la classe
-        //    generatedFile.AppendLine(CodeBuilder.CloseBlock(1));
-
-        //    // Fermeture du namespace
-        //    generatedFile.AppendLine(CodeBuilder.CloseBlock(0));
-
-        //    _fileService.WriteAllText(filePath, generatedFile.ToString());
-        //    _logService.Info($"Fichier 'FontKeys.cs' généré.");
-        //}
-
         private void GenerateSpriteFontFiles(GameProjectModel gameProjectModel, FontModel model)
         {
             // On vérifie si la police existe déjà dans un des répertoires

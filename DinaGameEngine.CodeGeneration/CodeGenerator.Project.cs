@@ -39,6 +39,7 @@ namespace DinaGameEngine.CodeGeneration
                 "System.Linq",
                 $"{gameProjectModel.RootNamespace}.Core.Datas",
                 $"{gameProjectModel.RootNamespace}.Core.Keys",
+                $"{gameProjectModel.RootNamespace}.Core.Resources",
                 $"{gameProjectModel.RootNamespace}.Scenes",
             };
             foreach (var ns in usings)
@@ -74,6 +75,7 @@ namespace DinaGameEngine.CodeGeneration
             generatedFile.AppendLine(CodeBuilder.AddLine("InitializeFontManager();", 3));
             generatedFile.AppendLine(CodeBuilder.AddLine("InitializeSceneManager();", 3));
             generatedFile.AppendLine(CodeBuilder.AddLine("InitializeInputManager();", 3));
+            generatedFile.AppendLine(CodeBuilder.AddLine("InitializeLocalizationManager();", 3));
             generatedFile.AppendLine(CodeBuilder.AddLine("RegisterServices();", 3));
             generatedFile.AppendLine(CodeBuilder.AddLine("ApplyConfiguration();", 3));
             generatedFile.AppendLine(CodeBuilder.AddLine("base.Initialize();", 3));
@@ -151,6 +153,10 @@ namespace DinaGameEngine.CodeGeneration
             generatedFile.AppendLine(CodeBuilder.AddLine("(PlayerInputKeys.Cancel, new ControllerKey[] { new KeyboardControllerKey(Keys.Back), new GamepadControllerKey(Buttons.B) })", 4));
             generatedFile.AppendLine(CodeBuilder.AddLine(");", 3));
             generatedFile.AppendLine(CodeBuilder.AddLine("ServiceLocator.Register(ServiceKeys.PlayerController, playerController);", 3));
+            generatedFile.AppendLine(CodeBuilder.CloseBlock(2));
+
+            generatedFile.AppendLine(CodeBuilder.OpenBlock("private static void InitializeLocalizationManager()", 2));
+            generatedFile.AppendLine(CodeBuilder.AddLine("LocalizationManager.Register(typeof(LocalizationStrings));", 3));
             generatedFile.AppendLine(CodeBuilder.CloseBlock(2));
 
             generatedFile.AppendLine(CodeBuilder.OpenBlock("private void RegisterServices()", 2));

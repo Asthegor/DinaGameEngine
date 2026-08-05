@@ -56,9 +56,7 @@ namespace DinaGameEngine.ViewModels.Project.Components
             if (_snapshot == null)
                 return;
             _component.Key = _snapshot.Key;
-#pragma warning disable IDE0028 // Simplify collection initialization
             _component.Properties = new Dictionary<string, object>(_snapshot.Properties);
-#pragma warning restore IDE0028 // Simplify collection initialization
             _key = _snapshot.Key;
             OnPropertyChanged(nameof(Key));
             LoadFrom(_component);

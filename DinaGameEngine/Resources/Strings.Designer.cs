@@ -1181,7 +1181,9 @@ namespace DinaGameEngine.Resources {
         ///   Looks up a localized string similar to Le contenu suivant a été défini dans l&apos;éditeur pour les fonctions d&apos;activation suivantes :
         ///{0}
         ///
-        ///Le code précédent de chaque fonction a été conservé en commentaire juste au-dessus du nouveau code. Cela inclut toute modification effectuée manuellement dans le fichier, en dehors de l&apos;éditeur. Si une nouvelle modification est effectuée (depuis l&apos;éditeur ou directement dans le fichier), cette sauvegarde sera remplacée par la plus récente.
+        ///Le code précédent de chaque fonction a été conservé en commentaire juste au-dessus du nouveau code.
+        ///Cela inclut toute modification effectuée manuellement dans le fichier, en dehors de l&apos;éditeur.
+        ///Si une nouvelle modification est effectuée (depuis l&apos;éditeur ou directement dans le fichier), cette sauvegarde sera remplacée par la plus récente.
         ///
         ///Attention !
         ///Un seul niveau d&apos;historique est conservé !.

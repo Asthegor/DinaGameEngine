@@ -554,7 +554,9 @@ Please remove it manually.</value>
     <value>The following content has been defined in the editor for the following activation functions:
 {0}
 
-The old code for each function has been preserved as a comment directly above the new code. This includes any changes made manually in the file, outside of the editor. If a new change is made (either from the editor or directly in the file), this saved version will be replaced by the most recent one.
+The old code for each function has been preserved as a comment directly above the new code.
+This includes any changes made manually in the file, outside of the editor.
+If a new change is made (either from the editor or directly in the file), this saved version will be replaced by the most recent one.
 
 Warning!
 Only one level of history is retained!</value>
