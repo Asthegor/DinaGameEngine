@@ -1,9 +1,9 @@
 ﻿using DinaCSharp.Inputs;
-using DinaCSharp.Services;
+using DinaCSharp.Services.Keys;
 
 namespace __RootNamespace__.Core.Keys
 {
-    public static class PlayerInputKeys
+    public sealed class PlayerInputKeys : KeyResolver<PlayerInputKeys, ActionTag>
     {
         /// <summary>Action de descente.</summary>
         public static readonly Key<ActionTag> Down = Key<ActionTag>.FromString("Down");

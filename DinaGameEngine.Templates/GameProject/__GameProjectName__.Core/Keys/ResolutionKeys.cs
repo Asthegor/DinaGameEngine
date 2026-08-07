@@ -1,9 +1,9 @@
-﻿using DinaCSharp.Services;
+﻿using DinaCSharp.Services.Keys;
 using DinaCSharp.Services.Fonts;
 
 namespace __RootNamespace__.Core.Keys
 {
-    public static class ResolutionKeys
+    public sealed class ResolutionKeys : KeyResolver<ResolutionKeys, ResolutionTag>
     {
         public readonly static Key<ResolutionTag> R720p = Key<ResolutionTag>.FromString("720p");
         public readonly static Key<ResolutionTag> R900p = Key<ResolutionTag>.FromString("900p");

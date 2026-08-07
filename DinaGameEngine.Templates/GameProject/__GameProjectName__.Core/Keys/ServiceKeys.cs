@@ -1,8 +1,8 @@
-﻿using DinaCSharp.Services;
+﻿using DinaCSharp.Services.Keys;
 
 namespace __RootNamespace__.Core.Keys
 {
-    public class ServiceKeys
+    public sealed class ServiceKeys : KeyResolver<ServiceKeys, ServiceTag>
     {
         public static readonly Key<ServiceTag> Config = Key<ServiceTag>.FromString("Config.dat");
         public static readonly Key<ServiceTag> DefaultConfig = Key<ServiceTag>.FromString("DefaultConfig");

@@ -245,15 +245,15 @@ namespace DinaGameEngine.CodeGeneration
             generatedFile.AppendLine(CodeBuilder.AddEmptyLine());
 
             // Using
-            generatedFile.AppendLine(CodeBuilder.AddUsing("DinaCSharp.Services"));
             generatedFile.AppendLine(CodeBuilder.AddUsing("DinaCSharp.Services.Scenes"));
+            generatedFile.AppendLine(CodeBuilder.AddUsing("DinaCSharp.Services.Keys"));
             generatedFile.AppendLine(CodeBuilder.AddEmptyLine());
 
             // Namespace
             generatedFile.AppendLine(CodeBuilder.OpenBlock($"namespace {gameProjectModel.RootNamespace}.Core.Keys", 0));
 
             // Classe
-            generatedFile.AppendLine(CodeBuilder.OpenBlock($"public class SceneKeys", 1));
+            generatedFile.AppendLine(CodeBuilder.OpenBlock($"public sealed class SceneKeys : KeyResolver<SceneKeys, SceneTag>", 1));
 
             generatedFile.AppendLine(CodeBuilder.AddLine("// =[ZONE:SCENE_KEYS]=", 2));
             generatedFile.AppendLine(CodeBuilder.AddEmptyLine());
@@ -268,38 +268,6 @@ namespace DinaGameEngine.CodeGeneration
             _fileService.WriteAllText(filePath, generatedFile.ToString());
             _logService.Info($"Fichier 'SceneKeys.Designer.cs' généré.");
         }
-        //private void GenerateSceneKeysUserFile(GameProjectModel gameProjectModel)
-        //{
-        //    var filePath = _fileService.Combine(gameProjectModel.RootPath, "Core", "Keys", "SceneKeys.cs");
-        //    if (_fileService.FileExists(filePath))
-        //    {
-        //        _logService.Warning($"Fichier '{filePath}' déjà existant.");
-        //        return;
-        //    }
-
-        //    var generatedFile = new StringBuilder();
-
-        //    //Using
-        //    generatedFile.AppendLine(CodeBuilder.AddUsing("DinaCSharp.Services"));
-        //    generatedFile.AppendLine(CodeBuilder.AddUsing("DinaCSharp.Services.Scenes"));
-        //    generatedFile.AppendLine(CodeBuilder.AddEmptyLine());
-        //    // Namespace
-        //    generatedFile.AppendLine(CodeBuilder.OpenBlock($"namespace {gameProjectModel.RootNamespace}.Core.Keys", 0));
-
-        //    // Classe
-        //    generatedFile.AppendLine(CodeBuilder.OpenBlock($"public partial class SceneKeys", 1));
-
-        //    generatedFile.AppendLine(CodeBuilder.AddEmptyLine());
-
-        //    // Fermeture de la classe
-        //    generatedFile.AppendLine(CodeBuilder.CloseBlock(1));
-
-        //    // Fermeture du namespace
-        //    generatedFile.AppendLine(CodeBuilder.CloseBlock(0));
-
-        //    _fileService.WriteAllText(filePath, generatedFile.ToString());
-        //    _logService.Info($"Fichier 'SceneKeys.cs' généré.");
-        //}
         public void WriteInPartialFunction(GameProjectModel gameProjectModel, SceneModel sceneModel, string functionSignature, IEnumerable<string> lines)
         {
             var userFilePath = _fileService.Combine(gameProjectModel.RootPath, $"{gameProjectModel.ProjectName}.Scenes", $"{sceneModel.Class}.cs");

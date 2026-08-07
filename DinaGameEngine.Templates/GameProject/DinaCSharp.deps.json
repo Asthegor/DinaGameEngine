@@ -6,22 +6,29 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v10.0": {
-      "DinaCSharp/2.0.1-alpha.0.2": {
+      "DinaCSharp/2.0.1-alpha.0.4": {
         "dependencies": {
-          "MonoGame.Framework.DesktopGL": "3.8.4.1",
+          "MonoGame.Framework.DesktopGL": "3.8.5",
           "DLACrypto": "2024.12.26.800"
         },
         "runtime": {
           "DinaCSharp.dll": {}
         }
       },
-      "MonoGame.Framework.DesktopGL/3.8.4.1": {
+      "MonoGame.Framework.DesktopGL/3.8.5": {
         "dependencies": {
-          "MonoGame.Library.OpenAL": "1.24.3.2",
-          "MonoGame.Library.SDL": "2.32.2.1"
+          "MonoGame.Library.OpenAL": "1.24.3.4",
+          "MonoGame.Library.SDL": "2.32.10.2",
+          "NVorbis": "0.10.4"
+        },
+        "runtime": {
+          "lib/net8.0/MonoGame.Framework.dll": {
+            "assemblyVersion": "3.8.5.0",
+            "fileVersion": "3.8.5.0"
+          }
         }
       },
-      "MonoGame.Library.OpenAL/1.24.3.2": {
+      "MonoGame.Library.OpenAL/1.24.3.4": {
         "runtimeTargets": {
           "runtimes/android-arm/native/libopenal.so": {
             "rid": "android-arm",
@@ -73,6 +80,11 @@
             "assetType": "native",
             "fileVersion": "0.0.0.0"
           },
+          "runtimes/win-arm64/native/openal.dll": {
+            "rid": "win-arm64",
+            "assetType": "native",
+            "fileVersion": "1.24.3.0"
+          },
           "runtimes/win-x64/native/openal.dll": {
             "rid": "win-x64",
             "assetType": "native",
@@ -80,8 +92,13 @@
           }
         }
       },
-      "MonoGame.Library.SDL/2.32.2.1": {
+      "MonoGame.Library.SDL/2.32.10.2": {
         "runtimeTargets": {
+          "runtimes/linux-arm64/native/libSDL2-2.0.so.0": {
+            "rid": "linux-arm64",
+            "assetType": "native",
+            "fileVersion": "0.0.0.0"
+          },
           "runtimes/linux-x64/native/libSDL2-2.0.so.0": {
             "rid": "linux-x64",
             "assetType": "native",
@@ -92,10 +109,23 @@
             "assetType": "native",
             "fileVersion": "0.0.0.0"
           },
+          "runtimes/win-arm64/native/SDL2.dll": {
+            "rid": "win-arm64",
+            "assetType": "native",
+            "fileVersion": "2.32.10.0"
+          },
           "runtimes/win-x64/native/SDL2.dll": {
             "rid": "win-x64",
             "assetType": "native",
-            "fileVersion": "2.32.2.0"
+            "fileVersion": "2.32.10.0"
+          }
+        }
+      },
+      "NVorbis/0.10.4": {
+        "runtime": {
+          "lib/netstandard2.0/NVorbis.dll": {
+            "assemblyVersion": "0.10.4.0",
+            "fileVersion": "0.10.4.0"
           }
         }
       },
@@ -110,31 +140,38 @@
     }
   },
   "libraries": {
-    "DinaCSharp/2.0.1-alpha.0.2": {
+    "DinaCSharp/2.0.1-alpha.0.4": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
     },
-    "MonoGame.Framework.DesktopGL/3.8.4.1": {
+    "MonoGame.Framework.DesktopGL/3.8.5": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-YybxIIT5+Ky78E/XdkS0glyluMr2EeDZwx2LqXULAOCqiKt1+aDrjPZaqLL5qpNgBcMEHUeZJ4YjWe4TAZlWLw==",
-      "path": "monogame.framework.desktopgl/3.8.4.1",
-      "hashPath": "monogame.framework.desktopgl.3.8.4.1.nupkg.sha512"
+      "sha512": "sha512-oG5Thkic4i/6kX3OWtq2p6DEATflP71yM0p/1ymIoFaIp1xNFOqAd4jW2D9GIQLIMT6mn5RmJknYPqJnOQbi5w==",
+      "path": "monogame.framework.desktopgl/3.8.5",
+      "hashPath": "monogame.framework.desktopgl.3.8.5.nupkg.sha512"
     },
-    "MonoGame.Library.OpenAL/1.24.3.2": {
+    "MonoGame.Library.OpenAL/1.24.3.4": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-nGRsXQXs+NSUC3C5w90hFQfyKdZPpBnHnyg2w+Dw/2pUH7s+CoRWTJNYbzzdJf3+aeUvfvG4rTbFvMKDDj5olA==",
-      "path": "monogame.library.openal/1.24.3.2",
-      "hashPath": "monogame.library.openal.1.24.3.2.nupkg.sha512"
+      "sha512": "sha512-/FhE0hblY9owGPvIHnMbH+6kXtjfl+/t3Cm776RQiZnGyxGy2Qd9pTAzclLuMO8pvtjiGLYkkRwjRciUA4XFyQ==",
+      "path": "monogame.library.openal/1.24.3.4",
+      "hashPath": "monogame.library.openal.1.24.3.4.nupkg.sha512"
     },
-    "MonoGame.Library.SDL/2.32.2.1": {
+    "MonoGame.Library.SDL/2.32.10.2": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-T4E2ppGlSTC2L9US1rxtdg3qTbarRzNId31xZoumUW9cf9Nq8nRQPMu9GzvZGrhfSySf0+UWPEj1rlicps+P/w==",
-      "path": "monogame.library.sdl/2.32.2.1",
-      "hashPath": "monogame.library.sdl.2.32.2.1.nupkg.sha512"
+      "sha512": "sha512-mtnmWr50KgH2Ui9fPscHPMI3sXgb5NBRnPS7igi4ViJ23ROdP+MLi/j9CmLWX47KuXvI3Bp5BElCDVwRUlswgg==",
+      "path": "monogame.library.sdl/2.32.10.2",
+      "hashPath": "monogame.library.sdl.2.32.10.2.nupkg.sha512"
+    },
+    "NVorbis/0.10.4": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-WYnil3DhQHzjCY0dM9I2B3r1vWip90AOuQd25KE4NrjPQBg0tBJFluRLm5YPnO5ZLDmwrfosY8jCQGQRmWI/Pg==",
+      "path": "nvorbis/0.10.4",
+      "hashPath": "nvorbis.0.10.4.nupkg.sha512"
     },
     "DLACrypto/2024.12.26.800": {
       "type": "reference",

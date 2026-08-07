@@ -532,6 +532,77 @@
             Gets or sets the position of the object in two-dimensional space.
             </summary>
         </member>
+        <member name="T:DinaCSharp.Core.Interfaces.IProgressBar">
+            <summary>
+            Common interface for all progress bar components.
+            </summary>
+        </member>
+        <member name="P:DinaCSharp.Core.Interfaces.IProgressBar.Value">
+            <summary>
+            Gets or sets the current value of the progress bar.
+            Assigning a value directly stops any active smooth animation.
+            </summary>
+        </member>
+        <member name="P:DinaCSharp.Core.Interfaces.IProgressBar.MinValue">
+            <summary>
+            Gets or sets the minimum value of the progress bar.
+            </summary>
+        </member>
+        <member name="P:DinaCSharp.Core.Interfaces.IProgressBar.MaxValue">
+            <summary>
+            Gets or sets the maximum value of the progress bar.
+            </summary>
+        </member>
+        <member name="P:DinaCSharp.Core.Interfaces.IProgressBar.Mode">
+            <summary>
+            Gets or sets the fill direction mode for the progress bar (e.g., Left-to-Right, Bottom-to-Top).
+            </summary>
+        </member>
+        <member name="P:DinaCSharp.Core.Interfaces.IProgressBar.IsAnimating">
+            <summary>
+            Gets a value indicating whether the progress bar is currently undergoing a smooth fill animation.
+            </summary>
+        </member>
+        <member name="P:DinaCSharp.Core.Interfaces.IProgressBar.AutoIncrement">
+            <summary>
+            Gets or sets a value indicating whether automatic interval step incrementation is active.
+            </summary>
+        </member>
+        <member name="P:DinaCSharp.Core.Interfaces.IProgressBar.Delay">
+            <summary>
+            Gets or sets the delay in seconds between each step when <see cref="P:DinaCSharp.Core.Interfaces.IProgressBar.AutoIncrement"/> is enabled.
+            </summary>
+        </member>
+        <member name="P:DinaCSharp.Core.Interfaces.IProgressBar.Increment">
+            <summary>
+            Gets or sets the value added at each step interval when <see cref="P:DinaCSharp.Core.Interfaces.IProgressBar.AutoIncrement"/> is enabled.
+            </summary>
+        </member>
+        <member name="M:DinaCSharp.Core.Interfaces.IProgressBar.AnimateTo(System.Single,System.Single)">
+            <summary>
+            Smoothly animates the progress bar toward a target value over a specified duration.
+            </summary>
+            <param name="targetValue">The target value to reach.</param>
+            <param name="durationInSeconds">The animation duration in seconds.</param>
+        </member>
+        <member name="M:DinaCSharp.Core.Interfaces.IProgressBar.ProgressInterval(System.Single,System.Single)">
+            <summary>
+            Configures automatic step-by-step interval progress.
+            </summary>
+            <param name="delay">Time in seconds between each step interval.</param>
+            <param name="increment">Amount added to the progress bar value at each interval.</param>
+        </member>
+        <member name="T:DinaCSharp.Core.Interfaces.IRegister">
+            <summary>
+            Interface pour l'enregistrement des services.
+            </summary>
+        </member>
+        <member name="M:DinaCSharp.Core.Interfaces.IRegister.Register(DinaCSharp.Services.Keys.Key{DinaCSharp.Services.Keys.ServiceTag})">
+            <summary>
+            Permet d'enregistrer les services.
+            </summary>
+            <param name="key">Clé du service à enregistrer.</param>
+        </member>
         <member name="T:DinaCSharp.Core.Interfaces.IReset">
             <summary>
             Defines a method that resets the state of an object to its initial configuration.
@@ -1670,6 +1741,95 @@
             Libère les ressources utilisées par le DropDown.
             </summary>
         </member>
+        <member name="T:DinaCSharp.Graphics.FloatingText">
+            <summary>
+            Framework component that animates an <see cref="T:DinaCSharp.Core.Interfaces.IText"/> instance (such as <c>Text</c> or <c>ShadowText</c>)
+            by interpolating its position and adjusting its color and alpha transparency over a specified lifetime.
+            </summary>
+        </member>
+        <member name="P:DinaCSharp.Graphics.FloatingText.StartPosition">
+            <summary>
+            Gets or sets the starting screen position of the floating text.
+            </summary>
+        </member>
+        <member name="P:DinaCSharp.Graphics.FloatingText.EndPosition">
+            <summary>
+            Gets or sets the target ending screen position of the floating text.
+            </summary>
+        </member>
+        <member name="P:DinaCSharp.Graphics.FloatingText.BaseColor">
+            <summary>
+            Gets or sets the base color applied to the text element.
+            </summary>
+        </member>
+        <member name="P:DinaCSharp.Graphics.FloatingText.StartAlpha">
+            <summary>
+            Gets or sets the initial alpha transparency factor (ranging from 0.0 to 1.0). Default value is 1.0f.
+            </summary>
+        </member>
+        <member name="P:DinaCSharp.Graphics.FloatingText.EndAlpha">
+            <summary>
+            Gets or sets the final alpha transparency factor at the end of the text's lifetime (ranging from 0.0 to 1.0). Default value is 0.5f.
+            </summary>
+        </member>
+        <member name="P:DinaCSharp.Graphics.FloatingText.Lifetime">
+            <summary>
+            Gets the remaining lifetime of the floating text animation in seconds.
+            </summary>
+        </member>
+        <member name="P:DinaCSharp.Graphics.FloatingText.MaxLifetime">
+            <summary>
+            Gets or sets the maximum duration of the floating text animation in seconds.
+            </summary>
+        </member>
+        <member name="P:DinaCSharp.Graphics.FloatingText.IsAlive">
+            <summary>
+            Gets a value indicating whether the floating text animation is still active.
+            </summary>
+        </member>
+        <member name="P:DinaCSharp.Graphics.FloatingText.TextElement">
+            <summary>
+            Gets the underlying encapsulated <see cref="T:DinaCSharp.Core.Interfaces.IText"/> element.
+            </summary>
+        </member>
+        <member name="M:DinaCSharp.Graphics.FloatingText.#ctor(DinaCSharp.Core.Interfaces.IText,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Color,System.Single)">
+            <summary>
+            Initializes a new instance of the <see cref="T:DinaCSharp.Graphics.FloatingText"/> class using an existing <see cref="T:DinaCSharp.Core.Interfaces.IText"/> object.
+            </summary>
+            <param name="text">The text element to animate.</param>
+            <param name="startPosition">The starting position on screen.</param>
+            <param name="endPosition">The target ending position on screen.</param>
+            <param name="color">The base display color.</param>
+            <param name="duration">The total duration of the animation in seconds. Default is 0.8s.</param>
+            <exception cref="T:System.ArgumentNullException">Thrown when <paramref name="text"/> is null.</exception>
+        </member>
+        <member name="M:DinaCSharp.Graphics.FloatingText.#ctor(Microsoft.Xna.Framework.Graphics.SpriteFont,System.String,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Color,System.Nullable{Microsoft.Xna.Framework.Color},System.Nullable{Microsoft.Xna.Framework.Vector2},System.Single)">
+            <summary>
+            Initializes a new instance of the <see cref="T:DinaCSharp.Graphics.FloatingText"/> class, automatically instantiating a <c>Text</c> or <c>ShadowText</c> element based on shadow parameters.
+            </summary>
+            <param name="font">The font resource used for rendering text.</param>
+            <param name="content">The text content to display.</param>
+            <param name="startPosition">The starting position on screen.</param>
+            <param name="endPosition">The target ending position on screen.</param>
+            <param name="color">The base display color.</param>
+            <param name="shadowColor">Optional color for the drop shadow. If specified alongside <paramref name="shadowOffset"/>, a <c>ShadowText</c> is created.</param>
+            <param name="shadowOffset">Optional offset vector for the drop shadow.</param>
+            <param name="duration">The total duration of the animation in seconds. Default is 0.8s.</param>
+            <exception cref="T:System.ArgumentNullException">Thrown when <paramref name="font"/> is null.</exception>
+        </member>
+        <member name="M:DinaCSharp.Graphics.FloatingText.Update(Microsoft.Xna.Framework.GameTime)">
+            <summary>
+            Updates the animation state, recalculating the position, remaining lifetime, and alpha channel of the text element.
+            </summary>
+            <param name="gametime">Provides a snapshot of timing values.</param>
+            <exception cref="T:System.ArgumentNullException">Thrown when <paramref name="gametime"/> is null.</exception>
+        </member>
+        <member name="M:DinaCSharp.Graphics.FloatingText.Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch)">
+            <summary>
+            Renders the floating text to the screen using the provided <see cref="T:Microsoft.Xna.Framework.Graphics.SpriteBatch"/>.
+            </summary>
+            <param name="spritebatch">The sprite batch used for drawing graphics.</param>
+        </member>
         <member name="T:DinaCSharp.Graphics.InputText">
             <summary>
             Représente un champ de saisie de texte interactif, permettant à l'utilisateur de saisir du texte.
@@ -2261,184 +2421,296 @@
             Désabonne tous les événements.
             </summary>
         </member>
-        <member name="T:DinaCSharp.Graphics.ProgressBar">
+        <member name="T:DinaCSharp.Graphics.ProgressBarColor">
             <summary>
-            Classe représentant une barre de progression.
+            Represents a progress bar rendered entirely using solid colors and primitive rectangles.
             </summary>
         </member>
-        <member name="M:DinaCSharp.Graphics.ProgressBar.#ctor(System.Single,System.Single,System.Single,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Color,Microsoft.Xna.Framework.Color,Microsoft.Xna.Framework.Color,System.Int32,DinaCSharp.Enums.ProgressDirection,System.Int32)">
+        <member name="M:DinaCSharp.Graphics.ProgressBarColor.#ctor(System.Single,System.Single,System.Single,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Color,Microsoft.Xna.Framework.Color,Microsoft.Xna.Framework.Color,System.Int32,DinaCSharp.Enums.ProgressDirection,System.Int32)">
             <summary>
-            Initialise une nouvelle instance de la classe ProgressBar avec un fond de couleur et une bordure.
+            Initializes a new instance of the <see cref="T:DinaCSharp.Graphics.ProgressBarColor"/> class.
             </summary>
-            <param name="value">Valeur initiale de la barre.</param>
-            <param name="minValue">Valeur minimale de la barre.</param>
-            <param name="maxValue">Valeur maximale de la barre.</param>
-            <param name="position">Position de la barre de progression.</param>
-            <param name="dimensions">Dimensions de la barre de progression.</param>
-            <param name="frontColor">Couleur du remplissage.</param>
-            <param name="borderColor">Couleur de la bordure.</param>
-            <param name="backColor">Couleur de fond.</param>
-            <param name="borderThickness">Épaisseur de la bordure.</param>
-            <param name="mode">Mode de la barre de progression.</param>
-            <param name="zorder">Ordre de superposition.</param>
+            <param name="value">The initial value of the progress bar.</param>
+            <param name="minValue">The minimum value of the progress bar.</param>
+            <param name="maxValue">The maximum value of the progress bar.</param>
+            <param name="position">The position of the progress bar on screen.</param>
+            <param name="dimensions">The overall width and height of the progress bar.</param>
+            <param name="frontColor">The fill color representing current progress.</param>
+            <param name="borderColor">The border outline color.</param>
+            <param name="backColor">The background container color behind the progress fill.</param>
+            <param name="borderThickness">The thickness of the outer border in pixels.</param>
+            <param name="mode">The progress fill direction mode.</param>
+            <param name="zorder">The rendering depth order (Z-Order).</param>
+            <exception cref="T:System.InvalidOperationException">Thrown when the required 1x1 pixel texture service is missing.</exception>
         </member>
-        <member name="M:DinaCSharp.Graphics.ProgressBar.#ctor(System.Single,System.Single,System.Single,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Graphics.Texture2D,Microsoft.Xna.Framework.Graphics.Texture2D,System.Int32,DinaCSharp.Enums.ProgressDirection,System.Int32)">
+        <member name="P:DinaCSharp.Graphics.ProgressBarColor.AutoIncrement">
             <summary>
-            Initialise une nouvelle instance de la classe ProgressBar avec une image de fond et une image de remplissage.
-            </summary>
-            <param name="value">Valeur initiale de la barre.</param>
-            <param name="minValue">Valeur minimale de la barre.</param>
-            <param name="maxValue">Valeur maximale de la barre.</param>
-            <param name="position">Position de la barre de progression.</param>
-            <param name="dimensions">Dimensions de la barre de progression.</param>
-            <param name="backImage">Image de fond.</param>
-            <param name="frontImage">Image de remplissage.</param>
-            <param name="offset">Décalage de l'image.</param>
-            <param name="mode">Mode de la barre de progression.</param>
-            <param name="zorder">Ordre de superposition.</param>
-        </member>
-        <member name="M:DinaCSharp.Graphics.ProgressBar.#ctor(System.Single,System.Single,System.Single,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Graphics.Texture2D,Microsoft.Xna.Framework.Graphics.Texture2D,Microsoft.Xna.Framework.Graphics.Texture2D,DinaCSharp.Enums.ProgressDirection,System.Int32)">
-            <summary>
-            Initialise une nouvelle instance de la classe ProgressBar avec trois images (gauche, centre, droite) pour le fond et le remplissage.
-            </summary>
-            <param name="value">Valeur initiale de la barre.</param>
-            <param name="minValue">Valeur minimale de la barre.</param>
-            <param name="maxValue">Valeur maximale de la barre.</param>
-            <param name="position">Position de la barre de progression.</param>
-            <param name="dimensions">Dimensions de la barre de progression.</param>
-            <param name="leftImage">Image de la partie gauche.</param>
-            <param name="centerImage">Image de la partie centrale.</param>
-            <param name="rightImage">Image de la partie droite.</param>
-            <param name="mode">Mode de la barre de progression.</param>
-            <param name="zorder">Ordre de superposition.</param>
-        </member>
-        <member name="M:DinaCSharp.Graphics.ProgressBar.#ctor(System.Single,System.Single,System.Single,Microsoft.Xna.Framework.Graphics.Texture2D,Microsoft.Xna.Framework.Graphics.Texture2D,Microsoft.Xna.Framework.Graphics.Texture2D,DinaCSharp.Enums.ProgressDirection,System.Int32)">
-            <summary>
-            Initialise une nouvelle instance de la classe ProgressBar avec trois images (gauche, centre, droite) pour le fond et le remplissage.
-            </summary>
-            <param name="value">Valeur initiale de la barre.</param>
-            <param name="minValue">Valeur minimale de la barre.</param>
-            <param name="maxValue">Valeur maximale de la barre.</param>
-            <param name="leftImage">Image de la partie gauche.</param>
-            <param name="centerImage">Image de la partie centrale.</param>
-            <param name="rightImage">Image de la partie droite.</param>
-            <param name="mode">Mode de la barre de progression.</param>
-            <param name="zorder">Ordre de superposition.</param>
-        </member>
-        <member name="P:DinaCSharp.Graphics.ProgressBar.AutoIncrement">
-            <summary>
-            Indique si la barre de progression doit s'incrémenter automatiquement.
+            Gets or sets a value indicating whether automatic interval step incrementation is active.
             </summary>
         </member>
-        <member name="P:DinaCSharp.Graphics.ProgressBar.Dimensions">
+        <member name="P:DinaCSharp.Graphics.ProgressBarColor.Visible">
             <summary>
-            Dimensions du panneau.
+            Gets or sets a value indicating whether the progress bar is visible.
             </summary>
         </member>
-        <member name="P:DinaCSharp.Graphics.ProgressBar.MinValue">
+        <member name="P:DinaCSharp.Graphics.ProgressBarColor.Delay">
             <summary>
-            La valeur minimale de la barre de progression.
+            Gets or sets the delay in seconds between each step when <see cref="P:DinaCSharp.Graphics.ProgressBarColor.AutoIncrement"/> is active.
             </summary>
         </member>
-        <member name="P:DinaCSharp.Graphics.ProgressBar.MaxValue">
+        <member name="P:DinaCSharp.Graphics.ProgressBarColor.Increment">
             <summary>
-            La valeur maximale de la barre de progression.
+            Gets or sets the value added at each step interval when <see cref="P:DinaCSharp.Graphics.ProgressBarColor.AutoIncrement"/> is active.
             </summary>
         </member>
-        <member name="P:DinaCSharp.Graphics.ProgressBar.Mode">
+        <member name="P:DinaCSharp.Graphics.ProgressBarColor.Mode">
             <summary>
-            Mode de la barre de progression, définissant la direction de l'animation.
+            Gets or sets the fill direction mode for the progress bar.
             </summary>
         </member>
-        <member name="P:DinaCSharp.Graphics.ProgressBar.Position">
+        <member name="P:DinaCSharp.Graphics.ProgressBarColor.IsAnimating">
             <summary>
-            Position du panneau.
+            Gets a value indicating whether the progress bar is currently undergoing a smooth fill animation.
             </summary>
         </member>
-        <member name="M:DinaCSharp.Graphics.ProgressBar.ProgressInterval(System.Single,System.Single)">
+        <member name="P:DinaCSharp.Graphics.ProgressBarColor.FrontColor">
             <summary>
-            Définit l'intervalle de progression automatique avec un délai et un incrément.
-            </summary>
-            <param name="delay">Délai entre chaque incrément.</param>
-            <param name="increment">Valeur de l'incrément à chaque intervalle.</param>
-        </member>
-        <member name="P:DinaCSharp.Graphics.ProgressBar.Value">
-            <summary>
-            La valeur actuelle de la barre de progression.
+            Gets or sets the fill color representing the current progress.
             </summary>
         </member>
-        <member name="P:DinaCSharp.Graphics.ProgressBar.Visible">
+        <member name="P:DinaCSharp.Graphics.ProgressBarColor.BackColor">
             <summary>
-            Indique si la barre de progression est visible ou non.
+            Gets or sets the background color behind the progress bar fill.
             </summary>
         </member>
-        <member name="P:DinaCSharp.Graphics.ProgressBar.Delay">
+        <member name="P:DinaCSharp.Graphics.ProgressBarColor.BorderColor">
             <summary>
-            Le délai de progression automatique.
+            Gets or sets the color of the outer border frame.
             </summary>
         </member>
-        <member name="P:DinaCSharp.Graphics.ProgressBar.Increment">
+        <member name="P:DinaCSharp.Graphics.ProgressBarColor.BorderThickness">
             <summary>
-            L'incrément de progression automatique.
+            Gets or sets the thickness of the outer border in pixels.
             </summary>
         </member>
-        <member name="M:DinaCSharp.Graphics.ProgressBar.SetImages(Microsoft.Xna.Framework.Graphics.Texture2D,Microsoft.Xna.Framework.Graphics.Texture2D,System.Int32)">
+        <member name="P:DinaCSharp.Graphics.ProgressBarColor.Position">
             <summary>
-            Définit les images de la barre de progression avec un arrière-plan et un avant-plan.
-            </summary>
-            <param name="backImage">Image de fond.</param>
-            <param name="frontImage">Image de remplissage.</param>
-            <param name="offset">Décalage de l'image.</param>
-        </member>
-        <member name="M:DinaCSharp.Graphics.ProgressBar.SetImages(Microsoft.Xna.Framework.Graphics.Texture2D,Microsoft.Xna.Framework.Graphics.Texture2D,Microsoft.Xna.Framework.Graphics.Texture2D)">
-            <summary>
-            Définit les images de la barre de progression avec trois parties (gauche, centre, droite).
-            </summary>
-            <param name="leftImage">Image de la partie gauche.</param>
-            <param name="centerImage">Image de la partie centrale.</param>
-            <param name="rightImage">Image de la partie droite.</param>
-        </member>
-        <member name="M:DinaCSharp.Graphics.ProgressBar.SetColors(Microsoft.Xna.Framework.Color,Microsoft.Xna.Framework.Color,Microsoft.Xna.Framework.Color,System.Int32)">
-            <summary>
-            Définit les couleurs et la bordure de la barre de progression.
-            </summary>
-            <param name="frontColor">Couleur de remplissage.</param>
-            <param name="borderColor">Couleur de bordure.</param>
-            <param name="backColor">Couleur de fond.</param>
-            <param name="borderThickness">Épaisseur de la bordure.</param>
-        </member>
-        <member name="M:DinaCSharp.Graphics.ProgressBar.Update(Microsoft.Xna.Framework.GameTime)">
-            <summary>
-            Met à jour l'état de la barre de progression en fonction du temps écoulé et de son mode.
-            </summary>
-            <param name="gametime">Le temps de jeu écoulé depuis la dernière mise à jour.</param>
-        </member>
-        <member name="M:DinaCSharp.Graphics.ProgressBar.Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch)">
-            <summary>
-            Dessine la barre de progression sur l'écran en fonction de son état actuel (valeur, images, couleurs, etc.).
-            </summary>
-            <param name="spritebatch">Le spritebatch utilisé pour dessiner la barre de progression.</param>
-        </member>
-        <member name="M:DinaCSharp.Graphics.ProgressBar.Reset(System.Single)">
-            <summary>
-            Réinitialise la barre de progression à son état initial, en réinitialisant sa valeur de progression.
+            Gets or sets the screen position of the progress bar.
             </summary>
         </member>
-        <member name="M:DinaCSharp.Graphics.ProgressBar.Copy">
+        <member name="P:DinaCSharp.Graphics.ProgressBarColor.Dimensions">
             <summary>
-            Crée une copie de la barre de progression actuelle, avec la même valeur de progression.
-            </summary>
-            <returns>Une nouvelle instance de la barre de progression avec les mêmes valeurs.</returns>
-        </member>
-        <member name="M:DinaCSharp.Graphics.ProgressBar.Dispose">
-            <summary>
-            Libère les ressources utilisées par la ProgressBar.
+            Gets or sets the overall dimensions of the progress bar.
             </summary>
         </member>
-        <member name="M:DinaCSharp.Graphics.ProgressBar.Dispose(System.Boolean)">
+        <member name="P:DinaCSharp.Graphics.ProgressBarColor.MinValue">
             <summary>
-            Désabonne tous les événements.
+            Gets or sets the minimum allowed value.
             </summary>
+        </member>
+        <member name="P:DinaCSharp.Graphics.ProgressBarColor.MaxValue">
+            <summary>
+            Gets or sets the maximum allowed value.
+            </summary>
+        </member>
+        <member name="P:DinaCSharp.Graphics.ProgressBarColor.Value">
+            <summary>
+            Gets or sets the current value of the progress bar.
+            Assigning a value directly cancels any active smooth animation.
+            </summary>
+        </member>
+        <member name="M:DinaCSharp.Graphics.ProgressBarColor.AnimateTo(System.Single,System.Single)">
+            <summary>
+            Smoothly animates the progress bar toward a target value over a specified duration.
+            </summary>
+            <param name="targetValue">The target value to reach.</param>
+            <param name="durationInSeconds">The animation duration in seconds.</param>
+        </member>
+        <member name="M:DinaCSharp.Graphics.ProgressBarColor.ProgressInterval(System.Single,System.Single)">
+            <summary>
+            Configures automatic step-by-step interval progress.
+            </summary>
+            <param name="delay">Time in seconds between each step interval.</param>
+            <param name="increment">Amount added to the progress bar value at each interval.</param>
+        </member>
+        <member name="M:DinaCSharp.Graphics.ProgressBarColor.Update(Microsoft.Xna.Framework.GameTime)">
+            <summary>
+            Updates the progress bar logic (smooth animation or automatic step interval logic).
+            </summary>
+            <param name="gametime">Provides a snapshot of timing values.</param>
+        </member>
+        <member name="M:DinaCSharp.Graphics.ProgressBarColor.Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch)">
+            <summary>
+            Draws the colored progress bar rectangles using the provided <see cref="T:Microsoft.Xna.Framework.Graphics.SpriteBatch"/>.
+            </summary>
+            <param name="spritebatch">The sprite batch renderer.</param>
+        </member>
+        <member name="M:DinaCSharp.Graphics.ProgressBarColor.UpdateRectangles">
+            <summary>
+            Recalculates and updates inner background, border, and front fill rectangles based on current values.
+            </summary>
+        </member>
+        <member name="M:DinaCSharp.Graphics.ProgressBarColor.Copy">
+            <summary>
+            Creates a deep copy of the current <see cref="T:DinaCSharp.Graphics.ProgressBarColor"/> instance.
+            </summary>
+            <returns>A new <see cref="T:DinaCSharp.Graphics.ProgressBarColor"/> instance with matching properties.</returns>
+        </member>
+        <member name="M:DinaCSharp.Graphics.ProgressBarColor.Dispose">
+            <summary>
+            Releases resources used by the <see cref="T:DinaCSharp.Graphics.ProgressBarColor"/> instance.
+            </summary>
+        </member>
+        <member name="M:DinaCSharp.Graphics.ProgressBarColor.Dispose(System.Boolean)">
+            <summary>
+            Releases unmanaged resources and optionally managed resources.
+            </summary>
+            <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
+        </member>
+        <member name="T:DinaCSharp.Graphics.ProgressBarTexture">
+            <summary>
+            Represents a texture-based progress bar rendered using source rect clipping.
+            </summary>
+        </member>
+        <member name="M:DinaCSharp.Graphics.ProgressBarTexture.#ctor(System.Single,System.Single,System.Single,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Graphics.Texture2D,Microsoft.Xna.Framework.Graphics.Texture2D,Microsoft.Xna.Framework.Graphics.Texture2D,DinaCSharp.Enums.ProgressDirection,System.Int32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:DinaCSharp.Graphics.ProgressBarTexture"/> class.
+            </summary>
+            <param name="value">The initial value of the progress bar.</param>
+            <param name="minValue">The minimum value of the progress bar.</param>
+            <param name="maxValue">The maximum value of the progress bar.</param>
+            <param name="position">The position of the progress bar on screen.</param>
+            <param name="dimensions">The overall dimensions. If <see cref="P:Microsoft.Xna.Framework.Vector2.Zero"/>, dimensions are resolved from the background or fill texture.</param>
+            <param name="frontTexture">The texture used for the progress fill bar.</param>
+            <param name="backTexture">The texture used for the background element.</param>
+            <param name="overlayTexture">Optional frame or overlay texture rendered on top.</param>
+            <param name="mode">The progress fill direction direction.</param>
+            <param name="zorder">The rendering depth order (Z-Order).</param>
+            <exception cref="T:System.ArgumentNullException">Thrown when <paramref name="frontTexture"/> or <paramref name="backTexture"/> is null.</exception>
+        </member>
+        <member name="P:DinaCSharp.Graphics.ProgressBarTexture.AutoIncrement">
+            <summary>
+            Gets or sets a value indicating whether automatic interval step incrementation is active.
+            </summary>
+        </member>
+        <member name="P:DinaCSharp.Graphics.ProgressBarTexture.Visible">
+            <summary>
+            Gets or sets a value indicating whether the progress bar is visible.
+            </summary>
+        </member>
+        <member name="P:DinaCSharp.Graphics.ProgressBarTexture.Delay">
+            <summary>
+            Gets or sets the delay in seconds between each step when <see cref="P:DinaCSharp.Graphics.ProgressBarTexture.AutoIncrement"/> is active.
+            </summary>
+        </member>
+        <member name="P:DinaCSharp.Graphics.ProgressBarTexture.Increment">
+            <summary>
+            Gets or sets the value added at each step interval when <see cref="P:DinaCSharp.Graphics.ProgressBarTexture.AutoIncrement"/> is active.
+            </summary>
+        </member>
+        <member name="P:DinaCSharp.Graphics.ProgressBarTexture.Mode">
+            <summary>
+            Gets or sets the fill direction mode for the progress bar.
+            </summary>
+        </member>
+        <member name="P:DinaCSharp.Graphics.ProgressBarTexture.IsAnimating">
+            <summary>
+            Gets a value indicating whether the progress bar is currently undergoing a smooth fill animation.
+            </summary>
+        </member>
+        <member name="P:DinaCSharp.Graphics.ProgressBarTexture.BackTexture">
+            <summary>
+            Gets or sets the background texture.
+            </summary>
+        </member>
+        <member name="P:DinaCSharp.Graphics.ProgressBarTexture.FrontTexture">
+            <summary>
+            Gets or sets the front fill texture.
+            </summary>
+        </member>
+        <member name="P:DinaCSharp.Graphics.ProgressBarTexture.OverlayTexture">
+            <summary>
+            Gets or sets the optional frame or overlay texture.
+            </summary>
+        </member>
+        <member name="P:DinaCSharp.Graphics.ProgressBarTexture.Position">
+            <summary>
+            Gets or sets the screen position of the progress bar.
+            </summary>
+        </member>
+        <member name="P:DinaCSharp.Graphics.ProgressBarTexture.Dimensions">
+            <summary>
+            Gets or sets the overall dimensions of the progress bar.
+            </summary>
+        </member>
+        <member name="P:DinaCSharp.Graphics.ProgressBarTexture.MinValue">
+            <summary>
+            Gets or sets the minimum allowed value.
+            </summary>
+        </member>
+        <member name="P:DinaCSharp.Graphics.ProgressBarTexture.MaxValue">
+            <summary>
+            Gets or sets the maximum allowed value.
+            </summary>
+        </member>
+        <member name="P:DinaCSharp.Graphics.ProgressBarTexture.Value">
+            <summary>
+            Gets or sets the current value of the progress bar.
+            Assigning a value directly cancels any active smooth animation.
+            </summary>
+        </member>
+        <member name="M:DinaCSharp.Graphics.ProgressBarTexture.AnimateTo(System.Single,System.Single)">
+            <summary>
+            Smoothly animates the progress bar toward a target value over a specified duration.
+            </summary>
+            <param name="targetValue">The target value to reach.</param>
+            <param name="durationInSeconds">The duration of the animation in seconds.</param>
+        </member>
+        <member name="M:DinaCSharp.Graphics.ProgressBarTexture.ProgressInterval(System.Single,System.Single)">
+            <summary>
+            Configures automatic step-by-step interval progress.
+            </summary>
+            <param name="delay">Time in seconds between each step interval.</param>
+            <param name="increment">Amount added to the progress bar value at each interval.</param>
+        </member>
+        <member name="M:DinaCSharp.Graphics.ProgressBarTexture.Update(Microsoft.Xna.Framework.GameTime)">
+            <summary>
+            Updates the progress bar logic (smooth animation or automatic step interval logic).
+            </summary>
+            <param name="gametime">Provides a snapshot of timing values.</param>
+        </member>
+        <member name="M:DinaCSharp.Graphics.ProgressBarTexture.Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch)">
+            <summary>
+            Draws the progress bar using the provided <see cref="T:Microsoft.Xna.Framework.Graphics.SpriteBatch"/>.
+            </summary>
+            <param name="spritebatch">The XNA/MonoGame sprite batch renderer.</param>
+        </member>
+        <member name="M:DinaCSharp.Graphics.ProgressBarTexture.UpdateRectangles">
+            <summary>
+            Recalculates and updates destination and source clipping rectangles based on current value and direction mode.
+            </summary>
+        </member>
+        <member name="M:DinaCSharp.Graphics.ProgressBarTexture.ResolveDimensions(Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Graphics.Texture2D,Microsoft.Xna.Framework.Graphics.Texture2D)">
+            <summary>
+            Automatically resolves initial dimensions if zero values are passed, defaulting to texture sizes.
+            </summary>
+        </member>
+        <member name="M:DinaCSharp.Graphics.ProgressBarTexture.Copy">
+            <summary>
+            Creates a deep copy of the current <see cref="T:DinaCSharp.Graphics.ProgressBarTexture"/> instance.
+            </summary>
+            <returns>A new <see cref="T:DinaCSharp.Graphics.ProgressBarTexture"/> instance with matching properties.</returns>
+        </member>
+        <member name="M:DinaCSharp.Graphics.ProgressBarTexture.Dispose">
+            <summary>
+            Releases resources used by the <see cref="T:DinaCSharp.Graphics.ProgressBarTexture"/> instance.
+            </summary>
+        </member>
+        <member name="M:DinaCSharp.Graphics.ProgressBarTexture.Dispose(System.Boolean)">
+            <summary>
+            Releases unmanaged resources and optionally managed resources.
+            </summary>
+            <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
         </member>
         <member name="T:DinaCSharp.Graphics.ShadowText">
             <summary>
@@ -2570,7 +2842,7 @@
             Dimensions du slider.
             </summary>
         </member>
-        <member name="M:DinaCSharp.Graphics.Slider.#ctor(Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,System.Single,System.Single,System.Single,System.Single,DinaCSharp.Enums.ProgressDirection,System.Int32)">
+        <member name="M:DinaCSharp.Graphics.Slider.#ctor(Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,System.Single,System.Single,System.Single,System.Single,DinaCSharp.Enums.ProgressDirection,System.Single,System.Int32)">
             <summary>
             Crée un nouveau slider.
             </summary>
@@ -3033,7 +3305,7 @@
             Retourne l'ensemble des contrôleurs enregistrés.
             </summary>
         </member>
-        <member name="M:DinaCSharp.Inputs.InputManager.RegisterPlayer(Microsoft.Xna.Framework.PlayerIndex,System.ValueTuple{DinaCSharp.Services.IKey,DinaCSharp.Inputs.ControllerKey[]}[])">
+        <member name="M:DinaCSharp.Inputs.InputManager.RegisterPlayer(Microsoft.Xna.Framework.PlayerIndex,System.ValueTuple{DinaCSharp.Services.Keys.IKey,DinaCSharp.Inputs.ControllerKey[]}[])">
             <summary>
             Enregistre un nouveau joueur avec ses touches associées.
             </summary>
@@ -3054,14 +3326,14 @@
             Met à jour l'état de tous les contrôleurs enregistrés.
             </summary>
         </member>
-        <member name="M:DinaCSharp.Inputs.InputManager.IsPressedByAny(DinaCSharp.Services.IKey)">
+        <member name="M:DinaCSharp.Inputs.InputManager.IsPressedByAny(DinaCSharp.Services.Keys.IKey)">
             <summary>
             Vérifie si une action est actuellement pressée par au moins un joueur.
             </summary>
             <param name="key">L'action à vérifier.</param>
             <returns><c>true</c> si l'action est pressée, sinon <c>false</c>.</returns>
         </member>
-        <member name="M:DinaCSharp.Inputs.InputManager.IsReleasedByAny(DinaCSharp.Services.IKey)">
+        <member name="M:DinaCSharp.Inputs.InputManager.IsReleasedByAny(DinaCSharp.Services.Keys.IKey)">
             <summary>
             Vérifie si une action a été relâchée par au moins un joueur.
             </summary>
@@ -3153,17 +3425,17 @@
         <member name="T:DinaCSharp.Inputs.PlayerController">
             <summary>
             Représente le contrôleur d'un joueur, permettant de gérer les liaisons 
-            entre des actions logiques (<see cref="T:DinaCSharp.Services.IKey"/>) et des touches ou boutons physiques (<see cref="T:DinaCSharp.Inputs.ControllerKey"/>).
+            entre des actions logiques (<see cref="T:DinaCSharp.Services.Keys.IKey"/>) et des touches ou boutons physiques (<see cref="T:DinaCSharp.Inputs.ControllerKey"/>).
             </summary>
         </member>
-        <member name="M:DinaCSharp.Inputs.PlayerController.#ctor(System.ValueTuple{DinaCSharp.Services.IKey,DinaCSharp.Inputs.ControllerKey[]}[])">
+        <member name="M:DinaCSharp.Inputs.PlayerController.#ctor(System.ValueTuple{DinaCSharp.Services.Keys.IKey,DinaCSharp.Inputs.ControllerKey[]}[])">
             <summary>
             Initialise un nouveau contrôleur joueur avec un ensemble de liaisons action → touches/boutons.
             </summary>
             <param name="bindings">Tableau de tuples associant une action à un ou plusieurs <see cref="T:DinaCSharp.Inputs.ControllerKey"/>.</param>
             <exception cref="T:System.ArgumentNullException">Levée si <paramref name="bindings"/> est null.</exception>
         </member>
-        <member name="M:DinaCSharp.Inputs.PlayerController.Bind(DinaCSharp.Services.IKey,DinaCSharp.Inputs.ControllerKey)">
+        <member name="M:DinaCSharp.Inputs.PlayerController.Bind(DinaCSharp.Services.Keys.IKey,DinaCSharp.Inputs.ControllerKey)">
             <summary>
             Ajoute une nouvelle liaison entre une action et une touche/bouton.
             </summary>
@@ -3175,21 +3447,21 @@
             Met à jour l'état de toutes les touches/boutons liés à ce joueur.
             </summary>
         </member>
-        <member name="M:DinaCSharp.Inputs.PlayerController.IsDown(DinaCSharp.Services.IKey)">
+        <member name="M:DinaCSharp.Inputs.PlayerController.IsDown(DinaCSharp.Services.Keys.IKey)">
             <summary>
             Indique si une action est actuellement maintenue.
             </summary>
             <param name="action">L'action à tester.</param>
             <returns><c>true</c> si au moins une touche liée est enfoncée, sinon <c>false</c>.</returns>
         </member>
-        <member name="M:DinaCSharp.Inputs.PlayerController.IsPressed(DinaCSharp.Services.IKey)">
+        <member name="M:DinaCSharp.Inputs.PlayerController.IsPressed(DinaCSharp.Services.Keys.IKey)">
             <summary>
             Indique si une action vient d’être pressée pendant cette frame.
             </summary>
             <param name="action">L'action à tester.</param>
             <returns><c>true</c> si au moins une touche liée a été pressée, sinon <c>false</c>.</returns>
         </member>
-        <member name="M:DinaCSharp.Inputs.PlayerController.IsReleased(DinaCSharp.Services.IKey)">
+        <member name="M:DinaCSharp.Inputs.PlayerController.IsReleased(DinaCSharp.Services.Keys.IKey)">
             <summary>
             Indique si une action vient d’être relâchée pendant cette frame.
             </summary>
@@ -3237,13 +3509,13 @@
             Gère le chargement et l'accès aux ressources du ContentManager donné.
             </summary>
         </member>
-        <member name="M:DinaCSharp.Resources.ResourceManager.Load``1(DinaCSharp.Services.Key{DinaCSharp.Resources.ResourceTag})">
+        <member name="M:DinaCSharp.Resources.ResourceManager.Load``1(DinaCSharp.Services.Keys.Key{DinaCSharp.Resources.ResourceTag})">
             <summary>
             Charge une ressource depuis le ContentManager.
             </summary>
             <param name="key">Clé associée à la ressource.</param>
         </member>
-        <member name="M:DinaCSharp.Resources.ResourceManager.Register(DinaCSharp.Services.Key{DinaCSharp.Resources.ResourceTag})">
+        <member name="M:DinaCSharp.Resources.ResourceManager.Register(DinaCSharp.Services.Keys.Key{DinaCSharp.Resources.ResourceTag})">
             <summary>
             Permet d'enregistrer la ressource dans le ServiceLocator.
             </summary>
@@ -3309,19 +3581,19 @@
             <param name="game">Instance du jeu pour accéder au ContentManager.</param>
             <param name="contentDirectory">Répertoire de contenu optionnel.</param>
         </member>
-        <member name="M:DinaCSharp.Services.Audio.SoundManager.LoadSong(DinaCSharp.Services.Key{DinaCSharp.Services.Audio.SongTag})">
+        <member name="M:DinaCSharp.Services.Audio.SoundManager.LoadSong(DinaCSharp.Services.Keys.Key{DinaCSharp.Services.Audio.SongTag})">
             <summary>
             Charge une chanson depuis le ContentManager.
             </summary>
             <param name="key">Clé unique pour identifier la chanson.</param>
         </member>
-        <member name="M:DinaCSharp.Services.Audio.SoundManager.LoadSound(DinaCSharp.Services.Key{DinaCSharp.Services.Audio.SoundTag})">
+        <member name="M:DinaCSharp.Services.Audio.SoundManager.LoadSound(DinaCSharp.Services.Keys.Key{DinaCSharp.Services.Audio.SoundTag})">
             <summary>
             Charge un effet sonore depuis le ContentManager.
             </summary>
             <param name="key">Clé unique pour identifier l'effet sonore.</param>
         </member>
-        <member name="M:DinaCSharp.Services.Audio.SoundManager.PlaySong(DinaCSharp.Services.Key{DinaCSharp.Services.Audio.SongTag},System.Boolean)">
+        <member name="M:DinaCSharp.Services.Audio.SoundManager.PlaySong(DinaCSharp.Services.Keys.Key{DinaCSharp.Services.Audio.SongTag},System.Boolean)">
             <summary>
             Joue une chanson. Arrête la chanson précédente si différente.
             </summary>
@@ -3333,14 +3605,14 @@
             Arrête la musique en cours.
             </summary>
         </member>
-        <member name="M:DinaCSharp.Services.Audio.SoundManager.PlaySound(DinaCSharp.Services.Key{DinaCSharp.Services.Audio.SoundTag},System.Boolean)">
+        <member name="M:DinaCSharp.Services.Audio.SoundManager.PlaySound(DinaCSharp.Services.Keys.Key{DinaCSharp.Services.Audio.SoundTag},System.Boolean)">
             <summary>
             Joue un effet sonore.
             </summary>
             <param name="key">Clé de l'effet sonore à jouer.</param>
             <param name="loop">Indique si l'effet doit boucler.</param>
         </member>
-        <member name="M:DinaCSharp.Services.Audio.SoundManager.StopSound(DinaCSharp.Services.Key{DinaCSharp.Services.Audio.SoundTag})">
+        <member name="M:DinaCSharp.Services.Audio.SoundManager.StopSound(DinaCSharp.Services.Keys.Key{DinaCSharp.Services.Audio.SoundTag})">
             <summary>
             Arrête un effet sonore spécifique.
             </summary>
@@ -3361,12 +3633,12 @@
             Volume global des effets sonores (0.0 à 1.0).
             </summary>
         </member>
-        <member name="M:DinaCSharp.Services.Audio.SoundManager.GetSoundVolume(DinaCSharp.Services.Key{DinaCSharp.Services.Audio.SoundTag})">
+        <member name="M:DinaCSharp.Services.Audio.SoundManager.GetSoundVolume(DinaCSharp.Services.Keys.Key{DinaCSharp.Services.Audio.SoundTag})">
             <summary>
             Permet de récupérer le volume d'un son donné.
             </summary>
         </member>
-        <member name="M:DinaCSharp.Services.Audio.SoundManager.SetSoundVolume(DinaCSharp.Services.Key{DinaCSharp.Services.Audio.SoundTag},System.Single)">
+        <member name="M:DinaCSharp.Services.Audio.SoundManager.SetSoundVolume(DinaCSharp.Services.Keys.Key{DinaCSharp.Services.Audio.SoundTag},System.Single)">
             <summary>
             Définit le volume individuel d’un son (0 à 1)
             </summary>
@@ -3381,57 +3653,6 @@
             Libère toutes les ressources utilisées par le SoundManager.
             </summary>
         </member>
-        <member name="T:DinaCSharp.Services.ServiceTag">
-            <summary>
-            Représente un tag vide utilisé pour typer les clés de service.
-            </summary>
-        </member>
-        <member name="T:DinaCSharp.Services.DinaServiceKeys">
-            <summary>
-            Représente une clé unique et immuable pour identifier un service dans le framework.
-            Fournit des méthodes utilitaires pour la création, la comparaison et la conversion de clés de service.
-            </summary>
-        </member>
-        <member name="F:DinaCSharp.Services.DinaServiceKeys.SceneManager">
-            <summary>
-            Clé représentant le gestionnaire de scènes.
-            </summary>
-        </member>
-        <member name="F:DinaCSharp.Services.DinaServiceKeys.Texture1px">
-            <summary>
-            Clé représentant la texture 1 pixel utilisée par défaut.
-            </summary>
-        </member>
-        <member name="F:DinaCSharp.Services.DinaServiceKeys.ScreenManager">
-            <summary>
-            Clé représentant le gestionnaire d'écran.
-            </summary>
-        </member>
-        <member name="F:DinaCSharp.Services.DinaServiceKeys.DropDownArrow">
-            <summary>
-            Clé représentant la texture de la flèche d'une liste déroulante.
-            </summary>
-        </member>
-        <member name="F:DinaCSharp.Services.DinaServiceKeys.FontProfile">
-            <summary>
-            Clé représentant le profil de polices.
-            </summary>
-        </member>
-        <member name="F:DinaCSharp.Services.DinaServiceKeys.FontManager">
-            <summary>
-            Clé représentant le gestionnaire de polices.
-            </summary>
-        </member>
-        <member name="F:DinaCSharp.Services.DinaServiceKeys.SoundManager">
-            <summary>
-            Clé représentant le gestionnaire de sons.
-            </summary>
-        </member>
-        <member name="F:DinaCSharp.Services.DinaServiceKeys.ResourceManager">
-            <summary>
-            Clé représentant le gestionnaire de ressources.
-            </summary>
-        </member>
         <member name="T:DinaCSharp.Services.Fonts.FontTag">
             <summary>
             Tag pour identifier les SpriteFont par une clé.
@@ -3442,12 +3663,12 @@
             Gère le chargement et l'accès aux SpriteFont en fonction du FontProfile actif.
             </summary>
         </member>
-        <member name="M:DinaCSharp.Services.Fonts.FontManager.Initialize(System.IServiceProvider,System.String,System.Collections.Generic.IEnumerable{DinaCSharp.Services.Fonts.ResolutionFontInfo},DinaCSharp.Services.Key{DinaCSharp.Services.Fonts.ResolutionTag})">
+        <member name="M:DinaCSharp.Services.Fonts.FontManager.Initialize(System.IServiceProvider,System.String,System.Collections.Generic.IEnumerable{DinaCSharp.Services.Fonts.ResolutionFontInfo},DinaCSharp.Services.Keys.Key{DinaCSharp.Services.Fonts.ResolutionTag})">
             <summary>
             Permet d'initialiser le singleton FontManager.
             </summary>
         </member>
-        <member name="M:DinaCSharp.Services.Fonts.FontManager.Load(DinaCSharp.Services.Key{DinaCSharp.Services.Fonts.FontTag})">
+        <member name="M:DinaCSharp.Services.Fonts.FontManager.Load(DinaCSharp.Services.Keys.Key{DinaCSharp.Services.Fonts.FontTag})">
             <summary>
             Charge une SpriteFont depuis le ContentManager.
             </summary>
@@ -3479,12 +3700,12 @@
             Indique si le singleton a été initialisé.
             </summary>
         </member>
-        <member name="M:DinaCSharp.Services.Fonts.FontProfile.Initialize(System.Collections.Generic.IEnumerable{DinaCSharp.Services.Fonts.ResolutionFontInfo},DinaCSharp.Services.Key{DinaCSharp.Services.Fonts.ResolutionTag})">
+        <member name="M:DinaCSharp.Services.Fonts.FontProfile.Initialize(System.Collections.Generic.IEnumerable{DinaCSharp.Services.Fonts.ResolutionFontInfo},DinaCSharp.Services.Keys.Key{DinaCSharp.Services.Fonts.ResolutionTag})">
             <summary>
             Initialise le singleton avec une liste de résolutions.
             </summary>
         </member>
-        <member name="M:DinaCSharp.Services.Fonts.FontProfile.GetInfo(DinaCSharp.Services.Key{DinaCSharp.Services.Fonts.ResolutionTag})">
+        <member name="M:DinaCSharp.Services.Fonts.FontProfile.GetInfo(DinaCSharp.Services.Keys.Key{DinaCSharp.Services.Fonts.ResolutionTag})">
             <summary>
             Permet de récupérer les informations associées à une clé de résolution.
             </summary>
@@ -3507,7 +3728,7 @@
             <param name="contentPath">Chemin du contenu associé.</param>
             <exception cref="T:System.ArgumentNullException"></exception>
         </member>
-        <member name="M:DinaCSharp.Services.Fonts.ResolutionFontInfo.#ctor(DinaCSharp.Services.Key{DinaCSharp.Services.Fonts.ResolutionTag},Microsoft.Xna.Framework.Point,System.String)">
+        <member name="M:DinaCSharp.Services.Fonts.ResolutionFontInfo.#ctor(DinaCSharp.Services.Keys.Key{DinaCSharp.Services.Fonts.ResolutionTag},Microsoft.Xna.Framework.Point,System.String)">
             <summary>
             Associe une résolution à un chemin de contenu et une clé.
             </summary>
@@ -3566,7 +3787,58 @@
             Résolution 3840x2160 (4K).
             </summary>
         </member>
-        <member name="T:DinaCSharp.Services.Key`1">
+        <member name="T:DinaCSharp.Services.Keys.ServiceTag">
+            <summary>
+            Représente un tag vide utilisé pour typer les clés de service.
+            </summary>
+        </member>
+        <member name="T:DinaCSharp.Services.Keys.DinaServiceKeys">
+            <summary>
+            Représente une clé unique et immuable pour identifier un service dans le framework.
+            Fournit des méthodes utilitaires pour la création, la comparaison et la conversion de clés de service.
+            </summary>
+        </member>
+        <member name="F:DinaCSharp.Services.Keys.DinaServiceKeys.SceneManager">
+            <summary>
+            Clé représentant le gestionnaire de scènes.
+            </summary>
+        </member>
+        <member name="F:DinaCSharp.Services.Keys.DinaServiceKeys.Texture1px">
+            <summary>
+            Clé représentant la texture 1 pixel utilisée par défaut.
+            </summary>
+        </member>
+        <member name="F:DinaCSharp.Services.Keys.DinaServiceKeys.ScreenManager">
+            <summary>
+            Clé représentant le gestionnaire d'écran.
+            </summary>
+        </member>
+        <member name="F:DinaCSharp.Services.Keys.DinaServiceKeys.DropDownArrow">
+            <summary>
+            Clé représentant la texture de la flèche d'une liste déroulante.
+            </summary>
+        </member>
+        <member name="F:DinaCSharp.Services.Keys.DinaServiceKeys.FontProfile">
+            <summary>
+            Clé représentant le profil de polices.
+            </summary>
+        </member>
+        <member name="F:DinaCSharp.Services.Keys.DinaServiceKeys.FontManager">
+            <summary>
+            Clé représentant le gestionnaire de polices.
+            </summary>
+        </member>
+        <member name="F:DinaCSharp.Services.Keys.DinaServiceKeys.SoundManager">
+            <summary>
+            Clé représentant le gestionnaire de sons.
+            </summary>
+        </member>
+        <member name="F:DinaCSharp.Services.Keys.DinaServiceKeys.ResourceManager">
+            <summary>
+            Clé représentant le gestionnaire de ressources.
+            </summary>
+        </member>
+        <member name="T:DinaCSharp.Services.Keys.Key`1">
             <summary>
             Représente une clé fortement typée pour identifier de manière unique des ressources,
             services ou zones dans le projet. Le type générique <typeparamref name="T"/> sert uniquement
@@ -3574,64 +3846,88 @@
             </summary>
             <typeparam name="T">Un tag servant à différencier les types de clés.</typeparam>
         </member>
-        <member name="P:DinaCSharp.Services.Key`1.Value">
+        <member name="P:DinaCSharp.Services.Keys.Key`1.Value">
             <summary>
             Retourne la valeur de la clé sous forme de chaîne.
             </summary>
         </member>
-        <member name="M:DinaCSharp.Services.Key`1.FromString(System.String)">
+        <member name="M:DinaCSharp.Services.Keys.Key`1.FromString(System.String)">
             <summary>
             Crée une nouvelle clé à partir d'une chaîne.
             </summary>
             <param name="value">La valeur de la clé.</param>
-            <returns>Une instance de <see cref="T:DinaCSharp.Services.Key`1"/> correspondant à la valeur donnée.</returns>
+            <returns>Une instance de <see cref="T:DinaCSharp.Services.Keys.Key`1"/> correspondant à la valeur donnée.</returns>
         </member>
-        <member name="M:DinaCSharp.Services.Key`1.Equals(DinaCSharp.Services.Key{`0})">
+        <member name="M:DinaCSharp.Services.Keys.Key`1.Equals(DinaCSharp.Services.Keys.Key{`0})">
             <summary>
             Compare cette clé à une autre clé du même type.
             </summary>
             <param name="other">La clé à comparer.</param>
             <returns>True si les valeurs sont identiques ; sinon false.</returns>
         </member>
-        <member name="M:DinaCSharp.Services.Key`1.Equals(System.Object)">
+        <member name="M:DinaCSharp.Services.Keys.Key`1.Equals(System.Object)">
             <summary>
             Compare cette clé à un objet.
             </summary>
             <param name="obj">L'objet à comparer.</param>
             <returns>True si l'objet est une clé du même type et que les valeurs sont identiques ; sinon false.</returns>
         </member>
-        <member name="M:DinaCSharp.Services.Key`1.Equals(DinaCSharp.Services.IKey)">
+        <member name="M:DinaCSharp.Services.Keys.Key`1.Equals(DinaCSharp.Services.Keys.IKey)">
             <summary>
             Compare cette clé à une autre clé.
             </summary>
             <param name="other">La IKey à comparer.</param>
             <returns>True si l'objet est une clé du même type et que les valeurs sont identiques ; sinon false.</returns>
         </member>
-        <member name="M:DinaCSharp.Services.Key`1.GetHashCode">
+        <member name="M:DinaCSharp.Services.Keys.Key`1.GetHashCode">
             <summary>
             Retourne le code de hachage de la clé.
             </summary>
             <returns>Un entier représentant le code de hachage.</returns>
         </member>
-        <member name="M:DinaCSharp.Services.Key`1.op_Equality(DinaCSharp.Services.Key{`0},DinaCSharp.Services.Key{`0})">
+        <member name="M:DinaCSharp.Services.Keys.Key`1.op_Equality(DinaCSharp.Services.Keys.Key{`0},DinaCSharp.Services.Keys.Key{`0})">
             <summary>
             Compare deux clés du même type pour vérifier l'égalité.
             </summary>
         </member>
-        <member name="M:DinaCSharp.Services.Key`1.op_Inequality(DinaCSharp.Services.Key{`0},DinaCSharp.Services.Key{`0})">
+        <member name="M:DinaCSharp.Services.Keys.Key`1.op_Inequality(DinaCSharp.Services.Keys.Key{`0},DinaCSharp.Services.Keys.Key{`0})">
             <summary>
             Compare deux clés du même type pour vérifier l'inégalité.
             </summary>
         </member>
-        <member name="T:DinaCSharp.Services.IKey">
+        <member name="T:DinaCSharp.Services.Keys.IKey">
             <summary>
             Interface non générique pour représenter une clé.
             </summary>
         </member>
-        <member name="P:DinaCSharp.Services.IKey.Value">
+        <member name="P:DinaCSharp.Services.Keys.IKey.Value">
             <summary>
             Retourne la valeur de la clé sous forme de chaîne.
             </summary>
+        </member>
+        <member name="T:DinaCSharp.Services.Keys.KeyResolver`2">
+            <summary>
+            Classe de base générique permettant d'enregistrer et de résoudre dynamiquement 
+            des identifiants typés <see cref="T:DinaCSharp.Services.Keys.Key`1"/> par leur nom via la réflexion.
+            </summary>
+            <typeparam name="TDerived">Le type de la classe dérivée (pattern CRTP).</typeparam>
+            <typeparam name="TTag">Le type de marqueur (tag) associé aux clés manipulées.</typeparam>
+        </member>
+        <member name="M:DinaCSharp.Services.Keys.KeyResolver`2.#cctor">
+            <summary>
+            Initialise le dictionnaire statique lors du premier accès à la classe dérivée 
+            en scannant tous ses champs publics statiques du type <see cref="T:DinaCSharp.Services.Keys.Key`1"/>.
+            </summary>
+        </member>
+        <member name="M:DinaCSharp.Services.Keys.KeyResolver`2.GetKeyFromString(System.String)">
+            <summary>
+            Recherche et retourne l'instance de <see cref="T:DinaCSharp.Services.Keys.Key`1"/> correspondant au nom donné.
+            </summary>
+            <param name="key">Le nom exact du champ statique définissant la clé.</param>
+            <returns>La clé typée <see cref="T:DinaCSharp.Services.Keys.Key`1"/> associée au nom fourni.</returns>
+            <exception cref="T:System.ArgumentException">
+            Levée si aucune clé correspondant à <paramref name="key"/> n'a été trouvée dans le registre.
+            </exception>
         </member>
         <member name="T:DinaCSharp.Services.Levels.Level">
             <summary>
@@ -4267,7 +4563,7 @@
             </summary>
             <param name="font">La police à utiliser.</param>
         </member>
-        <member name="M:DinaCSharp.Services.Menus.MenuManager.SetIconItems(DinaCSharp.Services.Key{DinaCSharp.Resources.ResourceTag},DinaCSharp.Services.Key{DinaCSharp.Resources.ResourceTag},DinaCSharp.Enums.IconMenuAlignment,Microsoft.Xna.Framework.Vector2,System.Boolean)">
+        <member name="M:DinaCSharp.Services.Menus.MenuManager.SetIconItems(DinaCSharp.Services.Keys.Key{DinaCSharp.Resources.ResourceTag},DinaCSharp.Services.Keys.Key{DinaCSharp.Resources.ResourceTag},DinaCSharp.Enums.IconMenuAlignment,Microsoft.Xna.Framework.Vector2,System.Boolean)">
             <summary>
             Définit les icônes du menu, incluant leur alignement et leur espacement.
             </summary>
@@ -4326,7 +4622,7 @@
             </summary>
             <param name="font">La police à appliquer aux éléments de menu.</param>
         </member>
-        <member name="M:DinaCSharp.Services.Menus.MenuManager.SetActionKeys(System.ValueTuple{DinaCSharp.Services.Menus.MenuAction,DinaCSharp.Services.IKey}[])">
+        <member name="M:DinaCSharp.Services.Menus.MenuManager.SetActionKeys(System.ValueTuple{DinaCSharp.Services.Menus.MenuAction,DinaCSharp.Services.Keys.IKey}[])">
             <summary>
             Permet de définir les touches spécifiques pour une action de menu donnée.
             </summary>
@@ -4552,7 +4848,7 @@
             Quitte le jeu en cours en utilisant le gestionnaire de scènes.
             </summary>
         </member>
-        <member name="M:DinaCSharp.Services.Scenes.Scene.SetCurrentScene(DinaCSharp.Services.Key{DinaCSharp.Services.Scenes.SceneTag},System.Boolean)">
+        <member name="M:DinaCSharp.Services.Scenes.Scene.SetCurrentScene(DinaCSharp.Services.Keys.Key{DinaCSharp.Services.Scenes.SceneTag},System.Boolean)">
             <summary>
             Définit la scène actuelle à une nouvelle scène par son nom, avec ou sans écran de chargement.
             </summary>
@@ -4619,7 +4915,7 @@
             </summary>
             <param key="game">L'instance du jeu utilisée pour initialiser le gestionnaire de scènes.</param>
         </member>
-        <member name="M:DinaCSharp.Services.Scenes.SceneManager.Register(DinaCSharp.Services.Key{DinaCSharp.Services.ServiceTag})">
+        <member name="M:DinaCSharp.Services.Scenes.SceneManager.Register(DinaCSharp.Services.Keys.Key{DinaCSharp.Services.Keys.ServiceTag})">
             <summary>
             Registers this instance with the service locator using the specified service tag key.
             Enregistre l'instance dans le ServiceLocator en utilisant la clé ServiceTag fournie.
@@ -4646,7 +4942,7 @@
             <param name="source"></param>
             <param name="contentRootDirectory"></param>
         </member>
-        <member name="M:DinaCSharp.Services.Scenes.SceneManager.AddScene(DinaCSharp.Services.Key{DinaCSharp.Services.Scenes.SceneTag},System.Func{DinaCSharp.Services.Scenes.Scene})">
+        <member name="M:DinaCSharp.Services.Scenes.SceneManager.AddScene(DinaCSharp.Services.Keys.Key{DinaCSharp.Services.Scenes.SceneTag},System.Func{DinaCSharp.Services.Scenes.Scene})">
             <summary>
             Permet d'ajouter une scène au gestionnaire de scènes avec une clé spécifique.
             </summary>
@@ -4656,14 +4952,14 @@
             <exception cref="T:DinaCSharp.Exceptions.DuplicateDictionaryKeyException"></exception>
             <exception cref="T:System.ArgumentNullException"></exception>
         </member>
-        <member name="M:DinaCSharp.Services.Scenes.SceneManager.RemoveScene(DinaCSharp.Services.Key{DinaCSharp.Services.Scenes.SceneTag})">
+        <member name="M:DinaCSharp.Services.Scenes.SceneManager.RemoveScene(DinaCSharp.Services.Keys.Key{DinaCSharp.Services.Scenes.SceneTag})">
             <summary>
             Supprime une scène du gestionnaire de scènes par son nom.
             </summary>
             <param key="name">Le nom de la scène à supprimer.</param>
             <exception cref="T:System.ArgumentException">Lancé lorsque le nom est vide.</exception>
         </member>
-        <member name="M:DinaCSharp.Services.Scenes.SceneManager.SetCurrentScene(DinaCSharp.Services.Key{DinaCSharp.Services.Scenes.SceneTag},System.Boolean)">
+        <member name="M:DinaCSharp.Services.Scenes.SceneManager.SetCurrentScene(DinaCSharp.Services.Keys.Key{DinaCSharp.Services.Scenes.SceneTag},System.Boolean)">
             <summary>
             Définit la scène actuelle à une nouvelle scène par son nom, avec un écran de chargement optionnel.
             </summary>
@@ -4711,6 +5007,14 @@
             <param key="resourceName">Le nom de la ressource.</param>
             <returns>La ressource du type spécifié.</returns>
             <exception cref="T:System.Collections.Generic.KeyNotFoundException">Lancé lorsque la ressource n'est pas trouvée.</exception>
+        </member>
+        <member name="M:DinaCSharp.Services.Scenes.SceneManager.HasResource``1(System.String)">
+            <summary>
+            Vérifie si une ressource existe par son nom dans le gestionnaire de ressources.
+            </summary>
+            <typeparam key="T">Le type de la ressource à récupérer.</typeparam>
+            <param key="resourceName">Le nom de la ressource.</param>
+            <returns>La ressource du type spécifié existe (true).</returns>
         </member>
         <member name="M:DinaCSharp.Services.Scenes.SceneManager.RemoveResource(System.String)">
             <summary>
@@ -4890,7 +5194,7 @@
             <param name="graphics"></param>
             <param name="window"></param>
         </member>
-        <member name="M:DinaCSharp.Services.Screen.ScreenManager.Register(DinaCSharp.Services.Key{DinaCSharp.Services.ServiceTag})">
+        <member name="M:DinaCSharp.Services.Screen.ScreenManager.Register(DinaCSharp.Services.Keys.Key{DinaCSharp.Services.Keys.ServiceTag})">
             <summary>
             Enregistre l'instance actuelle dans le ServiceLocator avec la clé spécifiée.
             </summary>
@@ -4914,7 +5218,7 @@
             Fournit une implémentation simple pour la localisation de services, permettant d'enregistrer, de récupérer et de supprimer des services à l'aide de clés uniques.
             </summary>
         </member>
-        <member name="M:DinaCSharp.Services.ServiceLocator.Get``1(DinaCSharp.Services.IKey)">
+        <member name="M:DinaCSharp.Services.ServiceLocator.Get``1(DinaCSharp.Services.Keys.IKey)">
             <summary>
             Récupère un service enregistré à l'aide de sa clé.
             </summary>
@@ -4923,14 +5227,14 @@
             <returns>Le service correspondant à la clé spécifiée, casté en type T.</returns>
             <exception cref="T:System.Collections.Generic.KeyNotFoundException">Si la clé spécifiée n'existe pas dans le dictionnaire.</exception>
         </member>
-        <member name="M:DinaCSharp.Services.ServiceLocator.Register(DinaCSharp.Services.IKey,System.Object)">
+        <member name="M:DinaCSharp.Services.ServiceLocator.Register(DinaCSharp.Services.Keys.IKey,System.Object)">
             <summary>
             Enregistre ou met à jour un service associé à une clé spécifique.
             </summary>
             <param name="key">Clé unique pour identifier le service.</param>
             <param name="value">Instance du service à enregistrer.</param>
         </member>
-        <member name="M:DinaCSharp.Services.ServiceLocator.Unregister(DinaCSharp.Services.IKey)">
+        <member name="M:DinaCSharp.Services.ServiceLocator.Unregister(DinaCSharp.Services.Keys.IKey)">
             <summary>
             Supprime un service enregistré à l'aide de sa clé.
             </summary>

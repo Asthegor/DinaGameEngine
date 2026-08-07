@@ -33,7 +33,7 @@ namespace DinaGameEngine.CodeGeneration
             generatedFile.AppendLine(CodeBuilder.OpenBlock($"namespace {gameProjectModel.RootNamespace}.Core.Keys", 0));
 
             // Classe
-            generatedFile.AppendLine(CodeBuilder.OpenBlock($"public class PaletteColors", 1));
+            generatedFile.AppendLine(CodeBuilder.OpenBlock($"public static class PaletteColors", 1));
 
             generatedFile.AppendLine(CodeBuilder.AddLine("// =[ZONE:PALETTE_COLORS]=", 2));
             generatedFile.AppendLine(CodeBuilder.AddEmptyLine());

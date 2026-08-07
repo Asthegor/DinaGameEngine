@@ -54,8 +54,8 @@ namespace DinaGameEngine.CodeGeneration
             generatedFile.AppendLine(CodeBuilder.AddEmptyLine());
 
             // Using
-            generatedFile.AppendLine(CodeBuilder.AddUsing("DinaCSharp.Services"));
             generatedFile.AppendLine(CodeBuilder.AddUsing("DinaCSharp.Services.Fonts"));
+            generatedFile.AppendLine(CodeBuilder.AddUsing("DinaCSharp.Services.Keys"));
             generatedFile.AppendLine(CodeBuilder.AddEmptyLine());
 
             // Namespace
