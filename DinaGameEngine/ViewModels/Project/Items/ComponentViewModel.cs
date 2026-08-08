@@ -26,21 +26,35 @@ namespace DinaGameEngine.ViewModels.Project.Items
             ToggleItemsExpandCommand = new RelayCommand(ToggleItemsExpand);
 
             MenuTitles = [];
-            foreach (var menuTitle in model.SubComponents.Where(c => c.Type == ComponentTypes.MenuTitle))
+            int indexTitles = 0;
+            var menuTitles = model.SubComponents.Where(c => c.Type == ComponentTypes.MenuTitle);
+            foreach (var menuTitle in menuTitles)
             {
                 var menuTitleViewModel = new MenuTitleViewModel(menuTitle);
                 menuTitleViewModel.ItemSelected += OnMenuTitleSelected;
                 menuTitleViewModel.ItemDeleted += OnMenuTitleDeleted;
+                menuTitleViewModel.ItemMovedUp += OnMenuTitleMoveUp;
+                menuTitleViewModel.ItemMovedDown += OnMenuTitleMoveDown;
+                menuTitleViewModel.CanMoveUp = indexTitles != 0;
+                menuTitleViewModel.CanMoveDown = indexTitles != menuTitles.Count() - 1;
                 MenuTitles.Add(menuTitleViewModel);
+                indexTitles++;
             }
 
             MenuItems = [];
-            foreach (var menuItem in model.SubComponents.Where(c => c.Type == ComponentTypes.MenuItem))
+            var indexItems = 0;
+            var menuItems = model.SubComponents.Where(c => c.Type == ComponentTypes.MenuItem);
+            foreach (var menuItem in menuItems)
             {
                 var menuItemViewModel = new MenuItemViewModel(menuItem);
                 menuItemViewModel.ItemSelected += OnMenuItemSelected;
                 menuItemViewModel.ItemDeleted += OnMenuItemDeleted;
+                menuItemViewModel.ItemMovedUp += OnMenuItemMoveUp;
+                menuItemViewModel.ItemMovedDown += OnMenuItemMoveDown;
+                menuItemViewModel.CanMoveUp = indexItems != 0;
+                menuItemViewModel.CanMoveDown = indexItems != menuItems.Count() - 1;
                 MenuItems.Add(menuItemViewModel);
+                indexItems++;
             }
 
         }
@@ -117,14 +131,24 @@ namespace DinaGameEngine.ViewModels.Project.Items
             ((ComponentModel)Model).SubComponents.Remove(menuTitleModel);
             AfterMenuTitleRemoved?.Invoke(Model, EventArgs.Empty);
             OnPropertyChanged(nameof(TitlesHeader));
+            if (MenuTitles.Count > 0)
+            {
+                UpdateMoveFlags(MenuTitles, MenuTitles[0]);
+                UpdateMoveFlags(MenuTitles, MenuTitles[^1]);
+            }
         }
         public event EventHandler? AddMenuTitleRequested;
         public void AddMenuTitle(MenuTitleViewModel menuTitleViewModel)
         {
             menuTitleViewModel.ItemSelected += OnMenuTitleSelected;
             menuTitleViewModel.ItemDeleted += OnMenuTitleDeleted;
+            menuTitleViewModel.ItemMovedUp += OnMenuTitleMoveUp;
+            menuTitleViewModel.ItemMovedDown += OnMenuTitleMoveDown;
             MenuTitles.Add(menuTitleViewModel);
             OnPropertyChanged(nameof(TitlesHeader));
+            UpdateMoveFlags(MenuTitles, MenuTitles[^1]);
+            if (MenuTitles.Count > 1)
+                UpdateMoveFlags(MenuTitles, MenuTitles[^2]);
         }
         #endregion
 
@@ -158,6 +182,109 @@ namespace DinaGameEngine.ViewModels.Project.Items
             MenuItemSelected?.Invoke(vm, EventArgs.Empty);
         }
 
+        public event EventHandler? MenuTitleMoveUp;
+        private void OnMenuTitleMoveUp(object? sender, EventArgs e)
+        {
+            if (sender is not ComponentModel menuTitleModel)
+                return;
+            MoveUp(MenuTitles, menuTitleModel, MenuTitleMoveUp);
+        }
+        public event EventHandler? MenuTitleMoveDown;
+        private void OnMenuTitleMoveDown(object? sender, EventArgs e)
+        {
+            if (sender is not ComponentModel menuTitleModel)
+                return;
+            MoveDown(MenuTitles, menuTitleModel, MenuTitleMoveDown);
+        }
+
+        public event EventHandler? MenuItemMoveUp;
+        private void OnMenuItemMoveUp(object? sender, EventArgs e)
+        {
+            if (sender is not ComponentModel menuItemModel)
+                return;
+
+            MoveUp(MenuItems, menuItemModel, MenuItemMoveUp);
+        }
+
+        public event EventHandler? MenuItemMoveDown;
+        private void OnMenuItemMoveDown(object? sender, EventArgs e)
+        {
+            if (sender is not ComponentModel menuItemModel)
+                return;
+
+            MoveDown(MenuItems, menuItemModel, MenuItemMoveDown);
+        }
+        private void MoveUp<T>(ObservableCollection<T> collection, ComponentModel item, EventHandler? movedEvent) where T : ItemViewModel
+        {
+            var vm = collection.FirstOrDefault(m => ((ComponentModel)m.Model) == item);
+            if (vm == null)
+                return;
+
+            var swappedVm = MoveUpInCollection(collection, vm);
+            if (swappedVm == null)
+                return;
+
+            MoveComponentModelsInSubComponents(item, (ComponentModel)swappedVm.Model);
+            movedEvent?.Invoke(Model, EventArgs.Empty);
+        }
+        private void MoveDown<T>(ObservableCollection<T> collection, ComponentModel item, EventHandler? movedEvent) where T : ItemViewModel
+        {
+            var vm = collection.FirstOrDefault(m => ((ComponentModel)m.Model) == item);
+            if (vm == null)
+                return;
+
+            var swappedVm = MoveDownInCollection(collection, vm);
+            if (swappedVm == null)
+                return;
+
+            MoveComponentModelsInSubComponents(item, (ComponentModel)swappedVm.Model);
+            movedEvent?.Invoke(Model, EventArgs.Empty);
+        }
+        private static T? MoveUpInCollection<T>(ObservableCollection<T> collection, T item) where T : ItemViewModel
+        {
+            if (!item.CanMoveUp)
+                return null;
+
+            var index = collection.IndexOf(item);
+            var swappedItem = collection[index - 1];
+            collection.Move(index, index - 1);
+
+            UpdateMoveFlags(collection, item);
+            UpdateMoveFlags(collection, swappedItem);
+
+            return swappedItem;
+        }
+        private static T? MoveDownInCollection<T>(ObservableCollection<T> collection, T item) where T : ItemViewModel
+        {
+            if (!item.CanMoveDown)
+                return null;
+
+            var index = collection.IndexOf(item);
+            var swappedItem = collection[index + 1];
+            collection.Move(index, index + 1);
+
+            UpdateMoveFlags(collection, item);
+            UpdateMoveFlags(collection, swappedItem);
+
+            return swappedItem;
+        }
+        private static void UpdateMoveFlags<T>(ObservableCollection<T> collection, T item) where T : ItemViewModel
+        {
+            var idx = collection.IndexOf(item);
+            item.CanMoveUp = idx > 0;
+            item.CanMoveDown = idx < collection.Count - 1;
+        }
+        private void MoveComponentModelsInSubComponents(ComponentModel modelToSwap, ComponentModel modelToBeSwapped)
+        {
+            var subComponents = ((ComponentModel)_model).SubComponents;
+            var indexSubComponentToSwap = subComponents.IndexOf(modelToSwap);
+            // Récupération de l'index du ComponentModel destination
+            var indexSubComponentToBeSwapped = subComponents.IndexOf(modelToBeSwapped);
+            // Swap des 2 ComponentModel
+            (subComponents[indexSubComponentToBeSwapped], subComponents[indexSubComponentToSwap]) 
+                = (subComponents[indexSubComponentToSwap], subComponents[indexSubComponentToBeSwapped]);
+        }
+
         public event EventHandler? BeforeMenuItemRemoved;
         public event EventHandler? AfterMenuItemRemoved;
         private void OnMenuItemDeleted(object? sender, EventArgs e)
@@ -174,14 +301,25 @@ namespace DinaGameEngine.ViewModels.Project.Items
             ((ComponentModel)Model).SubComponents.Remove(menuItemModel);
             AfterMenuItemRemoved?.Invoke(Model, EventArgs.Empty);
             OnPropertyChanged(nameof(ItemsHeader));
+
+            if (MenuItems.Count > 0)
+            {
+                UpdateMoveFlags(MenuItems, MenuItems[0]);
+                UpdateMoveFlags(MenuItems, MenuItems[^1]);
+            }
         }
         public event EventHandler? AddMenuItemRequested;
         public void AddMenuItem(MenuItemViewModel menuItemViewModel)
         {
             menuItemViewModel.ItemSelected += OnMenuItemSelected;
             menuItemViewModel.ItemDeleted += OnMenuItemDeleted;
+            menuItemViewModel.ItemMovedUp += OnMenuItemMoveUp;
+            menuItemViewModel.ItemMovedDown += OnMenuItemMoveDown;
             MenuItems.Add(menuItemViewModel);
             OnPropertyChanged(nameof(ItemsHeader));
+            UpdateMoveFlags(MenuItems, MenuItems[^1]);
+            if (MenuItems.Count > 1)
+                UpdateMoveFlags(MenuItems, MenuItems[^2]);
         }
         #endregion
     }

@@ -11,6 +11,8 @@ namespace DinaGameEngine.ViewModels.Project.Items
     {
         protected readonly ItemModel _model;
         private bool _isSelected;
+        private bool _canMoveUp;
+        private bool _canMoveDown;
         public ItemViewModel(ItemModel model)
         {
             _model = model;
@@ -18,6 +20,8 @@ namespace DinaGameEngine.ViewModels.Project.Items
             OpenCommand = new RelayCommand(_ => Open());
             DeleteCommand = new RelayCommand(_ => Delete());
             SelectCommand = new RelayCommand(_ => Select());
+            MoveUpCommand = new RelayCommand(_ => MoveUp(), _ => CanMoveUp);
+            MoveDownCommand = new RelayCommand(_ => MoveDown(), _ => CanMoveDown);
 
             NavigationButtons = new ButtonBarViewModel();
             CreateButtons();
@@ -31,6 +35,8 @@ namespace DinaGameEngine.ViewModels.Project.Items
         public event EventHandler? ItemOpened;
         public event EventHandler? ItemDeleted;
         public event EventHandler? ItemSelected;
+        public event EventHandler? ItemMovedUp;
+        public event EventHandler? ItemMovedDown;
 
         public RelayCommand OpenCommand { get; }
         private void Open()
@@ -47,6 +53,30 @@ namespace DinaGameEngine.ViewModels.Project.Items
         private void Select()
         {
             ItemSelected?.Invoke(this, EventArgs.Empty);
+        }
+
+        public static string MoveUpIcon => DinaIcon.ChevronUp.ToGlyph();
+        public RelayCommand MoveUpCommand { get; }
+        private void MoveUp()
+        {
+            ItemMovedUp?.Invoke(_model, EventArgs.Empty);
+        }
+        public bool CanMoveUp
+        {
+            get => _canMoveUp;
+            set => SetProperty(ref _canMoveUp, value);
+        }
+
+        public static string MoveDownIcon => DinaIcon.ChevronDown.ToGlyph();
+        public RelayCommand MoveDownCommand { get; }
+        private void MoveDown()
+        {
+            ItemMovedDown?.Invoke(_model, EventArgs.Empty);
+        }
+        public bool CanMoveDown
+        {
+            get => _canMoveDown;
+            set => SetProperty(ref _canMoveDown, value);
         }
 
         public ButtonBarViewModel NavigationButtons { get; }

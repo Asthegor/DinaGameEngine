@@ -55,11 +55,15 @@ namespace DinaGameEngine.ViewModels.Project.Editors
                 vm.AfterMenuTitleRemoved += OnMenuSubChanged;
                 vm.AddMenuTitleRequested += OnAddMenuTitleRequested;
                 vm.MenuTitleSelected += OnMenuTitleSelected;
+                vm.MenuTitleMoveUp += OnMenuTitleMoveUp;
+                vm.MenuTitleMoveDown += OnMenuTitleMoveDown;
 
                 vm.BeforeMenuItemRemoved += OnMenuSubBeforeChanged;
                 vm.AfterMenuItemRemoved += OnMenuSubChanged;
                 vm.AddMenuItemRequested += OnAddMenuItemRequested;
                 vm.MenuItemSelected += OnMenuItemSelected;
+                vm.MenuItemMoveUp += OnMenuItemMoveUp;
+                vm.MenuItemMoveDown += OnMenuItemMoveDown;
 
                 Components.Add(vm);
             }
@@ -190,11 +194,17 @@ namespace DinaGameEngine.ViewModels.Project.Editors
                 vm.AfterMenuTitleRemoved += OnMenuSubChanged;
                 vm.AddMenuTitleRequested += OnAddMenuTitleRequested;
                 vm.MenuTitleSelected += OnMenuTitleSelected;
+                vm.MenuTitleMoveUp += OnMenuTitleMoveUp;
+                vm.MenuTitleMoveDown += OnMenuTitleMoveDown;
 
                 vm.BeforeMenuItemRemoved += OnMenuSubBeforeChanged;
                 vm.AfterMenuItemRemoved += OnMenuSubChanged;
                 vm.AddMenuItemRequested += OnAddMenuItemRequested;
                 vm.MenuItemSelected += OnMenuItemSelected;
+                vm.MenuItemMoveUp += OnMenuItemMoveUp;
+                vm.MenuItemMoveDown += OnMenuItemMoveDown;
+
+
                 Components.Add(vm);
                 _codeGenerator.AddComponent(_gameProjectModel, _sceneModel, newComponent);
                 _projectService.UpdateJsonProjectFile(_gameProjectModel);
@@ -302,6 +312,16 @@ namespace DinaGameEngine.ViewModels.Project.Editors
             menuItemVm?.NotifyChanged();
             _codeGenerator.RegenerateSceneDesigner(_gameProjectModel, _sceneModel);
         }
+        private void OnMenuTitleMoveUp(object? sender, EventArgs e)
+        {
+            _codeGenerator.RegenerateSceneDesigner(_gameProjectModel, _sceneModel);
+            _projectService.UpdateJsonProjectFile(_gameProjectModel);
+        }
+        private void OnMenuTitleMoveDown(object? sender, EventArgs e)
+        {
+            _codeGenerator.RegenerateSceneDesigner(_gameProjectModel, _sceneModel);
+            _projectService.UpdateJsonProjectFile(_gameProjectModel);
+        }
 
 
         private void OnAddMenuItemRequested(object? sender, EventArgs e)
@@ -385,6 +405,16 @@ namespace DinaGameEngine.ViewModels.Project.Editors
             var menuItemVm = parentVm?.MenuItems.FirstOrDefault(m => m.Model == SelectedComponentViewModel?.Component);
             menuItemVm?.NotifyChanged();
             _codeGenerator.RegenerateSceneDesigner(_gameProjectModel, _sceneModel);
+        }
+        private void OnMenuItemMoveUp(object? sender, EventArgs e)
+        {
+            _codeGenerator.RegenerateSceneDesigner(_gameProjectModel, _sceneModel);
+            _projectService.UpdateJsonProjectFile(_gameProjectModel);
+        }
+        private void OnMenuItemMoveDown(object? sender, EventArgs e)
+        {
+            _codeGenerator.RegenerateSceneDesigner(_gameProjectModel, _sceneModel);
+            _projectService.UpdateJsonProjectFile(_gameProjectModel);
         }
     }
 }

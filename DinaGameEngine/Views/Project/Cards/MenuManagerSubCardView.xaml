@@ -32,6 +32,8 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
 
             <StackPanel Grid.Column="0" Orientation="Horizontal"
@@ -56,6 +58,25 @@
             </StackPanel>
 
             <Button Grid.Column="1"
+                    Margin="4,0,0,0"
+                    Content="{Binding MoveUpIcon}"
+                    FontFamily="Segoe Fluent Icons"
+                    FontSize="14"
+                    Command="{Binding MoveUpCommand}"
+                    IsEnabled="{Binding CanMoveUp}"
+                    Style="{DynamicResource GhostFooterButton}"
+                    Width="28" Height="28"/>
+
+            <Button Grid.Column="2"
+                    Content="{Binding MoveDownIcon}"
+                    FontFamily="Segoe Fluent Icons"
+                    FontSize="14"
+                    Command="{Binding MoveDownCommand}"
+                    IsEnabled="{Binding CanMoveDown}"
+                    Style="{DynamicResource GhostFooterButton}"
+                    Width="28" Height="28"/>
+
+            <Button Grid.Column="3"
                     Margin="4,0,4,0"
                     Content="{Binding DeleteIcon}"
                     FontFamily="Segoe Fluent Icons"
