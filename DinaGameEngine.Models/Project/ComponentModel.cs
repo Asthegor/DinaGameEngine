@@ -1,6 +1,4 @@
-﻿using DinaGameEngine.Common.Enums;
-
-namespace DinaGameEngine.Models.Project
+﻿namespace DinaGameEngine.Models.Project
 {
     public class ComponentModel : ItemModel
     {

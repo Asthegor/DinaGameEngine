@@ -13,6 +13,7 @@ namespace DinaGameEngine.CodeGeneration.ComponentGenerators
             sectionParser.AddUsingIfMissing("DinaCSharp.Graphics");
             sectionParser.AddUsingIfMissing("DinaCSharp.Services");
             sectionParser.AddUsingIfMissing("DinaCSharp.Services.Fonts");
+            sectionParser.AddUsingIfMissing("DinaCSharp.Services.Keys");
         }
         protected override void GenerateField(SectionParser sectionParser, ComponentModel component, int level)
         {

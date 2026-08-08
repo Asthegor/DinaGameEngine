@@ -5,6 +5,7 @@ using DinaCSharp.Graphics;
 using DinaCSharp.Services;
 using DinaCSharp.Services.Audio;
 using DinaCSharp.Services.Fonts;
+using DinaCSharp.Services.Keys;
 using DinaCSharp.Services.Save;
 using DinaCSharp.Services.Scenes;
 using DinaCSharp.Services.Screen;

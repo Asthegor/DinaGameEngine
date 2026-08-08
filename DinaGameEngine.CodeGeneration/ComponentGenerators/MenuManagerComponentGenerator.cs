@@ -1,5 +1,6 @@
 ﻿using DinaGameEngine.Abstractions;
 using DinaGameEngine.Common;
+using DinaGameEngine.Common.Enums;
 using DinaGameEngine.Models.Helpers;
 using DinaGameEngine.Models.Project;
 
@@ -16,6 +17,7 @@ namespace DinaGameEngine.CodeGeneration.ComponentGenerators
             sectionParser.AddUsingIfMissing("DinaCSharp.Services");
             sectionParser.AddUsingIfMissing("DinaCSharp.Services.Fonts");
             sectionParser.AddUsingIfMissing("DinaCSharp.Services.Menus");
+            sectionParser.AddUsingIfMissing("DinaCSharp.Services.Keys");
         }
         protected override void GenerateField(SectionParser sectionParser, ComponentModel component, int level)
         {

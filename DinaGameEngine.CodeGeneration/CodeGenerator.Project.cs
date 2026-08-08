@@ -29,6 +29,7 @@ namespace DinaGameEngine.CodeGeneration
                 "DinaCSharp.Services",
                 "DinaCSharp.Services.Audio",
                 "DinaCSharp.Services.Fonts",
+                "DinaCSharp.Services.Keys",
                 "DinaCSharp.Services.Localization",
                 "DinaCSharp.Services.Save",
                 "DinaCSharp.Services.Scenes",
