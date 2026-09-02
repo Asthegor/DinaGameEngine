@@ -84,17 +84,12 @@ namespace DinaGameEngine.CodeGeneration.ComponentGenerators
                 AddVector2PropertyToLoad(menuTitle, "Position", sectionParser, menuTitleFieldName, level);
                 AddVector2PropertyToLoad(menuTitle, "Dimensions", sectionParser, menuTitleFieldName, level);
 
-                /*
-                var horizontalAlignment = ComponentPropertyHelper.GetStringProperty(menuTitle, "HorizontalAlignment");
-                var verticalAlignment = ComponentPropertyHelper.GetStringProperty(menuTitle, "VerticalAlignment");
-                if (!string.IsNullOrEmpty(horizontalAlignment) || !string.IsNullOrEmpty(verticalAlignment))
-                {
-                    sectionParser.AddUsingIfMissing("DinaCSharp.Enums");
-                    var h = string.IsNullOrEmpty(horizontalAlignment) ? "Left" : horizontalAlignment;
-                    var v = string.IsNullOrEmpty(verticalAlignment) ? "Top" : verticalAlignment;
-                    sectionParser.InsertIntoZone("COMPONENT_LOAD", [CodeBuilder.AddLine($"{menuTitleFieldName}.SetAlignments(HorizontalAlignment.{h}, VerticalAlignment.{v});", level)]);
-                }
-                */
+                var horizontalAlignment = ComponentPropertyHelper.GetEnumProperty(menuTitle, "HorizontalAlignment", DinaHorizontalAlignment.Left);
+                var verticalAlignment = ComponentPropertyHelper.GetEnumProperty(menuTitle, "VerticalAlignment", DinaVerticalAlignment.Top);
+                if (horizontalAlignment != DinaHorizontalAlignment.Left || verticalAlignment != DinaVerticalAlignment.Top)
+                    sectionParser.InsertIntoZone("COMPONENT_LOAD", [CodeBuilder.AddLine($"{menuTitleFieldName}.SetAlignments(HorizontalAlignment.{horizontalAlignment}, VerticalAlignment.{verticalAlignment});", level)]);
+
+
                 var zOrder = ComponentPropertyHelper.GetIntProperty(menuTitle, "ZOrder");
                 if (zOrder != null && zOrder != 0)
                     sectionParser.InsertIntoZone("COMPONENT_LOAD", [CodeBuilder.AddLine($"{menuTitleFieldName}.ZOrder = {zOrder};", level)]);
@@ -125,6 +120,12 @@ namespace DinaGameEngine.CodeGeneration.ComponentGenerators
 
                 AddVector2PropertyToLoad(menuItem, "Position", sectionParser, $"_{menuItemFieldName}", level);
                 AddVector2PropertyToLoad(menuItem, "Dimensions", sectionParser, $"_{menuItemFieldName}", level);
+
+                var horizontalAlignment = ComponentPropertyHelper.GetEnumProperty(menuItem, "HorizontalAlignment", DinaHorizontalAlignment.Left);
+                var verticalAlignment = ComponentPropertyHelper.GetEnumProperty(menuItem, "VerticalAlignment", DinaVerticalAlignment.Top);
+                if (horizontalAlignment != DinaHorizontalAlignment.Left || verticalAlignment != DinaVerticalAlignment.Top)
+                    sectionParser.InsertIntoZone("COMPONENT_LOAD", [CodeBuilder.AddLine($"_{menuItemFieldName}.SetAlignments(HorizontalAlignment.{horizontalAlignment}, VerticalAlignment.{verticalAlignment});", level)]);
+
 
                 var zOrder = ComponentPropertyHelper.GetIntProperty(menuItem, "ZOrder");
                 if (zOrder != null && zOrder != 0)

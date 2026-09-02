@@ -23,7 +23,7 @@
 
         <StackPanel Grid.Row="0">
             <shared:ValidatedLabeledTextBox Grid.Row="0" x:Name="KeyTextBox"
-                                            Label="{ext:Translate Key=AddColor_Key_Label}"
+                                            Label="{ext:Translate Key=AddFont_Key_Label}"
                                             Text="{Binding Key, UpdateSourceTrigger=PropertyChanged}"
                                             ErrorMessage="{Binding KeyErrorMessage}"
                                             IsKeyFocused="{Binding IsKeyFocused, Mode=TwoWay}"/>
