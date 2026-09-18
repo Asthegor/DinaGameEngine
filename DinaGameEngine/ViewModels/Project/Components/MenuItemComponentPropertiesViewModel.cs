@@ -21,7 +21,6 @@ namespace DinaGameEngine.ViewModels.Project.Components
         private DinaHorizontalAlignment _horizontalAlignment = DinaHorizontalAlignment.Left;
         private DinaVerticalAlignment _verticalAlignment = DinaVerticalAlignment.Top;
         private string _state = "Enable";
-        private string _action = string.Empty;
 
         public MenuItemComponentPropertiesViewModel(IEnumerable<FontModel> availableFonts,
                                                     IEnumerable<ColorModel> availableColors,
@@ -165,16 +164,6 @@ namespace DinaGameEngine.ViewModels.Project.Components
             }
         }
 
-        public string Action
-        {
-            get => _action;
-            set
-            {
-                SetProperty(ref _action, value);
-                NotifyChange();
-            }
-        }
-
         protected override void LoadFrom(ComponentModel source)
         {
             _font = source.Properties.TryGetValue("Font", out var font) ? font?.ToString() ?? string.Empty : string.Empty;
@@ -183,7 +172,6 @@ namespace DinaGameEngine.ViewModels.Project.Components
             HorizontalAlignment = ComponentPropertyHelper.GetEnumProperty(source, "HorizontalAlignment", DinaHorizontalAlignment.Left);
             VerticalAlignment = ComponentPropertyHelper.GetEnumProperty(source, "VerticalAlignment", DinaVerticalAlignment.Top);
             _state = source.Properties.TryGetValue("State", out var state) ? state?.ToString() ?? "Enable" : "Enable";
-            _action = source.Properties.TryGetValue("Action", out var action) ? action?.ToString() ?? string.Empty : string.Empty;
 
 
             (PositionX, PositionY) = ComponentPropertyHelper.GetPointProperty(source, "Position");
@@ -234,11 +222,6 @@ namespace DinaGameEngine.ViewModels.Project.Components
                 _component.Properties["State"] = State;
             else
                 _component.Properties.Remove("State");
-
-            if (Action != string.Empty)
-                _component.Properties["Action"] = Action;
-            else
-                _component.Properties.Remove("Action");
         }
 
         public RelayCommand ResetPositionCommand { get; }

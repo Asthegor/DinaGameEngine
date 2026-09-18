@@ -110,7 +110,7 @@ namespace DinaGameEngine.CodeGeneration.ComponentGenerators
                     [
                         CodeBuilder.AddLine($"var {fontFieldName} = _fontManager.Load(FontKeys.{ComponentPropertyHelper.GetStringProperty(menuItem, "Font")});", level),
                         CodeBuilder.AddLine($"_{menuItemFieldName} = {GetFieldName(component)}.AddItem({fontFieldName}, \"{ComponentPropertyHelper.GetStringProperty(menuItem, "Content")}\", " +
-                                            $"PaletteColors.{ComponentPropertyHelper.GetStringProperty(menuItem, "Color")}, {(useShared ? GetFieldName(component) : menuItemFieldName)}Selection, {(useShared ? GetFieldName(component) : menuItemFieldName)}Deselection, {menuItemFieldName}Activation);", level)
+                                            $"PaletteColors.{ComponentPropertyHelper.GetStringProperty(menuItem, "Color")}, {(useShared ? GetFunctionName(component) : menuItemFieldName)}Selection, {(useShared ? GetFunctionName(component) : menuItemFieldName)}Deselection, {menuItemFieldName}Activation);", level)
                     ]);
                 var stateValue = ComponentPropertyHelper.GetStringProperty(menuItem, "State");
                 if (!string.IsNullOrEmpty(stateValue) && stateValue != "Enable")
@@ -237,8 +237,6 @@ namespace DinaGameEngine.CodeGeneration.ComponentGenerators
         }
         protected override void GenerateUserFilePartialFunctions(SectionParser sectionParser, ComponentModel component, int level, IDialogService dialogService)
         {
-            bool partialFunctionsModified = false;
-            List<string> partialFunctionSignatures = [];
             bool useShared = ComponentPropertyHelper.GetBoolProperty(component, "UseSharedSelectionDeselection", false);
             if (useShared)
             {
@@ -288,43 +286,15 @@ namespace DinaGameEngine.CodeGeneration.ComponentGenerators
                     ]);
                 }
 
-                var action = ComponentPropertyHelper.GetStringProperty(menuItem, "Action");
-                var functionSignature = $"{menuItemFieldName}Activation";
-
-                var actionLines = action
-                    .Replace("\r\n", "\n")
-                    .Split('\n')
-                    .Select(l => CodeBuilder.AddLine(l, level + 1))
-                    .ToList();
-
-                if (!sectionParser.IsPartialFunctionExisting(functionSignature))
+                if (!sectionParser.IsPartialFunctionExisting($"{menuItemFieldName}Activation"))
                 {
                     sectionParser.InsertIntoZone("PARTIAL_METHODS",
                     [
-                        CodeBuilder.OpenBlock($"private partial {menuItem.Type} {functionSignature}({menuItem.Type} menuItem)", level),
-                        ..actionLines,
+                        CodeBuilder.OpenBlock($"private partial {menuItem.Type} {menuItemFieldName}Activation({menuItem.Type} menuItem)", level),
                         CodeBuilder.AddLine($"return menuItem;", level + 1),
-                        CodeBuilder.CloseBlock(level),
+                        CodeBuilder.CloseBlock(level)
                     ]);
                 }
-                else if (!sectionParser.IsPartialFunctionBodyEqual(functionSignature, action, "ACTIVATION_HIST"))
-                {
-                    // avertissement géré par Asthegor
-                    //_logService.Warning($"Fichier '{projectDesignerFilePath}' modifié par l'utilisateur.");
-                    if (sectionParser.CommentAndReplacePartialFunctionBody(functionSignature, actionLines, "ACTIVATION_HIST"))
-                    {
-                        partialFunctionsModified = true;
-                        partialFunctionSignatures.Add(functionSignature);
-                    }
-
-                }
-            }
-
-            if (partialFunctionsModified)
-            {
-                dialogService.ShowWarning(LocalizationManager.GetTranslation("PartialMethod_Activation_Title"),
-                                          LocalizationManager.GetTranslation("PartialMethod_Activation_Message",
-                                                                             string.Join("\n", partialFunctionSignatures)));
             }
         }
         protected override IEnumerable<string> RemoveField(SectionParser sectionParser, ComponentModel component, int level)
