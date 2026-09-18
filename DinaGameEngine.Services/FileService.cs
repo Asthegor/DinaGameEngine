@@ -28,7 +28,12 @@ namespace DinaGameEngine.Services
         }
         public void DeleteFile(string path) => File.Delete(path);
         public void CopyFile(string source, string destination) => File.Copy(source, destination);
-        public IEnumerable<string> GetFiles(string path, string searchPattern, bool recursive = false) => Directory.GetFiles(path, searchPattern, recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly);
+        public IEnumerable<string> GetFiles(string path, string searchPattern, bool recursive = false)
+        {
+            if (!Directory.Exists(path))
+                return [];
+            return Directory.GetFiles(path, searchPattern, recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly);
+        }
         public string GetFileName(string path) => Path.GetFileName(path);
         public string GetDirectoryName(string path) => Path.GetDirectoryName(path)!;
         public string Combine(params string[] paths) => Path.Combine(paths);
