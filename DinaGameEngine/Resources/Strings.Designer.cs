@@ -305,6 +305,24 @@ namespace DinaGameEngine.Resources {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Couleur à la désélection.
+        /// </summary>
+        public static string Component_MenuItem_DeselectionColor_Label {
+            get {
+                return ResourceManager.GetString("Component_MenuItem_DeselectionColor_Label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Couleur à la sélection.
+        /// </summary>
+        public static string Component_MenuItem_SelectionColor_Label {
+            get {
+                return ResourceManager.GetString("Component_MenuItem_SelectionColor_Label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Index de l&apos;item sélectionné par défaut.
         /// </summary>
         public static string Component_MenuManager_CurrentItemIndex_Label {

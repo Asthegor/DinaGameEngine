@@ -6,7 +6,7 @@ namespace DinaGameEngine.CodeGeneration
 {
     public partial class CodeGenerator
     {
-        private string _resourceKeysName = "ResourceKeys";
+        private readonly string _resourceKeysName = "ResourceKeys";
         public void GenerateResourceKeys(GameProjectModel gameProjectModel)
         {
             GenerateResourceKeysDesigner(gameProjectModel);

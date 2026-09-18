@@ -21,13 +21,17 @@ namespace DinaGameEngine.ViewModels.Project.Components
         private DinaHorizontalAlignment _horizontalAlignment = DinaHorizontalAlignment.Left;
         private DinaVerticalAlignment _verticalAlignment = DinaVerticalAlignment.Top;
         private string _state = "Enable";
+        private ColorModel? _selectionColor;
+        private ColorModel? _deselectionColor;
 
         public MenuItemComponentPropertiesViewModel(IEnumerable<FontModel> availableFonts,
                                                     IEnumerable<ColorModel> availableColors,
-                                                    ComponentModel component) : base(component)
+                                                    ComponentModel component,
+                                                    bool isSharedSelectionDeselection) : base(component)
         {
             AvailableFonts = availableFonts;
             AvailableColors = availableColors;
+            IsSharedSelectionDeselection = isSharedSelectionDeselection;
 
             ResetPositionCommand = new RelayCommand(ResetPosition);
             ResetDimensionsCommand = new RelayCommand(ResetDimensions);
@@ -38,11 +42,14 @@ namespace DinaGameEngine.ViewModels.Project.Components
 
         public IEnumerable<FontModel> AvailableFonts { get; }
         public IEnumerable<ColorModel> AvailableColors { get; }
+        public bool IsSharedSelectionDeselection { get; }
+        public bool IsNotSharedSelectionDeselection => !IsSharedSelectionDeselection;
         public IEnumerable<string> AvailableStates { get; } = ["Enable", "Disable"];
         public IEnumerable<DinaHorizontalAlignment> AvailableHAlignments { get; } = Enum.GetValues<DinaHorizontalAlignment>();
         public IEnumerable<DinaVerticalAlignment> AvailableVAlignments { get; } = Enum.GetValues<DinaVerticalAlignment>();
 
-        public override bool IsValid => SelectedFont != null && SelectedColor != null;
+        public override bool IsValid => SelectedFont != null && SelectedColor != null
+                                        && (IsSharedSelectionDeselection || (SelectionColor != null && DeselectionColor != null));
 
         public FontModel? SelectedFont
         {
@@ -163,7 +170,24 @@ namespace DinaGameEngine.ViewModels.Project.Components
                 NotifyChange();
             }
         }
-
+        public ColorModel? SelectionColor
+        {
+            get => _selectionColor;
+            set
+            {
+                SetProperty(ref _selectionColor, value);
+                NotifyChange();
+            }
+        }
+        public ColorModel? DeselectionColor
+        {
+            get => _deselectionColor;
+            set
+            {
+                SetProperty(ref _deselectionColor, value);
+                NotifyChange();
+            }
+        }
         protected override void LoadFrom(ComponentModel source)
         {
             _font = source.Properties.TryGetValue("Font", out var font) ? font?.ToString() ?? string.Empty : string.Empty;
@@ -179,6 +203,9 @@ namespace DinaGameEngine.ViewModels.Project.Components
 
             ZOrder = ComponentPropertyHelper.GetIntProperty(source, "ZOrder", 0);
             Visible = ComponentPropertyHelper.GetBoolProperty(source, "Visible", true);
+
+            SelectionColor = AvailableColors.FirstOrDefault(c => c.Key == ComponentPropertyHelper.GetStringProperty(source, "SelectionColor"));
+            DeselectionColor = AvailableColors.FirstOrDefault(c => c.Key == ComponentPropertyHelper.GetStringProperty(source, "DeselectionColor"));
         }
 
         public override void ApplyToModel()
@@ -222,6 +249,24 @@ namespace DinaGameEngine.ViewModels.Project.Components
                 _component.Properties["State"] = State;
             else
                 _component.Properties.Remove("State");
+
+            if (!IsSharedSelectionDeselection)
+            {
+                if (SelectionColor != null)
+                    _component.Properties["SelectionColor"] = SelectionColor.Key;
+                else
+                    _component.Properties.Remove("SelectionColor");
+
+                if (DeselectionColor != null)
+                    _component.Properties["DeselectionColor"] = DeselectionColor.Key;
+                else
+                    _component.Properties.Remove("DeselectionColor");
+            }
+            else
+            {
+                _component.Properties.Remove("SelectionColor");
+                _component.Properties.Remove("DeselectionColor");
+            }
         }
 
         public RelayCommand ResetPositionCommand { get; }

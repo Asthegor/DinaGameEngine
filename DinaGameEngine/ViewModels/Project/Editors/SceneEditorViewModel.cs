@@ -6,6 +6,7 @@ using DinaGameEngine.Common.Enums;
 using DinaGameEngine.Extensions;
 using DinaGameEngine.Interfaces;
 using DinaGameEngine.Models;
+using DinaGameEngine.Models.Helpers;
 using DinaGameEngine.Models.Project;
 using DinaGameEngine.ViewModels.Project.Add;
 using DinaGameEngine.ViewModels.Project.Components;
@@ -380,21 +381,24 @@ namespace DinaGameEngine.ViewModels.Project.Editors
             }
 
             // Désélectionner le composant parent
-            var parentVm = Components.FirstOrDefault(c => c.IsSelected);
-            if (parentVm != null)
+            var selectedParentVm = Components.FirstOrDefault(c => c.IsSelected);
+            if (selectedParentVm != null)
             {
-                parentVm.IsSelected = false;
-                if (parentVm.PropertiesViewModel != null)
-                    parentVm.PropertiesViewModel.Applied -= OnComponentApplied;
+                selectedParentVm.IsSelected = false;
+                if (selectedParentVm.PropertiesViewModel != null)
+                    selectedParentVm.PropertiesViewModel.Applied -= OnComponentApplied;
             }
 
             menuItemVm.IsSelected = true;
 
+            var ownerVm = Components.FirstOrDefault(c => c.MenuItems.Contains(menuItemVm));
+            bool isShared = ownerVm != null && ComponentPropertyHelper.GetBoolProperty((ComponentModel)ownerVm.Model, "UseSharedSelectionDeselection", false);
+
             // Afficher les propriétés du MenuItem
-            var menuItemPropertiesVm = _propertiesViewModelFactory.Create(ComponentTypes.MenuItem, (ComponentModel)menuItemVm.Model, _gameProjectModel);
+            var menuItemPropertiesVm = _propertiesViewModelFactory.Create(ComponentTypes.MenuItem, (ComponentModel)menuItemVm.Model, _gameProjectModel, isShared);
             if (menuItemPropertiesVm != null)
                 menuItemPropertiesVm.Applied += OnMenuItemApplied;
-            
+
             SelectedComponentViewModel = menuItemPropertiesVm;
         }
         private void OnMenuItemApplied(object? sender, ComponentModel oldSnapshot)

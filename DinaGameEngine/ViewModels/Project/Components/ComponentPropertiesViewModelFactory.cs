@@ -8,13 +8,13 @@ namespace DinaGameEngine.ViewModels.Project.Components
 {
     public class ComponentPropertiesViewModelFactory : IComponentPropertiesViewModelFactory
     {
-        public ComponentPropertiesViewModel? Create(string componentType, ComponentModel component, GameProjectModel gameProjectModel)
+        public ComponentPropertiesViewModel? Create(string componentType, ComponentModel component, GameProjectModel gameProjectModel, bool isSharedSelectionDeselection = false)
         {
             return componentType switch
             {
                 ComponentTypes.Text => new TextComponentPropertiesViewModel(gameProjectModel.Fonts, gameProjectModel.Colors, component),
                 ComponentTypes.MenuManager => new MenuManagerComponentPropertiesViewModel(component, gameProjectModel.Colors),
-                ComponentTypes.MenuItem => new MenuItemComponentPropertiesViewModel(gameProjectModel.Fonts, gameProjectModel.Colors, component),
+                ComponentTypes.MenuItem => new MenuItemComponentPropertiesViewModel(gameProjectModel.Fonts, gameProjectModel.Colors, component, isSharedSelectionDeselection),
                 ComponentTypes.MenuTitle => new MenuTitleComponentPropertiesViewModel(gameProjectModel.Fonts, gameProjectModel.Colors, component),
                 ComponentTypes.ShadowText => new ShadowTextComponentPropertiesViewModel(gameProjectModel.Fonts, gameProjectModel.Colors, component),
                 _ => null

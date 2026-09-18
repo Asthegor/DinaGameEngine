@@ -74,6 +74,15 @@
             <shared:LabeledComboBox Label="{ext:Translate Key=Component_State_Label}"
                                     AvailableKeys="{Binding AvailableStates}"
                                     SelectedKey="{Binding State, Mode=TwoWay}"/>
+
+            <StackPanel Visibility="{Binding IsNotSharedSelectionDeselection, Converter={StaticResource BoolToVisibility}}">
+                <shared:LabeledColorComboBox Label="{ext:Translate Key=Component_MenuItem_SelectionColor_Label}"
+                                             AvailableColors="{Binding AvailableColors}"
+                                             SelectedColor="{Binding SelectionColor, Mode=TwoWay}"/>
+                <shared:LabeledColorComboBox Label="{ext:Translate Key=Component_MenuItem_DeselectionColor_Label}"
+                                             AvailableColors="{Binding AvailableColors}"
+                                             SelectedColor="{Binding DeselectionColor, Mode=TwoWay}"/>
+            </StackPanel>
         </StackPanel>
     </ScrollViewer>
 </UserControl>

@@ -547,4 +547,10 @@ Please remove it manually.</value>
   <data name="Component_MenuManager_DeselectionColor_Label" xml:space="preserve">
     <value>Standard color</value>
   </data>
+  <data name="Component_MenuItem_SelectionColor_Label" xml:space="preserve">
+    <value>Color when selected</value>
+  </data>
+  <data name="Component_MenuItem_DeselectionColor_Label" xml:space="preserve">
+    <value>Color when deselected</value>
+  </data>
 </root>

@@ -6,6 +6,6 @@ namespace DinaGameEngine.Interfaces
 {
     public interface IComponentPropertiesViewModelFactory
     {
-        ComponentPropertiesViewModel? Create(string componentType, ComponentModel component, GameProjectModel gameProjectModel);
+        ComponentPropertiesViewModel? Create(string componentType, ComponentModel component, GameProjectModel gameProjectModel, bool isSharedSelectionDeselection = false);
     }
 }

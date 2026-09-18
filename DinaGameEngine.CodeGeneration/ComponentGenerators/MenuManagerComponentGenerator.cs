@@ -197,10 +197,24 @@ namespace DinaGameEngine.CodeGeneration.ComponentGenerators
             bool useShared = ComponentPropertyHelper.GetBoolProperty(component, "UseSharedSelectionDeselection", false);
             if (useShared)
             {
+                var selectionColorKey = ComponentPropertyHelper.GetStringProperty(component, "SelectionColor");
+                var deselectionColorKey = ComponentPropertyHelper.GetStringProperty(component, "DeselectionColor");
+
                 sectionParser.InsertIntoZone("PARTIAL_METHODS",
                 [
-                    CodeBuilder.AddLine($"private partial MenuItem {GetFunctionName(component)}Selection(MenuItem menuItem);", level),
-                    CodeBuilder.AddLine($"private partial MenuItem {GetFunctionName(component)}Deselection(MenuItem menuItem);", level),
+                    CodeBuilder.OpenBlock($"private MenuItem {GetFunctionName(component)}Selection(MenuItem menuItem)", level),
+                    CodeBuilder.AddLine($"menuItem.Color = PaletteColors.{selectionColorKey};", level + 1),
+                    CodeBuilder.AddLine($"On{GetFunctionName(component)}Selection(menuItem);", level + 1),
+                    CodeBuilder.AddLine($"return menuItem;", level + 1),
+                    CodeBuilder.CloseBlock(level),
+                    CodeBuilder.AddLine($"private partial void On{GetFunctionName(component)}Selection(MenuItem menuItem);", level),
+
+                    CodeBuilder.OpenBlock($"private MenuItem {GetFunctionName(component)}Deselection(MenuItem menuItem)", level),
+                    CodeBuilder.AddLine($"menuItem.Color = PaletteColors.{deselectionColorKey};", level + 1),
+                    CodeBuilder.AddLine($"On{GetFunctionName(component)}Deselection(menuItem);", level + 1),
+                    CodeBuilder.AddLine($"return menuItem;", level + 1),
+                    CodeBuilder.CloseBlock(level),
+                    CodeBuilder.AddLine($"private partial void On{GetFunctionName(component)}Deselection(MenuItem menuItem);", level),
                 ]);
             }
             foreach (var menuItem in component.SubComponents.Where(c => c.Type == ComponentTypes.MenuItem))
@@ -208,13 +222,35 @@ namespace DinaGameEngine.CodeGeneration.ComponentGenerators
                 var menuItemFieldName = $"{component.Key}_{menuItem.Key}{menuItem.Type}";
                 if (!useShared)
                 {
+                    var selectionColorKey = ComponentPropertyHelper.GetStringProperty(menuItem, "SelectionColor");
+                    var deselectionColorKey = ComponentPropertyHelper.GetStringProperty(menuItem, "DeselectionColor");
+
                     sectionParser.InsertIntoZone("PARTIAL_METHODS",
                     [
-                        CodeBuilder.AddLine($"private partial {menuItem.Type} {menuItemFieldName}Selection({menuItem.Type} menuItem);", level),
-                        CodeBuilder.AddLine($"private partial {menuItem.Type} {menuItemFieldName}Deselection({menuItem.Type} menuItem);", level),
+                        CodeBuilder.OpenBlock($"private {menuItem.Type} {menuItemFieldName}Selection({menuItem.Type} menuItem)", level),
+                        CodeBuilder.AddLine($"menuItem.Color = PaletteColors.{selectionColorKey};", level + 1),
+                        CodeBuilder.AddLine($"On{menuItemFieldName}Selection(menuItem);", level + 1),
+                        CodeBuilder.AddLine($"return menuItem;", level + 1),
+                        CodeBuilder.CloseBlock(level),
+                        CodeBuilder.AddLine($"private partial void On{menuItemFieldName}Selection({menuItem.Type} menuItem);", level),
+
+                        CodeBuilder.OpenBlock($"private {menuItem.Type} {menuItemFieldName}Deselection({menuItem.Type} menuItem)", level),
+                        CodeBuilder.AddLine($"menuItem.Color = PaletteColors.{deselectionColorKey};", level + 1),
+                        CodeBuilder.AddLine($"On{menuItemFieldName}Deselection(menuItem);", level + 1),
+                        CodeBuilder.AddLine($"return menuItem;", level + 1),
+                        CodeBuilder.CloseBlock(level),
+                        CodeBuilder.AddLine($"private partial void On{menuItemFieldName}Deselection({menuItem.Type} menuItem);", level),
                     ], true);
                 }
-                sectionParser.InsertIntoZone("PARTIAL_METHODS", [ CodeBuilder.AddLine($"private partial {menuItem.Type} {menuItemFieldName}Activation({menuItem.Type} menuItem);", level) ], true);
+
+                sectionParser.InsertIntoZone("PARTIAL_METHODS",
+                [
+                    CodeBuilder.OpenBlock($"private {menuItem.Type} {menuItemFieldName}Activation({menuItem.Type} menuItem)", level),
+                    CodeBuilder.AddLine($"On{menuItemFieldName}Activation(menuItem);", level + 1),
+                    CodeBuilder.AddLine($"return menuItem;", level + 1),
+                    CodeBuilder.CloseBlock(level),
+                    CodeBuilder.AddLine($"private partial void On{menuItemFieldName}Activation({menuItem.Type} menuItem);", level),
+                ], true);
             }
         }
 
@@ -240,25 +276,19 @@ namespace DinaGameEngine.CodeGeneration.ComponentGenerators
             bool useShared = ComponentPropertyHelper.GetBoolProperty(component, "UseSharedSelectionDeselection", false);
             if (useShared)
             {
-                var selectionColorKey = ComponentPropertyHelper.GetStringProperty(component, "SelectionColor");
-                var deselectionColorKey = ComponentPropertyHelper.GetStringProperty(component, "DeselectionColor");
-                if (!sectionParser.IsPartialFunctionExisting($"{GetFieldName(component)}Selection"))
+                if (!sectionParser.IsPartialFunctionExisting($"On{GetFunctionName(component)}Selection"))
                 {
                     sectionParser.InsertIntoZone("PARTIAL_METHODS",
                     [
-                        CodeBuilder.OpenBlock($"private partial MenuItem {GetFunctionName(component)}Selection(MenuItem menuItem)", level),
-                        CodeBuilder.AddLine($"menuItem.Color = PaletteColors.{selectionColorKey};", level + 1),
-                        CodeBuilder.AddLine($"return menuItem;", level + 1),
+                        CodeBuilder.OpenBlock($"private partial void On{GetFunctionName(component)}Selection(MenuItem menuItem)", level),
                         CodeBuilder.CloseBlock(level)
                     ]);
                 }
-                if (!sectionParser.IsPartialFunctionExisting($"{GetFieldName(component)}Deselection"))
+                if (!sectionParser.IsPartialFunctionExisting($"On{GetFunctionName(component)}Deselection"))
                 {
                     sectionParser.InsertIntoZone("PARTIAL_METHODS",
                     [
-                        CodeBuilder.OpenBlock($"private partial MenuItem {GetFunctionName(component)}Deselection(MenuItem menuItem)", level),
-                        CodeBuilder.AddLine($"menuItem.Color = PaletteColors.{deselectionColorKey};", level + 1),
-                        CodeBuilder.AddLine($"return menuItem;", level + 1),
+                        CodeBuilder.OpenBlock($"private partial void On{GetFunctionName(component)}Deselection(MenuItem menuItem)", level),
                         CodeBuilder.CloseBlock(level),
                     ]);
                 }
@@ -267,31 +297,31 @@ namespace DinaGameEngine.CodeGeneration.ComponentGenerators
             {
                 var menuItemFieldName = $"{component.Key}_{menuItem.Key}{menuItem.Type}";
 
-                if (!useShared && !sectionParser.IsPartialFunctionExisting($"{menuItemFieldName}Selection"))
+                if (!useShared)
                 {
-                    sectionParser.InsertIntoZone("PARTIAL_METHODS",
-                    [
-                        CodeBuilder.OpenBlock($"private partial {menuItem.Type} {menuItemFieldName}Selection({menuItem.Type} menuItem)", level),
-                        CodeBuilder.AddLine($"return menuItem;", level + 1),
-                        CodeBuilder.CloseBlock(level)
-                    ]);
-                }
-                if (!useShared && !sectionParser.IsPartialFunctionExisting($"{menuItemFieldName}Deselection"))
-                {
-                    sectionParser.InsertIntoZone("PARTIAL_METHODS",
-                    [
-                        CodeBuilder.OpenBlock($"private partial {menuItem.Type} {menuItemFieldName}Deselection({menuItem.Type} menuItem)", level),
-                        CodeBuilder.AddLine($"return menuItem;", level + 1),
-                        CodeBuilder.CloseBlock(level),
-                    ]);
+                    if (!sectionParser.IsPartialFunctionExisting($"On{menuItemFieldName}Selection"))
+                    {
+                        sectionParser.InsertIntoZone("PARTIAL_METHODS",
+                        [
+                            CodeBuilder.OpenBlock($"private partial void On{menuItemFieldName}Selection({menuItem.Type} menuItem)", level),
+                            CodeBuilder.CloseBlock(level)
+                        ]);
+                    }
+                    if (!sectionParser.IsPartialFunctionExisting($"On{menuItemFieldName}Deselection"))
+                    {
+                        sectionParser.InsertIntoZone("PARTIAL_METHODS",
+                        [
+                            CodeBuilder.OpenBlock($"private partial void On{menuItemFieldName}Deselection({menuItem.Type} menuItem)", level),
+                            CodeBuilder.CloseBlock(level)
+                        ]);
+                    }
                 }
 
-                if (!sectionParser.IsPartialFunctionExisting($"{menuItemFieldName}Activation"))
+                if (!sectionParser.IsPartialFunctionExisting($"On{menuItemFieldName}Activation"))
                 {
                     sectionParser.InsertIntoZone("PARTIAL_METHODS",
                     [
-                        CodeBuilder.OpenBlock($"private partial {menuItem.Type} {menuItemFieldName}Activation({menuItem.Type} menuItem)", level),
-                        CodeBuilder.AddLine($"return menuItem;", level + 1),
+                        CodeBuilder.OpenBlock($"private partial void On{menuItemFieldName}Activation({menuItem.Type} menuItem)", level),
                         CodeBuilder.CloseBlock(level)
                     ]);
                 }
@@ -345,14 +375,19 @@ namespace DinaGameEngine.CodeGeneration.ComponentGenerators
         }
         protected override void RemovePartialFunctions(SectionParser sectionParser, ComponentModel component, int level)
         {
-            sectionParser.RemoveFromZone("PARTIAL_METHODS", $"MenuItem {GetFunctionName(component)}Selection");
-            sectionParser.RemoveFromZone("PARTIAL_METHODS", $"MenuItem {GetFunctionName(component)}Deselection");
+            sectionParser.RemovePartialFunction($"MenuItem {GetFunctionName(component)}Selection");
+            sectionParser.RemovePartialFunction($"MenuItem {GetFunctionName(component)}Deselection");
+            sectionParser.RemoveFromZone("PARTIAL_METHODS", $"void On{GetFunctionName(component)}Selection");
+            sectionParser.RemoveFromZone("PARTIAL_METHODS", $"void On{GetFunctionName(component)}Deselection");
             foreach (var menuItem in component.SubComponents.Where(c => c.Type == ComponentTypes.MenuItem))
             {
                 var menuItemFieldName = $"{component.Key}_{menuItem.Key}{menuItem.Type}";
-                sectionParser.RemoveFromZone("PARTIAL_METHODS", $"{menuItem.Type} {menuItemFieldName}Selection");
-                sectionParser.RemoveFromZone("PARTIAL_METHODS", $"{menuItem.Type} {menuItemFieldName}Deselection");
-                sectionParser.RemoveFromZone("PARTIAL_METHODS", $"{menuItem.Type} {menuItemFieldName}Activation");
+                sectionParser.RemovePartialFunction($"{menuItem.Type} {menuItemFieldName}Selection");
+                sectionParser.RemovePartialFunction($"{menuItem.Type} {menuItemFieldName}Deselection");
+                sectionParser.RemovePartialFunction($"{menuItem.Type} {menuItemFieldName}Activation");
+                sectionParser.RemoveFromZone("PARTIAL_METHODS", $"void On{menuItemFieldName}Selection");
+                sectionParser.RemoveFromZone("PARTIAL_METHODS", $"void On{menuItemFieldName}Deselection");
+                sectionParser.RemoveFromZone("PARTIAL_METHODS", $"void On{menuItemFieldName}Activation");
             }
         }
         protected override void RemoveUserFileCommentField(SectionParser sectionParser, ComponentModel component)
@@ -365,14 +400,14 @@ namespace DinaGameEngine.CodeGeneration.ComponentGenerators
         }
         protected override void RemoveUserFilePartialFunctions(SectionParser sectionParser, ComponentModel component)
         {
-            sectionParser.RemovePartialFunction($"MenuItem {GetFunctionName(component)}Selection");
-            sectionParser.RemovePartialFunction($"MenuItem {GetFunctionName(component)}Deselection");
+            sectionParser.RemovePartialFunction($"void On{GetFunctionName(component)}Selection");
+            sectionParser.RemovePartialFunction($"void On{GetFunctionName(component)}Deselection");
             foreach (var menuItem in component.SubComponents.Where(c => c.Type == ComponentTypes.MenuItem))
             {
                 var menuItemFieldName = $"{component.Key}_{menuItem.Key}{menuItem.Type}";
-                sectionParser.RemovePartialFunction($"MenuItem {menuItemFieldName}Selection");
-                sectionParser.RemovePartialFunction($"MenuItem {menuItemFieldName}Deselection");
-                sectionParser.RemovePartialFunction($"MenuItem {menuItemFieldName}Activation");
+                sectionParser.RemovePartialFunction($"void On{menuItemFieldName}Selection");
+                sectionParser.RemovePartialFunction($"void On{menuItemFieldName}Deselection");
+                sectionParser.RemovePartialFunction($"void On{menuItemFieldName}Activation");
             }
         }
     }

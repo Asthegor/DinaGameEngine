@@ -547,4 +547,10 @@ Pensez à le supprimer manuellement.</value>
   <data name="Component_MenuManager_DeselectionColor_Label" xml:space="preserve">
     <value>Couleur standard</value>
   </data>
+  <data name="Component_MenuItem_SelectionColor_Label" xml:space="preserve">
+    <value>Couleur à la sélection</value>
+  </data>
+  <data name="Component_MenuItem_DeselectionColor_Label" xml:space="preserve">
+    <value>Couleur à la désélection</value>
+  </data>
 </root>
