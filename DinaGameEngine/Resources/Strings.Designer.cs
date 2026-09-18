@@ -1016,6 +1016,15 @@ namespace DinaGameEngine.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Code de l&apos;action.
+        /// </summary>
+        public static string MenuItem_Action_Label {
+            get {
+                return ResourceManager.GetString("MenuItem_Action_Label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Items.
         /// </summary>
         public static string MenuManager_Items_Header {

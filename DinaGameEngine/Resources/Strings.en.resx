@@ -561,4 +561,7 @@ If a new change is made (either from the editor or directly in the file), this s
 Warning!
 Only one level of history is retained!</value>
   </data>
+  <data name="MenuItem_Action_Label" xml:space="preserve">
+    <value>Code of the action</value>
+  </data>
 </root>

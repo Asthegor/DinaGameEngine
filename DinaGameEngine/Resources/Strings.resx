@@ -561,4 +561,7 @@ Si une nouvelle modification est effectuée (depuis l'éditeur ou directement da
 Attention !
 Un seul niveau d'historique est conservé !</value>
   </data>
+  <data name="MenuItem_Action_Label" xml:space="preserve">
+    <value>Code de l'action</value>
+  </data>
 </root>
