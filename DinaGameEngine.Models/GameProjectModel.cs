@@ -1,6 +1,8 @@
 ﻿using DinaGameEngine.Common;
 using DinaGameEngine.Models.Project;
 
+using System.Text.Json.Serialization;
+
 namespace DinaGameEngine.Models
 {
     public class GameProjectModel : ObservableObject
@@ -31,6 +33,7 @@ namespace DinaGameEngine.Models
             set => SetProperty(ref _rootNamespace, value);
         }
 
+        [JsonIgnore]
         // Dossier racine du projet de jeu
         public string RootPath
         {

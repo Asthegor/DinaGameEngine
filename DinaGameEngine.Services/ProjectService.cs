@@ -46,6 +46,7 @@ namespace DinaGameEngine.Services
                 return null;
             }
 
+            gameProjectModel.RootPath = projectPath;
             gameProjectModel.LastOpenedAt = DateTime.Now;
 
             // On vérifie qu'il n'y a qu'une seule scène de démarrage.
