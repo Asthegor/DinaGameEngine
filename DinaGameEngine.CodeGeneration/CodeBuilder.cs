@@ -99,5 +99,13 @@
                    {1}
                    """;
         }
+        public static string AddSuppressMessage(string code)
+        {
+            return code switch
+            {
+                "CA1822" => "[SuppressMessage(\"Performance\", \"CA1822:Mark members as static\", Justification=\"Empty stub: the partial declaration in the Designer file is an instance method, marking this static would break the partial match.\")]",
+                _ => throw new NotImplementedException()
+            };
+        }
     }
 }
