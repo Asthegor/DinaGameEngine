@@ -14,6 +14,7 @@ namespace DinaGameEngine.CodeGeneration.ComponentGenerators
             sectionParser.AddUsingIfMissing("DinaCSharp.Services");
             sectionParser.AddUsingIfMissing("DinaCSharp.Services.Fonts");
             sectionParser.AddUsingIfMissing("DinaCSharp.Services.Keys");
+            sectionParser.AddUsingIfMissing("DinaCSharp.Utils");
         }
         protected override void GenerateField(SectionParser sectionParser, ComponentModel component, int level)
         {
@@ -32,7 +33,9 @@ namespace DinaGameEngine.CodeGeneration.ComponentGenerators
             sectionParser.InsertIntoZone("COMPONENT_LOAD",
                 [
                     CodeBuilder.AddLine($"var {component.Key}Font = _fontManager.Load(FontKeys.{font});", level),
-                    CodeBuilder.AddLine($"{GetFieldName(component)} = new {ComponentType}({component.Key}Font, \"{content}\", PaletteColors.{colorKey}, PaletteColors.{shadowColorKey}, new Vector2({shadowOffsetX}, {shadowOffsetY}));", level)
+                    CodeBuilder.AddLine($"{GetFieldName(component)} = new {ComponentType}({component.Key}Font, \"{content}\", " +
+                                                                                        $"PaletteColors.{colorKey}, PaletteColors.{shadowColorKey}, " +
+                                                                                        $"UIScaler.Scale(new Vector2({shadowOffsetX}, {shadowOffsetY})));", level)
                 ]);
 
             AddVector2PropertyToLoad(component, "Position", sectionParser, GetFieldName(component), level);

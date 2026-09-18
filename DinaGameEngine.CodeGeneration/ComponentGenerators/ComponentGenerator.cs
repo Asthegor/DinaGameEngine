@@ -8,7 +8,8 @@ namespace DinaGameEngine.CodeGeneration.ComponentGenerators
     public abstract class ComponentGenerator
     {
         public abstract string ComponentType { get; }
-        public string GetFieldName(ComponentModel component) => $"_{component.Key}{ComponentType}";
+        public string GetFunctionName(ComponentModel component) => $"{component.Key}{ComponentType}";
+        public string GetFieldName(ComponentModel component) => $"_{GetFunctionName(component)}";
 
         public void AddToDesigner(SectionParser sectionParser, ComponentModel component, string rootNamespace)
         {
@@ -94,7 +95,8 @@ namespace DinaGameEngine.CodeGeneration.ComponentGenerators
             (int? x, int? y) = ComponentPropertyHelper.GetPointProperty(component, propertyName);
             if (x == null || y == null)
                 return;
-            sectionParser.InsertIntoZone("COMPONENT_LOAD", [CodeBuilder.AddLine($"{componentFieldName}.{propertyName} = new Vector2({x}f, {y}f);", level)]);
+
+            sectionParser.InsertIntoZone("COMPONENT_LOAD", [CodeBuilder.AddLine($"{componentFieldName}.{propertyName} = UIScaler.Scale(new Vector2({x}f, {y}f));", level)]);
         }
 
         #endregion
