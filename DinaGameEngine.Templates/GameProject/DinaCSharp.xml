@@ -183,6 +183,12 @@
             Trie les éléments du groupe par ordre d'affichage (Z-order) croissant.
             </summary>
         </member>
+        <member name="M:DinaCSharp.Core.Group.Remove(DinaCSharp.Core.Interfaces.IElement)">
+            <summary>
+            Supprime l'élément du groupe.
+            </summary>
+            <param name="element">Élément à supprimer.</param>
+        </member>
         <member name="M:DinaCSharp.Core.Group.IsClicked">
             <summary>
             Vérifie si au moins un élément du groupe a été cliqué (clic gauche ou droit).
@@ -1174,6 +1180,13 @@
             <param name="otherDictionary">The dictionary to compare against the source dictionary.</param>
             <returns>A list of keys from the source dictionary whose values differ from the corresponding values in the other
             dictionary.  If no values differ, the list will be empty.</returns>
+        </member>
+        <member name="M:DinaCSharp.Extensions.ConvertExtensions.PreMultiply(Microsoft.Xna.Framework.Color)">
+            <summary>
+            Pre-multiply the color by its own alpha to match the BlendState.AlphaBlend.
+            </summary>
+            <param name="color">Color to pre-multiply.</param>
+            <returns></returns>
         </member>
         <member name="T:DinaCSharp.Functions.DinaFunctions">
             <summary>
@@ -2721,11 +2734,31 @@
             <remarks>
             Initialise un <see cref="T:DinaCSharp.Graphics.ShadowText"/>.
             </remarks>
+            <remarks>
+            Initialise une nouvelle instance de la classe ShadowText avec les paramètres spécifiés.
+            </remarks>
+            <param name="font">Police de caractères.</param>
+            <param name="content">Contenu textuel.</param>
+            <param name="color">Couleur du texte principal.</param>
+            <param name="position">Position du texte principal à l'écran.</param>
+            <param name="shadowColor">Couleur de l'ombre.</param>
+            <param name="shadowOffset">Décalage de l'ombre par rapport au texte.</param>
+            <param name="halign">Alignement horizontal (défaut : Left).</param>
+            <param name="valign">Alignement vertical (défaut : Top).</param>
+            <param name="zorder">Ordre de superposition (défaut : 0). L'ombre est toujours à <c>zorder - 1</c>.</param>
         </member>
         <member name="M:DinaCSharp.Graphics.ShadowText.#ctor(Microsoft.Xna.Framework.Graphics.SpriteFont,System.String,Microsoft.Xna.Framework.Color,Microsoft.Xna.Framework.Color,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,DinaCSharp.Enums.HorizontalAlignment,DinaCSharp.Enums.VerticalAlignment,System.Int32)">
             <summary>
-            Initialise une nouvelle instance de la classe ShadowText avec les paramètres spécifiés.
+            Représente un texte avec une ombre portée.
+            Hérite de <see cref="T:DinaCSharp.Graphics.Text"/> pour le texte principal et maintient
+            une instance <see cref="T:DinaCSharp.Graphics.Text"/> interne pour l'ombre.
             </summary>
+            <remarks>
+            Initialise un <see cref="T:DinaCSharp.Graphics.ShadowText"/>.
+            </remarks>
+            <remarks>
+            Initialise une nouvelle instance de la classe ShadowText avec les paramètres spécifiés.
+            </remarks>
             <param name="font">Police de caractères.</param>
             <param name="content">Contenu textuel.</param>
             <param name="color">Couleur du texte principal.</param>
@@ -2853,7 +2886,8 @@
             <param name="initialValue">Valeur initiale.</param>
             <param name="step">Incrément minimal.</param>
             <param name="orientation">Direction de progression du slider.</param>
-            <param name="zorder"></param>
+            <param name="thumbWidth">Épaisseur du curseur.</param>
+            <param name="zorder">Profondeur d'affichage.</param>
         </member>
         <member name="M:DinaCSharp.Graphics.Slider.Update(Microsoft.Xna.Framework.GameTime)">
             <summary>
@@ -3513,7 +3547,27 @@
             <summary>
             Charge une ressource depuis le ContentManager.
             </summary>
-            <param name="key">Clé associée à la ressource.</param>
+            <param name="key">Clé contenant le chemin pour accéder à la ressource.</param>
+        </member>
+        <member name="M:DinaCSharp.Resources.ResourceManager.Unload``1(DinaCSharp.Services.Keys.Key{DinaCSharp.Resources.ResourceTag})">
+            <summary>
+            Décharge une ressource depuis le ContentManager.
+            </summary>
+            <param name="key">Clé de la ressource.</param>
+        </member>
+        <member name="M:DinaCSharp.Resources.ResourceManager.LoadSpriteSheet(DinaCSharp.Services.Keys.Key{DinaCSharp.Resources.ResourceTag})">
+            <summary>
+            Charge une SpriteSheet en combinant la texture et son fichier XML associé portant le même nom.
+            </summary>
+        </member>
+        <member name="M:DinaCSharp.Resources.ResourceManager.LoadSubTexture(DinaCSharp.SpriteSheets.SpriteSheet,System.String)">
+            <summary>
+            Chargement d'une sous=texture d'un SpriteSheet
+            </summary>
+            <param name="spriteSheet"></param>
+            <param name="textureName"></param>
+            <returns></returns>
+            <exception cref="T:System.Collections.Generic.KeyNotFoundException"></exception>
         </member>
         <member name="M:DinaCSharp.Resources.ResourceManager.Register(DinaCSharp.Services.Keys.Key{DinaCSharp.Resources.ResourceTag})">
             <summary>
@@ -3523,12 +3577,12 @@
         </member>
         <member name="M:DinaCSharp.Resources.ResourceManager.Unload">
             <summary>
-            Décharge toutes les fonts.
+            Décharge toutes les ressources.
             </summary>
         </member>
         <member name="M:DinaCSharp.Resources.ResourceManager.Dispose">
             <summary>
-            Permet de libérer les ressources utilisées par le FontManager.
+            Permet de libérer les ressources utilisées par le ResourceManager.
             </summary>
         </member>
         <member name="T:DinaCSharp.Assemblies.SatelliteAssemblies">
@@ -3580,6 +3634,12 @@
             </summary>
             <param name="game">Instance du jeu pour accéder au ContentManager.</param>
             <param name="contentDirectory">Répertoire de contenu optionnel.</param>
+        </member>
+        <member name="M:DinaCSharp.Services.Audio.SoundManager.Register(DinaCSharp.Services.Keys.Key{DinaCSharp.Services.Keys.ServiceTag})">
+            <summary>
+            Permet d'enregistrer le SoundManager dans le ServiceLocator sous la clé fournie.
+            </summary>
+            <param name="key">Clé d'enregistrement du SoundManager.</param>
         </member>
         <member name="M:DinaCSharp.Services.Audio.SoundManager.LoadSong(DinaCSharp.Services.Keys.Key{DinaCSharp.Services.Audio.SongTag})">
             <summary>
@@ -3668,6 +3728,12 @@
             Permet d'initialiser le singleton FontManager.
             </summary>
         </member>
+        <member name="M:DinaCSharp.Services.Fonts.FontManager.Register(DinaCSharp.Services.Keys.Key{DinaCSharp.Services.Keys.ServiceTag})">
+            <summary>
+            Permet d'enregistrer le FontManager dans le ServiceLocator sous la clé fournie.
+            </summary>
+            <param name="key">Clé d'enregistrement du FontManager.</param>
+        </member>
         <member name="M:DinaCSharp.Services.Fonts.FontManager.Load(DinaCSharp.Services.Keys.Key{DinaCSharp.Services.Fonts.FontTag})">
             <summary>
             Charge une SpriteFont depuis le ContentManager.
@@ -3704,6 +3770,12 @@
             <summary>
             Initialise le singleton avec une liste de résolutions.
             </summary>
+        </member>
+        <member name="M:DinaCSharp.Services.Fonts.FontProfile.Register(DinaCSharp.Services.Keys.Key{DinaCSharp.Services.Keys.ServiceTag})">
+            <summary>
+            Permet d'enregistrer le FontProfile dans le ServiceLocator sous la clé fournie.
+            </summary>
+            <param name="key">Clé d'enregistrement du FontProfile.</param>
         </member>
         <member name="M:DinaCSharp.Services.Fonts.FontProfile.GetInfo(DinaCSharp.Services.Keys.Key{DinaCSharp.Services.Fonts.ResolutionTag})">
             <summary>
@@ -4350,19 +4422,113 @@
             </summary>
             <returns>Un tableau des langues disponibles.</returns>
         </member>
+        <member name="T:DinaCSharp.Services.Logs.LogLevel">
+            <summary>
+            Defines severity levels for logging.
+            </summary>
+            <remarks>
+            These levels are used by <see cref="T:DinaCSharp.Services.Logs.LogManager"/> to filter and categorize
+            log messages. Consumers can set <c>LogManager.MinLogLevel</c> to control
+            which messages are recorded or displayed.
+            </remarks>
+        </member>
+        <member name="F:DinaCSharp.Services.Logs.LogLevel.Debug">
+            <summary>
+            Detailed debugging information. Normally enabled only during development
+            or when diagnosing issues.
+            </summary>
+        </member>
+        <member name="F:DinaCSharp.Services.Logs.LogLevel.Info">
+            <summary>
+            Informational messages that describe normal application flow.
+            </summary>
+        </member>
+        <member name="F:DinaCSharp.Services.Logs.LogLevel.Warning">
+            <summary>
+            Indications of possible problems or unexpected situations that do not
+            stop program execution but may require attention.
+            </summary>
+        </member>
+        <member name="F:DinaCSharp.Services.Logs.LogLevel.Error">
+            <summary>
+            Error events that represent failures in components or operations and
+            typically require investigation.
+            </summary>
+        </member>
         <member name="T:DinaCSharp.Services.Logs.LogManager">
             <summary>
-            Gestionnaire global de logs.
+            Global logger manager that accepts log messages from the application,
+            optionally writes them to a file and/or to the console, and processes
+            messages on a background thread.
+            </summary>
+            <remarks>
+            - Messages are enqueued and processed by a dedicated background thread to
+              avoid blocking producers.
+            - If a file path is provided, the manager will attempt to open the file in
+              append mode and write each log line. File open failures are silently
+              ignored and logging to file is disabled in that case.
+            - Use <see cref="P:DinaCSharp.Services.Logs.LogManager.MinLogLevel"/> to filter out low-severity messages.
+            - Call <see cref="M:DinaCSharp.Services.Logs.LogManager.Dispose"/> when the application is shutting down to flush
+              and stop the background thread cleanly.
+            </remarks>
+        </member>
+        <member name="P:DinaCSharp.Services.Logs.LogManager.MinLogLevel">
+            <summary>
+            Minimum level that will be recorded. Messages below this level are ignored.
+            Default is <see cref="F:DinaCSharp.Services.Logs.LogLevel.Debug"/>.
+            </summary>
+        </member>
+        <member name="P:DinaCSharp.Services.Logs.LogManager.LogToConsole">
+            <summary>
+            When true, messages are also written to the console./>.
             </summary>
         </member>
         <member name="M:DinaCSharp.Services.Logs.LogManager.#ctor(System.String,System.Boolean)">
             <summary>
-            Initialise le LogManager avec un fichier optionnel.
+            Initializes a new instance of <see cref="T:DinaCSharp.Services.Logs.LogManager"/>.
             </summary>
+            <param name="logFilePath">
+            Optional file path to append logs to. If null or if opening the file fails,
+            file logging is disabled but console logging may still occur.
+            </param>
+            <param name="logToConsole">Whether to write logs to the console in addition to file.</param>
         </member>
         <member name="M:DinaCSharp.Services.Logs.LogManager.Log(System.String,DinaCSharp.Services.Logs.LogLevel)">
             <summary>
-            Écrit un message de log.
+            Enqueues a log message with the specified severity.
+            </summary>
+            <param name="message">Log message text.</param>
+            <param name="level">Severity level (default is <see cref="F:DinaCSharp.Services.Logs.LogLevel.Info"/>).</param>
+        </member>
+        <member name="M:DinaCSharp.Services.Logs.LogManager.Debug(System.String)">
+            <summary>
+            Helper to log a debug-level message.
+            </summary>
+        </member>
+        <member name="M:DinaCSharp.Services.Logs.LogManager.Info(System.String)">
+            <summary>
+            Helper to log an informational message.
+            </summary>
+        </member>
+        <member name="M:DinaCSharp.Services.Logs.LogManager.Warning(System.String)">
+            <summary>
+            Helper to log a warning message.
+            </summary>
+        </member>
+        <member name="M:DinaCSharp.Services.Logs.LogManager.Error(System.String)">
+            <summary>
+            Helper to log an error message.
+            </summary>
+        </member>
+        <member name="M:DinaCSharp.Services.Logs.LogManager.Register(DinaCSharp.Services.Keys.Key{DinaCSharp.Services.Keys.ServiceTag})">
+            <summary>
+            Registers this instance into the service locator using the provided key.
+            </summary>
+            <param name="key">Service registration key.</param>
+        </member>
+        <member name="M:DinaCSharp.Services.Logs.LogManager.Dispose">
+            <summary>
+            Stops the background logging thread and releases resources.
             </summary>
         </member>
         <member name="T:DinaCSharp.Services.Menus.MenuItem">
@@ -4471,6 +4637,13 @@
             Met à jour l'état de l'élément de menu en fonction du temps de jeu.
             </summary>
             <param name="gametime"></param>
+        </member>
+        <member name="M:DinaCSharp.Services.Menus.MenuItem.SetAlignments(DinaCSharp.Enums.HorizontalAlignment,DinaCSharp.Enums.VerticalAlignment)">
+            <summary>
+            Permet d'aligner horizontalement et verticalement le texte dans les dimensions du MenuItem.
+            </summary>
+            <param name="horizontalAlignment">Alignement horizontal : Left, Center, Right (défaut : Left).</param>
+            <param name="verticalAlignment">Alignement vertical : Top, Center, Bottom (défaut : Top).</param>
         </member>
         <member name="T:DinaCSharp.Services.Menus.MenuAction">
             <summary>
@@ -4700,6 +4873,18 @@
             <param key="fileFullname">Le chemin complet du fichier.</param>
             <param key="overwritten">Indique si le fichier doit être écrasé.</param>
             <returns>Vrai si l'objet a été sauvegardé avec succès, sinon faux.</returns>
+        </member>
+        <member name="M:DinaCSharp.Services.Save.SaveManager.EncryptText(System.String)">
+            <summary>
+            Encode un texte en UTF-8, l'obfusque via DLACrypto, et retourne le résultat
+            en ASCII (hexadécimal + chiffre de step final) tel qu'il doit être écrit dans le fichier .dla.
+            </summary>
+        </member>
+        <member name="M:DinaCSharp.Services.Save.SaveManager.DecryptText(System.String)">
+            <summary>
+            Lit le contenu ASCII d'un fichier .dla et le désobfusque en texte UTF-8 d'origine.
+            Retourne une chaîne vide si le contenu est corrompu ou trafiqué.
+            </summary>
         </member>
         <member name="T:DinaCSharp.Services.Scenes.SceneTag">
             <summary>
@@ -5283,6 +5468,11 @@
             Définit le nom de cette spritesheet.
             </summary>
             <param name="name">Le nom à attribuer.</param>
+        </member>
+        <member name="M:DinaCSharp.SpriteSheets.SpriteSheet.GetTextureByIndex(Microsoft.Xna.Framework.Graphics.GraphicsDevice,System.Int32)">
+            <summary>
+            Récupère une sous-texture par son index numérique (ordre d'apparition dans le XML).
+            </summary>
         </member>
         <member name="T:DinaCSharp.SpriteSheets.SpriteSheetLoader">
             <summary>

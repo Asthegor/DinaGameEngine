@@ -164,7 +164,6 @@ namespace __RootNamespace__.Scenes
         private Group CreateGraphicsGroup()
         {
             Group graphicsGroup = [];
-            graphicsGroup.AddTitle(_categoryFont, "OPTIONS_CATEGORY_GRAPHICS", PaletteColors.Options_Category, PaletteColors.Options_Title_Shadow, UIScaler.Scale(CATEGORY_FRAME_PADDING), UIScaler.Scale(CATEGORY_FRAME_THICKNESS));
 
             float maxLabelWidth = 0;
             var fontHeight = _labelFont.LineSpacing;
@@ -232,14 +231,15 @@ namespace __RootNamespace__.Scenes
 
             graphicsGroup.Dimensions = new Vector2(resolutionLabel.Dimensions.X + _resolutionButton.Dimensions.X + UIScaler.Scale(OPTIONS_SPACING_X), graphicsGroup.Dimensions.Y);
 
+            graphicsGroup.AddTitle(_categoryFont, "OPTIONS_CATEGORY_GRAPHICS",
+                                   PaletteColors.Options_Category, PaletteColors.Options_Title_Shadow,
+                                   CATEGORY_FRAME_PADDING, CATEGORY_FRAME_THICKNESS);
+
             return graphicsGroup;
         }
         private Group CreateSoundsGroup()
         {
             Group audioGroup = [];
-            audioGroup.AddTitle(_categoryFont, "OPTIONS_CATEGORY_AUDIO",
-                                PaletteColors.Options_Title, PaletteColors.Options_Title_Shadow,
-                                UIScaler.Scale(CATEGORY_FRAME_PADDING), UIScaler.Scale(CATEGORY_FRAME_THICKNESS));
 
             float maxLabelWidth = 0;
 
@@ -313,6 +313,9 @@ namespace __RootNamespace__.Scenes
             audioGroup.Add(_soundsSlider);
             audioGroup.Add(soundsValue);
 
+            audioGroup.AddTitle(_categoryFont, "OPTIONS_CATEGORY_AUDIO",
+                                PaletteColors.Options_Category, PaletteColors.Options_Title_Shadow,
+                                CATEGORY_FRAME_PADDING, CATEGORY_FRAME_THICKNESS);
             return audioGroup;
         }
         private static Group CreateControlsGroup()

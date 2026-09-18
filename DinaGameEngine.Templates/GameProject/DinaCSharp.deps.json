@@ -8,8 +8,7 @@
     ".NETCoreApp,Version=v10.0": {
       "DinaCSharp/2.0.1-alpha.0.4": {
         "dependencies": {
-          "MonoGame.Framework.DesktopGL": "3.8.5",
-          "DLACrypto": "2024.12.26.800"
+          "MonoGame.Framework.DesktopGL": "3.8.5"
         },
         "runtime": {
           "DinaCSharp.dll": {}
@@ -18,14 +17,7 @@
       "MonoGame.Framework.DesktopGL/3.8.5": {
         "dependencies": {
           "MonoGame.Library.OpenAL": "1.24.3.4",
-          "MonoGame.Library.SDL": "2.32.10.2",
-          "NVorbis": "0.10.4"
-        },
-        "runtime": {
-          "lib/net8.0/MonoGame.Framework.dll": {
-            "assemblyVersion": "3.8.5.0",
-            "fileVersion": "3.8.5.0"
-          }
+          "MonoGame.Library.SDL": "2.32.10.2"
         }
       },
       "MonoGame.Library.OpenAL/1.24.3.4": {
@@ -120,22 +112,6 @@
             "fileVersion": "2.32.10.0"
           }
         }
-      },
-      "NVorbis/0.10.4": {
-        "runtime": {
-          "lib/netstandard2.0/NVorbis.dll": {
-            "assemblyVersion": "0.10.4.0",
-            "fileVersion": "0.10.4.0"
-          }
-        }
-      },
-      "DLACrypto/2024.12.26.800": {
-        "runtime": {
-          "DLACrypto.dll": {
-            "assemblyVersion": "2024.12.26.800",
-            "fileVersion": "2024.12.26.800"
-          }
-        }
       }
     }
   },
@@ -165,18 +141,6 @@
       "sha512": "sha512-mtnmWr50KgH2Ui9fPscHPMI3sXgb5NBRnPS7igi4ViJ23ROdP+MLi/j9CmLWX47KuXvI3Bp5BElCDVwRUlswgg==",
       "path": "monogame.library.sdl/2.32.10.2",
       "hashPath": "monogame.library.sdl.2.32.10.2.nupkg.sha512"
-    },
-    "NVorbis/0.10.4": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-WYnil3DhQHzjCY0dM9I2B3r1vWip90AOuQd25KE4NrjPQBg0tBJFluRLm5YPnO5ZLDmwrfosY8jCQGQRmWI/Pg==",
-      "path": "nvorbis/0.10.4",
-      "hashPath": "nvorbis.0.10.4.nupkg.sha512"
-    },
-    "DLACrypto/2024.12.26.800": {
-      "type": "reference",
-      "serviceable": false,
-      "sha512": ""
     }
   }
 }
