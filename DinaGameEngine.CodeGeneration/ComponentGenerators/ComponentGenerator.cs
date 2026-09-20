@@ -44,7 +44,9 @@ namespace DinaGameEngine.CodeGeneration.ComponentGenerators
         protected virtual void GenerateUserFileUsings(SectionParser sectionParser, ComponentModel component, string rootNamespace) { }
         protected virtual void GenerateUserFileCommentField(SectionParser sectionParser, ComponentModel component, int level)
         {
-            sectionParser.InsertIntoZone("AVAILABLE_FIELDS", [CodeBuilder.AddLine($"// [{ComponentType}] {GetFieldName(component)}", level)], true);
+            sectionParser.InsertIntoZone("AVAILABLE_FIELDS",
+                                         [CodeBuilder.AddLine($"// [{ComponentType}] {GetFieldName(component)}", level)], 
+                                         checkExistingLines: true);
         }
         protected virtual void GenerateUserFilePartialFunctions(SectionParser sectionParser, ComponentModel component, int level, IDialogService dialogservice) { }
         #endregion
