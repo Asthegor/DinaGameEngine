@@ -27,7 +27,7 @@ namespace DinaGameEngine.Services
             return Path.Combine(appData, AppFolderName);
         }
         public void DeleteFile(string path) => File.Delete(path);
-        public void CopyFile(string source, string destination) => File.Copy(source, destination);
+        public void CopyFile(string source, string destination, bool overwrite = false) => File.Copy(source, destination, overwrite);
         public IEnumerable<string> GetFiles(string path, string searchPattern, bool recursive = false)
         {
             if (!Directory.Exists(path))
@@ -37,6 +37,8 @@ namespace DinaGameEngine.Services
         public string GetFileName(string path) => Path.GetFileName(path);
         public string GetDirectoryName(string path) => Path.GetDirectoryName(path)!;
         public string Combine(params string[] paths) => Path.Combine(paths);
+        public string GetTempPath() => Path.GetTempPath();
+        public Task WriteAllBytesAsync(string path, byte[] bytes) => File.WriteAllBytesAsync(path, bytes);
 
         public void CreateResxFile(string path, string namespaceName, string className)
         {
@@ -108,5 +110,7 @@ namespace DinaGameEngine.Services
         """;
             WriteAllText(path, content);
         }
+
+
     }
 }

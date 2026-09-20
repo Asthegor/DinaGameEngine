@@ -8,7 +8,7 @@
         bool FileExists(string path);
         bool DirectoryExists(string path);
         void CreateDirectory(string path);
-        void CopyFile(string source, string destination);
+        void CopyFile(string source, string destination, bool overwrite = false);
         public IEnumerable<string> GetFiles(string path, string searchPattern, bool recursive = false);
         string GetAppDataDirectory(); // Retourne le dossier AppData\DinaGameEngine
         string Combine(params string[] paths);
@@ -17,5 +17,7 @@
         void CreateResxDesignerFile(string path, string namespaceName, string className);
         string GetFileName(string path);
         string GetDirectoryName(string path);
+        string GetTempPath();
+        Task WriteAllBytesAsync(string path, byte[] bytes);
     }
 }
