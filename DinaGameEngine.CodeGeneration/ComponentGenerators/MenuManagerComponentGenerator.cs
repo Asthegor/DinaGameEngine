@@ -240,7 +240,7 @@ namespace DinaGameEngine.CodeGeneration.ComponentGenerators
                         CodeBuilder.AddLine($"return menuItem;", level + 1),
                         CodeBuilder.CloseBlock(level),
                         CodeBuilder.AddLine($"private partial void On{menuItemFieldName}Deselection({menuItem.Type} menuItem);", level),
-                    ], true);
+                    ]);
                 }
 
                 sectionParser.InsertIntoZone("PARTIAL_METHODS",
@@ -250,7 +250,7 @@ namespace DinaGameEngine.CodeGeneration.ComponentGenerators
                     CodeBuilder.AddLine($"return menuItem;", level + 1),
                     CodeBuilder.CloseBlock(level),
                     CodeBuilder.AddLine($"private partial void On{menuItemFieldName}Activation({menuItem.Type} menuItem);", level),
-                ], true);
+                ]);
             }
         }
 
