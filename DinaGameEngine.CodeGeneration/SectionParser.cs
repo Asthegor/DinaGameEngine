@@ -112,45 +112,20 @@
             var indexStartZone = FindIndexZone(ZONE_OPEN, "PARTIAL_METHODS");
             var indexEndZone = FindIndexZone(ZONE_CLOSE, "PARTIAL_METHODS");
             var partialMethodLines = _lines.GetRange(indexStartZone, indexEndZone - indexStartZone);
-            return partialMethodLines.Any(l => l.Contains(functionSignature));
+            return partialMethodLines.Any(l => !l.TrimStart().StartsWith("//") && l.Contains(functionSignature));
         }
         public void RemovePartialFunction(string functionSignature)
         {
             var indexStartZone = FindIndexZone(ZONE_OPEN, "PARTIAL_METHODS");
             var indexEndZone = FindIndexZone(ZONE_CLOSE, "PARTIAL_METHODS");
-            var isFunctionPresent = false;
-            var indexStartFunction = -1;
-            for (int index = indexStartZone; index < indexEndZone; index++)
-            {
-                if (_lines[index].Contains(functionSignature))
-                {
-                    isFunctionPresent = true;
-                    indexStartFunction = index;
-                    break;
-                }
-            }
-            if (!isFunctionPresent)
+
+            var indexStartFunction = FindFunctionSignatureIndex(functionSignature, indexStartZone, indexEndZone);
+            if (indexStartFunction < 0)
                 return;
 
-            var indexEndFunction = -1;
-            var brackets = -1;
-            for(int index = indexStartFunction; index < indexEndZone; index++)
-            {
-                if (_lines[index].Contains('{'))
-                {
-                    if (brackets < 0)
-                        brackets = 0;
-                    brackets++;
-                }
-                if (_lines[index].Contains('}'))
-                    brackets--;
-
-                if (brackets == 0)
-                {
-                    indexEndFunction = index;
-                    break;
-                }
-            }
+            var indexEndFunction = FindEndOfPartialFunctionBlock(indexStartFunction, indexEndZone);
+            if (indexEndFunction < 0)
+                return;
 
             _lines.RemoveRange(indexStartFunction, indexEndFunction - indexStartFunction + 1);
         }
@@ -162,15 +137,7 @@
             var indexStartZone = FindIndexZone(ZONE_OPEN, "PARTIAL_METHODS");
             var indexEndZone = FindIndexZone(ZONE_CLOSE, "PARTIAL_METHODS");
 
-            var indexFunction = -1;
-            for (int i = indexStartZone; i < indexEndZone; i++)
-            {
-                if (_lines[i].Contains(functionSignature))
-                {
-                    indexFunction = i;
-                    break;
-                }
-            }
+            var indexFunction = FindFunctionSignatureIndex(functionSignature, indexStartZone, indexEndZone);
             if (indexFunction < 0)
                 return false;
 
@@ -268,7 +235,49 @@
             }
             return (indexOpen, indexClose);
         }
+        public bool CommentEntirePartialFunction(string functionSignature, string marker)
+        {
+            var indexStartZone = FindIndexZone(ZONE_OPEN, "PARTIAL_METHODS");
+            var indexEndZone = FindIndexZone(ZONE_CLOSE, "PARTIAL_METHODS");
 
+            var indexStartFunction = FindFunctionSignatureIndex(functionSignature, indexStartZone, indexEndZone);
+            if (indexStartFunction < 0)
+                return false;
+
+            // On supprime l'historique existant s'il y en a un (un seul historique conservé par fonction)
+            var (indexHistOpen, indexHistClose) = FindLocalZone(indexStartZone, indexEndZone, marker);
+            if (indexHistOpen >= 0 && indexHistClose >= 0)
+            {
+                _lines.RemoveRange(indexHistOpen, indexHistClose - indexHistOpen + 1);
+
+                // Les index ont pu se décaler après la suppression de l'historique
+                indexEndZone = FindIndexZone(ZONE_CLOSE, "PARTIAL_METHODS");
+                indexStartFunction = FindFunctionSignatureIndex(functionSignature, indexStartZone, indexEndZone);
+                if (indexStartFunction < 0)
+                    return false;
+            }
+
+            var indexEndFunction = FindEndOfPartialFunctionBlock(indexStartFunction, indexEndZone);
+            if (indexEndFunction < 0)
+                return false;
+
+            var indentation = _lines[indexStartFunction][..(_lines[indexStartFunction].Length - _lines[indexStartFunction].TrimStart().Length)];
+
+            _lines.Insert(indexStartFunction, $"{indentation}{string.Format(ZONE_OPEN, marker)}");
+            indexStartFunction++;
+            indexEndFunction++;
+
+            for (int i = indexStartFunction; i <= indexEndFunction; i++)
+            {
+                if (string.IsNullOrWhiteSpace(_lines[i]))
+                    continue;
+                _lines[i] = $"{indentation}// {_lines[i].TrimStart()}";
+            }
+
+            _lines.Insert(indexEndFunction + 1, $"{indentation}{string.Format(ZONE_CLOSE, marker)}");
+
+            return true;
+        }
         public bool CommentAndReplacePartialFunctionBody(string functionSignature, IEnumerable<string> newLines, string marker)
         {
             if (!TryFindPartialFunctionBodyBounds(functionSignature, out var indexBodyStart, out var indexReturn))
@@ -375,5 +384,39 @@
             _lines.RemoveAt(index);
         }
 
+        private int FindEndOfPartialFunctionBlock(int indexStartFunction, int indexEndZone)
+        {
+            var indexEndFunction = -1;
+            var brackets = -1;
+            for (int index = indexStartFunction; index < indexEndZone; index++)
+            {
+                if (_lines[index].Contains('{'))
+                {
+                    if (brackets < 0)
+                        brackets = 0;
+                    brackets++;
+                }
+                if (_lines[index].Contains('}'))
+                    brackets--;
+
+                if (brackets == 0)
+                {
+                    indexEndFunction = index;
+                    break;
+                }
+            }
+            return indexEndFunction;
+        }
+        private int FindFunctionSignatureIndex(string functionSignature, int indexStartZone, int indexEndZone)
+        {
+            for (int index = indexStartZone; index < indexEndZone; index++)
+            {
+                if (_lines[index].TrimStart().StartsWith("//"))
+                    continue;
+                if (_lines[index].Contains(functionSignature))
+                    return index;
+            }
+            return -1;
+        }
     }
 }
