@@ -2734,31 +2734,11 @@
             <remarks>
             Initialise un <see cref="T:DinaCSharp.Graphics.ShadowText"/>.
             </remarks>
-            <remarks>
-            Initialise une nouvelle instance de la classe ShadowText avec les paramètres spécifiés.
-            </remarks>
-            <param name="font">Police de caractères.</param>
-            <param name="content">Contenu textuel.</param>
-            <param name="color">Couleur du texte principal.</param>
-            <param name="position">Position du texte principal à l'écran.</param>
-            <param name="shadowColor">Couleur de l'ombre.</param>
-            <param name="shadowOffset">Décalage de l'ombre par rapport au texte.</param>
-            <param name="halign">Alignement horizontal (défaut : Left).</param>
-            <param name="valign">Alignement vertical (défaut : Top).</param>
-            <param name="zorder">Ordre de superposition (défaut : 0). L'ombre est toujours à <c>zorder - 1</c>.</param>
         </member>
         <member name="M:DinaCSharp.Graphics.ShadowText.#ctor(Microsoft.Xna.Framework.Graphics.SpriteFont,System.String,Microsoft.Xna.Framework.Color,Microsoft.Xna.Framework.Color,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,DinaCSharp.Enums.HorizontalAlignment,DinaCSharp.Enums.VerticalAlignment,System.Int32)">
             <summary>
-            Représente un texte avec une ombre portée.
-            Hérite de <see cref="T:DinaCSharp.Graphics.Text"/> pour le texte principal et maintient
-            une instance <see cref="T:DinaCSharp.Graphics.Text"/> interne pour l'ombre.
-            </summary>
-            <remarks>
-            Initialise un <see cref="T:DinaCSharp.Graphics.ShadowText"/>.
-            </remarks>
-            <remarks>
             Initialise une nouvelle instance de la classe ShadowText avec les paramètres spécifiés.
-            </remarks>
+            </summary>
             <param name="font">Police de caractères.</param>
             <param name="content">Contenu textuel.</param>
             <param name="color">Couleur du texte principal.</param>
@@ -4421,115 +4401,6 @@
             Récupère la liste des cultures disponibles via les assemblies satellites.
             </summary>
             <returns>Un tableau des langues disponibles.</returns>
-        </member>
-        <member name="T:DinaCSharp.Services.Logs.LogLevel">
-            <summary>
-            Defines severity levels for logging.
-            </summary>
-            <remarks>
-            These levels are used by <see cref="T:DinaCSharp.Services.Logs.LogManager"/> to filter and categorize
-            log messages. Consumers can set <c>LogManager.MinLogLevel</c> to control
-            which messages are recorded or displayed.
-            </remarks>
-        </member>
-        <member name="F:DinaCSharp.Services.Logs.LogLevel.Debug">
-            <summary>
-            Detailed debugging information. Normally enabled only during development
-            or when diagnosing issues.
-            </summary>
-        </member>
-        <member name="F:DinaCSharp.Services.Logs.LogLevel.Info">
-            <summary>
-            Informational messages that describe normal application flow.
-            </summary>
-        </member>
-        <member name="F:DinaCSharp.Services.Logs.LogLevel.Warning">
-            <summary>
-            Indications of possible problems or unexpected situations that do not
-            stop program execution but may require attention.
-            </summary>
-        </member>
-        <member name="F:DinaCSharp.Services.Logs.LogLevel.Error">
-            <summary>
-            Error events that represent failures in components or operations and
-            typically require investigation.
-            </summary>
-        </member>
-        <member name="T:DinaCSharp.Services.Logs.LogManager">
-            <summary>
-            Global logger manager that accepts log messages from the application,
-            optionally writes them to a file and/or to the console, and processes
-            messages on a background thread.
-            </summary>
-            <remarks>
-            - Messages are enqueued and processed by a dedicated background thread to
-              avoid blocking producers.
-            - If a file path is provided, the manager will attempt to open the file in
-              append mode and write each log line. File open failures are silently
-              ignored and logging to file is disabled in that case.
-            - Use <see cref="P:DinaCSharp.Services.Logs.LogManager.MinLogLevel"/> to filter out low-severity messages.
-            - Call <see cref="M:DinaCSharp.Services.Logs.LogManager.Dispose"/> when the application is shutting down to flush
-              and stop the background thread cleanly.
-            </remarks>
-        </member>
-        <member name="P:DinaCSharp.Services.Logs.LogManager.MinLogLevel">
-            <summary>
-            Minimum level that will be recorded. Messages below this level are ignored.
-            Default is <see cref="F:DinaCSharp.Services.Logs.LogLevel.Debug"/>.
-            </summary>
-        </member>
-        <member name="P:DinaCSharp.Services.Logs.LogManager.LogToConsole">
-            <summary>
-            When true, messages are also written to the console./>.
-            </summary>
-        </member>
-        <member name="M:DinaCSharp.Services.Logs.LogManager.#ctor(System.String,System.Boolean)">
-            <summary>
-            Initializes a new instance of <see cref="T:DinaCSharp.Services.Logs.LogManager"/>.
-            </summary>
-            <param name="logFilePath">
-            Optional file path to append logs to. If null or if opening the file fails,
-            file logging is disabled but console logging may still occur.
-            </param>
-            <param name="logToConsole">Whether to write logs to the console in addition to file.</param>
-        </member>
-        <member name="M:DinaCSharp.Services.Logs.LogManager.Log(System.String,DinaCSharp.Services.Logs.LogLevel)">
-            <summary>
-            Enqueues a log message with the specified severity.
-            </summary>
-            <param name="message">Log message text.</param>
-            <param name="level">Severity level (default is <see cref="F:DinaCSharp.Services.Logs.LogLevel.Info"/>).</param>
-        </member>
-        <member name="M:DinaCSharp.Services.Logs.LogManager.Debug(System.String)">
-            <summary>
-            Helper to log a debug-level message.
-            </summary>
-        </member>
-        <member name="M:DinaCSharp.Services.Logs.LogManager.Info(System.String)">
-            <summary>
-            Helper to log an informational message.
-            </summary>
-        </member>
-        <member name="M:DinaCSharp.Services.Logs.LogManager.Warning(System.String)">
-            <summary>
-            Helper to log a warning message.
-            </summary>
-        </member>
-        <member name="M:DinaCSharp.Services.Logs.LogManager.Error(System.String)">
-            <summary>
-            Helper to log an error message.
-            </summary>
-        </member>
-        <member name="M:DinaCSharp.Services.Logs.LogManager.Register(DinaCSharp.Services.Keys.Key{DinaCSharp.Services.Keys.ServiceTag})">
-            <summary>
-            Registers this instance into the service locator using the provided key.
-            </summary>
-            <param name="key">Service registration key.</param>
-        </member>
-        <member name="M:DinaCSharp.Services.Logs.LogManager.Dispose">
-            <summary>
-            Stops the background logging thread and releases resources.
-            </summary>
         </member>
         <member name="T:DinaCSharp.Services.Menus.MenuItem">
             <summary>
