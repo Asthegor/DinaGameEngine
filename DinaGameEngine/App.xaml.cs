@@ -34,6 +34,7 @@ namespace DinaGameEngine
             var projectService = new ProjectService(fileService, logService, templateExtractor, codeGenerator);
             var componentPropertiesViewModelFactory = new ComponentPropertiesViewModelFactory();
             var addComponentViewModelFactory = new AddComponentViewModelFactory();
+            var updateService = new DinaCSharpUpdateService(fileService, logService);
 
             // Enregistrement des composants
             componentGeneratorRegistry.Register(new TextComponentGenerator());
@@ -45,23 +46,23 @@ namespace DinaGameEngine
             LocalizationManager.Register(typeof(Strings));
 
 
-            
+
             // Vérification de la présence des DLL de DinaCSharp et DLACrypto.
-            CheckLibsPath(templateExtractor);
+            string libsFolder = fileService.Combine(AppContext.BaseDirectory, "Libs");
+            CheckLibsPath(libsFolder, templateExtractor);
 
             var navigationService = new NavigationService(fileService, generatedFileChecker, logService, templateExtractor,
                                                           codeGenerator, projectService, dialogService, componentGeneratorRegistry,
                                                           componentPropertiesViewModelFactory, addComponentViewModelFactory);
             navigationService.Navigate(NavigationRequest.ShowStartup);
 
+            // Mise à jour des DLL de DinaCSharp et DLACrypto.
+            _ = Task.Run(() => updateService.CheckAndUpdateLibsAsync(libsFolder));
 
         }
-        private static void CheckLibsPath(TemplateExtractor templateExtractor)
+        private static void CheckLibsPath(string libsPath, TemplateExtractor templateExtractor)
         {
-            var libsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Libs");
-            var allFilesPresent = Directory.Exists(libsPath) &&
-                                  templateExtractor.LibFiles
-                                  .All(f => File.Exists(Path.Combine(libsPath, f)));
+            var allFilesPresent = Directory.Exists(libsPath) && templateExtractor.LibFiles.All(f => File.Exists(Path.Combine(libsPath, f)));
 
             if (!allFilesPresent)
             {
