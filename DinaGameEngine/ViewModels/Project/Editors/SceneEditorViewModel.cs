@@ -148,7 +148,16 @@ namespace DinaGameEngine.ViewModels.Project.Editors
             if (sender is not ComponentPropertiesViewModel vm)
                 return;
 
-            _codeGenerator.RemoveComponent(_gameProjectModel, _sceneModel, oldSnapshot, showWarning: false);
+            // Le nettoyage complet (Remove) n'est nécessaire que si la Key a changé :
+            // les noms de champs/fonctions générés en dépendent, donc les anciens
+            // deviendraient orphelins sous la nouvelle Key. Si la Key est inchangée,
+            // on laisse AddComponent gérer la mise à jour de façon incrémentale —
+            // c'est ce qui permet à GenerateUserFilePartialFunctions (ex. la bascule
+            // useShared du MenuManager) de retrouver les fonctions existantes et de
+            // les historiser au lieu de les perdre.
+            if (oldSnapshot.Key != vm.Component.Key)
+                _codeGenerator.RemoveComponent(_gameProjectModel, _sceneModel, oldSnapshot, showWarning: false);
+
             _codeGenerator.AddComponent(_gameProjectModel, _sceneModel, vm.Component);
             _projectService.UpdateJsonProjectFile(_gameProjectModel);
 

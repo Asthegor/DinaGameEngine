@@ -175,7 +175,38 @@
 
             _lines.InsertRange(indexReturn, lines);
         }
+        public bool IsPartialFunctionBodyEmpty(string functionSignature)
+        {
+            var indexStartZone = FindIndexZone(ZONE_OPEN, "PARTIAL_METHODS");
+            var indexEndZone = FindIndexZone(ZONE_CLOSE, "PARTIAL_METHODS");
 
+            var indexStartFunction = FindFunctionSignatureIndex(functionSignature, indexStartZone, indexEndZone);
+            if (indexStartFunction < 0)
+                return true; // Fonction absente : rien à historiser
+
+            var indexEndFunction = FindEndOfPartialFunctionBlock(indexStartFunction, indexEndZone);
+            if (indexEndFunction < 0)
+                return true;
+
+            var indexOpenBrace = -1;
+            for (int i = indexStartFunction; i <= indexEndFunction; i++)
+            {
+                if (_lines[i].Contains('{'))
+                {
+                    indexOpenBrace = i;
+                    break;
+                }
+            }
+            if (indexOpenBrace < 0)
+                return true;
+
+            for (int i = indexOpenBrace + 1; i < indexEndFunction; i++)
+            {
+                if (!string.IsNullOrWhiteSpace(_lines[i]))
+                    return false;
+            }
+            return true;
+        }
         public bool IsPartialFunctionBodyEqual(string functionSignature, string action, string marker)
         {
             if (!TryFindPartialFunctionBodyBounds(functionSignature, out var indexBodyStart, out var indexReturn))
@@ -418,5 +449,6 @@
             }
             return -1;
         }
+
     }
 }

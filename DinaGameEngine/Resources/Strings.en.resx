@@ -553,4 +553,25 @@ Please remove it manually.</value>
   <data name="Component_MenuItem_DeselectionColor_Label" xml:space="preserve">
     <value>Color when deselected</value>
   </data>
+  <data name="MenuAction_ChangeColor_Label" xml:space="preserve">
+    <value>Change color</value>
+  </data>
+  <data name="MenuAction_ChangeScene_Label" xml:space="preserve">
+    <value>Change scene</value>
+  </data>
+  <data name="MenuAction_Selection_Label" xml:space="preserve">
+    <value>Selection</value>
+  </data>
+  <data name="MenuAction_Deselection_Label" xml:space="preserve">
+    <value>Deselection</value>
+  </data>
+  <data name="MenuAction_Activation_Label" xml:space="preserve">
+    <value>Activation</value>
+  </data>
+  <data name="MenuAction_Cancel_Label" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="MenuItemEvent_Clear_Label" xml:space="preserve">
+    <value>Clear</value>
+  </data>
 </root>

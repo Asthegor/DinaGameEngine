@@ -553,4 +553,28 @@ Pensez à le supprimer manuellement.</value>
   <data name="Component_MenuItem_DeselectionColor_Label" xml:space="preserve">
     <value>Couleur à la désélection</value>
   </data>
+  <data name="MenuAction_ChangeColor_Label" xml:space="preserve">
+    <value>Changer la couleur</value>
+  </data>
+  <data name="MenuAction_ChangeScene_Label" xml:space="preserve">
+    <value>Changer de scène</value>
+  </data>
+  <data name="MenuAction_Selection_Label" xml:space="preserve">
+    <value>Sélection</value>
+  </data>
+  <data name="MenuAction_Deselection_Label" xml:space="preserve">
+    <value>Désélection</value>
+  </data>
+  <data name="MenuAction_Activation_Label" xml:space="preserve">
+    <value>Activation</value>
+  </data>
+  <data name="MenuAction_Cancel_Label" xml:space="preserve">
+    <value>Annulation</value>
+  </data>
+  <data name="MenuItemEvent_Clear_Label" xml:space="preserve">
+    <value>Vider</value>
+  </data>
+  <data name="MenuItemEvent_AddAction_Label" xml:space="preserve">
+    <value>+ Ajouter une action</value>
+  </data>
 </root>

@@ -14,7 +14,7 @@ namespace DinaGameEngine.ViewModels.Project.Components
             {
                 ComponentTypes.Text => new TextComponentPropertiesViewModel(gameProjectModel.Fonts, gameProjectModel.Colors, component),
                 ComponentTypes.MenuManager => new MenuManagerComponentPropertiesViewModel(component, gameProjectModel.Colors),
-                ComponentTypes.MenuItem => new MenuItemComponentPropertiesViewModel(gameProjectModel.Fonts, gameProjectModel.Colors, component, isSharedSelectionDeselection),
+                ComponentTypes.MenuItem => new MenuItemComponentPropertiesViewModel(gameProjectModel.Fonts, gameProjectModel.Colors, gameProjectModel.Scenes, component, isSharedSelectionDeselection),
                 ComponentTypes.MenuTitle => new MenuTitleComponentPropertiesViewModel(gameProjectModel.Fonts, gameProjectModel.Colors, component),
                 ComponentTypes.ShadowText => new ShadowTextComponentPropertiesViewModel(gameProjectModel.Fonts, gameProjectModel.Colors, component),
                 _ => null

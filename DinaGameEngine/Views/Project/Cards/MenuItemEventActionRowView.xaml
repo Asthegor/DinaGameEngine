@@ -1,0 +1,67 @@
+﻿<UserControl x:Class="DinaGameEngine.Views.Project.Cards.MenuItemEventActionRowView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:converters="clr-namespace:DinaGameEngine.Converters"
+             mc:Ignorable="d"
+             d:DesignHeight="36" d:DesignWidth="400">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Themes/CardItem.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Border CornerRadius="6" Height="36" Margin="24,1,0,1"
+            Style="{StaticResource CardItemBorderStyle}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Column="0" Orientation="Horizontal"
+                        VerticalAlignment="Center" Margin="8,0,4,0">
+                <TextBlock Text="{Binding Icon}"
+                           FontFamily="Segoe Fluent Icons" FontSize="14"
+                           Foreground="DimGray" VerticalAlignment="Center"/>
+                <TextBlock Text="{Binding Label}"
+                           Margin="6,0,8,0" FontWeight="SemiBold"
+                           VerticalAlignment="Center"/>
+                <ComboBox MinWidth="140" VerticalAlignment="Center"
+                          ItemsSource="{Binding AvailableKeys}"
+                          SelectedItem="{Binding SelectedKey, Mode=TwoWay}"/>
+            </StackPanel>
+
+            <Button Grid.Column="1"
+                    Margin="4,0,0,0"
+                    Content="{Binding MoveUpIcon}"
+                    FontFamily="Segoe Fluent Icons" FontSize="14"
+                    Command="{Binding MoveUpCommand}"
+                    IsEnabled="{Binding CanMoveUp}"
+                    Style="{DynamicResource GhostFooterButton}"
+                    Width="28" Height="28"/>
+
+            <Button Grid.Column="2"
+                    Content="{Binding MoveDownIcon}"
+                    FontFamily="Segoe Fluent Icons" FontSize="14"
+                    Command="{Binding MoveDownCommand}"
+                    IsEnabled="{Binding CanMoveDown}"
+                    Style="{DynamicResource GhostFooterButton}"
+                    Width="28" Height="28"/>
+
+            <Button Grid.Column="3"
+                    Margin="4,0,4,0"
+                    Content="{Binding DeleteIcon}"
+                    FontFamily="Segoe Fluent Icons" FontSize="14"
+                    Command="{Binding DeleteCommand}"
+                    Style="{DynamicResource GhostFooterButton}"
+                    Width="28" Height="28"
+                    BorderBrush="OrangeRed" Foreground="OrangeRed" Tag="#FFECB3"/>
+        </Grid>
+    </Border>
+</UserControl>

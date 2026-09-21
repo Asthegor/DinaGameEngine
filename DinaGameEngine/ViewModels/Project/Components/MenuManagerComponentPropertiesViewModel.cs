@@ -1,8 +1,10 @@
 ﻿using DinaGameEngine.Commands;
+using DinaGameEngine.Common;
 using DinaGameEngine.Common.Enums;
 using DinaGameEngine.Extensions;
 using DinaGameEngine.Models.Helpers;
 using DinaGameEngine.Models.Project;
+using DinaGameEngine.ViewModels.Project.Items;
 
 using System.Drawing;
 
@@ -22,8 +24,6 @@ namespace DinaGameEngine.ViewModels.Project.Components
         private int? _iconSpacingX;
         private bool _iconResize;
         private bool _useSharedSelectionDeselection;
-        private ColorModel? _selectionColor;
-        private ColorModel? _deselectionColor;
 
         public MenuManagerComponentPropertiesViewModel(ComponentModel existingComponent, IEnumerable<ColorModel> availableColors)
             : base(existingComponent)
@@ -32,12 +32,25 @@ namespace DinaGameEngine.ViewModels.Project.Components
             ResetCancellationCommand = new RelayCommand(ResetCancellation);
 
             AvailableColors = availableColors;
+            SelectionEvent = new MenuItemEventViewModel(MenuActionCategory.Selection, ResolveAvailableKeys, () => NotifyChange());
+            DeselectionEvent = new MenuItemEventViewModel(MenuActionCategory.Deselection, ResolveAvailableKeys, () => NotifyChange());
+            CancelEvent = new MenuItemEventViewModel(MenuActionCategory.Cancel, ResolveAvailableKeys, () => NotifyChange());
 
             LoadFrom(existingComponent);
             NotifyChange(false);
         }
         public static string DeleteIcon => DinaIcon.Delete.ToGlyph();
-        public override bool IsValid => !UseSharedSelectionDeselection || (SelectionColor != null && DeselectionColor != null);
+        //public override bool IsValid => !UseSharedSelectionDeselection || (SelectionColor != null && DeselectionColor != null);
+        public override bool IsValid => CancelEvent.IsValid && (!UseSharedSelectionDeselection || (SelectionEvent.IsValid && DeselectionEvent.IsValid));
+        public MenuItemEventViewModel SelectionEvent { get; }
+        public MenuItemEventViewModel DeselectionEvent { get; }
+        public MenuItemEventViewModel CancelEvent { get; }
+
+        private IEnumerable<string> ResolveAvailableKeys(MenuActionType type) => type switch
+        {
+            MenuActionType.ChangeColor => AvailableColors.Select(c => c.Key),
+            _ => []
+        };
         protected override void LoadFrom(ComponentModel source)
         {
             (ItemSpacingX, ItemSpacingY) = ComponentPropertyHelper.GetPointProperty(source, "ItemSpacing");
@@ -51,8 +64,12 @@ namespace DinaGameEngine.ViewModels.Project.Components
             IconRightTexture = ComponentPropertyHelper.GetStringProperty(source, "IconRightTexture");
             IconResize = ComponentPropertyHelper.GetBoolProperty(source, "IconResize", false);
             UseSharedSelectionDeselection = ComponentPropertyHelper.GetBoolProperty(source, "UseSharedSelectionDeselection", false);
-            SelectionColor = AvailableColors.FirstOrDefault(c => c.Key == ComponentPropertyHelper.GetStringProperty(source, "SelectionColor"));
-            DeselectionColor = AvailableColors.FirstOrDefault(c => c.Key == ComponentPropertyHelper.GetStringProperty(source, "DeselectionColor"));
+            CancelEvent.LoadFrom(source);
+            if (UseSharedSelectionDeselection)
+            {
+                SelectionEvent.LoadFrom(source);
+                DeselectionEvent.LoadFrom(source);
+            }
         }
         public override void ApplyToModel()
         {
@@ -109,15 +126,16 @@ namespace DinaGameEngine.ViewModels.Project.Components
                 _component.Properties.Remove("IconResize");
 
             _component.Properties["UseSharedSelectionDeselection"] = UseSharedSelectionDeselection;
-            if (UseSharedSelectionDeselection && !string.IsNullOrEmpty(SelectionColor?.Key) && !string.IsNullOrEmpty(DeselectionColor?.Key))
+
+            _component.Properties.Remove("SelectionColor");
+            _component.Properties.Remove("DeselectionColor");
+
+            _component.SubComponents.RemoveAll(c => c.Type == ComponentTypes.MenuItemEvent);
+            _component.SubComponents.Add(CancelEvent.ToModel());
+            if (UseSharedSelectionDeselection)
             {
-                _component.Properties["SelectionColor"] = SelectionColor!.Key;
-                _component.Properties["DeselectionColor"] = DeselectionColor!.Key;
-            }
-            else
-            {
-                _component.Properties.Remove("SelectionColor");
-                _component.Properties.Remove("DeselectionColor");
+                _component.SubComponents.Add(SelectionEvent.ToModel());
+                _component.SubComponents.Add(DeselectionEvent.ToModel());
             }
         }
 
@@ -246,24 +264,6 @@ namespace DinaGameEngine.ViewModels.Project.Components
             set
             {
                 SetProperty(ref _useSharedSelectionDeselection, value);
-                NotifyChange();
-            }
-        }
-        public ColorModel? SelectionColor
-        {
-            get => _selectionColor;
-            set
-            {
-                SetProperty(ref _selectionColor, value);
-                NotifyChange();
-            }
-        }
-        public ColorModel? DeselectionColor
-        {
-            get => _deselectionColor;
-            set
-            {
-                SetProperty(ref _deselectionColor, value);
                 NotifyChange();
             }
         }
