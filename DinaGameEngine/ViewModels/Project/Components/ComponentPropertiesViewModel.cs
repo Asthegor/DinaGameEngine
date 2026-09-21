@@ -58,6 +58,7 @@ namespace DinaGameEngine.ViewModels.Project.Components
             _component.Key = _snapshot.Key;
             _component.Properties = new Dictionary<string, object>(_snapshot.Properties);
             _key = _snapshot.Key;
+            _component.SubComponents = _snapshot.SubComponents;
             OnPropertyChanged(nameof(Key));
             LoadFrom(_component);
             NotifyChange(false);

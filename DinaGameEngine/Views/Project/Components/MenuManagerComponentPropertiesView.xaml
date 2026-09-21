@@ -7,6 +7,7 @@
              xmlns:shared="clr-namespace:DinaGameEngine.Views.Shared"
              xmlns:ext="clr-namespace:DinaGameEngine.Extensions"
              xmlns:converters="clr-namespace:DinaGameEngine.Converters"
+             xmlns:cards="clr-namespace:DinaGameEngine.Views.Project.Cards"
              mc:Ignorable="d" 
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:enums="clr-namespace:DinaGameEngine.Common.Enums;assembly=DinaGameEngine.Common"
@@ -77,13 +78,11 @@
             <shared:LabeledCheckBox Label="{ext:Translate Key=Component_MenuManager_UseSharedSelectionDeselection_Label}"
                                     IsChecked="{Binding UseSharedSelectionDeselection}"/>
             <StackPanel Visibility="{Binding UseSharedSelectionDeselection, Converter={StaticResource BoolToVisibility}}">
-                <shared:LabeledColorComboBox Label="{ext:Translate Key=Component_MenuManager_SelectionColor_Label}"
-                                             AvailableColors="{Binding AvailableColors}"
-                                             SelectedColor="{Binding SelectionColor}"/>
-                <shared:LabeledColorComboBox Label="{ext:Translate Key=Component_MenuManager_DeselectionColor_Label}"
-                                             AvailableColors="{Binding AvailableColors}"
-                                             SelectedColor="{Binding DeselectionColor}"/>
+                <cards:MenuItemEventCardView DataContext="{Binding SelectionEvent}"/>
+                <cards:MenuItemEventCardView DataContext="{Binding DeselectionEvent}"/>
             </StackPanel>
+
+            <cards:MenuItemEventCardView DataContext="{Binding CancelEvent}"/>
         </StackPanel>
     </ScrollViewer>
 </UserControl>

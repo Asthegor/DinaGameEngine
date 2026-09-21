@@ -133,8 +133,8 @@ namespace DinaGameEngine.ViewModels.Project.Items
             OnPropertyChanged(nameof(TitlesHeader));
             if (MenuTitles.Count > 0)
             {
-                UpdateMoveFlags(MenuTitles, MenuTitles[0]);
-                UpdateMoveFlags(MenuTitles, MenuTitles[^1]);
+                MoveComponentHelper.UpdateMoveFlags(MenuTitles, MenuTitles[0]);
+                MoveComponentHelper.UpdateMoveFlags(MenuTitles, MenuTitles[^1]);
             }
         }
         public event EventHandler? AddMenuTitleRequested;
@@ -146,9 +146,9 @@ namespace DinaGameEngine.ViewModels.Project.Items
             menuTitleViewModel.ItemMovedDown += OnMenuTitleMoveDown;
             MenuTitles.Add(menuTitleViewModel);
             OnPropertyChanged(nameof(TitlesHeader));
-            UpdateMoveFlags(MenuTitles, MenuTitles[^1]);
+            MoveComponentHelper.UpdateMoveFlags(MenuTitles, MenuTitles[^1]);
             if (MenuTitles.Count > 1)
-                UpdateMoveFlags(MenuTitles, MenuTitles[^2]);
+                MoveComponentHelper.UpdateMoveFlags(MenuTitles, MenuTitles[^2]);
         }
         #endregion
 
@@ -220,7 +220,7 @@ namespace DinaGameEngine.ViewModels.Project.Items
             if (vm == null)
                 return;
 
-            var swappedVm = MoveUpInCollection(collection, vm);
+            var swappedVm = MoveComponentHelper.MoveUpInCollection(collection, vm);
             if (swappedVm == null)
                 return;
 
@@ -233,46 +233,12 @@ namespace DinaGameEngine.ViewModels.Project.Items
             if (vm == null)
                 return;
 
-            var swappedVm = MoveDownInCollection(collection, vm);
+            var swappedVm = MoveComponentHelper.MoveDownInCollection(collection, vm);
             if (swappedVm == null)
                 return;
 
             MoveComponentModelsInSubComponents(item, (ComponentModel)swappedVm.Model);
             movedEvent?.Invoke(Model, EventArgs.Empty);
-        }
-        private static T? MoveUpInCollection<T>(ObservableCollection<T> collection, T item) where T : ItemViewModel
-        {
-            if (!item.CanMoveUp)
-                return null;
-
-            var index = collection.IndexOf(item);
-            var swappedItem = collection[index - 1];
-            collection.Move(index, index - 1);
-
-            UpdateMoveFlags(collection, item);
-            UpdateMoveFlags(collection, swappedItem);
-
-            return swappedItem;
-        }
-        private static T? MoveDownInCollection<T>(ObservableCollection<T> collection, T item) where T : ItemViewModel
-        {
-            if (!item.CanMoveDown)
-                return null;
-
-            var index = collection.IndexOf(item);
-            var swappedItem = collection[index + 1];
-            collection.Move(index, index + 1);
-
-            UpdateMoveFlags(collection, item);
-            UpdateMoveFlags(collection, swappedItem);
-
-            return swappedItem;
-        }
-        private static void UpdateMoveFlags<T>(ObservableCollection<T> collection, T item) where T : ItemViewModel
-        {
-            var idx = collection.IndexOf(item);
-            item.CanMoveUp = idx > 0;
-            item.CanMoveDown = idx < collection.Count - 1;
         }
         private void MoveComponentModelsInSubComponents(ComponentModel modelToSwap, ComponentModel modelToBeSwapped)
         {
@@ -304,8 +270,8 @@ namespace DinaGameEngine.ViewModels.Project.Items
 
             if (MenuItems.Count > 0)
             {
-                UpdateMoveFlags(MenuItems, MenuItems[0]);
-                UpdateMoveFlags(MenuItems, MenuItems[^1]);
+                MoveComponentHelper.UpdateMoveFlags(MenuItems, MenuItems[0]);
+                MoveComponentHelper.UpdateMoveFlags(MenuItems, MenuItems[^1]);
             }
         }
         public event EventHandler? AddMenuItemRequested;
@@ -317,9 +283,9 @@ namespace DinaGameEngine.ViewModels.Project.Items
             menuItemViewModel.ItemMovedDown += OnMenuItemMoveDown;
             MenuItems.Add(menuItemViewModel);
             OnPropertyChanged(nameof(ItemsHeader));
-            UpdateMoveFlags(MenuItems, MenuItems[^1]);
+            MoveComponentHelper.UpdateMoveFlags(MenuItems, MenuItems[^1]);
             if (MenuItems.Count > 1)
-                UpdateMoveFlags(MenuItems, MenuItems[^2]);
+                MoveComponentHelper.UpdateMoveFlags(MenuItems, MenuItems[^2]);
         }
         #endregion
     }

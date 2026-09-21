@@ -1034,6 +1034,78 @@ namespace DinaGameEngine.Resources {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Activation.
+        /// </summary>
+        public static string MenuAction_Activation_Label {
+            get {
+                return ResourceManager.GetString("MenuAction_Activation_Label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Annulation.
+        /// </summary>
+        public static string MenuAction_Cancel_Label {
+            get {
+                return ResourceManager.GetString("MenuAction_Cancel_Label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Changer la couleur.
+        /// </summary>
+        public static string MenuAction_ChangeColor_Label {
+            get {
+                return ResourceManager.GetString("MenuAction_ChangeColor_Label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Changer de scène.
+        /// </summary>
+        public static string MenuAction_ChangeScene_Label {
+            get {
+                return ResourceManager.GetString("MenuAction_ChangeScene_Label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Désélection.
+        /// </summary>
+        public static string MenuAction_Deselection_Label {
+            get {
+                return ResourceManager.GetString("MenuAction_Deselection_Label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Sélection.
+        /// </summary>
+        public static string MenuAction_Selection_Label {
+            get {
+                return ResourceManager.GetString("MenuAction_Selection_Label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à + Ajouter une action.
+        /// </summary>
+        public static string MenuItemEvent_AddAction_Label {
+            get {
+                return ResourceManager.GetString("MenuItemEvent_AddAction_Label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Vider.
+        /// </summary>
+        public static string MenuItemEvent_Clear_Label {
+            get {
+                return ResourceManager.GetString("MenuItemEvent_Clear_Label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Items.
         /// </summary>
         public static string MenuManager_Items_Header {
