@@ -7,5 +7,6 @@
         public const string MenuItem = "MenuItem";
         public const string MenuTitle = "MenuTitle";
         public const string ShadowText = "ShadowText";
+        public const string MenuItemAction = "MenuItemAction";
     }
 }
