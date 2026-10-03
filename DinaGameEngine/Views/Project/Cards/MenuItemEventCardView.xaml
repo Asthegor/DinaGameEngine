@@ -20,14 +20,21 @@
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
-                <TextBlock Grid.Column="0"
+                <CheckBox Grid.Column="0"
+                          IsChecked="{Binding IsIncluded}"
+                          Content="{ext:Translate Key=MenuItemEvent_Include_Label}"
+                          Visibility="{Binding ShowIncluded, Converter={StaticResource BoolToVisibility}}"/>
+                
+                <TextBlock Grid.Column="1"
                            Text="{Binding Category, Converter={StaticResource MenuActionCategoryToLabelConverter}}"
-                           FontWeight="Bold" VerticalAlignment="Center"/>
+                           FontWeight="Bold"
+                           VerticalAlignment="Center"/>
 
-                <Button Grid.Column="1"
+                <Button Grid.Column="2"
                         Content="{ext:Translate Key=MenuItemEvent_Clear_Label}"
                         Command="{Binding ClearCommand}"
                         Style="{DynamicResource GhostFooterButton}"/>

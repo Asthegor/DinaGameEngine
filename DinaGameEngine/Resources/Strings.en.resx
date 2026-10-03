@@ -574,4 +574,10 @@ Please remove it manually.</value>
   <data name="MenuItemEvent_Clear_Label" xml:space="preserve">
     <value>Clear</value>
   </data>
+  <data name="MenuItemEvent_AddAction_Label" xml:space="preserve">
+    <value>+ Add action</value>
+  </data>
+  <data name="MenuItemEvent_Include_Label" xml:space="preserve">
+    <value>Include</value>
+  </data>
 </root>

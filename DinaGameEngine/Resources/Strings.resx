@@ -577,4 +577,7 @@ Pensez à le supprimer manuellement.</value>
   <data name="MenuItemEvent_AddAction_Label" xml:space="preserve">
     <value>+ Ajouter une action</value>
   </data>
+  <data name="MenuItemEvent_Include_Label" xml:space="preserve">
+    <value>Inclure</value>
+  </data>
 </root>

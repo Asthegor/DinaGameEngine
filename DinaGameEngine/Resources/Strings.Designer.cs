@@ -1106,6 +1106,15 @@ namespace DinaGameEngine.Resources {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Inclure.
+        /// </summary>
+        public static string MenuItemEvent_Include_Label {
+            get {
+                return ResourceManager.GetString("MenuItemEvent_Include_Label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Items.
         /// </summary>
         public static string MenuManager_Items_Header {

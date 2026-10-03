@@ -57,7 +57,8 @@ namespace DinaGameEngine.CodeGeneration.ComponentGenerators
             if (!string.IsNullOrEmpty(direction))
                 args.Add($"direction: MenuItemDirection.{direction}");
 
-            args.Add($"cancellation: {GetFunctionName(component)}Cancellation");
+            if (IsCancellationIncluded(component))
+                args.Add($"cancellation: {GetFunctionName(component)}Cancellation");
 
             var constructor = $"{GetFieldName(component)} = new {ComponentType}({string.Join(", ", args)});";
             sectionParser.InsertIntoZone("COMPONENT_LOAD", [CodeBuilder.AddLine(constructor, level)]);
@@ -258,15 +259,19 @@ namespace DinaGameEngine.CodeGeneration.ComponentGenerators
                 ]);
             }
 
-            var cancelEvent = MenuItemEventHelper.FindEvent(component, MenuActionCategory.Cancel);
-            sectionParser.InsertIntoZone("PARTIAL_METHODS",
-            [
-                CodeBuilder.OpenBlock($"private void {GetFunctionName(component)}Cancellation()", level),
-                .. GenerateActionLines(cancelEvent, string.Empty, level + 1),
-                CodeBuilder.AddLine($"On{GetFunctionName(component)}Cancellation();", level + 1),
-                CodeBuilder.CloseBlock(level),
-                CodeBuilder.AddLine($"private partial void On{GetFunctionName(component)}Cancellation();", level),
-            ]);
+            if (IsCancellationIncluded(component))
+            {
+                var cancelEvent = MenuItemEventHelper.FindEvent(component, MenuActionCategory.Cancel);
+
+                sectionParser.InsertIntoZone("PARTIAL_METHODS",
+                [
+                    CodeBuilder.OpenBlock($"private void {GetFunctionName(component)}Cancellation()", level),
+                    .. GenerateActionLines(cancelEvent, string.Empty, level + 1),
+                    CodeBuilder.AddLine($"On{GetFunctionName(component)}Cancellation();", level + 1),
+                    CodeBuilder.CloseBlock(level),
+                    CodeBuilder.AddLine($"private partial void On{GetFunctionName(component)}Cancellation();", level),
+                ]);
+            }
         }
 
         protected override void GenerateUserFileUsings(SectionParser sectionParser, ComponentModel component, string rootnamespace)
@@ -357,13 +362,20 @@ namespace DinaGameEngine.CodeGeneration.ComponentGenerators
                 HistorizeIfNotEmpty(sectionParser, $"On{GetFunctionName(component)}Deselection");
             }
 
-            if (!sectionParser.IsPartialFunctionExisting($"On{GetFunctionName(component)}Cancellation"))
+            if (IsCancellationIncluded(component))
             {
-                sectionParser.InsertIntoZone("PARTIAL_METHODS",
-                [
-                    CodeBuilder.OpenBlock($"private partial void On{GetFunctionName(component)}Cancellation()", level),
-                    CodeBuilder.CloseBlock(level)
-                ]);
+                if (!sectionParser.IsPartialFunctionExisting($"On{GetFunctionName(component)}Cancellation"))
+                {
+                    sectionParser.InsertIntoZone("PARTIAL_METHODS",
+                    [
+                        CodeBuilder.OpenBlock($"private partial void On{GetFunctionName(component)}Cancellation()", level),
+                        CodeBuilder.CloseBlock(level)
+                    ]);
+                }
+            }
+            else
+            {
+                HistorizeIfNotEmpty(sectionParser, $"On{GetFunctionName(component)}Cancellation");
             }
         }
         private static void HistorizeIfNotEmpty(SectionParser sectionParser, string functionSignature)
@@ -375,7 +387,7 @@ namespace DinaGameEngine.CodeGeneration.ComponentGenerators
         }
         private static IEnumerable<string> GenerateActionLines(ComponentModel? eventComponent, string targetVariable, int level)
         {
-            if (eventComponent == null)
+            if (eventComponent is null)
                 yield break;
 
             foreach (var action in eventComponent.SubComponents)
@@ -481,6 +493,14 @@ namespace DinaGameEngine.CodeGeneration.ComponentGenerators
                 sectionParser.RemovePartialFunction($"void On{menuItemFieldName}Deselection");
                 sectionParser.RemovePartialFunction($"void On{menuItemFieldName}Activation");
             }
+        }
+        #endregion
+
+        #region Helpers
+        private static bool IsCancellationIncluded(ComponentModel component)
+        {
+            var cancelEvent = MenuItemEventHelper.FindEvent(component, MenuActionCategory.Cancel);
+            return cancelEvent is not null && ComponentPropertyHelper.GetBoolProperty(cancelEvent, "Included", false);
         }
         #endregion
     }

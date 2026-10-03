@@ -29,12 +29,14 @@ namespace DinaGameEngine.ViewModels.Project.Components
             : base(existingComponent)
         {
             ResetItemSpacingCommand = new RelayCommand(ResetItemSpacing);
-            ResetCancellationCommand = new RelayCommand(ResetCancellation);
 
             AvailableColors = availableColors;
             SelectionEvent = new MenuItemEventViewModel(MenuActionCategory.Selection, ResolveAvailableKeys, () => NotifyChange());
             DeselectionEvent = new MenuItemEventViewModel(MenuActionCategory.Deselection, ResolveAvailableKeys, () => NotifyChange());
-            CancelEvent = new MenuItemEventViewModel(MenuActionCategory.Cancel, ResolveAvailableKeys, () => NotifyChange());
+            CancelEvent = new MenuItemEventViewModel(MenuActionCategory.Cancel, 
+                                                     ResolveAvailableKeys,
+                                                     () => NotifyChange(),
+                                                     showIncluded: true);
 
             LoadFrom(existingComponent);
             NotifyChange(false);
@@ -131,12 +133,12 @@ namespace DinaGameEngine.ViewModels.Project.Components
             _component.Properties.Remove("DeselectionColor");
 
             _component.SubComponents.RemoveAll(c => c.Type == ComponentTypes.MenuItemEvent);
-            _component.SubComponents.Add(CancelEvent.ToModel());
             if (UseSharedSelectionDeselection)
             {
                 _component.SubComponents.Add(SelectionEvent.ToModel());
                 _component.SubComponents.Add(DeselectionEvent.ToModel());
             }
+            _component.SubComponents.Add(CancelEvent.ToModel());
         }
 
         #region Commandes
@@ -147,9 +149,6 @@ namespace DinaGameEngine.ViewModels.Project.Components
             ItemSpacingY = null;
         }
 
-        public RelayCommand ResetCancellationCommand { get; }
-        private void ResetCancellation()
-        { }
         #endregion
 
         #region Propriétés
@@ -159,7 +158,7 @@ namespace DinaGameEngine.ViewModels.Project.Components
             get => _itemSpacingX;
             set
             {
-                if (_itemSpacingX == null && value != null && ItemSpacingY == null)
+                if (_itemSpacingX is null && value != null && ItemSpacingY is null)
                     _itemSpacingY = 0;
                 SetProperty(ref _itemSpacingX, value);
                 NotifyChange();
@@ -170,7 +169,7 @@ namespace DinaGameEngine.ViewModels.Project.Components
             get => _itemSpacingY;
             set
             {
-                if (_itemSpacingY == null && value != null && ItemSpacingX == null)
+                if (_itemSpacingY is null && value != null && ItemSpacingX is null)
                     _itemSpacingX = 0;
                 SetProperty(ref _itemSpacingY, value);
                 NotifyChange();

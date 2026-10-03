@@ -13,15 +13,18 @@ namespace DinaGameEngine.ViewModels.Project.Items
         private readonly ComponentModel _eventModel;
         private readonly Func<MenuActionType, IEnumerable<string>> _resolveAvailableKeys;
         private readonly Action _notifyChange;
+        private readonly bool _showIncluded;
+        private bool _isIncluded;
 
         public MenuItemEventViewModel(MenuActionCategory category,
                                       Func<MenuActionType, IEnumerable<string>> resolveAvailableKeys,
-                                      Action notifyChange)
+                                      Action notifyChange, bool showIncluded = false)
         {
             Category = category;
             _resolveAvailableKeys = resolveAvailableKeys;
             _notifyChange = notifyChange;
             _eventModel = MenuItemEventHelper.CreateEvent(category);
+            _showIncluded = showIncluded;
 
             AddActionCommand = new RelayCommand(type => AddAction((MenuActionType)type!));
             ClearCommand = new RelayCommand(_ => Clear(), _ => Actions.Count > 0);
@@ -30,8 +33,22 @@ namespace DinaGameEngine.ViewModels.Project.Items
         public MenuActionCategory Category { get; }
         public ObservableCollection<MenuItemEventActionViewModel> Actions { get; } = [];
 
-        public bool IsValid => Actions.All(a => a.HasValue);
-
+        // Si l'action n'est pas incluse, ses actions n'ont pas à être valides.
+        public bool IsValid => (ShowIncluded && !IsIncluded) || Actions.All(a => a.HasValue);
+        public bool ShowIncluded => _showIncluded;
+        public bool IsIncluded
+        {
+            get => _isIncluded;
+            set
+            {
+                if (_isIncluded == value)
+                    return;
+                _isIncluded = value;
+                OnPropertyChanged(nameof(IsIncluded));
+                OnPropertyChanged(nameof(IsValid));
+                _notifyChange();
+            }
+        }
         public IEnumerable<MenuActionType> AvailableTypesToAdd =>
             MenuActionTypeInfo.GetValidTypes(Category)
                 .Where(t => !MenuActionTypeInfo.IsSingleton(t) || !Actions.Any(a => a.ActionType == t));
@@ -47,10 +64,12 @@ namespace DinaGameEngine.ViewModels.Project.Items
 
             var eventModel = source.SubComponents.FirstOrDefault(c => c.Type == ComponentTypes.MenuItemEvent
                                                                       && MenuItemEventHelper.GetCategory(c) == Category);
-            if (eventModel != null)
+            IsIncluded = eventModel is not null && ComponentPropertyHelper.GetBoolProperty(eventModel, "Included", false);
+            if (eventModel is not null)
             {
                 foreach (var actionModel in eventModel.SubComponents)
                     Attach(new MenuItemEventActionViewModel(actionModel, _resolveAvailableKeys));
+                
             }
 
             RaiseCollectionDependentChanges();
@@ -59,6 +78,10 @@ namespace DinaGameEngine.ViewModels.Project.Items
         public ComponentModel ToModel()
         {
             _eventModel.SubComponents = [.. Actions.Select(a => (ComponentModel)a.Model)];
+            if (ShowIncluded && IsIncluded)
+                _eventModel.Properties["Included"] = true;
+            else
+                _eventModel.Properties.Remove("Included");
             return _eventModel;
         }
 
