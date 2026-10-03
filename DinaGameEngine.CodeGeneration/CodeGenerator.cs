@@ -70,7 +70,7 @@ namespace DinaGameEngine.CodeGeneration
         public void AddComponent(GameProjectModel gameProjectModel, SceneModel sceneModel, ComponentModel component)
         {
             var generator = _componentGeneratorRegistry.GetGenerator(component.Type);
-            if (generator == null)
+            if (generator is null)
             {
                 _logService.Warning($"Générateur du componsant '{component.Type}' non trouvé.");
                 return;
@@ -89,7 +89,7 @@ namespace DinaGameEngine.CodeGeneration
         public void RemoveComponent(GameProjectModel gameProjectModel, SceneModel sceneModel, ComponentModel component, bool showWarning = true)
         {
             var generator = _componentGeneratorRegistry.GetGenerator(component.Type);
-            if (generator == null)
+            if (generator is null)
             {
                 _logService.Warning($"Générateur du composant '{component.Type}' non trouvé.");
                 return;

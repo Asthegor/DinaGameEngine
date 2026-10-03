@@ -109,7 +109,7 @@ namespace DinaGameEngine.ViewModels.Startup
         private void ExecuteOpenProject()
         {
             var project = _projectService.OpenProject(_model.SolutionFolderPath);
-            if (project == null)
+            if (project is null)
             {
                 _dialogService.ShowError(LocalizationManager.GetTranslation("Dialog_OpenProject"),
                                          LocalizationManager.GetTranslation("Error_OpenProject", _model.Name));

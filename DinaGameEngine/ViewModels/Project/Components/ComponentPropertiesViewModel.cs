@@ -53,7 +53,7 @@ namespace DinaGameEngine.ViewModels.Project.Components
 
         public void RestoreSnapshot()
         {
-            if (_snapshot == null)
+            if (_snapshot is null)
                 return;
             _component.Key = _snapshot.Key;
             _component.Properties = new Dictionary<string, object>(_snapshot.Properties);

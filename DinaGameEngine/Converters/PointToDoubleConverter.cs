@@ -9,7 +9,7 @@ namespace DinaGameEngine.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value == null)
+            if (value is null)
                 return 0.0;
 
             if (value is JsonElement element && element.ValueKind == JsonValueKind.Number)

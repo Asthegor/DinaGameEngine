@@ -91,7 +91,7 @@ namespace DinaGameEngine.ViewModels.Project.Add
                 LocalizationManager.GetTranslation("AddFont_BrowseTtf_Title"),
                 LocalizationManager.GetTranslation("AddFont_BrowseTtf_File"));
 
-            if (selectedFile == null)
+            if (selectedFile is null)
                 return;
 
             string destinationFile;

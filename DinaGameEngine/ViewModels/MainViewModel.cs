@@ -103,10 +103,10 @@ namespace DinaGameEngine.ViewModels
         private void LoadProject()
         {
             var path = _dialogService.OpenFolderDialog(LocalizationManager.GetTranslation("Dialog_OpenProject"));
-            if (path == null)
+            if (path is null)
                 return;
             var gameProjectModel = _projectService.OpenProject(path);
-            if (gameProjectModel == null)
+            if (gameProjectModel is null)
             {
                 _dialogService.ShowError(LocalizationManager.GetTranslation("Dialog_OpenProject"),
                                          LocalizationManager.GetTranslation("Error_OpenProject", _fileService.GetDirectoryName(path)));
@@ -213,7 +213,7 @@ namespace DinaGameEngine.ViewModels
                                                                       activateAction: (obj) => CurrentViewModel = obj,
                                                                       closeAction: _ => { },
                                                                       isClosable: false);
-            if (OpenWindows.FirstOrDefault(w => w?.Title == title && w.ViewModel == projectHomeViewModel, null) == null)
+            if (OpenWindows.FirstOrDefault(w => w?.Title == title && w.ViewModel == projectHomeViewModel, null) is null)
                 OpenWindows.Add(windowMenuItemViewModel);
         }
 
@@ -237,10 +237,10 @@ namespace DinaGameEngine.ViewModels
                 _ => null
             };
 
-            if (editorType == null)
+            if (editorType is null)
                 return;
             var existingWindow = OpenWindows.FirstOrDefault(w => w.ViewModel?.GetType() == editorType);
-            if (existingWindow != null)
+            if (existingWindow is not null)
             {
                 CurrentViewModel = existingWindow.ViewModel;
                 return;
@@ -257,7 +257,7 @@ namespace DinaGameEngine.ViewModels
                 _ => null
             };
 
-            if (editorViewModel == null)
+            if (editorViewModel is null)
                 return;
             AddViewModelToOpenWindows(editorViewModel, title: LocalizationManager.GetTranslation($"Nav_{view}"));
         }
@@ -268,7 +268,7 @@ namespace DinaGameEngine.ViewModels
             {
                 var existingWindow = OpenWindows.FirstOrDefault(w => w.ViewModel is SceneEditorViewModel vm
                                                                       && vm.SceneId == sceneModel.Id);
-                if (existingWindow != null)
+                if (existingWindow is not null)
                 {
                     CurrentViewModel = existingWindow.ViewModel;
                     return;
@@ -305,7 +305,7 @@ namespace DinaGameEngine.ViewModels
 
                     // On force la première scène à être la scène de démarrage
                     var startupScene = _gameProjectModel.Scenes.Where(s => s.IsStartup == true);
-                    if (_gameProjectModel.Scenes.Count > 0 && startupScene == null)
+                    if (_gameProjectModel.Scenes.Count > 0 && startupScene is null)
                         _gameProjectModel.Scenes.First(s => s.Id != Guid.Empty).IsStartup = true;
                     _projectService.UpdateGameProjectUserFile(_gameProjectModel);
                     _projectService.UpdateJsonProjectFile(_gameProjectModel);
@@ -340,7 +340,7 @@ namespace DinaGameEngine.ViewModels
 
         private void AddViewModelToOpenWindows(object? viewModel, string title, bool isClosable = true)
         {
-            if (viewModel == null)
+            if (viewModel is null)
                 return;
             OpenWindows.Add(new WindowMenuItemViewModel(title,
                                                         viewModel,

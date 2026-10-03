@@ -29,7 +29,7 @@ namespace DinaGameEngine.ViewModels.Project
                 ((SceneCardViewModel)viewModel).StartupChangeRequested += OnStartupChangeRequested;
             Items.CollectionChanged += (s, e) =>
             {
-                if (e.NewItems == null)
+                if (e.NewItems is null)
                     return;
                 foreach (SceneCardViewModel vm in e.NewItems.Cast<SceneCardViewModel>())
                     vm.StartupChangeRequested += OnStartupChangeRequested;

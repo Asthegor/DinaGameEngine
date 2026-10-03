@@ -18,7 +18,7 @@
                 var zoneLines = _lines.GetRange(indexZoneOpen, indexZoneClose - indexZoneOpen);
                 foreach (var line in lines)
                 {
-                    if (zoneLines.Find(c => c.Contains(line)) == null)
+                    if (zoneLines.Find(c => c.Contains(line)) is null)
                         _lines.Insert(indexZoneClose, line);
                 }
             }

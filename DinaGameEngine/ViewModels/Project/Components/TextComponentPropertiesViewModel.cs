@@ -174,7 +174,7 @@ namespace DinaGameEngine.ViewModels.Project.Components
             get => _positionX;
             set
             {
-                if (_positionX == null && value != null && PositionY == null)
+                if (_positionX is null && value != null && PositionY is null)
                     _positionY = 0;
                 SetProperty(ref _positionX, value);
                 NotifyChange();
@@ -185,7 +185,7 @@ namespace DinaGameEngine.ViewModels.Project.Components
             get => _positionY;
             set
             {
-                if (_positionY == null && value != null && PositionX == null)
+                if (_positionY is null && value != null && PositionX is null)
                     _positionX = 0;
                 SetProperty(ref _positionY, value);
                 NotifyChange();
@@ -196,7 +196,7 @@ namespace DinaGameEngine.ViewModels.Project.Components
             get => _dimensionsX;
             set
             {
-                if (_dimensionsX == null && value != null && DimensionsY == null)
+                if (_dimensionsX is null && value != null && DimensionsY is null)
                     _dimensionsY = 0;
                 SetProperty(ref _dimensionsX, value);
                 NotifyChange();
@@ -207,7 +207,7 @@ namespace DinaGameEngine.ViewModels.Project.Components
             get => _dimensionsY;
             set
             {
-                if (_dimensionsY == null && value != null && DimensionsX == null)
+                if (_dimensionsY is null && value != null && DimensionsX is null)
                     _dimensionsX = 0;
                 SetProperty(ref _dimensionsY, value);
                 NotifyChange();

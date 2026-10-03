@@ -38,7 +38,7 @@ namespace DinaGameEngine.Templates
             var assembly = GetType().Assembly;
             var resourceStream = assembly.GetManifestResourceStream(_templateProjectMarkersFile);
 
-            if (resourceStream == null)
+            if (resourceStream is null)
             {
                 _logService.Error($"Fichier '{_templateProjectMarkersFile}' inexistant.");
                 return null;
@@ -50,7 +50,7 @@ namespace DinaGameEngine.Templates
                 var jsonContent = new StreamReader(resourceStream).ReadToEnd();
                 var listTemplateMarkerJsonEntry = JsonHelper.Deserialize<List<TemplateMarkerJsonEntry>>(jsonContent);
 
-                if (listTemplateMarkerJsonEntry == null)
+                if (listTemplateMarkerJsonEntry is null)
                 {
                     _logService.Error($"Fichier '{_templateProjectMarkersFile}' vide.");
                     return null;
@@ -112,7 +112,7 @@ namespace DinaGameEngine.Templates
 
                     var fileInfoModel = GetFileInfo(resourceNameWithoutPrefix, rootPath, dict);
                     var stream = assembly.GetManifestResourceStream(resourceName);
-                    if (stream == null)
+                    if (stream is null)
                         continue;
                     if (_templateProjectBinaryFiles.Any(b => fileInfoModel.FileName.EndsWith(b)))
                     {
@@ -255,7 +255,7 @@ namespace DinaGameEngine.Templates
             {
                 var resourceName = $"{_templateProjectPrefix}{filename}";
                 var stream = assembly.GetManifestResourceStream(resourceName);
-                if (stream == null)
+                if (stream is null)
                 {
                     _logService.Error($"Fichier '{filename}' manquant dans le template");
                     return false;

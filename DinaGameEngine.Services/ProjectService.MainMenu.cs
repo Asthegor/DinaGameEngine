@@ -101,13 +101,13 @@ namespace DinaGameEngine.Services
         private void UpdateMainMenuUserFile(GameProjectModel gameProjectModel)
         {
             var mainMenuScene = gameProjectModel.Scenes.FirstOrDefault(s => s.Key == "MainMenu");
-            if (mainMenuScene == null)
+            if (mainMenuScene is null)
             {
                 _logService.Warning($"Scène 'MainMenuScene' non présente.");
                 return;
             }
             var menuManager = mainMenuScene.Components.FirstOrDefault(c => c.Key == "Main");
-            if (menuManager == null)
+            if (menuManager is null)
             {
                 _logService.Warning($"Composant 'MainMenu' non présent dans la scène '{mainMenuScene.Key}'.");
                 return;

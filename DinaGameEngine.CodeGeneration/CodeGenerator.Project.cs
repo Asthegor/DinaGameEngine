@@ -244,7 +244,7 @@ namespace DinaGameEngine.CodeGeneration
             var sectionParser = CreateSectionParserFor(projectUserFilePath);
 
             var startupScene = gameProjectModel.Scenes.FirstOrDefault(s => s.IsStartup);
-            if (startupScene == null && gameProjectModel.Scenes.Count > 0)
+            if (startupScene is null && gameProjectModel.Scenes.Count > 0)
             {
                 _logService.Error("Aucune scène n'a été définie comme scène par défaut.");
                 _dialogService.ShowError(LocalizationManager.GetTranslation("DefaultSceneMissing_Title"),

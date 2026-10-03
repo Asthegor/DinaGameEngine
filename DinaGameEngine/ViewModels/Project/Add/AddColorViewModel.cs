@@ -96,7 +96,7 @@ namespace DinaGameEngine.ViewModels.Project.Add
 
         protected override void OnSelectedNamedItemChanged(NamedItem<Color>? item)
         {
-            if (item == null)
+            if (item is null)
                 return;
             R = item.Item.R;
             G = item.Item.G;

@@ -57,7 +57,7 @@ namespace DinaGameEngine.Services
 
         private static Version? ParseTagVersion(string? fileVersion)
         {
-            if (fileVersion == null)
+            if (fileVersion is null)
                 return null;
 
             if (!Version.TryParse(fileVersion.TrimStart('v'), out var version))
@@ -67,9 +67,9 @@ namespace DinaGameEngine.Services
         }
         private static bool IsNewerVersionAvailable(Version? local, Version? remote)
         {
-            if (remote == null)
+            if (remote is null)
                 return false;
-            if (local == null)
+            if (local is null)
                 return true;
 
             return remote > local;
@@ -80,14 +80,14 @@ namespace DinaGameEngine.Services
             try
             {
                 var release = await GetLatestReleaseAsync();
-                if (release == null)
+                if (release is null)
                 {
                     _logService.Warning($"Release de DinaCSharp non trouvée.");
                     return false;
                 }
 
                 var remoteVersion = ParseTagVersion(release.TagName);
-                if (remoteVersion == null)
+                if (remoteVersion is null)
                 {
                     _logService.Warning($"Version de DinaCSharp incorrecte.");
                     return false;

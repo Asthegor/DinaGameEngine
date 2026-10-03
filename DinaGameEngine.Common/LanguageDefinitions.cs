@@ -59,7 +59,7 @@
         public static int[] GetNewRegionIndices(HashSet<string> currentLanguages, string newLanguageCode)
         {
             var newLang = Languages.FirstOrDefault(l => l.Code == newLanguageCode);
-            if (newLang == null)
+            if (newLang is null)
                 return [];
 
             var activeRegions = GetActiveRegionIndices(currentLanguages);

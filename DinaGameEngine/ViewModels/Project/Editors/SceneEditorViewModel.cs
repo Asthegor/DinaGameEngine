@@ -129,7 +129,7 @@ namespace DinaGameEngine.ViewModels.Project.Editors
                 return;
 
             var vm = Components.FirstOrDefault(c => c.Model == component);
-            if (vm == null)
+            if (vm is null)
                 return;
 
             Components.Remove(vm);
@@ -170,7 +170,7 @@ namespace DinaGameEngine.ViewModels.Project.Editors
         public RelayCommand AddComponentCommand { get; }
         private void AddComponent(IComponentGenerator? generator)
         {
-            if (generator == null)
+            if (generator is null)
                 return;
 
             var newComponent = new ComponentModel { Type = generator.ComponentType };
@@ -246,7 +246,7 @@ namespace DinaGameEngine.ViewModels.Project.Editors
                 return;
 
             var vm = Components.FirstOrDefault(c => c.Model == component);
-            if (vm == null)
+            if (vm is null)
                 return;
 
             var existingKeys = component.SubComponents.Select(c => c.Key).ToList();
@@ -340,7 +340,7 @@ namespace DinaGameEngine.ViewModels.Project.Editors
                 return;
 
             var vm = Components.FirstOrDefault(c => c.Model == component);
-            if (vm == null)
+            if (vm is null)
                 return;
 
             var existingKeys = component.SubComponents.Select(c => c.Key).ToList();

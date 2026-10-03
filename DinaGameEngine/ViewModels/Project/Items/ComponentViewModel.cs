@@ -124,7 +124,7 @@ namespace DinaGameEngine.ViewModels.Project.Items
             if (sender is not ComponentModel menuTitleModel)
                 return;
             var vm = MenuTitles.FirstOrDefault(m => (ComponentModel)m.Model == menuTitleModel);
-            if (vm == null)
+            if (vm is null)
                 return;
             BeforeMenuTitleRemoved?.Invoke(Model, EventArgs.Empty);
             MenuTitles.Remove(vm);
@@ -217,11 +217,11 @@ namespace DinaGameEngine.ViewModels.Project.Items
         private void MoveUp<T>(ObservableCollection<T> collection, ComponentModel item, EventHandler? movedEvent) where T : ItemViewModel
         {
             var vm = collection.FirstOrDefault(m => ((ComponentModel)m.Model) == item);
-            if (vm == null)
+            if (vm is null)
                 return;
 
             var swappedVm = MoveComponentHelper.MoveUpInCollection(collection, vm);
-            if (swappedVm == null)
+            if (swappedVm is null)
                 return;
 
             MoveComponentModelsInSubComponents(item, (ComponentModel)swappedVm.Model);
@@ -230,11 +230,11 @@ namespace DinaGameEngine.ViewModels.Project.Items
         private void MoveDown<T>(ObservableCollection<T> collection, ComponentModel item, EventHandler? movedEvent) where T : ItemViewModel
         {
             var vm = collection.FirstOrDefault(m => ((ComponentModel)m.Model) == item);
-            if (vm == null)
+            if (vm is null)
                 return;
 
             var swappedVm = MoveComponentHelper.MoveDownInCollection(collection, vm);
-            if (swappedVm == null)
+            if (swappedVm is null)
                 return;
 
             MoveComponentModelsInSubComponents(item, (ComponentModel)swappedVm.Model);
@@ -259,7 +259,7 @@ namespace DinaGameEngine.ViewModels.Project.Items
                 return;
 
             var vm = MenuItems.FirstOrDefault(m => (ComponentModel)m.Model == menuItemModel);
-            if (vm == null)
+            if (vm is null)
                 return;
 
             BeforeMenuItemRemoved?.Invoke(Model, EventArgs.Empty);

@@ -14,7 +14,7 @@ namespace DinaGameEngine.Services
         public void WriteAllText(string path, string content)
         {
             var directory = Path.GetDirectoryName(path);
-            if (directory == null)
+            if (directory is null)
                 return;
             if (!DirectoryExists(directory))
                 CreateDirectory(directory);

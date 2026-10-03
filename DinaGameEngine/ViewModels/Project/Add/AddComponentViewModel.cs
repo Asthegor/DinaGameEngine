@@ -72,7 +72,7 @@ namespace DinaGameEngine.ViewModels.Project.Add
         {
             return !string.IsNullOrEmpty(Key)
                  && string.IsNullOrEmpty(KeyErrorMessage)
-                 && (_specificPropertiesValidator == null || _specificPropertiesValidator());
+                 && (_specificPropertiesValidator is null || _specificPropertiesValidator());
         }
         private void Confirm(bool result)
         {

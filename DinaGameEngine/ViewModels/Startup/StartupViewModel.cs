@@ -155,7 +155,7 @@ namespace DinaGameEngine.ViewModels.Startup
             var jsonContent = _fileService.ReadAllText(fullpath);
             var listRecentProjects = JsonHelper.Deserialize<List<RecentProjectModel>>(jsonContent);
 
-            if (listRecentProjects == null || listRecentProjects.Count == 0)
+            if (listRecentProjects is null || listRecentProjects.Count == 0)
             {
                 _logService.Warning($"Fichier '{ProjectStructure.RecentProjectsFileName}' vide ou corrompu.");
                 return;
@@ -363,12 +363,12 @@ namespace DinaGameEngine.ViewModels.Startup
             else
             {
                 solutionFolderPath = _dialogService.OpenFolderDialog(LocalizationManager.GetTranslation("Dialog_OpenProject"));
-                if (solutionFolderPath == null)
+                if (solutionFolderPath is null)
                     return; // L'utilisateur a annulé la commande
             }
 
             gameProjectModel = _projectService.OpenProject(solutionFolderPath);
-            if (gameProjectModel == null)
+            if (gameProjectModel is null)
             {
                 _dialogService.ShowError(LocalizationManager.GetTranslation("Dialog_OpenProject"),
                     LocalizationManager.GetTranslation("Error_OpenProject", _fileService.GetFileName(solutionFolderPath)));
@@ -440,7 +440,7 @@ namespace DinaGameEngine.ViewModels.Startup
             };
 
             var markers = _templateExtractor.GetMarkers(TemplateType.GameProject, newProjectModel);
-            if (markers == null)
+            if (markers is null)
                 return;
 
             Markers.Clear();
@@ -487,7 +487,7 @@ namespace DinaGameEngine.ViewModels.Startup
 
             creatingWindow.Close();
 
-            if (gameProjectModel == null)
+            if (gameProjectModel is null)
                 return;
 
             _dialogService.ShowInfo(

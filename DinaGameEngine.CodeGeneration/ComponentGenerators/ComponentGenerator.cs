@@ -95,7 +95,7 @@ namespace DinaGameEngine.CodeGeneration.ComponentGenerators
         protected static void AddVector2PropertyToLoad(ComponentModel component, string propertyName, SectionParser sectionParser, string componentFieldName, int level)
         {
             (int? x, int? y) = ComponentPropertyHelper.GetPointProperty(component, propertyName);
-            if (x == null || y == null)
+            if (x is null || y is null)
                 return;
 
             sectionParser.InsertIntoZone("COMPONENT_LOAD", [CodeBuilder.AddLine($"{componentFieldName}.{propertyName} = UIScaler.Scale(new Vector2({x}f, {y}f));", level)]);

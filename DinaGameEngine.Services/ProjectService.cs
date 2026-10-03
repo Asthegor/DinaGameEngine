@@ -34,7 +34,7 @@ namespace DinaGameEngine.Services
             {
                 var jsonRaw = _fileService.ReadAllText(filename);
                 gameProjectModel = JsonHelper.Deserialize<GameProjectModel>(jsonRaw);
-                if (gameProjectModel == null)
+                if (gameProjectModel is null)
                 {
                     _logService.Error($"Le fichier '{filename}' est corrompu.");
                     return null;
