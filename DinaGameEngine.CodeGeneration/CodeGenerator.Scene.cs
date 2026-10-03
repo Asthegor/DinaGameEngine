@@ -123,6 +123,7 @@ namespace DinaGameEngine.CodeGeneration
             {
                 "Microsoft.Xna.Framework",
                 "Microsoft.Xna.Framework.Graphics",
+                "System.Diagnostics.CodeAnalysis"
             };
             foreach (var ns in usings)
                 generatedFile.AppendLine(CodeBuilder.AddUsing(ns));
