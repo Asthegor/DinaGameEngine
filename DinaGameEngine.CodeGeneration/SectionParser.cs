@@ -127,7 +127,13 @@
             if (indexEndFunction < 0)
                 return;
 
-            _lines.RemoveRange(indexStartFunction, indexEndFunction - indexStartFunction + 1);
+            var indexStartToRemove = indexStartFunction;
+            var indexSuppressMessage = FindFunctionSignatureIndex("[SuppressMessage(", indexStartFunction - 1, indexStartFunction);
+            if (indexSuppressMessage > 0)
+                indexStartToRemove = indexSuppressMessage;
+
+            var indexEndToRemove = indexEndFunction - indexStartToRemove + 1;
+            _lines.RemoveRange(indexStartToRemove, indexEndToRemove);
         }
         private bool TryFindPartialFunctionBodyBounds(string functionSignature, out int indexBodyStart, out int indexReturn)
         {

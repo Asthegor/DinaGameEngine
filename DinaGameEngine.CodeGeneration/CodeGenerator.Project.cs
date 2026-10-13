@@ -24,7 +24,7 @@ namespace DinaGameEngine.CodeGeneration
             generatedFile.AppendLine(CodeBuilder.AddLine("// =[ZONE:USINGS]=", 0));
             var usings = new string[]
             {
-                "DinaCSharp.Inputs",
+                "DinaCSharp.Input",
                 "DinaCSharp.Resources",
                 "DinaCSharp.Services",
                 "DinaCSharp.Services.Audio",
@@ -163,7 +163,7 @@ namespace DinaGameEngine.CodeGeneration
             generatedFile.AppendLine(CodeBuilder.OpenBlock("private void RegisterServices()", 2));
             generatedFile.AppendLine(CodeBuilder.AddLine("ServiceLocator.Register(ServiceKeys.SoundManager, new SoundManager(this, \"AudioContent\"));", 3));
             generatedFile.AppendLine(CodeBuilder.AddLine("ResourceManager resourceManager = new ResourceManager(Services, \"AssetsContent\");", 3));
-            generatedFile.AppendLine(CodeBuilder.AddLine("ServiceLocator.Register(ServiceKeys.ResourceManager, resourceManager);", 3));
+            generatedFile.AppendLine(CodeBuilder.AddLine("ServiceLocator.Register(DinaServiceKeys.ResourceManager, resourceManager);", 3));
             generatedFile.AppendLine(CodeBuilder.CloseBlock(2));
 
             generatedFile.AppendLine(CodeBuilder.OpenBlock("private static void ApplyConfiguration()", 2));

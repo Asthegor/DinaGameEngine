@@ -14,12 +14,12 @@ namespace DinaGameEngine.CodeGeneration.ComponentGenerators
         protected override void GenerateUsing(SectionParser sectionParser, string rootNamespace)
         {
             sectionParser.AddUsingIfMissing($"{rootNamespace}.Core.Keys");
-            sectionParser.AddUsingIfMissing("DinaCSharp.Enums");
+            sectionParser.AddUsingIfMissing("DinaCSharp.Core.Enums");
             sectionParser.AddUsingIfMissing("DinaCSharp.Services");
             sectionParser.AddUsingIfMissing("DinaCSharp.Services.Fonts");
             sectionParser.AddUsingIfMissing("DinaCSharp.Services.Menus");
             sectionParser.AddUsingIfMissing("DinaCSharp.Services.Keys");
-            sectionParser.AddUsingIfMissing("DinaCSharp.Utils");
+            sectionParser.AddUsingIfMissing("DinaCSharp.Helpers");
         }
         protected override void GenerateField(SectionParser sectionParser, ComponentModel component, int level)
         {
@@ -119,7 +119,7 @@ namespace DinaGameEngine.CodeGeneration.ComponentGenerators
                 var stateValue = ComponentPropertyHelper.GetStringProperty(menuItem, "State");
                 if (!string.IsNullOrEmpty(stateValue) && stateValue != "Enable")
                 {
-                    sectionParser.AddUsingIfMissing("DinaCSharp.Enums");
+                    sectionParser.AddUsingIfMissing("DinaCSharp.Core.Enums");
                     sectionParser.InsertIntoZone("COMPONENT_LOAD", [CodeBuilder.AddLine($"_{menuItemFieldName}.State = MenuItemState.{stateValue};", level)]);
                 }
 
@@ -300,6 +300,7 @@ namespace DinaGameEngine.CodeGeneration.ComponentGenerators
                 {
                     sectionParser.InsertIntoZone("PARTIAL_METHODS",
                     [
+                        CodeBuilder.AddSuppressMessage("CA1822"),
                         CodeBuilder.OpenBlock($"private partial void On{GetFunctionName(component)}Selection(MenuItem menuItem)", level),
                         CodeBuilder.CloseBlock(level)
                     ]);
@@ -308,6 +309,7 @@ namespace DinaGameEngine.CodeGeneration.ComponentGenerators
                 {
                     sectionParser.InsertIntoZone("PARTIAL_METHODS",
                     [
+                        CodeBuilder.AddSuppressMessage("CA1822"),
                         CodeBuilder.OpenBlock($"private partial void On{GetFunctionName(component)}Deselection(MenuItem menuItem)", level),
                         CodeBuilder.CloseBlock(level),
             ]);
@@ -368,6 +370,7 @@ namespace DinaGameEngine.CodeGeneration.ComponentGenerators
                 {
                     sectionParser.InsertIntoZone("PARTIAL_METHODS",
                     [
+                        CodeBuilder.AddSuppressMessage("CA1822"),
                         CodeBuilder.OpenBlock($"private partial void On{GetFunctionName(component)}Cancellation()", level),
                         CodeBuilder.CloseBlock(level)
                     ]);

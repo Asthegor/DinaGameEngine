@@ -1,6 +1,6 @@
 ﻿using DinaCSharp.Core;
 using DinaCSharp.Core.Interfaces;
-using DinaCSharp.Enums;
+using DinaCSharp.Core.Enums;
 using DinaCSharp.Graphics;
 using DinaCSharp.Services;
 using DinaCSharp.Services.Audio;
@@ -9,7 +9,7 @@ using DinaCSharp.Services.Keys;
 using DinaCSharp.Services.Save;
 using DinaCSharp.Services.Scenes;
 using DinaCSharp.Services.Screen;
-using DinaCSharp.Utils;
+using DinaCSharp.Helpers;
 
 using __RootNamespace__.Core.Datas;
 using __RootNamespace__.Core.Keys;

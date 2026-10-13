@@ -1,4 +1,4 @@
-﻿using DinaCSharp.Inputs;
+﻿using DinaCSharp.Input;
 using DinaCSharp.Services.Keys;
 
 namespace __RootNamespace__.Core.Keys

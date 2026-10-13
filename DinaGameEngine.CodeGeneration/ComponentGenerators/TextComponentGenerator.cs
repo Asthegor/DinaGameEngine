@@ -11,7 +11,7 @@ namespace DinaGameEngine.CodeGeneration.ComponentGenerators
 
         protected override void GenerateUsing(SectionParser sectionParser, string rootnamespace)
         {
-            sectionParser.AddUsingIfMissing("DinaCSharp.Graphics");
+            sectionParser.AddUsingIfMissing("DinaCSharp.Graphics.Texts");
             sectionParser.AddUsingIfMissing("DinaCSharp.Services");
             sectionParser.AddUsingIfMissing("DinaCSharp.Services.Fonts");
             sectionParser.AddUsingIfMissing("DinaCSharp.Services.Keys");
@@ -45,7 +45,7 @@ namespace DinaGameEngine.CodeGeneration.ComponentGenerators
             var verticalAlignment = ComponentPropertyHelper.GetStringProperty(component, "VerticalAlignment");
             if (!string.IsNullOrEmpty(horizontalAlignment) || !string.IsNullOrEmpty(verticalAlignment))
             {
-                sectionParser.AddUsingIfMissing("DinaCSharp.Enums");
+                sectionParser.AddUsingIfMissing("DinaCSharp.Core.Enums");
                 var h = string.IsNullOrEmpty(horizontalAlignment) ? "Left" : horizontalAlignment;
                 var v = string.IsNullOrEmpty(verticalAlignment) ? "Top" : verticalAlignment;
                 sectionParser.InsertIntoZone("COMPONENT_LOAD", [CodeBuilder.AddLine($"{GetFieldName(component)}.SetAlignments(HorizontalAlignment.{h}, VerticalAlignment.{v});", level)]);
